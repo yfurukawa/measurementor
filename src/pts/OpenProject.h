@@ -7,13 +7,14 @@
 // ---------------< include >----------------------------
 #include <memory>
 #include "../domain/Pts.h"
+#include "TcpClient.h"
 
 // --------------< namespace >---------------------------
 namespace pts
 {
 
 // ---------< forward declaration >----------------------
-class TcpClient;
+
 
 /*!
  @class     OpenProject
@@ -40,7 +41,7 @@ public:
     virtual ~OpenProject() = default;
 
 private:
-    std::unique_ptr<TcpClient> tcpClient_;  //!< OpenProjectと通信するためのTCPクライアント
+    std::unique_ptr<::TcpClient> tcpClient_;  //!< OpenProjectと通信するためのTCPクライアント
 
 };
 
