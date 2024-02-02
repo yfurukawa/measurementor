@@ -8,8 +8,14 @@
 #define StrongType_h
 
 #include <utility>
+#include "skills/Addable.h"
 #include "skills/Comparable.h"
+#include "skills/Dividable.h"
+#include "skills/Multipliable.h"
+#include "skills/MultipliableWithNumber.h"
 #include "skills/Printable.h"
+#include "skills/Substractable.h"
+#include "skills/Swappable.h"
 
 /*!
  @struct    StrongType
