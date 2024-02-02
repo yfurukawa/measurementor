@@ -26,4 +26,5 @@ install:
 	$(MKDIR) $(INCLUDE_DIR)/skills
 	$(INSTALL) $(TARGET) $(LIB_DIR)
 	$(INSTALL) *.h $(INCLUDE_DIR)
+	$(INSTALL) *.hpp $(INCLUDE_DIR)
 	$(INSTALL) skills/* $(INCLUDE_DIR)/skills
