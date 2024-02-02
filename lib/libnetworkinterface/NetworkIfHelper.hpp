@@ -40,5 +40,5 @@ std::string resolveHostname(Hostname& hostname)
 */
 std::string createBasicAuthorizationKey( std::string token )
 {
-    return clx::base64::encode( content );
+    return clx::base64::encode( token );
 }
