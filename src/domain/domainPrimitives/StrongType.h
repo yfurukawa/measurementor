@@ -8,6 +8,7 @@
 #define StrongType_h
 
 #include <utility>
+#include "skills/Addable.h"
 #include "skills/Comparable.h"
 #include "skills/Printable.h"
 
