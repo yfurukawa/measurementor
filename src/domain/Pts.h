@@ -5,6 +5,8 @@
 #pragma once
 
 // ---------------< include >----------------------------
+#include <list>
+#include "Project.h"
 
 // --------------< namespace >---------------------------
 namespace measurementor
@@ -30,6 +32,15 @@ public:
      @brief  デフォルトデストラクタ
     */
     virtual ~Pts() = default;
+
+    /*!
+     @brief  全てのアクティブプロジェクトを収集する
+     @return アクティブプロジェクトのリスト
+    */
+    virtual std::list<Project> collectAllActiveProject() = 0;
+
+protected:
+    std::list<Project> projectList_;          //!< OpenProject内で管理されているアクティブなプロジェクト一覧
 };
 
 }
