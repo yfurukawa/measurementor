@@ -14,7 +14,7 @@
 #include "skills/Multipliable.h"
 #include "skills/MultipliableWithNumber.h"
 #include "skills/Printable.h"
-#include "skills/Substractable.h"
+#include "skills/Subtractable.h"
 #include "skills/Swappable.h"
 
 /*!
