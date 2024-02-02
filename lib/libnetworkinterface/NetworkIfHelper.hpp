@@ -33,12 +33,12 @@ std::string resolveHostname(Hostname& hostname)
 
 
 /*!
- @fn         convertBase64
- @brief      base64でエンコードする
- @param[in]  content エンコード対象文字列
- @return     エンコード結果
+ @fn         createBasicAuthorizationKey
+ @brief      tokenからWebのBasic認証キーを生成する
+ @param[in]  token 認証の基となるトークン
+ @return     Basic認証キー
 */
-std::string convertBase64( std::string content )
+std::string createBasicAuthorizationKey( std::string token )
 {
     return clx::base64::encode( content );
 }
