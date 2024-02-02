@@ -5,6 +5,7 @@
 #pragma once
 
 // ---------------< include >----------------------------
+#include <list>
 #include <memory>
 #include "../domain/Pts.h"
 #include "TcpClient.h"
@@ -14,7 +15,6 @@ namespace pts
 {
 
 // ---------< forward declaration >----------------------
-
 
 /*!
  @class     OpenProject
@@ -40,9 +40,14 @@ public:
     */
     virtual ~OpenProject() = default;
 
+    /*!
+     @brief  全てのアクティブプロジェクトを収集する
+     @return アクティブプロジェクトのリスト
+    */
+    std::list<measurementor::Project> collectAllActiveProject() override;
+
 private:
     std::unique_ptr<::TcpClient> tcpClient_;  //!< OpenProjectと通信するためのTCPクライアント
-
 };
 
 }
