@@ -8,7 +8,9 @@
 #include <list>
 #include <memory>
 #include "../domain/Pts.h"
-#include "TcpClient.h"
+
+// ---------< forward declaration (Global) >-------------
+class TcpClient;
 
 // --------------< namespace >---------------------------
 namespace pts
