@@ -14,7 +14,8 @@
 #include "Hostname.h"
 
 // --------------< namespace >---------------------------
-namespace pts {
+namespace pts
+{
 
 // ---------< forward declaration >----------------------
 
