@@ -1,6 +1,8 @@
 #include <string>
 #include "OpenProject.h"
 #include "../domain/Project.h"
+#include "TcpClient.h"
+#include "RestAPIHelper.hpp"
 #include <iostream>
 
 namespace pts
@@ -13,8 +15,10 @@ OpenProject::OpenProject(std::unique_ptr<::TcpClient> tcpClient) : tcpClient_( s
 
 std::list<measurementor::Project> OpenProject::collectAllActiveProject()
 {
-    // TODO
-    std::string message("GET /api/v3/projects HTTP/1.1\r\nHost:localhost\r\nAuthorization: Basic YXBpa2V5OjQ2YmQ3YTg0NDY5NDRiOWRhMDhjODRjMjZjYzE0MTg4Yzg4ZDg5NDg2NWU0NDc1ZGU4YzI5M2Q0Y2E5YTk0Y2U=\r\n\r\n");
+    // TODO tokenはファイルから読み込むようにする
+    std::string key(createBasicAuthorizationKey("apikey:46bd7a8446944b9da08c84c26cc14188c88d894865e4475de8c293d4ca9a94ce"));
+    
+    std::string message("GET /api/v3/projects HTTP/1.1\r\nHost:localhost\r\nAuthorization: Basic " + key + "\r\n\r\n");
     tcpClient_->sendData(message);
     std::string receivedJson;;
     while(true)
