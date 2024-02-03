@@ -9,7 +9,7 @@ TARGET = measurementor
 SRC = main.cpp
 
 all: $(SRC:.cpp=.o)
-	$(CC) $(INCLUDE) $(LIB_DIR) $(OPT) -o $(TARGET) $(SRC:.cpp=.o) $(LIB)
+	$(CC) $(INCLUDE) $(LIB_DIR) $(OPT) -o $(TARGET) $(LIB) $(SRC:.cpp=.o)
 
 $(SRC:.cpp=.o): $(SRC)
 	$(CC) $(INCLUDE) $(LIB_DIR) $(OPT) -c $(SRC)
