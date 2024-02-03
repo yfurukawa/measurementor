@@ -1,8 +1,8 @@
-#include "pts/OpenProjectFactory.h"
-#include "pts/OpenProject.h"
+#include "domain/PtsDataCollector.h"
 
 int main( int argc, char* argv[] )
 {
-	pts::OpenProjectFactory::getInstance()->createPts()->collectAllActiveProject();
+	measurementor::PtsDataCollector collector;
+	collector.correctData();
 	return 0;
 }
