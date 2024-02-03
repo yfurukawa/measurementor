@@ -7,8 +7,10 @@ OPT = -O0 -Wall -std=c++17 -fPIC
 TARGET = libpts.a
 SRC = OpenProject.cpp OpenProjectFactory.cpp
 
-lib:
+all:
 	$(CC) $(INCLUDE) $(LIB_DIR) $(OPT) -c $(SRC)
+
+lib:
 	$(AR) -o $(TARGET) $(SRC:.cpp=.o)
 
 .PHONY: clean
