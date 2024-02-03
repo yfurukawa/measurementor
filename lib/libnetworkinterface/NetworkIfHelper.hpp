@@ -1,6 +1,6 @@
 /*!
- @file      INetworkClient.h
- @brief     Network Clientのインターフェース
+ @file      NetworkIfHelper.hpp
+ @brief     Networkに関する補助的な関数を提供する
  @attention
 */
 #pragma once
