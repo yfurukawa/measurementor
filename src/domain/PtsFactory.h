@@ -1,6 +1,6 @@
 /*!
- @file      LoggerFactory.h
- @brief     LoggerFactoryの抽象クラス
+ @file      PtsFactory.h
+ @brief     Ptsとインターフェースするクラスのファクトリの抽象クラス
 */
 #pragma once
 
@@ -8,7 +8,9 @@
 #include <mutex>
 
 // --------------< namespace >---------------------------
-namespace measurementor {
+namespace measurementor
+{
+
 // ---------< forward declaration >----------------------
 class Pts;
 
