@@ -5,7 +5,8 @@
 #pragma once
 
 // ---------------< include >----------------------------
-#include <list>
+#include <map>
+#include <memory>
 #include <string>
 #include "domainPrimitives/MeasurementPrimitives.h"
 
@@ -47,7 +48,7 @@ private:
     Id id_;               //!< Project ID
     Name name_;           //!< Project名称
     Point point_;         //!< プロジェクトの総見積もりポイント
-    std::list<Project> childProjects_;   //!< 子プロジェクトのリスト
+    std::map<unsigned int, std::shared_ptr<Project>> childProjects_;   //!< 子プロジェクトのリスト
 };
 
 }
