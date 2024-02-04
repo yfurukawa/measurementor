@@ -48,7 +48,12 @@ public:
     void collectProjectData( const std::string& jsonString, std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList );
 
 private:
-
+    /*!
+     @brief        Json文字列のparent::hrefから親プロジェクトのidを抽出する
+     @param[in]    入力となるJson文字列
+     @param[out]   作成したオブジェクトリスト
+    */
+    unsigned int pickupParentId( std::string href );
 };
 
 }
