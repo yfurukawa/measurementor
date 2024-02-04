@@ -1,5 +1,6 @@
 #include "OpenProject.h"
-#include "../domain/Project.h"
+#include "JsonParser.h"
+
 #include "TcpClient.h"
 #include "RestAPIHelper.hpp"
 #include <iostream>
@@ -7,12 +8,14 @@
 namespace pts
 {
 
-OpenProject::OpenProject(std::unique_ptr<::TcpClient> tcpClient) : tcpClient_( std::move(tcpClient) )
+OpenProject::OpenProject(std::unique_ptr<::TcpClient> tcpClient)
+    : tcpClient_( std::move(tcpClient) ),
+    jsonParser_( std::make_unique<JsonParser>() )
 {
     projectList_.clear();
 }
 
-std::list<measurementor::Project> OpenProject::collectAllActiveProject()
+void OpenProject::collectAllActiveProject( std::list<measurementor::Project> projectList )
 {
     // TODO tokenはファイルから読み込むようにする
     std::string key(createBasicAuthorizationKey("apikey:46bd7a8446944b9da08c84c26cc14188c88d894865e4475de8c293d4ca9a94ce"));
@@ -23,8 +26,6 @@ std::list<measurementor::Project> OpenProject::collectAllActiveProject()
 
     std::cout << receivedJson << std::endl;
 
-    std::list<measurementor::Project> projectList;
-    return projectList;
 }
 
 std::string OpenProject::extractJsonFron()

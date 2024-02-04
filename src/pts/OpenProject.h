@@ -18,6 +18,7 @@ namespace pts
 {
 
 // ---------< forward declaration >----------------------
+class JsonParser;
 
 /*!
  @class     OpenProject
@@ -47,10 +48,11 @@ public:
      @brief  全てのアクティブプロジェクトを収集する
      @return アクティブプロジェクトのリスト
     */
-    std::list<measurementor::Project> collectAllActiveProject() override;
+    void collectAllActiveProject( std::list<measurementor::Project> projectList ) override;
 
 private:
     std::unique_ptr<::TcpClient> tcpClient_; //!< OpenProjectと通信するためのTCPクライアント
+    std::unique_ptr<JsonParser> jsonParser_; //!< Json文字列のパーサ
 
     /*!
      @brief  受信データからJSONストリングを抽出する

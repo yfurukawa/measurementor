@@ -34,10 +34,10 @@ public:
     virtual ~Pts() = default;
 
     /*!
-     @brief  全てのアクティブプロジェクトを収集する
-     @return アクティブプロジェクトのリスト
+     @brief      全てのアクティブプロジェクトを収集する
+     @param[out] アクティブプロジェクトのリスト
     */
-    virtual std::list<Project> collectAllActiveProject() = 0;
+    virtual void collectAllActiveProject( std::list<Project> projectList ) = 0;
 
 protected:
     std::list<Project> projectList_;          //!< OpenProject内で管理されているアクティブなプロジェクト一覧
