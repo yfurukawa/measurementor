@@ -50,8 +50,19 @@ public:
     std::list<measurementor::Project> collectAllActiveProject() override;
 
 private:
-    std::unique_ptr<::TcpClient> tcpClient_;  //!< OpenProjectと通信するためのTCPクライアント
+    std::unique_ptr<::TcpClient> tcpClient_; //!< OpenProjectと通信するためのTCPクライアント
 
+    /*!
+     @brief  受信データからJSONストリングを抽出する
+     @return JSONストリング
+    */
+    std::string extractJsonFron();
+
+    /*!
+     @brief      受信データがJSONストリングが判定する
+     @param[in]  received 判定対象とする受信データ
+     @return     true : JSONストリング
+    */
     bool isJsonString( std::string received );
 };
 
