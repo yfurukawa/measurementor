@@ -4,7 +4,7 @@ MAKE = make
 INCLUDE = -I/usr/include -I/usr/local/include
 LIB_DIR = -L/usr/lib64 -L/usr/local/lib64 -L/usr/lib -L/usr/local/lib
 LIB = pts/libpts.a /usr/local/lib64/libnetworkinterface.a
-OPT = -O0 -Wall -std=c++17
+OPT = -O0 -Wall -std=c++17 -g
 TARGET = measurementor
 SRC = main.cpp
 OBJ = main.o domain/PtsDataCollector.o
