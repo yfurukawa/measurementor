@@ -21,7 +21,11 @@ bool OpenProjectFactory::destroyed_ = false;
 
 OpenProjectFactory::~OpenProjectFactory()
 {
-    delete pts_;
+    if( pts_ != nullptr )
+    {
+        delete pts_;
+        pts_ = nullptr;
+    }
     destroyed_ = true;
 }
 
