@@ -25,6 +25,8 @@ void PtsDataCollector::correctData()
     for( auto p = projectList_.begin(); p != projectList_.end(); ++p )
     {
         std::cout << p->first << " : " << p->second->name() << std::endl;
+        if( p->second->hasChild() )
+            p->second->printChild();
     }
 }
 
