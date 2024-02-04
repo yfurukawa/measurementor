@@ -40,6 +40,9 @@ public:
     */
     virtual ~Project() = default;
 
+    Id id() { return id_; };
+    Name name() { return name_; };
+    
 private:
     Id id_;               //!< Project ID
     Name name_;           //!< Project名称
