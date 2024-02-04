@@ -54,6 +54,7 @@ private:
      @param[out]   作成したオブジェクトリスト
     */
     unsigned int pickupParentId( std::string href );
+
 };
 
 }

@@ -9,24 +9,30 @@ namespace pts
 
 void JsonParser::collectProjectData( const std::string& jsonString, std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList )
 {
-    std::map<unsigned int, std::shared_ptr<measurementor::Project>> child;
-    child.clear();
+    std::multimap<unsigned int, std::shared_ptr<measurementor::Project>> childs;
+    childs.clear();
 
     auto j = nlohmann::json::parse( jsonString );
     
+    // プロジェクトリストを作る際に、子プロジェクトを別のリストに隔離しておき
+    // 次に子プロジェクトのリストを探索し、親プロジェクト内の小プロジェクトリストに追加する
     for( int count = 0; count < j["count"]; ++count ) {
         measurementor::Id id(j["_embedded"]["elements"][count]["id"]);
         measurementor::Name name(j["_embedded"]["elements"][count]["name"]);
-        //std::string href(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]);
 
-        if( j["_embedded"]["elements"][count]["_links"]["parent"]["href"] != nullptr )
+        if( !(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]).is_null() )
         {
-            child.insert( std::make_pair( pickupParentId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]), std::make_shared<measurementor::Project>(id, name) ) );
+            childs.insert( std::make_pair( pickupParentId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]), std::make_shared<measurementor::Project>(id, name) ) );
         }
         else
         {
             projectList.insert( std::make_pair(j["_embedded"]["elements"][count]["id"], std::make_shared<measurementor::Project>(id, name) ) );
         }
+    }
+
+    for( auto child : childs )
+    {
+        projectList.at(child.first)->addChildProject(child.second->id(), child.second);
     }
 }
 
