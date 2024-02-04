@@ -5,9 +5,10 @@
 #pragma once
 
 // ---------------< include >----------------------------
-#include <list>
+#include <map>
 #include <memory>
 #include <string>
+#include "../domain/Project.h"
 
 // ---------< forward declaration (Global) >-------------
 namespace measurementor
@@ -44,7 +45,7 @@ public:
      @param[in]    入力となるJson文字列
      @param[out]   作成したオブジェクトリスト
     */
-    void collectProjectData( const std::string jsonString, std::list<std::shared_ptr<measurementor::Project>>& projectList );
+    void collectProjectData( const std::string& jsonString, std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList );
 
 private:
 

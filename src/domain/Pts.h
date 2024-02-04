@@ -5,7 +5,7 @@
 #pragma once
 
 // ---------------< include >----------------------------
-#include <list>
+#include <map>
 #include <memory>
 #include "Project.h"
 
@@ -38,7 +38,7 @@ public:
      @brief      全てのアクティブプロジェクトを収集する
      @param[out] アクティブプロジェクトのリスト
     */
-    virtual void collectAllActiveProject( std::list<std::shared_ptr<Project>>& projectList ) = 0;
+    virtual void collectAllActiveProject( std::map<unsigned int, std::shared_ptr<Project>>& projectList ) = 0;
 
 protected:
     

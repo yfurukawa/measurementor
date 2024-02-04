@@ -5,16 +5,18 @@
 #pragma once
 
 // ---------------< include >----------------------------
-#include <list>
+#include <map>
 #include <memory>
 #include <mutex>
 #include "Project.h"
+#include "domainPrimitives/MeasurementPrimitives.h"
 
 // --------------< namespace >---------------------------
 namespace measurementor
 {
 
 // ---------< forward declaration >----------------------
+class PtsFactory;
 
 /*!
  @class     PtsDataCollector.h
@@ -34,7 +36,7 @@ public:
     /*!
     @brief  デフォルトデストラクタ
     */
-    virtual ~PtsDataCollector() = default;
+    virtual ~PtsDataCollector();
 
     /*!
     @brief      Ptsからデータを収集する
@@ -42,7 +44,8 @@ public:
     void correctData();
 
 protected:
-    std::list<std::shared_ptr<Project>> projectList_;   //!< PTSで管理されているプロジェクトのリスト
+    PtsFactory* ptsFactory_;  //!< PTSとインターフェースするクラス
+    std::map<unsigned int, std::shared_ptr<Project>> projectList_;   //!< PTSで管理されているプロジェクトのリスト
 };
 
 }

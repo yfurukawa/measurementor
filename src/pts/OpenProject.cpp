@@ -3,7 +3,6 @@
 
 #include "TcpClient.h"
 #include "RestAPIHelper.hpp"
-#include <iostream>
 
 namespace pts
 {
@@ -14,7 +13,7 @@ OpenProject::OpenProject(std::unique_ptr<::TcpClient> tcpClient)
 {
 }
 
-void OpenProject::collectAllActiveProject( std::list<std::shared_ptr<measurementor::Project>>& projectList )
+void OpenProject::collectAllActiveProject( std::map<unsigned int,std::shared_ptr<measurementor::Project>>& projectList )
 {
     // TODO tokenはファイルから読み込むようにする
     std::string key(createBasicAuthorizationKey("apikey:46bd7a8446944b9da08c84c26cc14188c88d894865e4475de8c293d4ca9a94ce"));

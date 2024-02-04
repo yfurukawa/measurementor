@@ -5,9 +5,8 @@
 #pragma once
 
 // ---------------< include >----------------------------
-#include <list>
+#include <map>
 #include <memory>
-#include <string>
 #include "../domain/Pts.h"
 
 // ---------< forward declaration (Global) >-------------
@@ -48,7 +47,7 @@ public:
      @brief  全てのアクティブプロジェクトを収集する
      @return アクティブプロジェクトのリスト
     */
-    void collectAllActiveProject( std::list<std::shared_ptr<measurementor::Project>>& projectList ) override;
+    void collectAllActiveProject( std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList ) override;
 
 private:
     std::unique_ptr<::TcpClient> tcpClient_; //!< OpenProjectと通信するためのTCPクライアント
