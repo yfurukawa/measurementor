@@ -12,19 +12,17 @@ OpenProject::OpenProject(std::unique_ptr<::TcpClient> tcpClient)
     : tcpClient_( std::move(tcpClient) ),
     jsonParser_( std::make_unique<JsonParser>() )
 {
-    projectList_.clear();
 }
 
-void OpenProject::collectAllActiveProject( std::list<measurementor::Project> projectList )
+void OpenProject::collectAllActiveProject( std::list<std::shared_ptr<measurementor::Project>>& projectList )
 {
     // TODO tokenはファイルから読み込むようにする
     std::string key(createBasicAuthorizationKey("apikey:46bd7a8446944b9da08c84c26cc14188c88d894865e4475de8c293d4ca9a94ce"));
-    std::string message("GET /api/v3/projects HTTP/1.1\r\nHost:localhost\r\nAuthorization: Basic " + key + "\r\n\r\n");
+    std::string message("GET /api/v3/queries/available_projects HTTP/1.1\r\nHost:localhost\r\nAuthorization: Basic " + key + "\r\n\r\n");
     
     tcpClient_->sendData(message);
     std::string receivedJson(extractJsonFron());
-
-    std::cout << receivedJson << std::endl;
+    jsonParser_->collectProjectData( receivedJson, projectList );
 
 }
 
