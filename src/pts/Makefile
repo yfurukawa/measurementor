@@ -9,8 +9,6 @@ SRC = OpenProject.cpp OpenProjectFactory.cpp
 
 all:
 	$(CC) $(INCLUDE) $(LIB_DIR) $(OPT) -c $(SRC)
-
-lib:
 	$(AR) -o $(TARGET) $(SRC:.cpp=.o)
 
 .PHONY: clean
