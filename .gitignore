@@ -24,9 +24,14 @@
 *.lai
 *.la
 *.a
+*.a.*
 *.lib
 
 # Executables
 *.exe
 *.out
 *.app
+measurementor
+
+*.json
+
