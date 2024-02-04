@@ -23,19 +23,17 @@ namespace measurementor
 */
 class Project
 {
-public:
+private:
     /*!
      @brief  デフォルトコンストラクタ
     */
-    Project() : id_(0), name_(""), point_(0)
-    {
-        childProjects_.clear();
-    };
+    Project() = delete;
 
+public:
     /*!
      @brief  コンストラクタ
     */
-    Project( Id<unsigned int> id, Name<std::string> name ) : id_(id), name_(std::move(name)), point_(0){};
+    Project( Id id, Name name );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -43,9 +41,9 @@ public:
     virtual ~Project() = default;
 
 private:
-    Id<unsigned int> id_;                //!< Project ID
-    Name<std::string> name_;             //!< Project名称
-    Point<uint8_t> point_;               //!< プロジェクトの総見積もりポイント
+    Id id_;               //!< Project ID
+    Name name_;           //!< Project名称
+    Point point_;         //!< プロジェクトの総見積もりポイント
     std::list<Project> childProjects_;   //!< 子プロジェクトのリスト
 };
 

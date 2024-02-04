@@ -18,8 +18,9 @@ namespace measurementor
  @tparam    IDの型
 */
 template< typename T >
-using Id =
+using IdRaw =
     StrongType<T, struct IdTag, Printable>;
+using Id = IdRaw<unsigned int>;
 
 /*!
  @def       Name
@@ -27,8 +28,9 @@ using Id =
  @tparam    名称の型、文字列
 */
 template< typename T >
-using Name =
+using NameRaw =
     StrongType<T, struct NameTag, Printable>;
+using Name = NameRaw<std::string>;
 
 /*!
  @def       Point
@@ -36,8 +38,9 @@ using Name =
  @tparam    見積もりポイントの型、uint8_tで十分
 */
 template< typename T >
-using Point =
+using PointRaw =
     StrongType<T, struct PointTag, Addable, Printable>;
+using Point = PointRaw<uint8_t>;
 
 /*!
  @def       EstimatetTime
