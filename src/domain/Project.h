@@ -10,6 +10,7 @@
 #include <string>
 #include "domainPrimitives/MeasurementPrimitives.h"
 
+#include <iostream>
 // --------------< namespace >---------------------------
 namespace measurementor
 {
@@ -41,12 +42,36 @@ public:
     */
     virtual ~Project() = default;
 
+    /*!
+     @brief      子プロジェクトを追加する
+     @param[in]  id 子プロジェクトのプロジェクトID
+     @param[in]  childProject 子プロジェクト
+    */
+    void addChildProject( Id childProjectId, std::shared_ptr<Project> childProject );
+
+    /*!
+     @brief      子プロジェクトの有無を返す
+     @return     true : 子プロジェクトあり
+    */
+    bool hasChild() const
+    {
+        return !childProjects_.empty();
+    }
+
     Id id() { return id_; };
     Name name() { return name_; };
+
+    void printChild()
+    {
+        for( auto p = childProjects_.begin(); p != childProjects_.end(); ++p )
+        {
+            std::cout << "   " << p->first << " : " << p->second->name() << std::endl;
+        }
+    }
     
 private:
-    Id id_;               //!< Project ID
-    Name name_;           //!< Project名称
+    const Id id_;               //!< Project ID
+    const Name name_;           //!< Project名称
     Point point_;         //!< プロジェクトの総見積もりポイント
     std::map<unsigned int, std::shared_ptr<Project>> childProjects_;   //!< 子プロジェクトのリスト
 };
