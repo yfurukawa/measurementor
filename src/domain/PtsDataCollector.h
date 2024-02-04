@@ -6,6 +6,7 @@
 
 // ---------------< include >----------------------------
 #include <list>
+#include <memory>
 #include <mutex>
 #include "Project.h"
 
@@ -41,7 +42,7 @@ public:
     void correctData();
 
 protected:
-    std::list<Project> projectList_;   //!< PTSで管理されているプロジェクトのリスト
+    std::list<std::shared_ptr<Project>> projectList_;   //!< PTSで管理されているプロジェクトのリスト
 };
 
 }

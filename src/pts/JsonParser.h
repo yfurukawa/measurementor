@@ -6,6 +6,7 @@
 
 // ---------------< include >----------------------------
 #include <list>
+#include <memory>
 #include <string>
 
 // ---------< forward declaration (Global) >-------------
@@ -43,7 +44,7 @@ public:
      @param[in]    入力となるJson文字列
      @param[out]   作成したオブジェクトリスト
     */
-    void collectProjectData( std::string jsonString, std::list<measurementor::Project> projectList );
+    void collectProjectData( const std::string jsonString, std::list<std::shared_ptr<measurementor::Project>>& projectList );
 
 private:
 

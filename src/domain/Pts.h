@@ -6,6 +6,7 @@
 
 // ---------------< include >----------------------------
 #include <list>
+#include <memory>
 #include "Project.h"
 
 // --------------< namespace >---------------------------
@@ -37,10 +38,10 @@ public:
      @brief      全てのアクティブプロジェクトを収集する
      @param[out] アクティブプロジェクトのリスト
     */
-    virtual void collectAllActiveProject( std::list<Project> projectList ) = 0;
+    virtual void collectAllActiveProject( std::list<std::shared_ptr<Project>>& projectList ) = 0;
 
 protected:
-    std::list<Project> projectList_;          //!< OpenProject内で管理されているアクティブなプロジェクト一覧
+    
 };
 
 }
