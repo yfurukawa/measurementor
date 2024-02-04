@@ -7,6 +7,7 @@
 // ---------------< include >----------------------------
 #include <list>
 #include <memory>
+#include <string>
 #include "../domain/Pts.h"
 
 // ---------< forward declaration (Global) >-------------
@@ -50,6 +51,8 @@ public:
 
 private:
     std::unique_ptr<::TcpClient> tcpClient_;  //!< OpenProjectと通信するためのTCPクライアント
+
+    bool isJsonString( std::string received );
 };
 
 }

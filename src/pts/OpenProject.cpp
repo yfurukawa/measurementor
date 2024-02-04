@@ -1,4 +1,3 @@
-#include <string>
 #include "OpenProject.h"
 #include "../domain/Project.h"
 #include "TcpClient.h"
@@ -20,23 +19,34 @@ std::list<measurementor::Project> OpenProject::collectAllActiveProject()
     
     std::string message("GET /api/v3/projects HTTP/1.1\r\nHost:localhost\r\nAuthorization: Basic " + key + "\r\n\r\n");
     tcpClient_->sendData(message);
-    std::string receivedJson;;
-    while(true)
+    std::string receivedJson;
+
+    bool findJoson(false);
+    while( !findJoson )
     {
         auto result = tcpClient_->receiveData();
         if( result )
         {
-            receivedJson = result.value();
+            if( isJsonString( result.value() ) )
+            {
+                receivedJson = result.value();
+                findJoson = true;
+            }
         }
         else 
         {
             break;
         }
-        std::cout << receivedJson << std::endl;
-        std::cout << "----------------------------------------------" << std::endl;
     }
+    std::cout << receivedJson << std::endl;
+    
     std::list<measurementor::Project> projectList;
     return projectList;
+}
+
+bool OpenProject::isJsonString( std::string received )
+{
+    return received.find_first_of("{",0) == 0;
 }
 
 }
