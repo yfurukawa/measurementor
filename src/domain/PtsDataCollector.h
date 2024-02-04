@@ -5,7 +5,9 @@
 #pragma once
 
 // ---------------< include >----------------------------
+#include <list>
 #include <mutex>
+#include "Project.h"
 
 // --------------< namespace >---------------------------
 namespace measurementor
@@ -26,7 +28,7 @@ public:
     /*!
     @brief  デフォルトコンストラクタ
     */
-    PtsDataCollector() = default;
+    PtsDataCollector();
 
     /*!
     @brief  デフォルトデストラクタ
@@ -39,7 +41,7 @@ public:
     void correctData();
 
 protected:
-    
+    std::list<Project> projectList_;   //!< PTSで管理されているプロジェクトのリスト
 };
 
 }
