@@ -35,7 +35,7 @@ public:
     /*!
      @brief  コンストラクタ
     */
-    Project( Id id, Name name );
+    Project( Id id, Name name, ParentId parentId );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -71,6 +71,7 @@ public:
 private:
     const Id id_;                   //!< Project ID
     const Name name_;               //!< Project名称
+    const ParentId parentId_;       //!< 親のID
     Point point_;                   //!< プロジェクトの総見積もりポイント
     std::list<Id> childProjects_;   //!< 子プロジェクトのIDリスト
 };
