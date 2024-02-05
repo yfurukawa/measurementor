@@ -19,21 +19,15 @@ void JsonParser::collectProjectData( const std::string& jsonString, std::map<uns
     for( int count = 0; count < j["count"]; ++count ) {
         measurementor::Id id(j["_embedded"]["elements"][count]["id"]);
         measurementor::Name name(j["_embedded"]["elements"][count]["name"]);
-
-        if( !(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]).is_null() )
-        {
-            childs.insert( std::make_pair( pickupParentId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]), std::make_shared<measurementor::Project>(id, name) ) );
-        }
-        else
-        {
-            projectList.insert( std::make_pair(j["_embedded"]["elements"][count]["id"], std::make_shared<measurementor::Project>(id, name) ) );
-        }
+        measurementor::ParentId parentId( (j["_embedded"]["elements"][count]["_links"]["parent"]["href"]).is_null() ? 0 : pickupParentId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]) );
+        projectList.insert( std::make_pair(j["_embedded"]["elements"][count]["id"], std::make_shared<measurementor::Project>(id, name, parentId) ) );
     }
-
+/*
     for( auto child : childs )
     {
         projectList.at(child.first)->addChildProject(child.second->id(), child.second);
     }
+*/
 }
 
 unsigned int JsonParser::pickupParentId(std::string href)
