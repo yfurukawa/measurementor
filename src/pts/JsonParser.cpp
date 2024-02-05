@@ -22,12 +22,15 @@ void JsonParser::collectProjectData( const std::string& jsonString, std::map<uns
         measurementor::ParentId parentId( (j["_embedded"]["elements"][count]["_links"]["parent"]["href"]).is_null() ? 0 : pickupParentId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]) );
         projectList.insert( std::make_pair(j["_embedded"]["elements"][count]["id"], std::make_shared<measurementor::Project>(id, name, parentId) ) );
     }
-/*
-    for( auto child : childs )
+
+    for( auto project = std::begin(projectList); project != std::end(projectList); ++project )
     {
-        projectList.at(child.first)->addChildProject(child.second->id(), child.second);
+        if( project->second->parentId() != 0 )
+        {
+            projectList.at(project->second->parentId().get())->relateChildProject(project->second->id());
+        }
     }
-*/
+
 }
 
 unsigned int JsonParser::pickupParentId(std::string href)
