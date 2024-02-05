@@ -49,6 +49,15 @@ public:
     void relateChildProject( Id childProjectId );
 
     /*!
+     @brief      親プロジェクトのIDを返す
+     @return     親プロジェクトのID
+    */
+    ParentId parentId() const
+    {
+        return parentId_;
+    }
+
+    /*!
      @brief      子プロジェクトの有無を返す
      @return     true : 子プロジェクトあり
     */
