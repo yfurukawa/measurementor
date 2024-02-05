@@ -29,7 +29,7 @@ using Id = IdRaw<unsigned int>;
 */
 template< typename T >
 using ParentIdRaw =
-    StrongType<T, struct IdTag, Printable>;
+    StrongType<T, struct IdTag, Comparable, Printable>;
 using ParentId = ParentIdRaw<unsigned int>;
 
 /*!
