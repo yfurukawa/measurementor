@@ -9,9 +9,9 @@ Project::Project( Id id, Name name )
     childProjects_.clear();
 }
 
-void Project::addChildProject( Id childProjectId, std::shared_ptr<Project> childProject )
+void Project::relateChildProject( Id childProjectId )
 {
-    childProjects_.insert( std::make_pair( childProjectId.get(), childProject ) );
+    childProjects_.emplace_back( childProjectId );
 }
 
 }

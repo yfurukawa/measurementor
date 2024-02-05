@@ -5,7 +5,7 @@
 #pragma once
 
 // ---------------< include >----------------------------
-#include <map>
+#include <list>
 #include <memory>
 #include <string>
 #include "domainPrimitives/MeasurementPrimitives.h"
@@ -43,11 +43,10 @@ public:
     virtual ~Project() = default;
 
     /*!
-     @brief      子プロジェクトを追加する
+     @brief      子プロジェクトと関連付ける
      @param[in]  id 子プロジェクトのプロジェクトID
-     @param[in]  childProject 子プロジェクト
     */
-    void addChildProject( Id childProjectId, std::shared_ptr<Project> childProject );
+    void relateChildProject( Id childProjectId );
 
     /*!
      @brief      子プロジェクトの有無を返す
@@ -65,15 +64,15 @@ public:
     {
         for( auto p = childProjects_.begin(); p != childProjects_.end(); ++p )
         {
-            std::cout << "   " << p->first << " : " << p->second->name() << std::endl;
+            std::cout << "   " << *p << std::endl;
         }
     }
     
 private:
-    const Id id_;               //!< Project ID
-    const Name name_;           //!< Project名称
-    Point point_;         //!< プロジェクトの総見積もりポイント
-    std::map<unsigned int, std::shared_ptr<Project>> childProjects_;   //!< 子プロジェクトのリスト
+    const Id id_;                   //!< Project ID
+    const Name name_;               //!< Project名称
+    Point point_;                   //!< プロジェクトの総見積もりポイント
+    std::list<Id> childProjects_;   //!< 子プロジェクトのIDリスト
 };
 
 }
