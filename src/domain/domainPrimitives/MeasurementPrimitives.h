@@ -23,6 +23,16 @@ using IdRaw =
 using Id = IdRaw<unsigned int>;
 
 /*!
+ @def       PsarentId
+ @brief     Project、PBI及びTaskの親ID
+ @tparam    IDの型
+*/
+template< typename T >
+using ParentIdRaw =
+    StrongType<T, struct IdTag, Printable>;
+using ParentId = ParentIdRaw<unsigned int>;
+
+/*!
  @def       Name
  @brief     Project、PBI及びTaskの名称
  @tparam    名称の型、文字列
