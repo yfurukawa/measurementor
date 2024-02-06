@@ -5,18 +5,19 @@
 #pragma once
 
 // ---------------< include >----------------------------
-#include <list>
+#include <map>
 #include <memory>
 #include <optional>
-#include <string>
 #include "domainPrimitives/MeasurementPrimitives.h"
 
+#include <string>
 #include <iostream>
 // --------------< namespace >---------------------------
 namespace measurementor
 {
 
 // ---------< forward declaration >----------------------
+class Task;
 
 /*!
  @class     Item
@@ -53,7 +54,7 @@ public:
      @brief      Itemにタスクを追加する
      @param[in]  id タスクのID
     */
-    void addTask( Id taskId );
+    void addTask( Id taskId, std::shared_ptr<Task> task );
 
     /*!
      @brief      親となるバージョンのIDを返す
@@ -70,26 +71,23 @@ public:
         return !tasks_.empty();
     }
 
+    /*!
+     @brief      タスクの見積もり時間を集計する
+    */
+    void aggrigateEstimatedTime();
+
     Id id() { return id_; };
     Name name() { return name_; };
 
-    void printChild()
-    {
-        for( auto p = tasks_.begin(); p != tasks_.end(); ++p )
-        {
-            std::cout << "   " << *p << std::endl;
-        }
-    }
+    void printChild();
     
 private:
-    const Id id_;                     //!< Project ID
-    const Name name_;                 //!< Project名称
-    VersionId versionId_;             //!< 親のID
-    Point point_;                     //!< プロジェクトの総見積もりポイント
-    EstimateTime totalEstimateTime_;  //!< タスクの総見積もり時間
-    std::list<Id> tasks_;             //!< 子プロジェクトのIDリスト
-
-    void calculateTotalEstimateTime();
+    const Id id_;                                  //!< Item ID
+    const Name name_;                              //!< Item名称
+    VersionId versionId_;                          //!< 親のID
+    Point point_;                                  //!< プロジェクトの総見積もりポイント
+    EstimateTime totalEstimateTime_;               //!< タスクの総見積もり時間
+    std::map<Id, std::shared_ptr<Task>> tasks_;    //!< タスクリスト
 
 };
 
