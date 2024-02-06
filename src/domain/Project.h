@@ -23,7 +23,7 @@ namespace measurementor
  @note      本クラスは、Project Tracking System (PTS) から取得したプロジェクトの情報の内、メトリックスの算出に必要となるデータを保持するものである。<br>
  又、PTS内ではプロジェクトが子プロジェクトを持つことが想定されるため、その状況にも対応可能にしておく。
 */
-class Project
+class Project final
 {
 private:
     /*!
