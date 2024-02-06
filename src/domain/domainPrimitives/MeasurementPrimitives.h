@@ -19,22 +19,33 @@ namespace measurementor
 */
 template< typename T >
 using IdRaw =
-    StrongType<T, struct IdTag, Printable>;
+    StrongType<T, struct IdTag, Comparable, Printable>;
 using Id = IdRaw<unsigned int>;
-
-/*!
- @def       ParentId
- @brief     Project、PBI及びTaskの親ID
- @tparam    IDの型
-*/
+using ParentId  = IdRaw<unsigned int>;
+using ProjectId = IdRaw<unsigned int>;
+using VersionId = IdRaw<unsigned int>;
+using ItemId    = IdRaw<unsigned int>;
+/*
 template< typename T >
 using ParentIdRaw =
     StrongType<T, struct ParentIdTag, Comparable, Printable>;
 using ParentId  = ParentIdRaw<unsigned int>;
-using ProjectId = ParentIdRaw<unsigned int>;
-using VersionId = ParentIdRaw<unsigned int>;
-using ItemId    = ParentIdRaw<unsigned int>;
 
+template< typename T >
+using ProjectIdRaw =
+    StrongType<T, struct ProjectIdTag, Comparable, Printable>;
+using ProjectId = ProjectIdRaw<unsigned int>;
+
+template< typename T >
+using VersionIdRaw =
+    StrongType<T, struct VersionIdTag, Comparable, Printable>;
+using VersionId = VersionIdRaw<unsigned int>;
+
+template< typename T >
+using ItemIdRaw =
+    StrongType<T, struct ItemIdTag, Comparable, Printable>;
+using ItemId    = ItemIdRaw<unsigned int>;
+*/
 /*!
  @def       Name
  @brief     Project、PBI及びTaskの名称
