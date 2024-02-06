@@ -23,14 +23,24 @@ using IdRaw =
 using Id = IdRaw<unsigned int>;
 
 /*!
- @def       PsarentId
+ @def       ParentId
  @brief     Project、PBI及びTaskの親ID
  @tparam    IDの型
 */
 template< typename T >
 using ParentIdRaw =
-    StrongType<T, struct IdTag, Comparable, Printable>;
+    StrongType<T, struct ParentIdTag, Comparable, Printable>;
 using ParentId = ParentIdRaw<unsigned int>;
+
+/*!
+ @def       VersionId
+ @brief     VCersion ID
+ @tparam    IDの型
+*/
+template< typename T >
+using VersionIdRaw =
+    StrongType<T, struct VersionIdTag, Comparable, Printable>;
+using VersionId = VersionIdRaw<unsigned int>;
 
 /*!
  @def       Name
@@ -58,7 +68,7 @@ using Point = PointRaw<uint8_t>;
  @tparam    見積もり時間の型、少数点以下第1位まで表す必要がある
 */
 template< typename T >
-using EstimatetTime =
+using EstimateTimeRaw =
     StrongType<T, struct ETimeTag, Addable, Printable>;
-
+using EstimateTime = EstimateTimeRaw<float>;
 }
