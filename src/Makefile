@@ -7,7 +7,7 @@ LIB = pts/libpts.a /usr/local/lib64/libnetworkinterface.a
 OPT = -O0 -Wall -std=c++17 -g
 TARGET = measurementor
 SRC = main.cpp
-OBJ = main.o domain/PtsDataCollector.o domain/Project.o
+OBJ = main.o domain/PtsDataCollector.o domain/Project.o domain/Item.o domain/Task.o
 
 all: $(SRC:.cpp=.o)
 	$(CC) $(INCLUDE) $(LIB_DIR) $(OPT) -o $(TARGET) $(OBJ) $(LIB)
