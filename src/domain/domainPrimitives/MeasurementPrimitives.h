@@ -62,6 +62,27 @@ using Point = PointRaw<uint8_t>;
 */
 template< typename T >
 using EstimateTimeRaw =
-    StrongType<T, struct ETimeTag, Addable, Printable>;
+    StrongType<T, struct ETimeTag, Addable, Printable, Swappable>;
 using EstimateTime = EstimateTimeRaw<float>;
+
+/*!
+ @def       Assignee
+ @brief     タスクの担当者
+ @tparam    氏名の型
+*/
+template< typename T >
+using AssigneeRaw =
+    StrongType<T, struct AssigneeTag, Printable, Swappable>;
+using Assignee = AssigneeRaw<std::string>;
+
+/*!
+ @def       Author
+ @brief     タスクの作成者
+ @tparam    氏名の型
+*/
+template< typename T >
+using AuthorRaw =
+    StrongType<T, struct AuthorTag, Printable>;
+using Author = AuthorRaw<std::string>;
+
 }
