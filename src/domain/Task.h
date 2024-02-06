@@ -71,8 +71,8 @@ public:
     void updateStatus( unsigned int newStatus );
 
     /*!
-     @brief      ステータスを更新する
-     @param[in]  newStatus  新しい状態
+     @brief      見積もり時間を回答する
+     @return     見積もり時間
     */
     EstimateTime estimateTime() const
     {
@@ -83,8 +83,8 @@ public:
     Name name() { return name_; };
     
 private:
-    const Id id_;                 //!< Project ID
-    const Name name_;             //!< Project名称
+    const Id id_;                 //!< Task ID
+    const Name name_;             //!< Task名称
     const Author author_;         //!< タスクの作成者
     const ItemId itemId_;         //!< 親のID
     EstimateTime estimateTime_;   //!< プロジェクトの総見積もりポイント
