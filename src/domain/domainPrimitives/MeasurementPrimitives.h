@@ -30,17 +30,10 @@ using Id = IdRaw<unsigned int>;
 template< typename T >
 using ParentIdRaw =
     StrongType<T, struct ParentIdTag, Comparable, Printable>;
-using ParentId = ParentIdRaw<unsigned int>;
-
-/*!
- @def       VersionId
- @brief     VCersion ID
- @tparam    IDの型
-*/
-template< typename T >
-using VersionIdRaw =
-    StrongType<T, struct VersionIdTag, Comparable, Printable>;
-using VersionId = VersionIdRaw<unsigned int>;
+using ParentId  = ParentIdRaw<unsigned int>;
+using ProjectId = ParentIdRaw<unsigned int>;
+using VersionId = ParentIdRaw<unsigned int>;
+using ItemId    = ParentIdRaw<unsigned int>;
 
 /*!
  @def       Name
