@@ -54,7 +54,7 @@ public:
      @brief      Itemにタスクを追加する
      @param[in]  id タスクのID
     */
-    void addTask( Id taskId, std::shared_ptr<Task> task );
+    void addTask( Id taskId, std::unique_ptr<Task> task );
 
     /*!
      @brief      親となるバージョンのIDを返す
@@ -87,7 +87,7 @@ private:
     VersionId versionId_;                          //!< 親のID
     Point point_;                                  //!< プロジェクトの総見積もりポイント
     EstimateTime totalEstimateTime_;               //!< タスクの総見積もり時間
-    std::map<Id, std::shared_ptr<Task>> tasks_;    //!< タスクリスト
+    std::map<Id, std::unique_ptr<Task>> tasks_;    //!< タスクリスト
 
 };
 

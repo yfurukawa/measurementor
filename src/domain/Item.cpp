@@ -19,9 +19,9 @@ void Item::assignVersion( VersionId versionId )
     versionId_ = VersionId{ versionId.get() };
 }
 
-void Item::addTask( Id taskId, std::shared_ptr<Task> task )
+void Item::addTask( Id taskId, std::unique_ptr<Task> task )
 {
-    tasks_.insert( std::make_pair( taskId, task ) );
+    tasks_.insert( std::make_pair( taskId, std::move(task) ) );
 }
 
 std::optional<VersionId> Item::versionId() const
