@@ -48,7 +48,7 @@ public:
 
     /*!
      @brief      作業時間を見積もる
-     @return     見積もり時間
+     @param[in]  time 見積もり時間
     */
     void estimateWorkTime( EstimateTime time )
     {
@@ -57,7 +57,7 @@ public:
 
     /*!
      @brief      担当者を割り当てる
-     @return     担当者名
+     @param[in]  assignee  担当者名
     */
     void assignAsignee( Assignee assignee )
     {
@@ -66,9 +66,18 @@ public:
 
     /*!
      @brief      ステータスを更新する
-     @return     バージョンのID
+     @param[in]  newStatus  新しい状態
     */
     void updateStatus( unsigned int newStatus );
+
+    /*!
+     @brief      ステータスを更新する
+     @param[in]  newStatus  新しい状態
+    */
+    EstimateTime estimateTime() const
+    {
+        return estimateTime_;
+    };
 
     Id id() { return id_; };
     Name name() { return name_; };
