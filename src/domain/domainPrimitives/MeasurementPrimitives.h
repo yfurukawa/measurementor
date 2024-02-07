@@ -64,7 +64,7 @@ using Name = NameRaw<std::string>;
 template< typename T >
 using PointRaw =
     StrongType<T, struct PointTag, Addable, Printable>;
-using Point = PointRaw<uint8_t>;
+using Point = PointRaw<unsigned int>;
 
 /*!
  @def       EstimatetTime
