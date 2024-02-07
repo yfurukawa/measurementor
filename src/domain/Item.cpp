@@ -7,16 +7,16 @@ namespace measurementor
 Item::Item( Id id, Name name )
     : id_(id),
     name_(name),
-    versionId_(0),
+    sprintId_(0),
     point_(0),
     totalEstimateTime_(0)
 {
     tasks_.clear();
 }
 
-void Item::assignVersion( VersionId versionId )
+void Item::assignSprint( SprintId sprintId )
 {
-    versionId_ = VersionId{ versionId.get() };
+    sprintId_ = SprintId{ sprintId.get() };
 }
 
 void Item::addTask( Id taskId, std::unique_ptr<Task> task )
@@ -24,13 +24,13 @@ void Item::addTask( Id taskId, std::unique_ptr<Task> task )
     tasks_.insert( std::make_pair( taskId, std::move(task) ) );
 }
 
-std::optional<VersionId> Item::versionId() const
+std::optional<SprintId> Item::sprintId() const
 {
-    if( versionId_ == 0 )
+    if( sprintId_ == 0 )
     {
         return std::nullopt;
     }
-    return versionId_;
+    return sprintId_;
 }
 
 void Item::aggrigateEstimatedTime()

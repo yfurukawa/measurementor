@@ -23,7 +23,7 @@ using IdRaw =
 using Id = IdRaw<unsigned int>;
 using ParentId  = IdRaw<unsigned int>;
 using ProjectId = IdRaw<unsigned int>;
-using VersionId = IdRaw<unsigned int>;
+using SprintId = IdRaw<unsigned int>;
 using ItemId    = IdRaw<unsigned int>;
 /*
 template< typename T >

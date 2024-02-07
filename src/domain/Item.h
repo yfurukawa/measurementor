@@ -45,10 +45,10 @@ public:
     virtual ~Item() = default;
 
     /*!
-     @brief      ItemをVersionに割り当てる
-     @param[in]  id VersionのID
+     @brief      ItemをSprintに割り当てる
+     @param[in]  id SprintのID
     */
-    void assignVersion( VersionId versionId );
+    void assignSprint( SprintId sprintId );
 
     /*!
      @brief      Itemにタスクを追加する
@@ -60,7 +60,7 @@ public:
      @brief      親となるバージョンのIDを返す
      @return     バージョンのID
     */
-    std::optional<VersionId> versionId() const;
+    std::optional<SprintId> sprintId() const;
 
     /*!
      @brief      子プロジェクトの有無を返す
@@ -84,7 +84,7 @@ public:
 private:
     const Id id_;                                  //!< Item ID
     const Name name_;                              //!< Item名称
-    VersionId versionId_;                          //!< 親のID
+    SprintId sprintId_;                          //!< 親のID
     Point point_;                                  //!< プロジェクトの総見積もりポイント
     EstimateTime totalEstimateTime_;               //!< タスクの総見積もり時間
     std::map<Id, std::unique_ptr<Task>> tasks_;    //!< タスクリスト
