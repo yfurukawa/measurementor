@@ -76,6 +76,15 @@ public:
     */
     void aggrigateEstimatedTime();
 
+    /*!
+     @brief      ストーリポイント集計のため、ポイントを回答する
+     @return     ポイント
+    */
+    Point point()
+    {
+        return point_;
+    }
+
     Id id() { return id_; };
     Name name() { return name_; };
 
@@ -85,7 +94,7 @@ private:
     const Id id_;                                  //!< Item ID
     const Name name_;                              //!< Item名称
     SprintId sprintId_;                          //!< 親のID
-    Point point_;                                  //!< プロジェクトの総見積もりポイント
+    Point point_;                                  //!< 見積もりポイント
     EstimateTime totalEstimateTime_;               //!< タスクの総見積もり時間
     std::map<Id, std::unique_ptr<Task>> tasks_;    //!< タスクリスト
 
