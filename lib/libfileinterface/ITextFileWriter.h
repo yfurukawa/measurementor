@@ -31,7 +31,7 @@ public:
     @brief      コンストラクタ
     @param[in]  path ファイル名を含む出力先ファイルのパス
     */
-    explicit ITextFileWriter( std::filesystem::path path );
+    explicit ITextFileWriter( std::filesystem::path path ) {};
 
     /*!
     @brief  デフォルトデストラクタ
