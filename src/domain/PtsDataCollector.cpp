@@ -20,7 +20,7 @@ PtsDataCollector::~PtsDataCollector()
 
 void PtsDataCollector::correctData()
 {
-    ptsFactory_->createPts()->collectAllActiveProject( projectList_ );
+     ptsFactory_->createPts()->collectAllActiveProject( projectList_ );
 
     for( auto p = projectList_.begin(); p != projectList_.end(); ++p )
     {
@@ -28,6 +28,12 @@ void PtsDataCollector::correctData()
         if( p->second->hasChild() )
             p->second->printChild();
     }
+
+    for( auto project = begin(projectList_); project != end(projectList_); ++project )
+    {
+        ptsFactory_->createPts()->collectSprintInformationOf( project->second );
+    }
+   
 }
 
 }

@@ -1,8 +1,10 @@
 #include "OpenProject.h"
+#include "../domain/Project.h"
 #include "JsonParser.h"
-
 #include "TcpClient.h"
 #include "RestAPIHelper.hpp"
+
+#include <iostream>
 
 namespace pts
 {
@@ -17,15 +19,49 @@ void OpenProject::collectAllActiveProject( std::map<unsigned int,std::shared_ptr
 {
     // TODO tokenはファイルから読み込むようにする
     std::string key(createBasicAuthorizationKey("apikey:d54087631332a33b932b200c3d49496efdc7fb156b2405b2baf6fece4018e9f0"));
-    std::string message("GET /api/v3/queries/available_projects HTTP/1.1\r\nHost:localhost\r\nAuthorization: Basic " + key + "\r\n\r\n");
-    
+    std::string message("GET /api/v3/queries/available_projects HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
+
+    tcpClient_->openSocket();
+    std::cout << message << std::endl;    
     tcpClient_->sendData(message);
-    std::string receivedJson(extractJsonFron());
+    std::string receivedJson(extractJsonFrom());
     jsonParser_->collectProjectData( receivedJson, projectList );
+    tcpClient_->closeSocket();
 
 }
 
-std::string OpenProject::extractJsonFron()
+void OpenProject::collectSprintInformationOf( std::shared_ptr<measurementor::Project>& project )
+{
+    // TODO tokenはファイルから読み込むようにする
+    std::string key(createBasicAuthorizationKey("apikey:d54087631332a33b932b200c3d49496efdc7fb156b2405b2baf6fece4018e9f0"));
+    //std::string message("GET /api/v3/projects/" + std::to_string(project->id().get()) + "/versions HTTP/1.1\r\nHost:localhost\r\nAuthorization: Basic " + key + "\r\n\r\n");
+    std::string message("GET /api/v3/versions HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
+    std::cout << message << std::endl;
+
+    tcpClient_->openSocket();
+    tcpClient_->sendData(message);
+    std::string receivedJson(extractJsonFrom());
+    tcpClient_->closeSocket();
+    std::cout << receivedJson << std::endl;
+}
+
+void OpenProject::collectSprintInformationOf( )
+{
+    // TODO tokenはファイルから読み込むようにする
+    std::string key(createBasicAuthorizationKey("apikey:d54087631332a33b932b200c3d49496efdc7fb156b2405b2baf6fece4018e9f0"));
+    //std::string message("GET /api/v3/projects/" + std::to_string(project->id().get()) + "/versions HTTP/1.1\r\nHost:localhost\r\nAuthorization: Basic " + key + "\r\n\r\n");
+    //std::string message("GET /api/v3/versions HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
+    std::string message("GET /api/v3/queries/available_projects HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
+    std::cout << message << std::endl;
+
+    tcpClient_->openSocket();
+    tcpClient_->sendData(message);
+    std::string receivedJson(extractJsonFrom());
+    tcpClient_->closeSocket();
+    std::cout << receivedJson << std::endl;
+}
+
+std::string OpenProject::extractJsonFrom()
 {
     std::string jsonString("");
     bool findJoson(false);

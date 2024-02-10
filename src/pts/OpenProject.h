@@ -49,6 +49,12 @@ public:
     */
     void collectAllActiveProject( std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList ) override;
 
+    /*!
+     @brief          指定されたプロジェクトに定義されているSprint情報を収集する
+     @param[in,out]  project 収集したいプロジェクト
+    */
+    void collectSprintInformationOf( std::shared_ptr<measurementor::Project>& project ) override;
+    void collectSprintInformationOf() override;
 private:
     std::unique_ptr<::TcpClient> tcpClient_; //!< OpenProjectと通信するためのTCPクライアント
     std::unique_ptr<JsonParser> jsonParser_; //!< Json文字列のパーサ
@@ -57,7 +63,7 @@ private:
      @brief  受信データからJSONストリングを抽出する
      @return JSONストリング
     */
-    std::string extractJsonFron();
+    std::string extractJsonFrom();
 
     /*!
      @brief      受信データがJSONストリングが判定する

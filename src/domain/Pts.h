@@ -40,6 +40,12 @@ public:
     */
     virtual void collectAllActiveProject( std::map<unsigned int, std::shared_ptr<Project>>& projectList ) = 0;
 
+    /*!
+     @brief          指定されたプロジェクトに定義されているSprint情報を収集する
+     @param[in,out]  project 収集したいプロジェクト
+    */
+    virtual void collectSprintInformationOf( std::shared_ptr<Project>& project ) = 0;
+    virtual void collectSprintInformationOf() = 0;
 protected:
     
 };
