@@ -6,6 +6,7 @@
 
 // ---------------< include >----------------------------
 #include <list>
+#include <map>
 #include <memory>
 #include <string>
 #include "domainPrimitives/MeasurementPrimitives.h"
@@ -16,6 +17,7 @@ namespace measurementor
 {
 
 // ---------< forward declaration >----------------------
+class Sprint;
 
 /*!
  @class     Project
@@ -66,6 +68,12 @@ public:
         return !childProjects_.empty();
     }
 
+    /*!
+     @brief      Sprintを追加する
+     @param[in]  sprint 追加するスプリント
+    */
+    void addSprint( std::unique_ptr<Sprint> sprint );
+
     Id id() { return id_; };
     Name name() { return name_; };
 
@@ -78,11 +86,12 @@ public:
     }
     
 private:
-    const Id id_;                   //!< Project ID
-    const Name name_;               //!< Project名称
-    const ParentId parentId_;       //!< 親のID
-    Point point_;                   //!< プロジェクトの総見積もりポイント
-    std::list<Id> childProjects_;   //!< 子プロジェクトのIDリスト
+    const Id id_;                                   //!< Project ID
+    const Name name_;                               //!< Project名称
+    const ParentId parentId_;                       //!< 親のID
+    Point point_;                                   //!< プロジェクトの総見積もりポイント
+    std::list<Id> childProjects_;                   //!< 子プロジェクトのIDリスト
+    std::map<Id, std::unique_ptr<Sprint>> sprint_;  //!< Project内に定義されたSprint
 };
 
 }
