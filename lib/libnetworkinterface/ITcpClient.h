@@ -59,4 +59,14 @@ public:
     @return  受信データ。受信データが無い場合は無効値を返す
     */
     virtual std::optional<std::string> receiveData() = 0;
+
+    /*!
+     @brief  TCP/IP通信のためにソケットをオープンする
+    */
+    virtual void openSocket() = 0;
+
+    /*!
+     @brief  TCP/IP通信のためのソケットをクローズする
+    */
+    virtual void closeSocket() = 0;
 };

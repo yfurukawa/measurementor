@@ -9,6 +9,9 @@
 #include <memory>
 #include <arpa/inet.h>
 #include "ITcpClient.h"
+#include "Hostname.h"
+#include "IPv4.h"
+#include "Port.h"
 
 // --------------< namespace >---------------------------
 
@@ -32,14 +35,14 @@ public:
     @param[in]  ipAddress サーバアドレス
     @param[in]  port サーバの待ち受けポート番号
     */
-    TcpClient( IPv4& ipAddress, Port& port );
+    TcpClient( IPv4 ipAddress, Port port );
 
     /*!
     @brief      コンストラクタ
     @param[in]  hostname RFC952及びRFC1123に準拠したホスト名
     @param[in]  port サーバの待ち受けポート番号
     */
-    TcpClient( Hostname& hostname, Port& port );
+    TcpClient( Hostname hostname, Port port );
 
     /*!
     @brief  デフォルトデストラクタ
@@ -58,9 +61,21 @@ public:
     */
     std::optional<std::string> receiveData() override;
 
-private:
-    int sock_;                            //!< 送信用ソケット
-    struct sockaddr_in addr_;             //!< ネットワーク設定
+    /*!
+     @brief  TCP/IP通信のためにソケットをオープンする
+    */
+    void openSocket() override;
+    
+    /*!
+     @brief  TCP/IP通信のためのソケットをクローズする
+    */
+    void closeSocket() override;
 
-    void initialize(std::string ipAddress, Port& port);
+private:
+    IPv4 ip_;                  //!< 送信先サーバアドレス
+    Port port_;                //!< サーバ待受ポート
+    int sock_;                       //!< 送信用ソケット
+    struct sockaddr_in addr_;        //!< ネットワーク設定
+
+
 };

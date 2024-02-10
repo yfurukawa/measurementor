@@ -3,27 +3,26 @@
 #include <sys/fcntl.h>
 #include <sys/socket.h>
 #include <sys/types.h>
-#include "Hostname.h"
-#include "IPv4.h"
 #include "NetworkIfHelper.hpp"
-#include "Port.h"
 #include "TcpClient.h"
 
 #include <unistd.h>
 
 
-TcpClient::TcpClient( IPv4& ipAddress, Port& port )
+TcpClient::TcpClient( IPv4 ipAddress, Port port )
+    : ip_( ipAddress ),
+    port_( port )
 {
-    this->initialize(ipAddress.get(), port);
 }
 
-TcpClient::TcpClient( Hostname& hostname, Port& port )
+TcpClient::TcpClient( Hostname hostname, Port port )
+    : ip_( resolveHostname(hostname) ),
+    port_( port )
 {
-    this->initialize(resolveHostname(hostname), port);
 }
 
-TcpClient::~TcpClient() {
-    close(sock_);
+TcpClient::~TcpClient() 
+{
 };
 
 void TcpClient::sendData( std::string content ) const
@@ -70,7 +69,7 @@ std::optional<std::string> TcpClient::receiveData()
     }
 }
 
-void TcpClient::initialize(std::string ipAddress, Port& port)
+void TcpClient::openSocket()
 {
     sock_ = socket( PF_INET, SOCK_STREAM, 0 );
     if( sock_ == -1 ) {
@@ -78,6 +77,11 @@ void TcpClient::initialize(std::string ipAddress, Port& port)
         exit(1);
     }
     addr_.sin_family = PF_INET;
-    addr_.sin_addr.s_addr = inet_addr( ipAddress.c_str() );
-    addr_.sin_port = htons( port.get() );
+    addr_.sin_addr.s_addr = inet_addr( ip_.get().c_str() );
+    addr_.sin_port = htons( port_.get() );
+}
+
+void TcpClient::closeSocket()
+{
+    close(sock_);
 }
