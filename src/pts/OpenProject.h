@@ -55,6 +55,7 @@ public:
     */
     void collectSprintInformationOf( std::shared_ptr<measurementor::Project>& project ) override;
     void collectSprintInformationOf() override;
+
 private:
     std::unique_ptr<::TcpClient> tcpClient_; //!< OpenProjectと通信するためのTCPクライアント
     std::unique_ptr<JsonParser> jsonParser_; //!< Json文字列のパーサ
@@ -71,6 +72,8 @@ private:
      @return     true : JSONストリング
     */
     bool isJsonString( std::string received );
+
+    std::string sendQueryMessage(std::string queryString );
 };
 
 }

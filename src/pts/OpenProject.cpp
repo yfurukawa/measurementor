@@ -21,10 +21,7 @@ void OpenProject::collectAllActiveProject( std::map<unsigned int,std::shared_ptr
     std::string key(createBasicAuthorizationKey("apikey:d54087631332a33b932b200c3d49496efdc7fb156b2405b2baf6fece4018e9f0"));
     std::string message("GET /api/v3/queries/available_projects HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
 
-    tcpClient_->openSocket();
-    std::cout << message << std::endl;    
-    tcpClient_->sendData(message);
-    std::string receivedJson(extractJsonFrom());
+    std::string receivedJson = sendQueryMessage( message );
     jsonParser_->collectProjectData( receivedJson, projectList );
     tcpClient_->closeSocket();
 
@@ -34,30 +31,9 @@ void OpenProject::collectSprintInformationOf( std::shared_ptr<measurementor::Pro
 {
     // TODO tokenはファイルから読み込むようにする
     std::string key(createBasicAuthorizationKey("apikey:d54087631332a33b932b200c3d49496efdc7fb156b2405b2baf6fece4018e9f0"));
-    //std::string message("GET /api/v3/projects/" + std::to_string(project->id().get()) + "/versions HTTP/1.1\r\nHost:localhost\r\nAuthorization: Basic " + key + "\r\n\r\n");
     std::string message("GET /api/v3/versions HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
-    std::cout << message << std::endl;
-
-    tcpClient_->openSocket();
-    tcpClient_->sendData(message);
-    std::string receivedJson(extractJsonFrom());
-    tcpClient_->closeSocket();
-    std::cout << receivedJson << std::endl;
-}
-
-void OpenProject::collectSprintInformationOf( )
-{
-    // TODO tokenはファイルから読み込むようにする
-    std::string key(createBasicAuthorizationKey("apikey:d54087631332a33b932b200c3d49496efdc7fb156b2405b2baf6fece4018e9f0"));
-    //std::string message("GET /api/v3/projects/" + std::to_string(project->id().get()) + "/versions HTTP/1.1\r\nHost:localhost\r\nAuthorization: Basic " + key + "\r\n\r\n");
-    //std::string message("GET /api/v3/versions HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
-    std::string message("GET /api/v3/queries/available_projects HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
-    std::cout << message << std::endl;
-
-    tcpClient_->openSocket();
-    tcpClient_->sendData(message);
-    std::string receivedJson(extractJsonFrom());
-    tcpClient_->closeSocket();
+    
+    std::string receivedJson = sendQueryMessage( message );
     std::cout << receivedJson << std::endl;
 }
 
@@ -89,6 +65,17 @@ std::string OpenProject::extractJsonFrom()
 bool OpenProject::isJsonString(std::string received)
 {
     return received.find_first_of("{",0) == 0;
+}
+
+std::string OpenProject::sendQueryMessage( std::string queryMessage )
+{
+    tcpClient_->openSocket();
+    tcpClient_->sendData( queryMessage );
+    std::string receivedJson(extractJsonFrom());
+    tcpClient_->closeSocket();
+    
+    return receivedJson;
+
 }
 
 }
