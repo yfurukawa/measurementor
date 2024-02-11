@@ -18,6 +18,7 @@ namespace measurementor
 
 // ---------< forward declaration >----------------------
 class Sprint;
+class Item;
 
 /*!
  @class     Project
@@ -65,7 +66,7 @@ public:
     */
     bool hasChild() const
     {
-        return !(childProjects_.empty()) || !(sprint_.empty()) ;
+        return !(childProjects_.empty()) || !(sprints_.empty()) ;
     }
 
     /*!
@@ -80,12 +81,13 @@ public:
     void printChild();
     
 private:
-    const Id id_;                                   //!< Project ID
-    const Name name_;                               //!< Project名称
-    const ParentId parentId_;                       //!< 親のID
-    Point point_;                                   //!< プロジェクトの総見積もりポイント
-    std::list<Id> childProjects_;                   //!< 子プロジェクトのIDリスト
-    std::map<Id, std::shared_ptr<Sprint>> sprint_;  //!< Project内に定義されたSprint
+    const Id id_;                                    //!< Project ID
+    const Name name_;                                //!< Project名称
+    const ParentId parentId_;                        //!< 親のID
+    Point point_;                                    //!< プロジェクトの総見積もりポイント
+    std::list<Id> childProjects_;                    //!< 子プロジェクトのIDリスト
+    std::map<Id, std::shared_ptr<Sprint>> sprints_;  //!< Project内に定義されたSprint
+    std::map<Id, std::shared_ptr<Item>> items_;      //!< ProjectのProduct Backlog Item
 };
 
 }

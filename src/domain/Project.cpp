@@ -11,7 +11,8 @@ Project::Project( Id id, Name name, ParentId parentId )
     point_(0)    
 {
     childProjects_.clear();
-    sprint_.clear();
+    sprints_.clear();
+    items_.clear();
 }
 
 void Project::relateChildProject( Id childProjectId )
@@ -21,7 +22,7 @@ void Project::relateChildProject( Id childProjectId )
 
 void Project::addSprint( std::shared_ptr<Sprint> sprint )
 {
-    sprint_.insert( std::make_pair( sprint->id(), std::move( sprint ) ) );
+    sprints_.insert( std::make_pair( sprint->id(), std::move( sprint ) ) );
 }
 
 void Project::printChild()
@@ -30,7 +31,7 @@ void Project::printChild()
     {
         std::cout << "   " << *p << std::endl;
     }
-    for( auto s = begin(sprint_); s != end(sprint_); ++s )
+    for( auto s = begin(sprints_); s != end(sprints_); ++s )
     {
         std::cout << "   " << s->second->id() << " : " << s->second->name() << std::endl;
     }
