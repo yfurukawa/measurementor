@@ -66,7 +66,7 @@ public:
     */
     bool hasChild() const
     {
-        return !(childProjects_.empty()) || !(sprints_.empty()) ;
+        return !(childProjects_.empty()) || !(sprints_.empty()) || !(items_.empty()) ;
     }
 
     /*!
@@ -83,6 +83,8 @@ public:
 
     Id id() { return id_; };
     Name name() { return name_; };
+
+    std::shared_ptr<Sprint> getSprint( measurementor::SprintId sprintId );
 
     void printChild();
     

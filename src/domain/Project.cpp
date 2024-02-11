@@ -43,4 +43,10 @@ void Project::printChild()
     }
 }
 
+std::shared_ptr<Sprint> Project::getSprint( measurementor::SprintId sprintId )
+{
+    measurementor::Id id{ sprintId.get() };
+    return sprints_.at( id );
+}
+
 }
