@@ -27,6 +27,7 @@ void PtsDataCollector::correctData()
         ptsFactory_->createPts()->collectSprintInformationOf( project->second );
     }
 
+    // データ収集後にプロジェクトツリーを表示する（確認用）
     for( auto p = projectList_.begin(); p != projectList_.end(); ++p )
     {
         std::cout << p->first << " : " << p->second->name() << std::endl;
