@@ -54,6 +54,13 @@ public:
     */
     void collectSprintData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project );
 
+    /*!
+     @brief        Json文字列からPBLとTaskの情報を抽出し、紐付ける
+     @param[in]    入力となるJson文字列
+     @param[out]   対象プロジェクト
+    */
+    void collectPBLandTaskData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project );
+
 private:
     /*!
      @brief        Json文字列のparent::hrefから親プロジェクトのidを抽出する
