@@ -46,6 +46,12 @@ public:
     */
     virtual void collectSprintInformationOf( std::shared_ptr<Project>& project ) = 0;
     
+    /*!
+     @brief          指定されたプロジェクトに定義されているPBLとTaskの情報を収集する
+     @param[in,out]  project 収集したいプロジェクト
+    */
+    virtual void collectPBLandTaskInformation( std::shared_ptr<Project>& project ) = 0;
+    
 protected:
     
 };
