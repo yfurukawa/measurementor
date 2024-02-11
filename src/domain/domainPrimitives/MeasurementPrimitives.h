@@ -23,8 +23,13 @@ using IdRaw =
 using Id = IdRaw<unsigned int>;
 using ParentId  = IdRaw<unsigned int>;
 using ProjectId = IdRaw<unsigned int>;
-using SprintId = IdRaw<unsigned int>;
 using ItemId    = IdRaw<unsigned int>;
+
+template< typename T >
+using SprintIdRaw =
+    StrongType<T, struct SprintIdTag, Comparable, Printable, Swappable>;
+using SprintId = SprintIdRaw<unsigned int>;
+
 /*
 template< typename T >
 using ParentIdRaw =
@@ -36,10 +41,6 @@ using ProjectIdRaw =
     StrongType<T, struct ProjectIdTag, Comparable, Printable>;
 using ProjectId = ProjectIdRaw<unsigned int>;
 
-template< typename T >
-using VersionIdRaw =
-    StrongType<T, struct VersionIdTag, Comparable, Printable>;
-using VersionId = VersionIdRaw<unsigned int>;
 
 template< typename T >
 using ItemIdRaw =
@@ -115,5 +116,15 @@ template< typename T >
 using EndDateRaw =
     StrongType<T, struct EndDateTag, Printable>;
 using EndDate = EndDateRaw<std::string>;
+
+/*!
+ @def       EndDate
+ @brief     Sprintの終了日
+ @tparam    日付を表す文字列
+*/
+template< typename T >
+using StatusRaw =
+    StrongType<T, struct StatusTag, Printable, Swappable>;
+using Status = StatusRaw<std::string>;
 
 }
