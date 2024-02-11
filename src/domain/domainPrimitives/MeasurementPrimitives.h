@@ -118,13 +118,33 @@ using EndDateRaw =
 using EndDate = EndDateRaw<std::string>;
 
 /*!
- @def       EndDate
- @brief     Sprintの終了日
+ @def       UpdatedAt
+ @brief     更新日
  @tparam    日付を表す文字列
+*/
+template< typename T >
+using UpdatedAtRaw =
+    StrongType<T, struct UpdatedAtTag, Printable>;
+using UpdatedAt = UpdatedAtRaw<std::string>;
+
+/*!
+ @def       Status
+ @brief     ItemやTaskの状態
+ @tparam    状態を表す文字列
 */
 template< typename T >
 using StatusRaw =
     StrongType<T, struct StatusTag, Printable, Swappable>;
 using Status = StatusRaw<std::string>;
+
+/*!
+ @def       StatusCode
+ @brief     ItemやTaskの状態を表す番号
+ @tparam    状態を表す番号
+*/
+template< typename T >
+using StatusCodeRaw =
+    StrongType<T, struct StatusCpdeTag, Comparable, Printable, Swappable>;
+using StatusCode = StatusCodeRaw<unsigned int>;
 
 }
