@@ -65,7 +65,7 @@ public:
     */
     bool hasChild() const
     {
-        return !childProjects_.empty();
+        return !(childProjects_.empty()) || !(sprint_.empty()) ;
     }
 
     /*!
@@ -77,13 +77,7 @@ public:
     Id id() { return id_; };
     Name name() { return name_; };
 
-    void printChild()
-    {
-        for( auto p = childProjects_.begin(); p != childProjects_.end(); ++p )
-        {
-            std::cout << "   " << *p << std::endl;
-        }
-    }
+    void printChild();
     
 private:
     const Id id_;                                   //!< Project ID
