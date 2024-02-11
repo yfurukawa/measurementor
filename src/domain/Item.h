@@ -37,7 +37,7 @@ public:
     /*!
      @brief  コンストラクタ
     */
-    Item( Id id, Name name );
+    Item( Id id, Name name, ProjectId projectId, Point storyPoint, Status status );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -82,7 +82,7 @@ public:
     */
     Point point()
     {
-        return point_;
+        return storyPoint_;
     }
 
     Id id() { return id_; };
@@ -93,8 +93,10 @@ public:
 private:
     const Id id_;                                  //!< Item ID
     const Name name_;                              //!< Item名称
-    SprintId sprintId_;                          //!< 親のID
-    Point point_;                                  //!< 見積もりポイント
+    ProjectId projectId_;                          //!< 所属するプロジェクトのID
+    Point storyPoint_;                             //!< 見積もりポイント
+    Status status_;                                //!< PBLの完了状態を示す
+    SprintId sprintId_;                            //!< 割り当てられたスプリントのID
     EstimateTime totalEstimateTime_;               //!< タスクの総見積もり時間
     std::map<Id, std::shared_ptr<Task>> tasks_;    //!< タスクリスト
 

@@ -4,11 +4,13 @@
 namespace measurementor
 {
 
-Item::Item( Id id, Name name )
+Item::Item( Id id, Name name, ProjectId projectId, Point storyPoint, Status status )
     : id_(id),
     name_(name),
+    projectId_(projectId),
+    storyPoint_(storyPoint),
+    status_(status),
     sprintId_(0),
-    point_(0),
     totalEstimateTime_(0)
 {
     tasks_.clear();
