@@ -37,7 +37,7 @@ public:
     /*!
      @brief  コンストラクタ
     */
-    Item( Id id, Name name, ProjectId projectId, Point storyPoint, Status status );
+    Item( Id id, Name name, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status );
 
     /*!
      @brief  デフォルトデストラクタ
