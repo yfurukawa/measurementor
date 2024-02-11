@@ -9,11 +9,14 @@
 #include <memory>
 #include <string>
 #include "../domain/Project.h"
+#include "nlohmann/json.hpp"
 
 // ---------< forward declaration (Global) >-------------
 namespace measurementor
 {
     class Project;
+    class Item;
+    class Task;
 }
 
 // --------------< namespace >---------------------------
@@ -69,6 +72,8 @@ private:
     */
     unsigned int pickupParentId( std::string href );
 
+    std::shared_ptr<measurementor::Item> extractPBLData( nlohmann::json jsonString, int count );
+    std::shared_ptr<measurementor::Task> extractTaskData( nlohmann::json jsonString, int count );
 };
 
 }

@@ -2,7 +2,6 @@
 #include <memory>
 #include <string>
 #include "JsonParser.h"
-#include "nlohmann/json.hpp"
 #include "../domain/Project.h"
 #include "../domain/Sprint.h"
 #include "../domain/Item.h"
@@ -62,26 +61,14 @@ void JsonParser::collectPBLandTaskData( const std::string& jsonString, std::shar
     for( int count = 0; count < j["count"]; ++count )
     {
         measurementor::Id id(j["_embedded"]["elements"][count]["id"]);
-        measurementor::Name name(j["_embedded"]["elements"][count]["subject"]);
         
         type = j["_embedded"]["elements"][count]["_lynks"]["type"]["title"];
         if( type == "Feature") {
-            measurementor::ProjectId projectId( pickupParentId( j["_embedded"]["elements"][count]["_lynks"]["Project"]["href"] ) );
-            measurementor::SprintId sprintId( (j["_embedded"]["elements"][count]["_lynks"]["version"]["href"]).is_null() ? 0 : (pickupParentId(j["_embedded"]["elements"][count]["_lynks"]["version"]["href"])) );
-            measurementor::Point storyPoint( (j["_embedded"]["elements"][count]["storyPoints"])); //.is_null() ? 0 : j["_embedded"]["elements"][count]["storyPoints"] );
-            measurementor::Status status( j["_embedded"]["elements"][count]["_lynks"]["status"]["title"] );
-            items.insert( std::make_pair( id, std::make_shared<measurementor::Item>(id, name, projectId, sprintId, storyPoint, status) ) );
+            items.insert( std::make_pair( id, extractPBLData( j, count ) ) );
         }
         else if( type == "Task" )
         {
-            measurementor::ItemId itemId( pickupParentId(j["_embedded"]["elements"][count]["_lynks"]["parent"]) );
-            measurementor::Author author( j["_embedded"]["elements"][count]["_lynks"]["author"]["title"] );
-            measurementor::EstimateTime estimateTime( j["_embedded"]["elements"][count]["estimatedTime"]);
-            measurementor::Assignee assignee( (j["_embedded"]["elements"][count]["_lynks"]["assignee"]["href"]).is_null() ? "" : j["_embedded"]["elements"][count]["_lynks"]["assignee"]["title"] );
-            measurementor::Status status( j["_embedded"]["elements"][count]["_lynks"]["status"]["title"] );
-            measurementor::StatusCode statusCode( pickupParentId(j["_embedded"]["elements"][count]["_lynks"]["status"]["title"] ) );
-            measurementor::UpdatedAt updatedAt( j["_embedded"]["elements"][count]["updatedAt"]);
-            tasks.insert( std::make_pair( id, std::make_shared<measurementor::Task>(id, name, author, itemId, estimateTime, assignee, status, statusCode, updatedAt ) ) );
+            tasks.insert( std::make_pair( id, extractTaskData( j, count ) ) );
         }   
     }
 
@@ -110,4 +97,30 @@ unsigned int JsonParser::pickupParentId(std::string href)
     std::string idString = href.substr( lastPosition + 1, href.length() - 1 - lastPosition);
     return std::stoi(idString);
 }
+
+std::shared_ptr<measurementor::Item> JsonParser::extractPBLData( nlohmann::json jsonString, int count )
+{
+    measurementor::Id id(jsonString["_embedded"]["elements"][count]["id"]);
+    measurementor::Name name(jsonString["_embedded"]["elements"][count]["subject"]);
+    measurementor::ProjectId projectId( pickupParentId( jsonString["_embedded"]["elements"][count]["_lynks"]["Project"]["href"] ) );
+    measurementor::SprintId sprintId( (jsonString["_embedded"]["elements"][count]["_lynks"]["version"]["href"]).is_null() ? 0 : (pickupParentId(jsonString["_embedded"]["elements"][count]["_lynks"]["version"]["href"])) );
+    measurementor::Point storyPoint( (jsonString["_embedded"]["elements"][count]["storyPoints"]));
+    measurementor::Status status( jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["title"] );
+    return std::make_shared<measurementor::Item>(id, name, projectId, sprintId, storyPoint, status);
+}
+
+std::shared_ptr<measurementor::Task> JsonParser::extractTaskData( nlohmann::json jsonString, int count )
+{
+    measurementor::Id id(jsonString["_embedded"]["elements"][count]["id"]);
+    measurementor::Name name(jsonString["_embedded"]["elements"][count]["subject"]);
+    measurementor::ItemId itemId( pickupParentId(jsonString["_embedded"]["elements"][count]["_lynks"]["parent"]) );
+    measurementor::Author author( jsonString["_embedded"]["elements"][count]["_lynks"]["author"]["title"] );
+    measurementor::EstimateTime estimateTime( jsonString["_embedded"]["elements"][count]["estimatedTime"]);
+    measurementor::Assignee assignee( (jsonString["_embedded"]["elements"][count]["_lynks"]["assignee"]["href"]).is_null() ? "" : jsonString["_embedded"]["elements"][count]["_lynks"]["assignee"]["title"] );
+    measurementor::Status status( jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["title"] );
+    measurementor::StatusCode statusCode( pickupParentId(jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["title"] ) );
+    measurementor::UpdatedAt updatedAt( jsonString["_embedded"]["elements"][count]["updatedAt"]);
+    return std::make_shared<measurementor::Task>(id, name, author, itemId, estimateTime, assignee, status, statusCode, updatedAt );
+}
+
 }
