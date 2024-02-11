@@ -19,9 +19,9 @@ void Item::assignSprint( SprintId sprintId )
     sprintId_ = SprintId{ sprintId.get() };
 }
 
-void Item::addTask( Id taskId, std::unique_ptr<Task> task )
+void Item::addTask( std::shared_ptr<Task> task )
 {
-    tasks_.insert( std::make_pair( taskId, std::move(task) ) );
+    tasks_.insert( std::make_pair( task->id(), std::move(task) ) );
 }
 
 std::optional<SprintId> Item::sprintId() const
