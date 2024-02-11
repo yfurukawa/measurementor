@@ -45,7 +45,7 @@ public:
      @param[in,out]  project 収集したいプロジェクト
     */
     virtual void collectSprintInformationOf( std::shared_ptr<Project>& project ) = 0;
-    virtual void collectSprintInformationOf() = 0;
+    
 protected:
     
 };

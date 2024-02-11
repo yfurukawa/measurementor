@@ -54,7 +54,6 @@ public:
      @param[in,out]  project 収集したいプロジェクト
     */
     void collectSprintInformationOf( std::shared_ptr<measurementor::Project>& project ) override;
-    void collectSprintInformationOf() override;
 
 private:
     std::unique_ptr<::TcpClient> tcpClient_; //!< OpenProjectと通信するためのTCPクライアント
