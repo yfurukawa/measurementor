@@ -70,7 +70,7 @@ private:
      @param[in]    入力となるJson文字列
      @param[out]   作成したオブジェクトリスト
     */
-    unsigned int pickupParentId( std::string href );
+    unsigned int pickupId( std::string href );
 
     std::shared_ptr<measurementor::Item> extractPBLData( nlohmann::json jsonString, int count );
     std::shared_ptr<measurementor::Task> extractTaskData( nlohmann::json jsonString, int count );
