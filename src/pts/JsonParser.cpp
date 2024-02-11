@@ -1,6 +1,8 @@
+#include <memory>
 #include "JsonParser.h"
 #include "nlohmann/json.hpp"
 #include "../domain/Project.h"
+#include "../domain/Sprint.h"
 #include "../domain/domainPrimitives/MeasurementPrimitives.h"
 #include <iostream>
 
@@ -9,9 +11,6 @@ namespace pts
 
 void JsonParser::collectProjectData( const std::string& jsonString, std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList )
 {
-    std::multimap<unsigned int, std::shared_ptr<measurementor::Project>> childs;
-    childs.clear();
-
     auto j = nlohmann::json::parse( jsonString );
     
     // プロジェクトリストを作る際に、子プロジェクトを別のリストに隔離しておき
@@ -31,6 +30,18 @@ void JsonParser::collectProjectData( const std::string& jsonString, std::map<uns
         }
     }
 
+}
+
+void JsonParser::collectSprintData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project )
+{
+    auto j = nlohmann::json::parse( jsonString );
+
+    for( int count = 0; count < j["count"]; ++count )
+    {
+        measurementor::Id id(j["_embedded"]["elements"][count]["id"]);
+        measurementor::Name name(j["_embedded"]["elements"][count]["name"]);
+        project->addSprint( std::make_shared<measurementor::Sprint>( id, name ) );
+    }
 }
 
 unsigned int JsonParser::pickupParentId(std::string href)

@@ -47,6 +47,13 @@ public:
     */
     void collectProjectData( const std::string& jsonString, std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList );
 
+    /*!
+     @brief        Json文字列からSprint情報を抽出し、プロジェクトに紐付ける
+     @param[in]    入力となるJson文字列
+     @param[out]   紐付けの対象であるプロジェクト
+    */
+    void collectSprintData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project );
+
 private:
     /*!
      @brief        Json文字列のparent::hrefから親プロジェクトのidを抽出する
