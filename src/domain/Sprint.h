@@ -86,7 +86,7 @@ private:
     ProjectId projectId_;                          //!< 親のID
     Point totalPoint_;                             //!< プロジェクトの総見積もりポイント
     std::string status_;                           //!< スプリントのステータス（未完了open/完了closeを表す）
-    std::map<Id, std::unique_ptr<Item>> items_;    //!< アイテムリスト
+    std::map<Id, std::shared_ptr<Item>> items_;    //!< アイテムリスト
 };
 
 }
