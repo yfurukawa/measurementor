@@ -23,9 +23,9 @@ void Sprint::assignProject( ProjectId projectId )
     projectId_ = ProjectId{ projectId.get() };
 }
 
-void Sprint::addItem( Id itemId, std::unique_ptr<Item> item )
+void Sprint::addItem( std::shared_ptr<Item> item )
 {
-    items_.insert( std::make_pair(itemId, std::move(item) ) );
+    items_.insert( std::make_pair( item->id(), std::move(item) ) );
 }
 
 std::optional<ProjectId> Sprint::projectId() const

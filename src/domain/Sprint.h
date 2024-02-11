@@ -53,7 +53,7 @@ public:
      @brief      Sprintにアイテムを追加する
      @param[in]  id アイテムのID
     */
-    void addItem( Id itemId, std::unique_ptr<Item> item );
+    void addItem( std::shared_ptr<Item> item );
 
     /*!
      @brief      親となるプロジェクトのIDを返す
