@@ -96,4 +96,24 @@ using AuthorRaw =
     StrongType<T, struct AuthorTag, Printable>;
 using Author = AuthorRaw<std::string>;
 
+/*!
+ @def       StartDate
+ @brief     Sprintの開始日
+ @tparam    日付を表す文字列
+*/
+template< typename T >
+using StartDateRaw =
+    StrongType<T, struct StartDateTag, Printable>;
+using StartDate = StartDateRaw<std::string>;
+
+/*!
+ @def       EndDate
+ @brief     Sprintの終了日
+ @tparam    日付を表す文字列
+*/
+template< typename T >
+using EndDateRaw =
+    StrongType<T, struct EndDateTag, Printable>;
+using EndDate = EndDateRaw<std::string>;
+
 }

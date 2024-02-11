@@ -6,12 +6,14 @@
 namespace measurementor
 {
 
-Sprint::Sprint( Id id, Name name )
+Sprint::Sprint( Id id, Name name, StartDate startDate, EndDate endDate )
     : id_(id),
     name_(name),
     projectId_(0),
     totalPoint_(0),
-    status_("")
+    status_(""),
+    startDate_( startDate ),
+    endDate_( endDate )
 {
     items_.clear();
 }

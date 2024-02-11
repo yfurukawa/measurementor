@@ -36,7 +36,7 @@ public:
     /*!
      @brief  コンストラクタ
     */
-    Sprint( Id id, Name name );
+    Sprint( Id id, Name name, StartDate startDate, EndDate endDate );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -86,6 +86,8 @@ private:
     ProjectId projectId_;                          //!< 親のID
     Point totalPoint_;                             //!< プロジェクトの総見積もりポイント
     std::string status_;                           //!< スプリントのステータス（未完了open/完了closeを表す）
+    StartDate startDate_;
+    EndDate endDate_;
     std::map<Id, std::shared_ptr<Item>> items_;    //!< アイテムリスト
 };
 
