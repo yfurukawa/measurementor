@@ -29,8 +29,16 @@ private:
 public:
     /*!
      @brief  コンストラクタ
+     @param[in]  id Task ID
+     @param[in]  name Task名称
+     @param[in]  author タスクの作成者
+     @param[in]  itemId Taskを持つItemのID
+     @param[in]  estimateTime 見積もりポイント
+     @param[in]  assignee タスクの担当者
+     @param[in]  status タスクの状態
+     @param[in]  updatedAt 更新日時（ISO8601形式）
     */
-    Task( Id id, Name name, Author author, ItemId itemId );
+    Task( Id id, Name name, Author author, ItemId itemId, EstimateTime estimateTime, Assignee assignee, Status status, StatusCode statusCode, UpdatedAt updatedAt );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -86,10 +94,12 @@ private:
     const Id id_;                 //!< Task ID
     const Name name_;             //!< Task名称
     const Author author_;         //!< タスクの作成者
-    const ItemId itemId_;         //!< 親のID
-    EstimateTime estimateTime_;   //!< プロジェクトの総見積もりポイント
-    Assignee assignee_;            //!< タスクの担当者
-    unsigned int status_;         //!< タスクの状態
+    const ItemId itemId_;         //!< Taskを持つItemのID
+    EstimateTime estimateTime_;   //!< 見積もりポイント
+    Assignee assignee_;           //!< タスクの担当者
+    Status status_;               //!< タスクの状態
+    StatusCode statusCode_;       //!< タスクの状態を表す番号
+    UpdatedAt updatedAt_;         //!< タスク内容の更新日時（ISO8601形式）
 };
 
 }
