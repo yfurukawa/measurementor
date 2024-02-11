@@ -1,4 +1,5 @@
 #include "Sprint.h"
+#include "Item.h"
 #include "Project.h"
 
 namespace measurementor
@@ -23,6 +24,11 @@ void Project::relateChildProject( Id childProjectId )
 void Project::addSprint( std::shared_ptr<Sprint> sprint )
 {
     sprints_.insert( std::make_pair( sprint->id(), std::move( sprint ) ) );
+}
+
+void Project::addPBL( std::shared_ptr<Item> pbl )
+{
+    items_.insert( std::make_pair( pbl->id(), std::move( pbl ) ) );
 }
 
 void Project::printChild()

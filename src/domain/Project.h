@@ -75,6 +75,12 @@ public:
     */
     void addSprint( std::shared_ptr<Sprint> sprint );
 
+    /*!
+     @brief      PBLを追加する
+     @param[in]  pbl  追加するPBL
+    */
+    void addPBL( std::shared_ptr<Item> pbl );
+
     Id id() { return id_; };
     Name name() { return name_; };
 
