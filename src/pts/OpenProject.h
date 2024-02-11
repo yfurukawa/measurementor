@@ -55,6 +55,12 @@ public:
     */
     void collectSprintInformationOf( std::shared_ptr<measurementor::Project>& project ) override;
 
+    /*!
+     @brief          指定されたプロジェクトに定義されているPBLとTaskの情報を収集する
+     @param[in,out]  project 収集したいプロジェクト
+    */
+    void collectPBLandTaskInformation( std::shared_ptr<measurementor::Project>& project ) override;
+
 private:
     std::unique_ptr<::TcpClient> tcpClient_; //!< OpenProjectと通信するためのTCPクライアント
     std::unique_ptr<JsonParser> jsonParser_; //!< Json文字列のパーサ

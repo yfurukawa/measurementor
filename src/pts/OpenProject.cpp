@@ -37,6 +37,18 @@ void OpenProject::collectSprintInformationOf( std::shared_ptr<measurementor::Pro
     //std::cout << receivedJson << std::endl;
 }
 
+void OpenProject::collectPBLandTaskInformation( std::shared_ptr<measurementor::Project>& project )
+{
+    // TODO tokenはファイルから読み込むようにする
+    std::string key(createBasicAuthorizationKey("apikey:d54087631332a33b932b200c3d49496efdc7fb156b2405b2baf6fece4018e9f0"));
+    std::string message("GET /api/v3/projects/" + std::to_string(project->id().get()) + "/work_packages HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
+    
+    std::string receivedJson = sendQueryMessage( message );
+    jsonParser_->collectPBLandTaskData( receivedJson, project );
+    //std::cout << receivedJson << std::endl;
+
+}
+
 std::string OpenProject::extractJsonFrom()
 {
     std::string jsonString("");
