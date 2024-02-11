@@ -36,6 +36,12 @@ private:
 public:
     /*!
      @brief  コンストラクタ
+     @param[in]  id  このItemのID
+     @param[in]  name  このItemの名称
+     @param[in]  projectId  このItemが定義されているProjectのID
+     @param[in]  sprintId   このItemが割り当てられているSprintのID<br>Sprintに未割り当ての場合の値は0
+     @param[in]  storyPoint  このItemの見積もりPoint<br>見積もられていない場合の値は0
+     @param[in]  status     このItemの完了状態を表すステータス
     */
     Item( Id id, Name name, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status );
 
