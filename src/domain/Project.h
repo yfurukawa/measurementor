@@ -72,7 +72,7 @@ public:
      @brief      Sprintを追加する
      @param[in]  sprint 追加するスプリント
     */
-    void addSprint( std::unique_ptr<Sprint> sprint );
+    void addSprint( std::shared_ptr<Sprint> sprint );
 
     Id id() { return id_; };
     Name name() { return name_; };
@@ -91,7 +91,7 @@ private:
     const ParentId parentId_;                       //!< 親のID
     Point point_;                                   //!< プロジェクトの総見積もりポイント
     std::list<Id> childProjects_;                   //!< 子プロジェクトのIDリスト
-    std::map<Id, std::unique_ptr<Sprint>> sprint_;  //!< Project内に定義されたSprint
+    std::map<Id, std::shared_ptr<Sprint>> sprint_;  //!< Project内に定義されたSprint
 };
 
 }

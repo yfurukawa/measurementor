@@ -19,7 +19,7 @@ void Project::relateChildProject( Id childProjectId )
     childProjects_.emplace_back( childProjectId );
 }
 
-void Project::addSprint( std::unique_ptr<Sprint> sprint )
+void Project::addSprint( std::shared_ptr<Sprint> sprint )
 {
     sprint_.insert( std::make_pair( sprint->id(), std::move( sprint ) ) );
 }
