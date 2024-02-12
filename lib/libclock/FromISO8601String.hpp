@@ -6,21 +6,14 @@
 #pragma once
 
 // ---------------< include >----------------------------
-//#include <chrono>
-//#include <cmath>
-//#include <iomanip>
-//#include <iostream>
+#include <chrono>
+#include <exception>
 #include <regex>
-//#include <sstream>
 #include <string>
-#include <time.h>
 
 // --------------< namespace >---------------------------
 
 // ---------< forward declaration >----------------------
-//using defaultClock = std::chrono::system_clock;
-//constexpr auto formatDateTime = "%FT%T";
-//constexpr auto formatTimeZone = "%z";
 std::regex iso8601Basic("([0-9]{4})([01][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9](.[0-9]{1,6})?)([Z+-])(([0-9]{2})([0-9]{2}))?");
 std::regex iso8601Extended("([0-9]{4})-([01][0-9])-([0-3][0-9])T([0-2][0-9]):([0-5][0-9]):([0-5][0-9](.[0-9]{1,6})?)([Z+-])(([0-9]{2}):([0-9]{2}))?");
 
@@ -60,7 +53,7 @@ bool checkFormat( std::string iso8601string )
  @param[in] timePoint 時刻情報
  @return    秒の小数点以下を表す文字列
 */
-time_t ToTimePoint( std::string iso8601string )
+std::time_t ToTimePoint( std::string iso8601string )
 {
     if( !checkFormat( iso8601string ) )
     {
@@ -110,8 +103,6 @@ time_t ToTimePoint( std::string iso8601string )
         iso8601Time.tm_min = min;
         iso8601Time.tm_sec = sec - gmtoffset;
         iso8601Time.tm_isdst = 0;   // not use Summer Time
-
-
     }
     else if( std::regex_match( iso8601string, elements, iso8601Extended) )
     {
