@@ -45,3 +45,8 @@ std::string ChronosMock::nowIso8601Extended() const
 {
     return toString_iso8601<std::chrono::high_resolution_clock::time_point, std::chrono::microseconds>( std::chrono::system_clock::from_time_t( returnTime_t_ ));
 }
+
+std::time_t ChronosMock::convertToTime_t( std::string iso8601String )
+{
+    return ToTimeT( iso8601String );
+}

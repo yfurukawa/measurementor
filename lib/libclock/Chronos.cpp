@@ -24,7 +24,7 @@ std::string Chronos::nowIso8601ExtendedGmt() const
     return toString_iso8601_gmt<std::chrono::high_resolution_clock::time_point, std::chrono::microseconds>();
 }
 
-std::string Chronos::nowIso8601BasicGmt() const
+std::string Chronos::nowIso8601Basic() const
 {
     std::regex date("-");
     std::regex time(":");
@@ -35,7 +35,12 @@ std::string Chronos::nowIso8601BasicGmt() const
     return s2;
 }
 
-std::string Chronos::nowIso8601ExtendedGmt() const
+std::string Chronos::nowIso8601Extended() const
 {
     return toString_iso8601<std::chrono::high_resolution_clock::time_point, std::chrono::microseconds>();
+}
+
+std::time_t Chronos::convertToTime_t( std::string iso8601String )
+{
+    return ToTimeT( iso8601String );
 }

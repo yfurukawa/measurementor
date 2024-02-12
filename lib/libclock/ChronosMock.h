@@ -62,6 +62,15 @@ public:
      @return    ISO8601 拡張形式で表されたローカル現在時刻文字列
     */
     std::string nowIso8601Extended() const override;
+
+    /*!
+     @brief     ISO8601形式の文字列をtime_tに変換する
+     @param[in] iso8601String ISO8601形式の文字列
+     @return    入力文字列の日時に相当するtime_t（GMT）
+     @attention 戻り値はGMTである
+    */
+    std::time_t convertToTime_t( std::string iso8601String ) override;
+
 private:
     std::string returnDateTime_;     //!< テスト時に戻り値として欲しい日時
     std::time_t returnTime_t_;       //!< テスト時に戻り値として欲しい日時のtime_t

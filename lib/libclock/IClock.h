@@ -59,5 +59,11 @@ public:
     */
     virtual std::string nowIso8601Extended() const = 0;
 
-    
+    /*!
+     @brief     ISO8601形式の文字列をtime_tに変換する
+     @param[in] iso8601String ISO8601形式の文字列
+     @return    入力文字列の日時に相当するtime_t（GMT）
+     @attention 戻り値はGMTである
+    */
+    virtual std::time_t convertToTime_t( std::string iso8601String ) = 0;
 };
