@@ -48,16 +48,17 @@ bool checkFormat( std::string iso8601string )
 }
 
 /*!
- @fn        getSubSecondString
- @brief     必要な精度の「秒」になるように小数点以下の文字列を返す
- @param[in] timePoint 時刻情報
- @return    秒の小数点以下を表す文字列
+ @fn        ToTimeT
+ @brief     ISO8601形式の文字列をtime_tに変換する
+ @param[in] iso8601String ISO8601形式の文字列
+ @return    入力文字列の日時に相当するtime_t（GMT）
+ @attention 戻り値はGMTである
 */
-std::time_t ToTimePoint( std::string iso8601string )
+std::time_t ToTimeT( std::string iso8601string )
 {
     if( !checkFormat( iso8601string ) )
     {
-        std::__throw_invalid_argument("DateTime String Format error");
+        throw std::invalid_argument("DateTime String Format error");
     }
 
     struct tm iso8601Time;
@@ -68,23 +69,23 @@ std::time_t ToTimePoint( std::string iso8601string )
     {
         unsigned int mon = std::stoi(elements[2].str());
         if( 1 > mon || 12 < mon ) {
-            std::__throw_invalid_argument("DateTime String Format error");
+            throw std::invalid_argument("DateTime String Format error");
         }
         unsigned int mday = std::stoi(elements[3].str());
         if( 1 > mday || 31 < mday ) {    // 本当はもっと厳密にチェックしたほうが良い
-            std::__throw_invalid_argument("DateTime String Format error");
+            throw std::invalid_argument("DateTime String Format error");
         }
         unsigned int hour = std::stoi(elements[4].str());
         if( 0 > hour || 24 < hour ) {
-            std::__throw_invalid_argument("DateTime String Format error");
+            throw std::invalid_argument("DateTime String Format error");
         }
         unsigned int min = std::stoi(elements[5].str());
         if( 0 > min || 59 < min ) {
-            std::__throw_invalid_argument("DateTime String Format error");
+            throw std::invalid_argument("DateTime String Format error");
         }
         float sec = std::stof(elements[6].str());
         if( 0 > sec || 60 < sec ) {   // 閏秒を考慮すると最大値は60
-            std::__throw_invalid_argument("DateTime String Format error");
+            throw std::invalid_argument("DateTime String Format error");
         }
 
         if( elements[8].str() == "Z" )
@@ -108,23 +109,23 @@ std::time_t ToTimePoint( std::string iso8601string )
     {
         unsigned int mon = std::stoi(elements[2].str());
         if( 1 > mon || 12 < mon ) {
-            std::__throw_invalid_argument("DateTime String Format error");
+            throw std::invalid_argument("DateTime String Format error");
         }
         unsigned int mday = std::stoi(elements[3].str());
         if( 1 > mday || 31 < mday ) {    // 本当はもっと厳密にチェックしたほうが良い
-            std::__throw_invalid_argument("DateTime String Format error");
+            throw std::invalid_argument("DateTime String Format error");
         }
         unsigned int hour = std::stoi(elements[4].str());
         if( 0 > hour || 24 < hour ) {
-            std::__throw_invalid_argument("DateTime String Format error");
+            throw std::invalid_argument("DateTime String Format error");
         }
         unsigned int min = std::stoi(elements[5].str());
         if( 0 > min || 59 < min ) {
-            std::__throw_invalid_argument("DateTime String Format error");
+            throw std::invalid_argument("DateTime String Format error");
         }
         float sec = std::stof(elements[6].str());
         if( 0 > sec || 60 < sec ) {   // 閏秒を考慮すると最大値は60
-            std::__throw_invalid_argument("DateTime String Format error");
+            throw std::invalid_argument("DateTime String Format error");
         }
 
         if( elements[8].str() == "Z" )
@@ -146,7 +147,7 @@ std::time_t ToTimePoint( std::string iso8601string )
     }
     else
     {
-        std::__throw_invalid_argument("DateTime String Format error");
+        throw std::invalid_argument("DateTime String Format error");
     }
 
     return mktime(&iso8601Time);
