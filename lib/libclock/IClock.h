@@ -58,4 +58,6 @@ public:
      @return    ISO8601 拡張形式で表されたローカル現在時刻文字列
     */
     virtual std::string nowIso8601Extended() const = 0;
+
+    
 };
