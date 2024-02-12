@@ -35,4 +35,27 @@ public:
     */
     std::time_t now() const override;
 
+    /*!
+     @brief     GMT現在時刻をISO8601基本形式で得る
+     @return    ISO8601 基本形式で表されたGMT現在時刻文字列
+    */
+    std::string nowIso8601BasicGmt() const override;
+
+    /*!
+     @brief     GMT現在時刻をISO8601拡張形式で得る
+     @return    ISO8601 拡張形式で表されたGMT現在時刻文字列
+    */
+    std::string nowIso8601ExtendedGmt() const override;
+
+    /*!
+     @brief     現在時刻をISO8601基本形式で得る
+     @return    ISO8601 基本形式で表されたローカル現在時刻文字列
+    */
+    std::string nowIso8601Basic() const override;
+
+    /*!
+     @brief     T現在時刻をISO8601拡張形式で得る
+     @return    ISO8601 拡張形式で表されたローカル現在時刻文字列
+    */
+    std::string nowIso8601Extended() const override;
 };
