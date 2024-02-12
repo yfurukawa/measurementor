@@ -13,7 +13,6 @@
 #include <string>
 
 // --------------< namespace >---------------------------
-namespace AbstLogger {
 
 // ---------< forward declaration >----------------------
 using defaultClock = std::chrono::system_clock;
@@ -97,4 +96,3 @@ auto toString_iso8601( const TimePoint& timePoint = TimePoint::clock::now() ) ->
     return ss.str();
 }
 
-}
