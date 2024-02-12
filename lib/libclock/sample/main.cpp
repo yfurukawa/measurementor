@@ -12,11 +12,11 @@ int main()
     std::string d3("20240210T123456-0900");
     std::string d4("2024-02-10T21:34:56-09:00");
 
-    time_t t0 = ToTimePoint( d0 );
-    time_t t1 = ToTimePoint( d1 );
-    time_t t2 = ToTimePoint( d2 );
-    time_t t3 = ToTimePoint( d3 );
-    time_t t4 = ToTimePoint( d4 );
+    time_t t0 = ToTimeT( d0 );
+    time_t t1 = ToTimeT( d1 );
+    time_t t2 = ToTimeT( d2 );
+    time_t t3 = ToTimeT( d3 );
+    time_t t4 = ToTimeT( d4 );
     
     std::cout << t0 << " : " << std::ctime(&t0) << std::endl;
     std::cout << t1 << " : " << std::ctime(&t1) << std::endl;
