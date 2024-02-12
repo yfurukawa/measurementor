@@ -1,6 +1,7 @@
 /*!
  @file      FromISO8601String.hpp
  @brief     ISO8601で規定された日時フォーマットの文字列をtime_tに変換する
+ @attention 返されるtime_tはGMTとなる。
 */
 #pragma once
 
@@ -20,8 +21,8 @@
 //using defaultClock = std::chrono::system_clock;
 //constexpr auto formatDateTime = "%FT%T";
 //constexpr auto formatTimeZone = "%z";
-std::regex iso8601Basic(R"( ([0-9]{4})([01][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9].([0-9]{1,6}))[Z|[\+-][0-9]{4}] )");
-std::regex iso8601Extended(R"( ([0-9]{4})-([01][0-9])-([0-3][0-9])T([0-2][0-9]):([0-5][0-9]):([0-5][0-9].([0-9]{1,6}))[Z|[\+-][0-9]{4}] )");
+std::regex iso8601Basic("([0-9]{4})([01][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9](.[0-9]{1,6})?)([Z+-])(([0-9]{2})([0-9]{2}))?");
+std::regex iso8601Extended("([0-9]{4})-([01][0-9])-([0-3][0-9])T([0-2][0-9]):([0-5][0-9]):([0-5][0-9](.[0-9]{1,6})?)([Z+-])(([0-9]{2}):([0-9]{2}))?");
 
 /*!
  @fn        checkFormat
@@ -33,8 +34,9 @@ std::regex iso8601Extended(R"( ([0-9]{4})-([01][0-9])-([0-3][0-9])T([0-2][0-9]):
 */
 bool checkFormat( std::string iso8601string )
 {
+
     // （UTC基本形式）、（UTC拡張形式／LocalTZ基本形式）又は（LocalTZ拡張形式）のいづれかに合致しない場合は、詳細に確認する必要はない
-    if( !(iso8601string.length() == 16 || iso8601string.length() == 20 || iso8601string.length() == 26) ) {
+    if( iso8601string.length() < 16 || iso8601string.length() > 32 ) {
         return false;
     }
 
@@ -48,6 +50,8 @@ bool checkFormat( std::string iso8601string )
     if( std::regex_match( iso8601string, iso8601Basic ) || std::regex_match( iso8601string, iso8601Extended ) ) {
         return true;
     }
+
+    return false;
 }
 
 /*!
@@ -65,6 +69,8 @@ time_t ToTimePoint( std::string iso8601string )
 
     struct tm iso8601Time;
     std::smatch elements;
+    long gmtoffset(0);
+
     if( std::regex_match( iso8601string, elements, iso8601Basic) )
     {
         unsigned int mon = std::stoi(elements[2].str());
@@ -88,22 +94,24 @@ time_t ToTimePoint( std::string iso8601string )
             std::__throw_invalid_argument("DateTime String Format error");
         }
 
-        iso8601Time.tm_year = std::stoi(elements[1].str()) - 1900;
-        iso8601Time.tm_mon = mon - 1;
-        iso8601Time.tm_mday = mday; 
-        iso8601Time.tm_hour = hour;
-        iso8601Time.tm_min = min;
-        iso8601Time.tm_sec = sec;
-        iso8601Time.tm_isdst = 0;   // not use Summer Time
-
-        if( elements[7].str() == "Z" )
+        if( elements[8].str() == "Z" )
         {
             iso8601Time.tm_gmtoff = 0;
         }
         else
         {
-            iso8601Time.tm_gmtoff = std::stoi(elements[7].str()) * 60 * 60;
+            gmtoffset = std::stol(elements[8].str() + elements[10].str()) * 60 * 60 + std::stol(elements[8].str() + elements[11].str()) * 60;
         }
+
+        iso8601Time.tm_year = std::stoi(elements[1].str()) - 1900;
+        iso8601Time.tm_mon = mon - 1;
+        iso8601Time.tm_mday = mday; 
+        iso8601Time.tm_hour = hour;
+        iso8601Time.tm_min = min;
+        iso8601Time.tm_sec = sec - gmtoffset;
+        iso8601Time.tm_isdst = 0;   // not use Summer Time
+
+
     }
     else if( std::regex_match( iso8601string, elements, iso8601Extended) )
     {
@@ -127,25 +135,23 @@ time_t ToTimePoint( std::string iso8601string )
         if( 0 > sec || 60 < sec ) {   // 閏秒を考慮すると最大値は60
             std::__throw_invalid_argument("DateTime String Format error");
         }
-        
-        iso8601Time.tm_year = std::stoi(elements[1].str()) - 1900;
-        iso8601Time.tm_mon = mon - 1;
-        iso8601Time.tm_mday = mday; 
-        iso8601Time.tm_hour = hour;
-        iso8601Time.tm_min = min;
-        iso8601Time.tm_sec = sec;
-        iso8601Time.tm_isdst = 0;   // not use Summer Time
 
-        if( elements[7].str() == "Z" )
+        if( elements[8].str() == "Z" )
         {
             iso8601Time.tm_gmtoff = 0;
         }
         else
         {
-            std::string timeOffset(elements[7].str());
-            timeOffset.erase(3,1);   // erace ':'
-            iso8601Time.tm_gmtoff = std::stoi(timeOffset) * 60 * 60;
+            gmtoffset = std::stol(elements[8].str() + elements[10].str()) * 60 * 60 + std::stol(elements[8].str() + elements[11].str()) * 60;
         }
+
+        iso8601Time.tm_year = std::stoi(elements[1].str()) - 1900;
+        iso8601Time.tm_mon = mon - 1;
+        iso8601Time.tm_mday = mday; 
+        iso8601Time.tm_hour = hour;
+        iso8601Time.tm_min = min;
+        iso8601Time.tm_sec = sec - gmtoffset;
+        iso8601Time.tm_isdst = 0;   // not use Summer Time
     }
     else
     {
