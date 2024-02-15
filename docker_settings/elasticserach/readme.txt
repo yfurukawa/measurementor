@@ -1,0 +1,5 @@
+elasticsearch起動時に発生するエラーへの対応
+elasticsearchは多くのメモリを必要とする。このため、vm.max_map_countの値がデフォルトの65530だと少なすぎてエラーコード78で異常終了してしまう。
+対応として、以下のコマンドでメモリマップの割当を増やしてやる。
+
+sudo sysctl -w vm.max_map_count=262144
