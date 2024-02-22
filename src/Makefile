@@ -20,11 +20,11 @@ sub:
 	cd pts ; $(MAKE) all
 
 lib:
-	cd pts ; $(MAKE) lib
+	cd pts/openproject ; $(MAKE)
 
 .PHONY: clean
 clean:
 	$(RM) *.o $(TARGET)
 	cd domain ; $(MAKE) clean
-	cd pts ; $(MAKE) clean
+	cd pts/openproject ; $(MAKE) clean
 
