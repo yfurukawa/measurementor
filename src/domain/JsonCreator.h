@@ -34,9 +34,17 @@ public:
 
     /*!
      @brief      キーと値（文字列）を受け取る
+     @param[in]  key キー
      @param[in]  stringValue 値（文字列）
     */
     void holdData( std::string key, std::string stringValue );
+
+    /*!
+     @brief      キーと値（文字列）を受け取る
+     @param[in]  key キー
+     @param[in]  intValue 値（文字列）
+    */
+    void holdData( std::string key, int intValue );
 
     /*!
      @brief          保持しているデータからJson文字列を生成する
