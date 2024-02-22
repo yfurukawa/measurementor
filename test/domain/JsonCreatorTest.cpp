@@ -34,4 +34,28 @@ namespace measurementor
         
         EXPECT_EQ( expect, sut->createJson() );
     }
+
+    TEST_F( JsonCreatorTest, createJsonFromIntValue)
+    {
+        std::string key("testKey");
+        int value(1);
+        std::string expect(R"({"testKey":1})");
+        
+        sut->holdData(key, value);
+                
+        EXPECT_EQ( expect, sut->createJson() );
+    }
+
+    TEST_F( JsonCreatorTest, createJsonFromStringAndIntValue)
+    {
+        std::string key("testKey");
+        std::string stringValue("testValue");
+        int value(1);
+        std::string expect(R"({"testKey1":"testValue","testKey2":1})");
+        
+        sut->holdData(key + "1", stringValue);
+        sut->holdData(key + "2", value);
+                
+        EXPECT_EQ( expect, sut->createJson() );
+    }
 }
