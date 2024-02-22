@@ -2,12 +2,12 @@
 #include <memory>
 #include <string>
 #include "JsonParser.h"
-#include "../domain/Project.h"
-#include "../domain/Sprint.h"
-#include "../domain/Item.h"
-#include "../domain/Task.h"
+#include "../../domain/Project.h"
+#include "../../domain/Sprint.h"
+#include "../../domain/Item.h"
+#include "../../domain/Task.h"
 
-#include "../domain/domainPrimitives/MeasurementPrimitives.h"
+#include "../../domain/domainPrimitives/MeasurementPrimitives.h"
 #include <iostream>
 
 namespace pts
