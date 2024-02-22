@@ -22,4 +22,16 @@ namespace measurementor
         sut->holdData(key, value);
         EXPECT_EQ( expect, sut->createJson() );
     }
+    
+    TEST_F( JsonCreatorTest, createJsonFromMultiStringValue)
+    {
+        std::string key("testKey");
+        std::string value("testValue");
+        std::string expect(R"({"testKey1":"testValue","testKey2":"testValue"})");
+        
+        sut->holdData(key + "1", value);
+        sut->holdData(key + "2", value);
+        
+        EXPECT_EQ( expect, sut->createJson() );
+    }
 }
