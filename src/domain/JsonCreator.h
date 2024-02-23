@@ -7,6 +7,7 @@
 // ---------------< include >----------------------------
 #include <string>
 #include "nlohmann/json.hpp"
+#include "domainPrimitives/MeasurementPrimitives.h"
 
 // --------------< namespace >---------------------------
 namespace measurementor
@@ -37,35 +38,43 @@ public:
      @param[in]  key キー
      @param[in]  stringValue 値（文字列）
     */
-    void holdData( std::string key, std::string stringValue );
+    void holdData( JsonKey key, std::string stringValue );
 
     /*!
      @brief      キーと値（文字列）を受け取る
      @param[in]  key キー
-     @param[in]  intValue 値（文字列）
+     @param[in]  intValue 値
     */
-    void holdData( std::string key, int intValue );
+    void holdData( JsonKey key, int intValue );
 
     /*!
      @brief      キーと値（文字列）を受け取る
      @param[in]  key キー
-     @param[in]  longValue 値（文字列）
+     @param[in]  longValue 値
     */
-    void holdData( std::string key, long longValue );
+    void holdData( JsonKey key, long longValue );
 
     /*!
      @brief      キーと値（文字列）を受け取る
      @param[in]  key キー
-     @param[in]  doubleValue 値（文字列）
+     @param[in]  doubleValue 値
+     @note       floatは実数の精度が悪いので使用しないほうが良い
     */
-    void holdData( std::string key, double doubleValue );
+    void holdData( JsonKey key, double doubleValue );
 
     /*!
      @brief      キーと値（文字列）を受け取る
      @param[in]  key キー
-     @param[in]  boolValue 値（文字列）
+     @param[in]  boolValue 値
     */
-    void holdData( std::string key, bool boolValue );
+    void holdData( JsonKey key, bool boolValue );
+
+    /*!
+     @brief      キーと値（文字列）を受け取る
+     @param[in]  key キー
+     @param[in]  jsonObject 値（文字列）
+    */
+    void holdData( JsonKey key, JsonObject jsonObject );
 
     /*!
      @brief          保持しているデータからJson文字列を生成する
