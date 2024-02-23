@@ -51,4 +51,31 @@ void Item::printChild()
     }
 }
 
+std::string Item::createJson()
+{
+    //( ProjectId projectId, SprintId sprintId, Point storyPoint, Status status )
+    JsonKey id("id");
+    jsonCreator_.holdData( id, id_.get() );
+
+    JsonKey name("name");
+    jsonCreator_.holdData( name, name_.get() );
+
+    JsonKey projectId("projectId");
+    jsonCreator_.holdData( projectId, projectId_.get() );
+
+    JsonKey sprintId("sprintId");
+    jsonCreator_.holdData( sprintId, sprintId_.get() );
+
+    JsonKey totalEstimatedTime("totalEstimatedTime");
+    jsonCreator_.holdData( totalEstimatedTime, totalEstimatedTime_.get() );
+
+    JsonKey storyPoint("storyPoint");
+    jsonCreator_.holdData( storyPoint, storyPoint_.get() );
+
+    JsonKey status("status");
+    jsonCreator_.holdData( status, status_.get() );
+    
+    return jsonCreator_.createJson();
+}
+
 }

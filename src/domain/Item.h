@@ -8,9 +8,10 @@
 #include <map>
 #include <memory>
 #include <optional>
-#include "domainPrimitives/MeasurementPrimitives.h"
-
 #include <string>
+#include "domainPrimitives/MeasurementPrimitives.h"
+#include "JsonCreator.h"
+
 #include <iostream>
 // --------------< namespace >---------------------------
 namespace measurementor
@@ -91,6 +92,12 @@ public:
         return storyPoint_;
     }
 
+    /*!
+     @brief      自身の情報からJSONオブジェクトを生成して返す
+     @return     JSONオブジェクト（文字列）
+    */
+    std::string createJson();
+
     Id id() { return id_; };
     Name name() { return name_; };
 
@@ -105,7 +112,7 @@ private:
     SprintId sprintId_;                            //!< 割り当てられたスプリントのID
     EstimatedTime totalEstimatedTime_;             //!< タスクの総見積もり時間
     std::map<Id, std::shared_ptr<Task>> tasks_;    //!< タスクリスト
-
+    JsonCreator jsonCreator_;                      //!< JSON Objectを生成するクラスのインスタンス
 };
 
 }
