@@ -18,6 +18,11 @@ void JsonCreator::holdData(JsonKey key, int intValue)
     jsonRaw_[key.get()] = intValue;
 }
 
+void JsonCreator::holdData(JsonKey key, unsigned int intValue)
+{
+    jsonRaw_[key.get()] = intValue;
+}
+
 void JsonCreator::holdData(JsonKey key, long longValue)
 {
     jsonRaw_[key.get()] = longValue;

@@ -50,6 +50,13 @@ public:
     /*!
      @brief      キーと値（文字列）を受け取る
      @param[in]  key キー
+     @param[in]  intValue 値
+    */
+    void holdData( JsonKey key, unsigned int intValue );
+
+    /*!
+     @brief      キーと値（文字列）を受け取る
+     @param[in]  key キー
      @param[in]  longValue 値
     */
     void holdData( JsonKey key, long longValue );
