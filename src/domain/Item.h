@@ -103,7 +103,7 @@ private:
     Point storyPoint_;                             //!< 見積もりポイント
     Status status_;                                //!< PBLの完了状態を示す
     SprintId sprintId_;                            //!< 割り当てられたスプリントのID
-    EstimateTime totalEstimateTime_;               //!< タスクの総見積もり時間
+    EstimatedTime totalEstimatedTime_;             //!< タスクの総見積もり時間
     std::map<Id, std::shared_ptr<Task>> tasks_;    //!< タスクリスト
 
 };

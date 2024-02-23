@@ -11,7 +11,7 @@ Item::Item( Id id, Name name, ProjectId projectId, SprintId sprintId, Point stor
     storyPoint_(storyPoint),
     status_(status),
     sprintId_(sprintId),
-    totalEstimateTime_(0)
+    totalEstimatedTime_(0)
 {
     tasks_.clear();
 }
@@ -39,7 +39,7 @@ void Item::aggrigateEstimatedTime()
 {
     for( auto task = begin(tasks_); task != end(tasks_); ++task )
     {
-        totalEstimateTime_ = totalEstimateTime_ + task->second->estimateTime();
+        totalEstimatedTime_ = totalEstimatedTime_ + task->second->estimatedTime();
     }
 }
 
