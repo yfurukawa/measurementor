@@ -147,4 +147,24 @@ using StatusCodeRaw =
     StrongType<T, struct StatusCpdeTag, Comparable, Printable, Swappable>;
 using StatusCode = StatusCodeRaw<unsigned int>;
 
+/*!
+ @def       JsonKey
+ @brief     JSONのキーを表す文字列
+ @tparam    std::string
+*/
+template< typename T >
+using JsonKeyRaw =
+    StrongType<T, struct JsonKeyTag, Comparable, Printable>;
+using JsonKey = JsonKeyRaw<std::string>;
+
+/*!
+ @def       JsonObject
+ @brief     JSON Objectを表す文字列
+ @tparam    std::string
+*/
+template< typename T >
+using JsonObjectRaw =
+    StrongType<T, struct JsonObjectTag, Comparable, Printable>;
+using JsonObject = JsonObjectRaw<std::string>;
+
 }
