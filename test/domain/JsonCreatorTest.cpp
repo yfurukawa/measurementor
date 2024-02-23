@@ -96,24 +96,30 @@ namespace measurementor
 
     TEST_F( JsonCreatorTest, createJsonNested)
     {
-        nlohmann::json child;
         std::string key("testKey");
-        int intValue(1);
-        long longValue(2L);
         double doubleValue(3.14159265);
         
         JsonKey parentKey("parentKey");
         std::string parentValue("parentValue");
-        std::string expect(R"({"child":{"testKey1":1,"testKey2":2,"testKey3":3.14159265},"parentKey":"parentValue"})");
+        std::string expect(R"({"child":[{"testKey1":1,"testKey2":2,"testKey3":3.14159265},{"testKey21":21,"testKey22":22,"testKey23":3.14159265}],"parentKey":"parentValue"})");
+
+        nlohmann::json child1;    
+        child1[key + "1"] = 1;
+        child1[key + "2"] = 2;
+        child1[key + "3"] = doubleValue;
+        JsonObject childJson1( child1.dump() );
+        nlohmann::json child2;
+
+        child2[key + "21"] = 21;
+        child2[key + "22"] = 22;
+        child2[key + "23"] = doubleValue;
+        JsonObject childJson2( child2.dump() );
         
-        child[key + "1"] = intValue;
-        child[key + "2"] = longValue;
-        child[key + "3"] = doubleValue;
         JsonKey childKey("child");
-        JsonObject childJson( child.dump() );
 
         sut->holdData(parentKey, parentValue);
-        sut->holdData(childKey, childJson);
+        sut->holdDataAsArray(childKey, childJson1);
+        sut->holdDataAsArray(childKey, childJson2);
 
         EXPECT_EQ( expect, sut->createJson() );
     }

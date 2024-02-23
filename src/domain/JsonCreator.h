@@ -77,6 +77,13 @@ public:
     void holdData( JsonKey key, JsonObject jsonObject );
 
     /*!
+     @brief      キーと値（文字列）を受け取る
+     @param[in]  key キー
+     @param[in]  jsonObject 値（文字列）
+    */
+    void holdDataAsArray( JsonKey key, JsonObject jsonObject );
+
+    /*!
      @brief          保持しているデータからJson文字列を生成する
      @param[in,out]  生成されたJson文字列
     */

@@ -38,6 +38,23 @@ void JsonCreator::holdData(JsonKey key, JsonObject jsonObject)
     jsonRaw_[key.get()] = nlohmann::json::parse(jsonObject.get());
 }
 
+void JsonCreator::holdDataAsArray(JsonKey key, JsonObject jsonObject)
+{
+    nlohmann::json childJson = nlohmann::json::parse(jsonObject.get());
+
+    if( jsonRaw_[key.get()].is_null())
+    {
+        nlohmann::json jsonArray = nlohmann::json::array();
+        jsonArray.emplace_back(childJson);
+        jsonRaw_[key.get()] = jsonArray;
+    }
+    else if( jsonRaw_[key.get()].is_array() )
+    {
+        jsonRaw_[key.get()].emplace_back( childJson );
+    }
+
+}
+
 std::string JsonCreator::createJson()
 {
     return jsonRaw_.dump();
