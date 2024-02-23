@@ -12,7 +12,6 @@
 #include "domainPrimitives/MeasurementPrimitives.h"
 #include "JsonCreator.h"
 
-#include <iostream>
 // --------------< namespace >---------------------------
 namespace measurementor
 {

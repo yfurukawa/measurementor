@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Item.h"
 #include "Task.h"
 
@@ -53,7 +54,18 @@ void Item::printChild()
 
 std::string Item::createJson()
 {
-    //( ProjectId projectId, SprintId sprintId, Point storyPoint, Status status )
+    if( !tasks_.empty() )
+    {
+        this->aggrigateEstimatedTime();
+        JsonKey keyTask("task");
+
+        for( auto task = begin(tasks_); task != end(tasks_); ++task )
+        {
+            JsonObject object( task->second->createJson() );
+            jsonCreator_.holdDataAsArray(keyTask, object);
+        }
+    }
+
     JsonKey id("id");
     jsonCreator_.holdData( id, id_.get() );
 
@@ -74,7 +86,7 @@ std::string Item::createJson()
 
     JsonKey status("status");
     jsonCreator_.holdData( status, status_.get() );
-    
+
     return jsonCreator_.createJson();
 }
 
