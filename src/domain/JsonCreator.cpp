@@ -35,9 +35,7 @@ void JsonCreator::holdData(std::string key, bool boolValue)
 
 std::string JsonCreator::createJson()
 {
-    std::ostringstream ss("");
-    ss << jsonRaw_;
-    return ss.str();
+    return jsonRaw_.dump();
 }
 
 }
