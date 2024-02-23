@@ -68,14 +68,14 @@ using PointRaw =
 using Point = PointRaw<unsigned int>;
 
 /*!
- @def       EstimatetTime
+ @def       EstimatetdTime
  @brief     タスクの見積もり時間
  @tparam    見積もり時間の型、少数点以下第1位まで表す必要がある
 */
 template< typename T >
-using EstimateTimeRaw =
+using EstimatedTimeRaw =
     StrongType<T, struct ETimeTag, Addable, Printable, Swappable>;
-using EstimateTime = EstimateTimeRaw<float>;
+using EstimatedTime = EstimatedTimeRaw<double>;
 
 /*!
  @def       Assignee
