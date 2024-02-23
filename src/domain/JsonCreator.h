@@ -47,6 +47,27 @@ public:
     void holdData( std::string key, int intValue );
 
     /*!
+     @brief      キーと値（文字列）を受け取る
+     @param[in]  key キー
+     @param[in]  longValue 値（文字列）
+    */
+    void holdData( std::string key, long longValue );
+
+    /*!
+     @brief      キーと値（文字列）を受け取る
+     @param[in]  key キー
+     @param[in]  doubleValue 値（文字列）
+    */
+    void holdData( std::string key, double doubleValue );
+
+    /*!
+     @brief      キーと値（文字列）を受け取る
+     @param[in]  key キー
+     @param[in]  boolValue 値（文字列）
+    */
+    void holdData( std::string key, bool boolValue );
+
+    /*!
      @brief          保持しているデータからJson文字列を生成する
      @param[in,out]  生成されたJson文字列
     */

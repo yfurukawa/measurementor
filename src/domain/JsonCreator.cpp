@@ -18,6 +18,21 @@ void JsonCreator::holdData(std::string key, int intValue)
     jsonRaw_[key] = intValue;
 }
 
+void JsonCreator::holdData(std::string key, long longValue)
+{
+    jsonRaw_[key] = longValue;
+}
+
+void JsonCreator::holdData(std::string key, double doubleValue)
+{
+    jsonRaw_[key] = doubleValue;
+}
+
+void JsonCreator::holdData(std::string key, bool boolValue)
+{
+    jsonRaw_[key] = boolValue;
+}
+
 std::string JsonCreator::createJson()
 {
     std::ostringstream ss("");
