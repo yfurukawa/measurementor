@@ -10,10 +10,10 @@ INCLUDE_DIR = /usr/local/include
 LIB = /usr/local/lib/libgtest.a /usr/local/lib/libgtest_main.a
 OPT = -O0 -Wall -std=c++17
 TARGET = domainTest
-SRC = ../../src/domain/JsonCreator.cpp
-OBJ = JsonCreator.o
-TESTSRC = JsonCreatorTest.cpp
-TESTOBJ = JsonCreatorTest.o
+SRC = ../../src/domain/JsonCreator.cpp ../../src/domain/Task.cpp
+OBJ = JsonCreator.o Task.o
+TESTSRC = JsonCreatorTest.cpp TaskTest.cpp
+TESTOBJ = JsonCreatorTest.o TaskTest.o
 
 all: $(OBJ) $(TESTOBJ)
 	$(CC) $(INCLUUDE) $(OPT) -o $(TARGET) $(OBJ) $(TESTOBJ) $(LIB)

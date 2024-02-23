@@ -5,7 +5,9 @@
 #pragma once
 
 // ---------------< include >----------------------------
+#include <string>
 #include "domainPrimitives/MeasurementPrimitives.h"
+#include "JsonCreator.h"
 
 // --------------< namespace >---------------------------
 namespace measurementor
@@ -33,12 +35,12 @@ public:
      @param[in]  name Task名称
      @param[in]  author タスクの作成者
      @param[in]  itemId Taskを持つItemのID
-     @param[in]  estimateTime 見積もりポイント
+     @param[in]  estimatedTime 見積もりポイント
      @param[in]  assignee タスクの担当者
      @param[in]  status タスクの状態
      @param[in]  updatedAt 更新日時（ISO8601形式）
     */
-    Task( Id id, Name name, Author author, ItemId itemId, EstimateTime estimateTime, Assignee assignee, Status status, StatusCode statusCode, UpdatedAt updatedAt );
+    Task( Id id, Name name, Author author, ItemId itemId, EstimatedTime estimatedTime, Assignee assignee, Status status, StatusCode statusCode, UpdatedAt updatedAt );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -58,9 +60,9 @@ public:
      @brief      作業時間を見積もる
      @param[in]  time 見積もり時間
     */
-    void estimateWorkTime( EstimateTime time )
+    void estimateWorkTime( EstimatedTime time )
     {
-        swap( estimateTime_, time );
+        swap( estimatedTime_, time );
     }
 
     /*!
@@ -82,10 +84,16 @@ public:
      @brief      見積もり時間を回答する
      @return     見積もり時間
     */
-    EstimateTime estimateTime() const
+    EstimatedTime estimatedTime() const
     {
-        return estimateTime_;
+        return estimatedTime_;
     };
+
+    /*!
+     @brief      自身の情報からJSONオブジェクトを生成して返す
+     @return     JSONオブジェクト（文字列）
+    */
+    std::string createJson();
 
     Id id() { return id_; };
     Name name() { return name_; };
@@ -95,11 +103,12 @@ private:
     const Name name_;             //!< Task名称
     const Author author_;         //!< タスクの作成者
     const ItemId itemId_;         //!< Taskを持つItemのID
-    EstimateTime estimateTime_;   //!< 見積もりポイント
+    EstimatedTime estimatedTime_; //!< 見積もりポイント
     Assignee assignee_;           //!< タスクの担当者
     Status status_;               //!< タスクの状態
     StatusCode statusCode_;       //!< タスクの状態を表す番号
     UpdatedAt updatedAt_;         //!< タスク内容の更新日時（ISO8601形式）
+    JsonCreator jsonCreator_;     //!< JSON Objectを生成するクラスのインスタンス
 };
 
 }
