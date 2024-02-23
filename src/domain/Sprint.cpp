@@ -53,4 +53,44 @@ void Sprint::printChild()
     }
 }
 
+std::string Sprint::createJson()
+{
+    /*
+    if( !tasks_.empty() )
+    {
+        this->aggrigateEstimatedTime();
+        JsonKey keyTask("task");
+
+        for( auto task = begin(tasks_); task != end(tasks_); ++task )
+        {
+            JsonObject object( task->second->createJson() );
+            jsonCreator_.holdDataAsArray(keyTask, object);
+        }
+    }
+    */
+    JsonKey id("id");
+    jsonCreator_.holdData( id, id_.get() );
+
+    JsonKey name("name");
+    jsonCreator_.holdData( name, name_.get() );
+
+    JsonKey startDate("startDate");
+    jsonCreator_.holdData( startDate, startDate_.get() );
+
+    JsonKey endDate("endDate");
+    jsonCreator_.holdData( endDate, endDate_.get() );
+
+    JsonKey projectId("projectId");
+    jsonCreator_.holdData( projectId, projectId_.get() );
+
+    JsonKey totalStoryPoint("totalStoryPoint");
+    jsonCreator_.holdData( totalStoryPoint, totalPoint_.get() );
+
+    JsonKey status("status");
+    jsonCreator_.holdData( status, status_ );
+
+    return jsonCreator_.createJson();
+
+}
+
 }

@@ -10,6 +10,7 @@
 #include <optional>
 #include <string>
 #include "domainPrimitives/MeasurementPrimitives.h"
+#include "JsonCreator.h"
 
 // --------------< namespace >---------------------------
 namespace measurementor
@@ -75,6 +76,12 @@ public:
     */
     void aggrigateStoryPoint();
 
+    /*!
+     @brief      自身の情報からJSONオブジェクトを生成して返す
+     @return     JSONオブジェクト（文字列）
+    */
+    std::string createJson();
+    
     Id id() { return id_; };
     Name name() { return name_; };
 
@@ -89,6 +96,7 @@ private:
     StartDate startDate_;
     EndDate endDate_;
     std::map<Id, std::shared_ptr<Item>> items_;    //!< アイテムリスト
+    JsonCreator jsonCreator_;                      //!< JSON Objectを生成するクラスのインスタンス
 };
 
 }
