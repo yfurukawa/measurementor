@@ -83,6 +83,11 @@ public:
     void aggrigateEstimatedTime();
 
     /*!
+     @brief      残っている作業時間（見積もり時間ベース）を報告する
+    */
+    EstimatedTime reportRemainingWorkTime();
+
+    /*!
      @brief      ストーリポイント集計のため、ポイントを回答する
      @return     ポイント
     */

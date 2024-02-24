@@ -38,10 +38,16 @@ std::optional<SprintId> Item::sprintId() const
 
 void Item::aggrigateEstimatedTime()
 {
+    // TODO openのタスクの見積もり時間のみ集計するように修正が必要
     for( auto task = begin(tasks_); task != end(tasks_); ++task )
     {
         totalEstimatedTime_ = totalEstimatedTime_ + task->second->estimatedTime();
     }
+}
+
+EstimatedTime Item::reportRemainingWorkTime()
+{
+    return totalEstimatedTime_;
 }
 
 void Item::printChild()
