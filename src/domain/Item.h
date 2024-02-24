@@ -43,8 +43,9 @@ public:
      @param[in]  sprintId   このItemが割り当てられているSprintのID<br>Sprintに未割り当ての場合の値は0
      @param[in]  storyPoint  このItemの見積もりPoint<br>見積もられていない場合の値は0
      @param[in]  status     このItemの完了状態を表すステータス
+     @param[in]  statusCode このItemの完了状態を表すステータスの番号
     */
-    Item( Id id, Name name, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status );
+    Item( Id id, Name name, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status, StatusCode statusCode );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -111,10 +112,17 @@ private:
     ProjectId projectId_;                          //!< 所属するプロジェクトのID
     Point storyPoint_;                             //!< 見積もりポイント
     Status status_;                                //!< PBLの完了状態を示す
+    StatusCode statusCode_;                        //!< タスクの状態を表す番号
     SprintId sprintId_;                            //!< 割り当てられたスプリントのID
     EstimatedTime totalEstimatedTime_;             //!< タスクの総見積もり時間
     std::map<Id, std::shared_ptr<Task>> tasks_;    //!< タスクリスト
     JsonCreator jsonCreator_;                      //!< JSON Objectを生成するクラスのインスタンス
+
+    /*!
+     @brief      自身がオープン（未完了）のタスクか回答する
+     @return     true ： オープン状態
+    */
+    bool isOpen();
 };
 
 }

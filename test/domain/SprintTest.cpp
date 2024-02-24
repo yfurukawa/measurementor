@@ -43,9 +43,9 @@ namespace measurementor
         EstimatedTime estimatedTime(5.5);
         Assignee assignee("Test Assignee");
         Status taskStatus("In Progress");
-        StatusCode statusCode(2);
+        StatusCode taskStatusCode(2);
         UpdatedAt updatedAt("2024-02-23T19:18:25+09:00");
-        std::shared_ptr<Task> task = std::make_shared<Task>( taskId, taskName, author, itemId, estimatedTime, assignee, taskStatus, statusCode, updatedAt );
+        std::shared_ptr<Task> task = std::make_shared<Task>( taskId, taskName, author, itemId, estimatedTime, assignee, taskStatus, taskStatusCode, updatedAt );
 
         // Id itemId(1); Declare in Task
         Name itemName("Test Item");
@@ -53,9 +53,10 @@ namespace measurementor
         Point storyPoint(3);
         EstimatedTime totalEstimatedTime(5.5);
         Status status("open");
+        StatusCode statusCode(1);
         SprintId sprintId(12);
  
-        std::shared_ptr<Item> item = std::make_shared<Item>( itemId, itemName, itemProjectId, sprintId, storyPoint, status );
+        std::shared_ptr<Item> item = std::make_shared<Item>( itemId, itemName, itemProjectId, sprintId, storyPoint, status, statusCode );
 
         item->addTask( task );
 
@@ -69,7 +70,7 @@ namespace measurementor
 
         sut->addItem( item );
 
-        std::string expected(R"({"endDate":"2024-02-25T12:34:56+09:00","id":1,"item":[{"id":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"open","storyPoint":3,"task":[{"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"id":11,"itemId":1,"name":"Test Task","status":"In Progress","statusCode":2,"updatedAt":"2024-02-23T19:18:25+09:00"}],"totalEstimatedTime":5.5}],"name":"Test Sprint","projectId":0,"remainingWorkTime":5.5,"startDate":"2024-02-23T12:34:56+09:00","status":"","totalStoryPoint":0})");
+        std::string expected(R"({"endDate":"2024-02-25T12:34:56+09:00","id":1,"item":[{"id":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"open","statusCode":1,"storyPoint":3,"task":[{"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"id":11,"itemId":1,"name":"Test Task","status":"In Progress","statusCode":2,"updatedAt":"2024-02-23T19:18:25+09:00"}],"totalEstimatedTime":5.5}],"name":"Test Sprint","projectId":0,"remainingWorkTime":5.5,"startDate":"2024-02-23T12:34:56+09:00","status":"","totalStoryPoint":0})");
 
         EXPECT_EQ( expected, sut->createJson() );
  

@@ -5,12 +5,13 @@
 namespace measurementor
 {
 
-Item::Item( Id id, Name name, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status )
+Item::Item( Id id, Name name, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status, StatusCode statusCode )
     : id_(id),
     name_(name),
     projectId_(projectId),
     storyPoint_(storyPoint),
     status_(status),
+    statusCode_(statusCode),
     sprintId_(sprintId),
     totalEstimatedTime_(0)
 {
@@ -96,7 +97,15 @@ std::string Item::createJson()
     JsonKey status("status");
     jsonCreator_.holdData( status, status_.get() );
 
+    JsonKey statusCode("statusCode");
+    jsonCreator_.holdData( statusCode, statusCode_.get() );
+
     return jsonCreator_.createJson();
+}
+
+bool Item::isOpen()
+{
+    return statusCode_ != 12;
 }
 
 }
