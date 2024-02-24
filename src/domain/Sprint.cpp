@@ -46,6 +46,20 @@ void Sprint::aggrigateStoryPoint()
     }
 }
 
+void Sprint::aggrigateRemainingWorkTime()
+{
+    for( auto item = begin(items_); item != end(items_); ++item )
+    {
+        item->second->aggrigateEstimatedTime();
+    }
+    for( auto item = begin(items_); item != end(items_); ++item )
+    {
+        remainingEstimatedTime_ = remainingEstimatedTime_ + item->second->reportRemainingWorkTime();
+    }
+
+}
+
+
 void Sprint::printChild()
 {
     for( auto item = begin(items_); item != end(items_); ++item )

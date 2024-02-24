@@ -77,6 +77,12 @@ public:
     void aggrigateStoryPoint();
 
     /*!
+     @brief      残りの作業時間（見積もりベース）を集計する
+     @note       残りの作業時間を集計することでスプリントバーンダウンチャートを作成する
+    */
+    void aggrigateRemainingWorkTime();
+
+    /*!
      @brief      自身の情報からJSONオブジェクトを生成して返す
      @return     JSONオブジェクト（文字列）
     */
