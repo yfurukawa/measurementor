@@ -42,7 +42,7 @@ void Sprint::aggrigateStoryPoint()
 {
     for( auto item = begin(items_); item != end(items_); ++item )
     {
-        totalPoint_ = totalPoint_ + item->second->point();
+        totalPoint_ = totalPoint_ + item->second->reportStoryPoint();
     }
 }
 
