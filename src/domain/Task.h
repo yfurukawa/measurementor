@@ -18,7 +18,8 @@ namespace measurementor
 /*!
  @class     Task
  @brief     タスクデータ
- @note      本クラスは、Project Tracking System (PTS) から取得したワークパッケージの情報の内、タスクに相当するデータを保持するものである。
+ @note      本クラスは、Project Tracking System (PTS) から取得したワークパッケージの情報の内、
+            タスクに相当するデータを保持するものである。
 */
 class Task final
 {
