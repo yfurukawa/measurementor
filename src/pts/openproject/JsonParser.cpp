@@ -106,7 +106,8 @@ std::shared_ptr<measurementor::Item> JsonParser::extractPBLData( nlohmann::json 
     measurementor::SprintId sprintId( (jsonString["_embedded"]["elements"][count]["_lynks"]["version"]["href"]).is_null() ? 0 : (pickupId(jsonString["_embedded"]["elements"][count]["_lynks"]["version"]["href"])) );
     measurementor::Point storyPoint( (jsonString["_embedded"]["elements"][count]["storyPoints"]));
     measurementor::Status status( jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["title"] );
-    return std::make_shared<measurementor::Item>(id, name, projectId, sprintId, storyPoint, status);
+    measurementor::StatusCode statusCode( pickupId(jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["href"]) );
+    return std::make_shared<measurementor::Item>(id, name, projectId, sprintId, storyPoint, status, statusCode);
 }
 
 std::shared_ptr<measurementor::Task> JsonParser::extractTaskData( nlohmann::json jsonString, int count )
@@ -118,7 +119,7 @@ std::shared_ptr<measurementor::Task> JsonParser::extractTaskData( nlohmann::json
     measurementor::EstimatedTime estimatedTime( jsonString["_embedded"]["elements"][count]["estimatedTime"]);
     measurementor::Assignee assignee( (jsonString["_embedded"]["elements"][count]["_lynks"]["assignee"]["href"]).is_null() ? "" : jsonString["_embedded"]["elements"][count]["_lynks"]["assignee"]["title"] );
     measurementor::Status status( jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["title"] );
-    measurementor::StatusCode statusCode( pickupId(jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["title"] ) );
+    measurementor::StatusCode statusCode( pickupId(jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["href"] ) );
     measurementor::UpdatedAt updatedAt( jsonString["_embedded"]["elements"][count]["updatedAt"]);
     return std::make_shared<measurementor::Task>(id, name, author, itemId, estimatedTime, assignee, status, statusCode, updatedAt );
 }
