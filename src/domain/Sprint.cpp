@@ -70,19 +70,19 @@ void Sprint::printChild()
 
 std::string Sprint::createJson()
 {
-    /*
-    if( !tasks_.empty() )
+    
+    if( !items_.empty() )
     {
-        this->aggrigateEstimatedTime();
-        JsonKey keyTask("task");
+        this->aggrigateRemainingWorkTime();
+        JsonKey keyItem("item");
 
-        for( auto task = begin(tasks_); task != end(tasks_); ++task )
+        for( auto item = begin(items_); item != end(items_); ++item )
         {
-            JsonObject object( task->second->createJson() );
-            jsonCreator_.holdDataAsArray(keyTask, object);
+            JsonObject object( item->second->createJson() );
+            jsonCreator_.holdDataAsArray(keyItem, object);
         }
     }
-    */
+
     JsonKey id("id");
     jsonCreator_.holdData( id, id_.get() );
 
@@ -103,6 +103,9 @@ std::string Sprint::createJson()
 
     JsonKey status("status");
     jsonCreator_.holdData( status, status_ );
+
+    JsonKey remainingWorkTime("remainingWorkTime");
+    jsonCreator_.holdData( remainingWorkTime, remainingEstimatedTime_.get() );
 
     return jsonCreator_.createJson();
 
