@@ -1,6 +1,6 @@
 #include "PtsDataCollector.h"
-#include "../pts/OpenProjectFactory.h"
-#include "../pts/OpenProject.h"
+#include "../pts/openproject/OpenProjectFactory.h"   // TODO
+#include "../pts/openproject/OpenProject.h"          // TODO
 
 #include <iostream>
 
