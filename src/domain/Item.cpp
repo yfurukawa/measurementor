@@ -61,7 +61,6 @@ std::string Item::createJson()
 {
     if( !tasks_.empty() )
     {
-        this->aggrigateEstimatedTime();
         JsonKey keyTask("task");
 
         for( auto task = begin(tasks_); task != end(tasks_); ++task )

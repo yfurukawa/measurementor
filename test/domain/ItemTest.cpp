@@ -60,6 +60,7 @@ namespace measurementor
         sut->addTask( task );
 
         std::string expected(R"({"id":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"open","storyPoint":3,"task":[{"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"id":11,"itemId":1,"name":"Test Task","status":"In Progress","statusCode":2,"updatedAt":"2024-02-23T19:18:25+09:00"}],"totalEstimatedTime":5.5})");
+        sut->aggrigateEstimatedTime();  // 通常はSprintから呼び出されるのでテストでも外から呼び出す必要がある
 
         EXPECT_EQ( expected, sut->createJson() );
  
