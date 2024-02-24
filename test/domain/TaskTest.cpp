@@ -32,4 +32,39 @@ namespace measurementor
         EXPECT_EQ( expected, sut->createJson() );
     }
 
+    TEST_F(TaskTest, estimatedTime_openTask)
+    {
+        Id id(11);
+        Name name("Test Task");
+        Author author("Test Author");
+        ItemId itemId(1);
+        EstimatedTime estimatedTime(5.5);
+        Assignee assignee("Test Assignee");
+        Status status("In Progress");
+        StatusCode statusCode(7);
+        UpdatedAt updatedAt("2024-02-23T19:18:25+09:00");
+        sut = new Task( id, name, author, itemId, estimatedTime, assignee, status, statusCode, updatedAt );
+
+        EstimatedTime expected(5.5);
+
+        EXPECT_EQ( expected.get(), sut->estimatedTime().get() );
+    }
+
+    TEST_F(TaskTest, estimatedTime_closedTask)
+    {
+        Id id(11);
+        Name name("Test Task");
+        Author author("Test Author");
+        ItemId itemId(1);
+        EstimatedTime estimatedTime(5.5);
+        Assignee assignee("Test Assignee");
+        Status status("Closed");
+        StatusCode statusCode(12);
+        UpdatedAt updatedAt("2024-02-23T19:18:25+09:00");
+        sut = new Task( id, name, author, itemId, estimatedTime, assignee, status, statusCode, updatedAt );
+
+        EstimatedTime expected(0);
+
+        EXPECT_EQ( expected.get(), sut->estimatedTime().get() );
+    }
 }
