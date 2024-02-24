@@ -115,12 +115,12 @@ std::shared_ptr<measurementor::Task> JsonParser::extractTaskData( nlohmann::json
     measurementor::Name name(jsonString["_embedded"]["elements"][count]["subject"]);
     measurementor::ItemId itemId( pickupId(jsonString["_embedded"]["elements"][count]["_lynks"]["parent"]) );
     measurementor::Author author( jsonString["_embedded"]["elements"][count]["_lynks"]["author"]["title"] );
-    measurementor::EstimateTime estimateTime( jsonString["_embedded"]["elements"][count]["estimatedTime"]);
+    measurementor::EstimatedTime estimatedTime( jsonString["_embedded"]["elements"][count]["estimatedTime"]);
     measurementor::Assignee assignee( (jsonString["_embedded"]["elements"][count]["_lynks"]["assignee"]["href"]).is_null() ? "" : jsonString["_embedded"]["elements"][count]["_lynks"]["assignee"]["title"] );
     measurementor::Status status( jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["title"] );
     measurementor::StatusCode statusCode( pickupId(jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["title"] ) );
     measurementor::UpdatedAt updatedAt( jsonString["_embedded"]["elements"][count]["updatedAt"]);
-    return std::make_shared<measurementor::Task>(id, name, author, itemId, estimateTime, assignee, status, statusCode, updatedAt );
+    return std::make_shared<measurementor::Task>(id, name, author, itemId, estimatedTime, assignee, status, statusCode, updatedAt );
 }
 
 }
