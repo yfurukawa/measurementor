@@ -81,13 +81,11 @@ public:
     void updateStatus( unsigned int newStatus );
 
     /*!
-     @brief      見積もり時間を回答する
+     @brief      スプリントバーンダウンチャート作成のため見積もり時間を回答する
+     @note       タスクが未完了の場合には見積もり時間を返す。完了していれば残作業は無いので０時間を返す
      @return     見積もり時間
     */
-    EstimatedTime estimatedTime() const
-    {
-        return estimatedTime_;
-    };
+    EstimatedTime estimatedTime();
 
     /*!
      @brief      自身の情報からJSONオブジェクトを生成して返す
@@ -109,6 +107,12 @@ private:
     StatusCode statusCode_;       //!< タスクの状態を表す番号
     UpdatedAt updatedAt_;         //!< タスク内容の更新日時（ISO8601形式）
     JsonCreator jsonCreator_;     //!< JSON Objectを生成するクラスのインスタンス
+
+    /*!
+     @brief      自身がオープン（未完了）のタスクか回答する
+     @return     true ： オープン状態
+    */
+    bool isOpen();
 };
 
 }

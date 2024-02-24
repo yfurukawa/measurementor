@@ -16,6 +16,16 @@ Task::Task( Id id, Name name, Author author, ItemId itemId, EstimatedTime estima
 {
 }
 
+EstimatedTime Task::estimatedTime()
+{
+    if( this->isOpen() )  // Taskがオープンのときのみ見積もり時間を返せば良い
+    {
+        return estimatedTime_;
+    }
+    
+    return EstimatedTime(0);
+}
+
 std::string Task::createJson()
 {
     JsonKey id("id");
@@ -61,4 +71,8 @@ void Task::updateStatus( unsigned int newStatus )
     */
 }
 
+bool Task::isOpen()
+{
+    return statusCode_ != 12;
+}
 }
