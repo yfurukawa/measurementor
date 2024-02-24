@@ -49,6 +49,11 @@ EstimatedTime Item::reportRemainingWorkTime()
     return totalEstimatedTime_;
 }
 
+Point Item::reportStoryPoint()
+{
+    return storyPoint_;
+}
+
 void Item::printChild()
 {
     for( auto p = tasks_.begin(); p != tasks_.end(); ++p )

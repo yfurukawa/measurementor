@@ -22,8 +22,9 @@ class Task;
 /*!
  @class     Item
  @brief     プロダクトバックログデータ
- @note      本クラスは、Project Tracking System (PTS) から取得したワークパッケージの情報の内、プロダクトバックログアイテムに相当するデータを保持するものである。<br>
- 対応するタイプの想定は、Feature及びUser Storyである。
+ @note      本クラスは、Project Tracking System (PTS) から取得したワークパッケージの情報の内、
+            プロダクトバックログアイテムに相当するデータを保持するものである。<br>
+            対応するタイプの想定は、Feature及びUser Storyである。
 */
 class Item final
 {
@@ -91,10 +92,7 @@ public:
      @brief      ストーリポイント集計のため、ポイントを回答する
      @return     ポイント
     */
-    Point point()
-    {
-        return storyPoint_;
-    }
+    Point reportStoryPoint();
 
     /*!
      @brief      自身の情報からJSONオブジェクトを生成して返す
