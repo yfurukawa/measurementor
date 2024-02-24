@@ -13,7 +13,8 @@ Sprint::Sprint( Id id, Name name, StartDate startDate, EndDate endDate )
     totalPoint_(0),
     status_(""),
     startDate_( startDate ),
-    endDate_( endDate )
+    endDate_( endDate ),
+    remainingEstimatedTime_(0)
 {
     items_.clear();
 }
