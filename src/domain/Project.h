@@ -100,7 +100,8 @@ private:
     const Id id_;                                             //!< Project ID
     const Name name_;                                         //!< Project名称
     const ParentId parentId_;                                 //!< 親のID
-    Point point_;                                             //!< プロジェクトの総見積もりポイント
+    Point storyPointInprogress_;                              //!< 現在進行中のSprintのユーザーストーリポイント数
+    Point remaingStoryPoints_;                                //!< Product Back Logに残っているユーザストーリーの総ポイント数
     std::list<Id> childProjects_;                             //!< 子プロジェクトのIDリスト
     std::map<Id, std::shared_ptr<Sprint>> sprints_;           //!< Project内に定義されたSprint
     std::map<Id, std::shared_ptr<Item>> productBackLog_;      //!< ProjectのProduct Backlog Item

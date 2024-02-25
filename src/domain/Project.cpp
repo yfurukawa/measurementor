@@ -9,7 +9,8 @@ Project::Project( Id id, Name name, ParentId parentId )
     : id_(id),
     name_(name),
     parentId_(parentId),
-    point_(0)    
+    storyPointInprogress_(0),
+    remaingStoryPoints_(0)    
 {
     childProjects_.clear();
     sprints_.clear();
