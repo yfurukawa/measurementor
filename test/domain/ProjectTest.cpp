@@ -18,7 +18,7 @@ namespace measurementor
         delete sut;
     }
 
-    TEST_F(ProjectTest, createJson_noAssignedItem)
+    TEST_F(ProjectTest, createJson_EmptyProject)
     {
         Id id(1);
         Name name("Test Project");
@@ -26,10 +26,37 @@ namespace measurementor
          
         sut = new Project( id, name, parentId );
 
-        std::string expected(R"({"id":1,"inProgressStoryPoints":0,"name":"Test Project","remainingStoryPoints":0})");
+        auto result = sut->createJson();
 
-        EXPECT_EQ( expected, sut->createJson() );
- 
+        // プロジェクトに子プロジェクトが無く、PBLが空で、Sprintも定義されていない場合は、JSONオブジェクトを生成する必要がないので
+        // 戻り値は無効値が帰る
+        if(result)
+        {
+            FAIL();
+        }
+        SUCCEED();
+    }
+
+    TEST_F(ProjectTest, createJson_ParentProject)
+    {
+        Id id(1);
+        Name name("Test Project");
+        ParentId parentId(10);
+        
+        sut = new Project( id, name, parentId );
+        
+        Id childId(5);
+        sut->relateChildProject( childId );
+
+        auto result = sut->createJson();
+
+        // 親プロジェクトの場合、有効なJSONオブジェクトは子プロジェクトが持つので
+        // 戻り値は無効値が帰る
+        if(result)
+        {
+            FAIL();
+        }
+        SUCCEED();
     }
 
     TEST_F(ProjectTest, createJson_TweItemsInProductBackLog)
@@ -66,7 +93,8 @@ namespace measurementor
         std::string expected(R"({"id":1,"inProgressStoryPoints":0,"name":"Test Project","remainingStoryPoints":8})");
         
         sut->aggrigateStoryPointsInPBL();
-        EXPECT_EQ( expected, sut->createJson() );
+        auto result = sut->createJson();
+        EXPECT_EQ( expected, result.value() );
  
     }
 
@@ -114,7 +142,8 @@ namespace measurementor
         std::string expected(R"({"id":1,"inProgressStoryPoints":8,"name":"Test Project","remainingStoryPoints":0})");
         
         sut->aggrigateStoryPointsInProgress();
-        EXPECT_EQ( expected, sut->createJson() );
+        auto result = sut->createJson();
+        EXPECT_EQ( expected, result.value() );
  
     }
 

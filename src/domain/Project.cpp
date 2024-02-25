@@ -49,8 +49,13 @@ void Project::aggrigateStoryPointsInProgress()
     }
 }
 
-std::string Project::createJson()
+std::optional<std::string> Project::createJson()
 {
+    if( this->isParentProject() || this->isEmptyProject()  )
+    {
+        return std::nullopt;
+    }
+
     JsonKey id("id");
     jsonCreator_.holdData( id, id_.get() );
 
@@ -82,6 +87,16 @@ std::shared_ptr<Sprint> Project::getSprint( measurementor::SprintId sprintId )
 {
     measurementor::Id id{ sprintId.get() };
     return sprints_.at( id );
+}
+
+bool Project::isParentProject() const
+{
+    return !(childProjects_.empty()) && (sprints_.empty()) && (productBackLog_.empty()) ;
+}
+
+bool Project::isEmptyProject() const
+{
+    return childProjects_.empty() && sprints_.empty() && productBackLog_.empty();
 }
 
 }

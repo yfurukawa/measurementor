@@ -8,6 +8,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include "domainPrimitives/MeasurementPrimitives.h"
 #include "JsonCreator.h"
@@ -73,12 +74,12 @@ public:
      @brief      進行中Sprintの残ストーリーポイントを集計する
     */
     void aggrigateStoryPointsInProgress();
-    
+
     /*!
      @brief      自身の情報からJSONオブジェクトを生成して返す
      @return     JSONオブジェクト（文字列）
     */
-    std::string createJson();
+    std::optional<std::string> createJson();
 
     /*!
      @brief      親プロジェクトのIDを返す
@@ -115,6 +116,18 @@ private:
     std::map<Id, std::shared_ptr<Sprint>> sprints_;           //!< Project内に定義されたSprint
     std::map<Id, std::shared_ptr<Item>> productBackLog_;      //!< ProjectのProduct Backlog Item
     JsonCreator jsonCreator_;                                 //!< JSON Objectを生成するクラスのインスタンス
+
+    /*!
+     @brief      自身が親プロジェクトかどうかを返す
+     @return     true : 親プロジェクト
+    */
+    bool isParentProject() const;
+
+    /*!
+     @brief      自身が空プロジェクトかどうかを返す
+     @return     true : 空プロジェクト
+    */
+    bool isEmptyProject() const;
 };
 
 }
