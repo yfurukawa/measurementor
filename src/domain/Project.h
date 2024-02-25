@@ -10,6 +10,7 @@
 #include <memory>
 #include <string>
 #include "domainPrimitives/MeasurementPrimitives.h"
+#include "JsonCreator.h"
 
 #include <iostream>
 // --------------< namespace >---------------------------
@@ -81,6 +82,13 @@ public:
     */
     void addPBL( std::shared_ptr<Item> pbl );
 
+    /*!
+     @brief      自身の情報からJSONオブジェクトを生成して返す
+     @return     JSONオブジェクト（文字列）
+    */
+    std::string createJson();
+
+
     Id id() { return id_; };
     Name name() { return name_; };
 
@@ -96,6 +104,7 @@ private:
     std::list<Id> childProjects_;                    //!< 子プロジェクトのIDリスト
     std::map<Id, std::shared_ptr<Sprint>> sprints_;  //!< Project内に定義されたSprint
     std::map<Id, std::shared_ptr<Item>> items_;      //!< ProjectのProduct Backlog Item
+    JsonCreator jsonCreator_;                        //!< JSON Objectを生成するクラスのインスタンス
 };
 
 }

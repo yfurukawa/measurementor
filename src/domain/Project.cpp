@@ -31,6 +31,11 @@ void Project::addPBL( std::shared_ptr<Item> pbl )
     items_.insert( std::make_pair( pbl->id(), std::move( pbl ) ) );
 }
 
+std::string Project::createJson()
+{
+    return "";
+}
+
 void Project::printChild()
 {
     for( auto p = childProjects_.begin(); p != childProjects_.end(); ++p )
