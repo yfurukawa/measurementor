@@ -44,9 +44,10 @@ void JsonParser::collectSprintData( const std::string& jsonString, std::shared_p
     {
         measurementor::Id id(j["_embedded"]["elements"][count]["id"]);
         measurementor::Name name(j["_embedded"]["elements"][count]["name"]);
+        measurementor::Status status(j["_embedded"]["elements"][count]["status"]);
         measurementor::StartDate startDate( (j["_embedded"]["elements"][count]["startDate"]).is_null() ? "" : j["_embedded"]["elements"][count]["startDate"] );
         measurementor::EndDate endDate( (j["_embedded"]["elements"][count]["endDate"]).is_null() ? "" : j["_embedded"]["elements"][count]["endDate"] );
-        project->addSprint( std::make_shared<measurementor::Sprint>( id, name, startDate, endDate ) );
+        project->addSprint( std::make_shared<measurementor::Sprint>( id, name, status, startDate, endDate ) );
     }
 }
 
