@@ -37,7 +37,7 @@ public:
     /*!
      @brief  コンストラクタ
     */
-    Sprint( Id id, Name name, StartDate startDate, EndDate endDate );
+    Sprint( Id id, Name name, Status status, StartDate startDate, EndDate endDate );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -83,6 +83,12 @@ public:
     void aggrigateRemainingWorkTime();
 
     /*!
+     @brief      ストーリポイント集計のため、ポイントを回答する
+     @return     ポイント
+    */
+    Point reportStoryPoint();
+
+    /*!
      @brief      自身の情報からJSONオブジェクトを生成して返す
      @return     JSONオブジェクト（文字列）
     */
@@ -98,7 +104,7 @@ private:
     const Name name_;                              //!< Sprint名称
     ProjectId projectId_;                          //!< 親のID
     Point totalPoint_;                             //!< スプリントに割り当てられたアイテムの総見積もりポイント
-    std::string status_;                           //!< スプリントのステータス（未完了open/完了closeを表す）
+    Status status_;                           //!< スプリントのステータス（未完了open/完了closeを表す）
     StartDate startDate_;                          //!< スプリント開始日
     EndDate endDate_;                              //!< スプリント終了日
     EstimatedTime remainingEstimatedTime_;         //!< タスクの残見積もり時間（スプリントバーンダウンチャート用）

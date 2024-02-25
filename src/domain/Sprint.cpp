@@ -6,7 +6,7 @@
 namespace measurementor
 {
 
-Sprint::Sprint( Id id, Name name, StartDate startDate, EndDate endDate )
+Sprint::Sprint( Id id, Name name, Status status, StartDate startDate, EndDate endDate )
     : id_(id),
     name_(name),
     projectId_(0),
@@ -59,6 +59,10 @@ void Sprint::aggrigateRemainingWorkTime()
 
 }
 
+Point Sprint::reportStoryPoint()
+{
+    return totalPoint_;
+}
 
 void Sprint::printChild()
 {
@@ -102,7 +106,7 @@ std::string Sprint::createJson()
     jsonCreator_.holdData( totalStoryPoint, totalPoint_.get() );
 
     JsonKey status("status");
-    jsonCreator_.holdData( status, status_ );
+    jsonCreator_.holdData( status, status_.get() );
 
     JsonKey remainingWorkTime("remainingWorkTime");
     jsonCreator_.holdData( remainingWorkTime, remainingEstimatedTime_.get() );
