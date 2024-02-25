@@ -11,7 +11,7 @@ Sprint::Sprint( Id id, Name name, Status status, StartDate startDate, EndDate en
     name_(name),
     projectId_(0),
     totalPoint_(0),
-    status_(""),
+    status_(status),
     startDate_( startDate ),
     endDate_( endDate ),
     remainingEstimatedTime_(0)
@@ -61,7 +61,12 @@ void Sprint::aggrigateRemainingWorkTime()
 
 Point Sprint::reportStoryPoint()
 {
+    if( status_.get() == "closed" )
+    {
+        return Point(0);
+    }
     return totalPoint_;
+    
 }
 
 void Sprint::printChild()
