@@ -34,7 +34,19 @@ void Project::addPBL( std::shared_ptr<Item> pbi )
 
 std::string Project::createJson()
 {
-    return "";
+    JsonKey id("id");
+    jsonCreator_.holdData( id, id_.get() );
+
+    JsonKey name("name");
+    jsonCreator_.holdData( name, name_.get() );
+    
+    JsonKey remainingStoryPoints("remainingStoryPoints");
+    jsonCreator_.holdData( remainingStoryPoints, remaingStoryPoints_.get() );
+
+    JsonKey inProgressStoryPoints("inProgressStoryPoints");
+    jsonCreator_.holdData( inProgressStoryPoints, storyPointInprogress_.get() );
+
+    return jsonCreator_.createJson();
 }
 
 void Project::printChild()
