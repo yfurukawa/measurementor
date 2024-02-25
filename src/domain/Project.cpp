@@ -13,7 +13,7 @@ Project::Project( Id id, Name name, ParentId parentId )
 {
     childProjects_.clear();
     sprints_.clear();
-    items_.clear();
+    productBackLog_.clear();
 }
 
 void Project::relateChildProject( Id childProjectId )
@@ -26,9 +26,9 @@ void Project::addSprint( std::shared_ptr<Sprint> sprint )
     sprints_.insert( std::make_pair( sprint->id(), std::move( sprint ) ) );
 }
 
-void Project::addPBL( std::shared_ptr<Item> pbl )
+void Project::addPBL( std::shared_ptr<Item> pbi )
 {
-    items_.insert( std::make_pair( pbl->id(), std::move( pbl ) ) );
+    productBackLog_.insert( std::make_pair( pbi->id(), std::move( pbi ) ) );
 }
 
 std::string Project::createJson()

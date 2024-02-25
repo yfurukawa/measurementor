@@ -67,7 +67,7 @@ public:
     */
     bool hasChild() const
     {
-        return !(childProjects_.empty()) || !(sprints_.empty()) || !(items_.empty()) ;
+        return !(childProjects_.empty()) || !(sprints_.empty()) || !(productBackLog_.empty()) ;
     }
 
     /*!
@@ -77,10 +77,10 @@ public:
     void addSprint( std::shared_ptr<Sprint> sprint );
 
     /*!
-     @brief      PBLを追加する
-     @param[in]  pbl  追加するPBL
+     @brief      Product Back LogにProduct Backlog Itemを追加する
+     @param[in]  pbi  Product Back Logに追加するProduct Backlog Item
     */
-    void addPBL( std::shared_ptr<Item> pbl );
+    void addPBL( std::shared_ptr<Item> pbi );
 
     /*!
      @brief      自身の情報からJSONオブジェクトを生成して返す
@@ -97,14 +97,14 @@ public:
     void printChild();
     
 private:
-    const Id id_;                                    //!< Project ID
-    const Name name_;                                //!< Project名称
-    const ParentId parentId_;                        //!< 親のID
-    Point point_;                                    //!< プロジェクトの総見積もりポイント
-    std::list<Id> childProjects_;                    //!< 子プロジェクトのIDリスト
-    std::map<Id, std::shared_ptr<Sprint>> sprints_;  //!< Project内に定義されたSprint
-    std::map<Id, std::shared_ptr<Item>> items_;      //!< ProjectのProduct Backlog Item
-    JsonCreator jsonCreator_;                        //!< JSON Objectを生成するクラスのインスタンス
+    const Id id_;                                             //!< Project ID
+    const Name name_;                                         //!< Project名称
+    const ParentId parentId_;                                 //!< 親のID
+    Point point_;                                             //!< プロジェクトの総見積もりポイント
+    std::list<Id> childProjects_;                             //!< 子プロジェクトのIDリスト
+    std::map<Id, std::shared_ptr<Sprint>> sprints_;           //!< Project内に定義されたSprint
+    std::map<Id, std::shared_ptr<Item>> productBackLog_;      //!< ProjectのProduct Backlog Item
+    JsonCreator jsonCreator_;                                 //!< JSON Objectを生成するクラスのインスタンス
 };
 
 }
