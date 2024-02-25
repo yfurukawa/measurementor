@@ -53,6 +53,29 @@ public:
     void relateChildProject( Id childProjectId );
 
     /*!
+     @brief      Sprintを追加する
+     @param[in]  sprint 追加するスプリント
+    */
+    void addSprint( std::shared_ptr<Sprint> sprint );
+
+    /*!
+     @brief      Product Back LogにProduct Backlog Itemを追加する
+     @param[in]  pbi  Product Back Logに追加するProduct Backlog Item
+    */
+    void addPBL( std::shared_ptr<Item> pbi );
+
+    /*!
+     @brief      Product Back Log内の残ストーリーポイントを集計する
+    */
+    void aggrigateStoryPointsInPBL();
+
+    /*!
+     @brief      自身の情報からJSONオブジェクトを生成して返す
+     @return     JSONオブジェクト（文字列）
+    */
+    std::string createJson();
+
+    /*!
      @brief      親プロジェクトのIDを返す
      @return     親プロジェクトのID
     */
@@ -69,25 +92,6 @@ public:
     {
         return !(childProjects_.empty()) || !(sprints_.empty()) || !(productBackLog_.empty()) ;
     }
-
-    /*!
-     @brief      Sprintを追加する
-     @param[in]  sprint 追加するスプリント
-    */
-    void addSprint( std::shared_ptr<Sprint> sprint );
-
-    /*!
-     @brief      Product Back LogにProduct Backlog Itemを追加する
-     @param[in]  pbi  Product Back Logに追加するProduct Backlog Item
-    */
-    void addPBL( std::shared_ptr<Item> pbi );
-
-    /*!
-     @brief      自身の情報からJSONオブジェクトを生成して返す
-     @return     JSONオブジェクト（文字列）
-    */
-    std::string createJson();
-
 
     Id id() { return id_; };
     Name name() { return name_; };

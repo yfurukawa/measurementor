@@ -32,6 +32,14 @@ void Project::addPBL( std::shared_ptr<Item> pbi )
     productBackLog_.insert( std::make_pair( pbi->id(), std::move( pbi ) ) );
 }
 
+void Project::aggrigateStoryPointsInPBL()
+{
+    for( auto pbi = begin(productBackLog_); pbi != end(productBackLog_); ++pbi )
+    {
+        remaingStoryPoints_ = remaingStoryPoints_ + pbi->second->reportStoryPoint();
+    }
+}
+
 std::string Project::createJson()
 {
     JsonKey id("id");
