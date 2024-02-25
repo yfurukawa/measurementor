@@ -26,7 +26,7 @@ namespace measurementor
          
         sut = new Project( id, name, parentId );
 
-        std::string expected(R"({"id":1,"name":"Test Project","remainingStoryPoints":0, "inProgressStoryPoints":0})");
+        std::string expected(R"({"id":1,"inProgressStoryPoints":0,"name":"Test Project","remainingStoryPoints":0})");
 
         EXPECT_EQ( expected, sut->createJson() );
  
