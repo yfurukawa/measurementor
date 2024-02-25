@@ -40,6 +40,15 @@ void Project::aggrigateStoryPointsInPBL()
     }
 }
 
+void Project::aggrigateStoryPointsInProgress()
+{
+    for( auto sprint = begin(sprints_); sprint != end(sprints_); ++sprint )
+    {
+        sprint->second->aggrigateStoryPoint();
+        storyPointInprogress_ = storyPointInprogress_ + sprint->second->reportStoryPoint();
+    }
+}
+
 std::string Project::createJson()
 {
     JsonKey id("id");

@@ -70,6 +70,11 @@ public:
     void aggrigateStoryPointsInPBL();
 
     /*!
+     @brief      進行中Sprintの残ストーリーポイントを集計する
+    */
+    void aggrigateStoryPointsInProgress();
+    
+    /*!
      @brief      自身の情報からJSONオブジェクトを生成して返す
      @return     JSONオブジェクト（文字列）
     */
