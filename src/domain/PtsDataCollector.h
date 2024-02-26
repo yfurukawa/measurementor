@@ -46,6 +46,12 @@ public:
 protected:
     PtsFactory* ptsFactory_;  //!< PTSとインターフェースするクラス
     std::map<unsigned int, std::shared_ptr<Project>> projectList_;   //!< PTSで管理されているプロジェクトのリスト
+
+private:
+    /*!
+     @brief    収集したデータの内、合計する必要がある残ポイント数、残工数を集計する
+    */
+    void aggrigateData();
 };
 
 }

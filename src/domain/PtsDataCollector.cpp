@@ -27,12 +27,24 @@ void PtsDataCollector::correctData()
         ptsFactory_->createPts()->collectSprintInformationOf( project->second );
     }
 
-    // データ収集後にプロジェクトツリーを表示する（確認用）
-    for( auto p = projectList_.begin(); p != projectList_.end(); ++p )
+    this->aggrigateData();
+}
+
+void PtsDataCollector::aggrigateData()
+{
+    for( auto project = begin(projectList_); project != end(projectList_); ++project )
     {
-        std::cout << p->first << " : " << p->second->name() << std::endl;
-        if( p->second->hasChild() )
-            p->second->printChild();
+        project->second->aggrigateStoryPointsInPBL();
+    }
+
+    for( auto project = begin(projectList_); project != end(projectList_); ++project )
+    {
+        project->second->aggrigateStoryPointsInProgress();
+    }
+
+    for( auto project = begin(projectList_); project != end(projectList_); ++project )
+    {
+        project->second->aggrigateRemainingWorkTime();
     }
 }
 
