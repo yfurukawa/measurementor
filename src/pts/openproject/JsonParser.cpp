@@ -23,7 +23,7 @@ void JsonParser::collectProjectData( const std::string& jsonString, std::map<uns
         measurementor::Id id(j["_embedded"]["elements"][count]["id"]);
         measurementor::Name name(j["_embedded"]["elements"][count]["name"]);
         measurementor::ParentId parentId( (j["_embedded"]["elements"][count]["_links"]["parent"]["href"]).is_null() ? 0 : pickupId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]) );
-        measurementor::Timestamp timestamp{"2024-02-26T12:34:56.000"}; // TODO
+        measurementor::Timestamp timestamp(chronos_.nowIso8601ExtendedGmt());
         projectList.insert( std::make_pair(j["_embedded"]["elements"][count]["id"], std::make_shared<measurementor::Project>(id, name, parentId, timestamp) ) );
     }
 

@@ -10,6 +10,7 @@
 #include <string>
 #include "../../domain/Project.h"
 #include "nlohmann/json.hpp"
+#include "../../../lib/libclock/Chronos.h"
 
 // ---------< forward declaration (Global) >-------------
 namespace measurementor
@@ -74,6 +75,7 @@ private:
 
     std::shared_ptr<measurementor::Item> extractPBLData( nlohmann::json jsonString, int count );
     std::shared_ptr<measurementor::Task> extractTaskData( nlohmann::json jsonString, int count );
+    ::Chronos chronos_;
 };
 
 }
