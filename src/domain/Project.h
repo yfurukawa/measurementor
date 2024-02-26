@@ -40,7 +40,7 @@ public:
     /*!
      @brief  コンストラクタ
     */
-    Project( Id id, Name name, ParentId parentId );
+    Project( ProjectId projectId, Name name, ParentId parentId, Timestamp timestamp );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -99,7 +99,7 @@ public:
         return !(childProjects_.empty()) || !(sprints_.empty()) || !(productBackLog_.empty()) ;
     }
 
-    Id id() { return id_; };
+    Id id() { return projectId_; };
     Name name() { return name_; };
 
     std::shared_ptr<Sprint> getSprint( measurementor::SprintId sprintId );
@@ -107,9 +107,10 @@ public:
     void printChild();
     
 private:
-    const Id id_;                                             //!< Project ID
+    const ProjectId projectId_;                               //!< Project ID
     const Name name_;                                         //!< Project名称
     const ParentId parentId_;                                 //!< 親のID
+    const Timestamp timestamp_;                               //!< elasticserchに登録する際に使用する日時（ISO8601の拡張型GMT形式）
     Point storyPointInprogress_;                              //!< 現在進行中のSprintのユーザーストーリポイント数
     Point remaingStoryPoints_;                                //!< Product Back Logに残っているユーザストーリーの総ポイント数
     std::list<Id> childProjects_;                             //!< 子プロジェクトのIDリスト

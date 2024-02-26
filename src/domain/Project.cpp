@@ -5,10 +5,11 @@
 namespace measurementor
 {
 
-Project::Project( Id id, Name name, ParentId parentId )
-    : id_(id),
+Project::Project( ProjectId projectId, Name name, ParentId parentId, Timestamp timestamp )
+    : projectId_(projectId),
     name_(name),
     parentId_(parentId),
+    timestamp_(timestamp),
     storyPointInprogress_(0),
     remaingStoryPoints_(0)    
 {
@@ -56,8 +57,8 @@ std::optional<std::string> Project::createJson()
         return std::nullopt;
     }
 
-    JsonKey id("id");
-    jsonCreator_.holdData( id, id_.get() );
+    JsonKey id("projectId");
+    jsonCreator_.holdData( id, projectId_.get() );
 
     JsonKey name("name");
     jsonCreator_.holdData( name, name_.get() );
@@ -67,6 +68,9 @@ std::optional<std::string> Project::createJson()
 
     JsonKey inProgressStoryPoints("inProgressStoryPoints");
     jsonCreator_.holdData( inProgressStoryPoints, storyPointInprogress_.get() );
+
+    JsonKey timestamp("timestamp");
+    jsonCreator_.holdData( timestamp, timestamp_.get() );
 
     return jsonCreator_.createJson();
 }

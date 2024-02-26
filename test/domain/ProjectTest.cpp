@@ -23,8 +23,9 @@ namespace measurementor
         Id id(1);
         Name name("Test Project");
         ParentId parentId(10);
+        Timestamp timestamp("2024-02-26T12:34:56.000");
          
-        sut = new Project( id, name, parentId );
+        sut = new Project( id, name, parentId, timestamp );
 
         auto result = sut->createJson();
 
@@ -42,8 +43,9 @@ namespace measurementor
         Id id(1);
         Name name("Test Project");
         ParentId parentId(10);
+        Timestamp timestamp("2024-02-26T12:34:56.000");
         
-        sut = new Project( id, name, parentId );
+        sut = new Project( id, name, parentId, timestamp );
         
         Id childId(5);
         sut->relateChildProject( childId );
@@ -85,12 +87,13 @@ namespace measurementor
         Id id(1);
         Name name("Test Project");
         ParentId parentId(10);
-         
-        sut = new Project( id, name, parentId );
+        Timestamp timestamp("2024-02-26T12:34:56.000");
+
+        sut = new Project( id, name, parentId, timestamp );
         sut->addPBL( item );
         sut->addPBL( item2 );
 
-        std::string expected(R"({"id":1,"inProgressStoryPoints":0,"name":"Test Project","remainingStoryPoints":8})");
+        std::string expected(R"({"inProgressStoryPoints":0,"name":"Test Project","projectId":1,"remainingStoryPoints":8,"timestamp":"2024-02-26T12:34:56.000"})");
         
         sut->aggrigateStoryPointsInPBL();
         auto result = sut->createJson();
@@ -136,10 +139,12 @@ namespace measurementor
         Id id(1);
         Name name("Test Project");
         ParentId parentId(10); 
-        sut = new Project( id, name, parentId );
+        Timestamp timestamp("2024-02-26T12:34:56.000");
+
+        sut = new Project( id, name, parentId, timestamp );
         sut->addSprint( sprint );
 
-        std::string expected(R"({"id":1,"inProgressStoryPoints":8,"name":"Test Project","remainingStoryPoints":0})");
+        std::string expected(R"({"inProgressStoryPoints":8,"name":"Test Project","projectId":1,"remainingStoryPoints":0,"timestamp":"2024-02-26T12:34:56.000"})");
         
         sut->aggrigateStoryPointsInProgress();
         auto result = sut->createJson();
