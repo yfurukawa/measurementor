@@ -50,6 +50,14 @@ void Project::aggrigateStoryPointsInProgress()
     }
 }
 
+void Project::aggrigateRemainingWorkTime()
+{
+    for( auto sprint = begin(sprints_); sprint != end(sprints_); ++sprint )
+    {
+        sprint->second->aggrigateRemainingWorkTime();
+    }
+}
+
 std::optional<std::string> Project::createJson()
 {
     if( this->isParentProject() || this->isEmptyProject()  )

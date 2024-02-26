@@ -76,6 +76,11 @@ public:
     void aggrigateStoryPointsInProgress();
 
     /*!
+     @brief      進行中Sprintの残を集計する
+    */
+    void aggrigateRemainingWorkTime();
+
+    /*!
      @brief      自身の情報からJSONオブジェクトを生成して返す
      @return     JSONオブジェクト（文字列）
     */
