@@ -30,6 +30,28 @@ void PtsDataCollector::correctData()
     this->aggrigateData();
 }
 
+void PtsDataCollector::permanentProjectData()
+{
+    jsonObject_.clear();
+
+    for( auto project = begin(projectList_); project != end(projectList_); ++project )
+    {
+        auto result = project->second->createJson();
+        if( result ) {
+            jsonObject_.push_back( result.value() );
+        }
+    }
+
+    for( auto l = begin(jsonObject_); l != end(jsonObject_); ++l )
+    {
+        std::cout << *l << std::endl;
+    }
+}
+
+void PtsDataCollector::permanentSprintData()
+{
+}
+
 void PtsDataCollector::aggrigateData()
 {
     for( auto project = begin(projectList_); project != end(projectList_); ++project )

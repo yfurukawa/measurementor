@@ -5,9 +5,10 @@
 #pragma once
 
 // ---------------< include >----------------------------
+#include <list>
 #include <map>
 #include <memory>
-#include <mutex>
+#include <string>
 #include "Project.h"
 #include "domainPrimitives/MeasurementPrimitives.h"
 
@@ -43,9 +44,22 @@ public:
     */
     void correctData();
 
+    /*!
+     @brief     Projectに関するデータを分析基盤に保存する
+     @note      Projectに関するデータは、各Sprint終了時点で更新されるのでdailyで測定すれば良い
+    */
+    void permanentProjectData();
+
+    /*!
+     @brief     Sprintに関するデータを分析基盤に保存する
+     @note      Sprintに関するデータは、Taskの状態変化を捉える必要があるので長くても30分間隔で測定する必要がある
+    */
+    void permanentSprintData();
+
 protected:
-    PtsFactory* ptsFactory_;  //!< PTSとインターフェースするクラス
+    PtsFactory* ptsFactory_;                                         //!< PTSとインターフェースするクラス
     std::map<unsigned int, std::shared_ptr<Project>> projectList_;   //!< PTSで管理されているプロジェクトのリスト
+    std::list<std::string> jsonObject_;                              //!< 各データクラスが生成したJSONオブジェクトの格納用
 
 private:
     /*!
