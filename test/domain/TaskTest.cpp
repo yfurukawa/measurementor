@@ -27,7 +27,7 @@ namespace measurementor
         UpdatedAt updatedAt("2024-02-23T19:18:25+09:00");
         sut = new Task( id, name, author, itemId, estimatedTime, assignee, status, statusCode, updatedAt );
 
-        std::string expected(R"({"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"id":11,"itemId":1,"name":"Test Task","status":"In Progress","statusCode":2,"updatedAt":"2024-02-23T19:18:25+09:00"})");
+        std::string expected(R"({"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"id":11,"itemId":1,"name":"Test Task","projectId":0,"sprintId":0,"status":"In Progress","statusCode":2,"timestamp":"","updatedAt":"2024-02-23T19:18:25+09:00"})");
 
         EXPECT_EQ( expected, sut->createJson() );
     }

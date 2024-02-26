@@ -29,7 +29,7 @@ namespace measurementor
  
         sut = new Item( id, name, projectId, sprintId, storyPoint, status, statusCode );
 
-        std::string expected(R"({"id":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,"totalEstimatedTime":0.0})");
+        std::string expected(R"({"itemId":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,","timestamp":"",totalEstimatedTime":0.0})");
 
         EXPECT_EQ( expected, sut->createJson() );
  
@@ -63,7 +63,7 @@ namespace measurementor
 
         sut->addTask( task );
 
-        std::string expected(R"({"id":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,"task":[{"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"id":11,"itemId":1,"name":"Test Task","status":"In Progress","statusCode":2,"updatedAt":"2024-02-23T19:18:25+09:00"}],"totalEstimatedTime":5.5})");
+        std::string expected(R"({"itemId":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,"timestamp":"","totalEstimatedTime":5.5})");
         sut->aggrigateEstimatedTime();  // 通常はSprintから呼び出されるのでテストでも外から呼び出す必要がある
 
         EXPECT_EQ( expected, sut->createJson() );
@@ -97,7 +97,7 @@ namespace measurementor
 
         sut->addTask( task );
 
-        std::string expected(R"({"id":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,"task":[{"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"id":11,"itemId":1,"name":"Test Task","status":"In Progress","statusCode":2,"updatedAt":"2024-02-23T19:18:25+09:00"}],"totalEstimatedTime":5.5})");
+        std::string expected(R"({"itemId":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,"timestamp":"","totalEstimatedTime":5.5})");
         sut->aggrigateEstimatedTime();  // 通常はSprintから呼び出されるのでテストでも外から呼び出す必要がある
 
         EXPECT_EQ( expected, sut->createJson() );
@@ -132,7 +132,7 @@ namespace measurementor
 
         sut->addTask( task );
 
-        std::string expected(R"({"id":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"Closed","statusCode":12,"storyPoint":0,"task":[{"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"id":11,"itemId":1,"name":"Test Task","status":"In Progress","statusCode":2,"updatedAt":"2024-02-23T19:18:25+09:00"}],"totalEstimatedTime":0.0})");
+        std::string expected(R"({"itemId":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"Closed","statusCode":12,"storyPoint":0,"timestamp":"","totalEstimatedTime":0.0})");
         sut->aggrigateEstimatedTime();  // 通常はSprintから呼び出されるのでテストでも外から呼び出す必要がある
 
         EXPECT_EQ( expected, sut->createJson() );

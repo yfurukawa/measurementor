@@ -28,7 +28,7 @@ namespace measurementor
          
         sut = new Sprint( id, name, status, startDate, endDate );
 
-        std::string expected(R"({"endDate":"2024-02-25T12:34:56+09:00","id":1,"name":"Test Sprint","projectId":0,"remainingWorkTime":0.0,"startDate":"2024-02-23T12:34:56+09:00","status":"open","totalStoryPoint":0})");
+        std::string expected(R"({"endDate":"2024-02-25T12:34:56+09:00","sprintId":1,"name":"Test Sprint","projectId":0,"remainingWorkTime":0.0,"startDate":"2024-02-23T12:34:56+09:00","status":"open","timestamp":"","totalStoryPoint":0})");
 
         EXPECT_EQ( expected, sut->createJson() );
  
@@ -71,7 +71,7 @@ namespace measurementor
 
         sut->addItem( item );
 
-        std::string expected(R"({"endDate":"2024-02-25T12:34:56+09:00","id":1,"item":[{"id":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"open","statusCode":1,"storyPoint":3,"task":[{"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"id":11,"itemId":1,"name":"Test Task","status":"In Progress","statusCode":2,"updatedAt":"2024-02-23T19:18:25+09:00"}],"totalEstimatedTime":5.5}],"name":"Test Sprint","projectId":0,"remainingWorkTime":5.5,"startDate":"2024-02-23T12:34:56+09:00","status":"open","totalStoryPoint":0})");
+        std::string expected(R"({"endDate":"2024-02-25T12:34:56+09:00","sprintId":1,"name":"Test Sprint","projectId":0,"remainingWorkTime":5.5,"startDate":"2024-02-23T12:34:56+09:00","status":"open","timestamp":"","totalStoryPoint":0})");
 
         EXPECT_EQ( expected, sut->createJson() );
     }
