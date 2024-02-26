@@ -98,6 +98,17 @@ using AuthorRaw =
 using Author = AuthorRaw<std::string>;
 
 /*!
+ @def       Timestamp
+ @brief     elasticsearchに登録する日付
+ @tparam    日付を表す文字列
+ @note      フォーマットはISO8601の拡張形式GMTに準拠するが、タイムゾーンを表す"Z"は不要
+*/
+template< typename T >
+using TimestampRaw =
+    StrongType<T, struct TimestampTag, Printable>;
+using Timestamp = TimestampRaw<std::string>;
+
+/*!
  @def       StartDate
  @brief     Sprintの開始日
  @tparam    日付を表す文字列
