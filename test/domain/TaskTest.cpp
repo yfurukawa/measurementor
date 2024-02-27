@@ -16,10 +16,13 @@ namespace measurementor
 
     TEST_F(TaskTest, createJson)
     {
-        Id id(11);
+        Timestamp timestamp("2024-02-27T12:34:56.123");
+        ProjectId projectId(1);
+        SprintId sprintId(11);
+        ItemId itemId(1);
+        TaskId id(11);
         Name name("Test Task");
         Author author("Test Author");
-        ItemId itemId(1);
         EstimatedTime estimatedTime(5.5);
         Assignee assignee("Test Assignee");
         Status status("In Progress");
@@ -27,17 +30,17 @@ namespace measurementor
         UpdatedAt updatedAt("2024-02-23T19:18:25+09:00");
         sut = new Task( id, name, author, itemId, estimatedTime, assignee, status, statusCode, updatedAt );
 
-        std::string expected(R"({"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"id":11,"itemId":1,"name":"Test Task","projectId":0,"sprintId":0,"status":"In Progress","statusCode":2,"timestamp":"","updatedAt":"2024-02-23T19:18:25+09:00"})");
+        std::string expected(R"({"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"itemId":1,"name":"Test Task","projectId":1,"sprintId":11,"status":"In Progress","statusCode":2,"taskId":11,"timestamp":"2024-02-27T12:34:56.123","updatedAt":"2024-02-23T19:18:25+09:00"})");
 
-        EXPECT_EQ( expected, sut->createJson() );
+        EXPECT_EQ( expected, sut->createJson( timestamp, projectId, sprintId ) );
     }
 
     TEST_F(TaskTest, estimatedTime_openTask)
     {
-        Id id(11);
+        ItemId itemId(1);
+        TaskId id(11);
         Name name("Test Task");
         Author author("Test Author");
-        ItemId itemId(1);
         EstimatedTime estimatedTime(5.5);
         Assignee assignee("Test Assignee");
         Status status("In Progress");
@@ -52,7 +55,7 @@ namespace measurementor
 
     TEST_F(TaskTest, estimatedTime_closedTask)
     {
-        Id id(11);
+        TaskId id(11);
         Name name("Test Task");
         Author author("Test Author");
         ItemId itemId(1);

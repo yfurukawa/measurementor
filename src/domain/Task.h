@@ -32,7 +32,7 @@ private:
 public:
     /*!
      @brief  コンストラクタ
-     @param[in]  id Task ID
+     @param[in]  taskId Task ID
      @param[in]  name Task名称
      @param[in]  author タスクの作成者
      @param[in]  itemId Taskを持つItemのID
@@ -41,7 +41,7 @@ public:
      @param[in]  status タスクの状態
      @param[in]  updatedAt 更新日時（ISO8601形式）
     */
-    Task( Id id, Name name, Author author, ItemId itemId, EstimatedTime estimatedTime, Assignee assignee, Status status, StatusCode statusCode, UpdatedAt updatedAt );
+    Task( TaskId taskId, Name name, Author author, ItemId itemId, EstimatedTime estimatedTime, Assignee assignee, Status status, StatusCode statusCode, UpdatedAt updatedAt );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -92,13 +92,13 @@ public:
      @brief      自身の情報からJSONオブジェクトを生成して返す
      @return     JSONオブジェクト（文字列）
     */
-    std::string createJson();
+    std::string createJson( Timestamp timestamp, ProjectId projectId, SprintId sprintId );
 
-    Id id() { return id_; };
+    TaskId id() { return taskId_; };
     Name name() { return name_; };
     
 private:
-    const Id id_;                 //!< Task ID
+    const TaskId taskId_;         //!< Task ID
     const Name name_;             //!< Task名称
     const Author author_;         //!< タスクの作成者
     const ItemId itemId_;         //!< Taskを持つItemのID

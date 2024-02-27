@@ -114,6 +114,7 @@ public:
     void printChild();
     
 private:
+    const Timestamp timestamp_;
     const Id id_;                                  //!< Item ID
     const Name name_;                              //!< Item名称
     ProjectId projectId_;                          //!< 所属するプロジェクトのID
