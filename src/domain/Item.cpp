@@ -65,6 +65,22 @@ Point Item::reportStoryPoint()
     return Point(0);
 }
 
+std::optional<std::list<std::string>> Item::createJsonOfTask()
+{
+    std::list<std::string> json;
+    json.clear();
+
+    if( tasks_.empty() )
+    {
+        return std::nullopt;
+    }
+    for( auto task = begin(tasks_); task != end(tasks_); ++task )
+    {
+        json.push_back( task->second->createJson() );
+    }
+    return json;
+}
+
 void Item::printChild()
 {
     for( auto p = tasks_.begin(); p != tasks_.end(); ++p )

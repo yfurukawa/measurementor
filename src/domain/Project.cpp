@@ -103,7 +103,7 @@ std::optional<std::list<std::string>> Project::createJsonOfSprint()
         auto result = sprint->second->createJsonOfItem();
         if( !result )
         {
-            break;
+            continue;;
         }
         JsonObject4Sprint.merge( std::move(result.value()) );
     }
