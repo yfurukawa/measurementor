@@ -5,5 +5,6 @@ int main( int argc, char* argv[] )
 	measurementor::PtsDataCollector collector;
 	collector.correctData();
 	collector.permanentProjectData();
+	collector.permanentSprintData();
 	return 0;
 }
