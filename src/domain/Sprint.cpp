@@ -69,6 +69,22 @@ Point Sprint::reportStoryPoint()
     
 }
 
+std::optional<std::list<std::string>> Sprint::createJsonOfItem()
+{
+    std::list<std::string> json;
+    json.clear();
+
+    if( items_.empty() )
+    {
+        return std::nullopt;
+    }
+    for( auto item = begin(items_); item != end(items_); ++item )
+    {
+        json.push_back( item->second->createJson() );
+    }
+    return json;
+}
+
 void Sprint::printChild()
 {
     for( auto item = begin(items_); item != end(items_); ++item )

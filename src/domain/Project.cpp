@@ -97,6 +97,16 @@ std::optional<std::list<std::string>> Project::createJsonOfSprint()
     {
         JsonObject4Sprint.push_back( sprint->second->createJson() );
     }
+
+    for( auto sprint = begin(sprints_); sprint != end(sprints_); ++sprint )
+    {
+        auto result = sprint->second->createJsonOfItem();
+        if( !result )
+        {
+            break;
+        }
+        JsonObject4Sprint.merge( std::move(result.value()) );
+    }
     return JsonObject4Sprint;
 }
 

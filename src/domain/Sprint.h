@@ -5,6 +5,7 @@
 #pragma once
 
 // ---------------< include >----------------------------
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -93,6 +94,12 @@ public:
      @return     JSONオブジェクト（文字列）
     */
     std::string createJson();
+
+    /*!
+     @brief      割り当てられたProduct Backlog ItemにJSONオブジェクト生成を指示する
+     @return     JSONオブジェクト（文字列）
+    */
+    std::optional<std::list<std::string>> createJsonOfItem();
 
     Id id() { return id_; };
     Name name() { return name_; };
