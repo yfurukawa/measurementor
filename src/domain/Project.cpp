@@ -83,6 +83,23 @@ std::optional<std::string> Project::createJson()
     return jsonCreator_.createJson();
 }
 
+std::optional<std::list<std::string>> Project::createJsonOfSprint()
+{
+    if( this->isParentProject() || this->isEmptyProject()  )
+    {
+        return std::nullopt;
+    }
+
+    std::list<std::string> JsonObject4Sprint;
+    JsonObject4Sprint.clear();
+
+    for( auto sprint = begin(sprints_); sprint != end(sprints_); ++sprint )
+    {
+        JsonObject4Sprint.push_back( sprint->second->createJson() );
+    }
+    return JsonObject4Sprint;
+}
+
 void Project::printChild()
 {
     for( auto p = childProjects_.begin(); p != childProjects_.end(); ++p )

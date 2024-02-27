@@ -42,14 +42,22 @@ void PtsDataCollector::permanentProjectData()
         }
     }
 
-    for( auto l = begin(jsonObject_); l != end(jsonObject_); ++l )
-    {
-        std::cout << *l << std::endl;
-    }
 }
 
 void PtsDataCollector::permanentSprintData()
 {
+    for( auto project = begin(projectList_); project != end(projectList_); ++project )
+    {
+        auto result = project->second->createJsonOfSprint();
+        if( result ) {
+            jsonObject_.merge( std::move(result.value()) );
+        }
+    }
+    
+    for( auto l = begin(jsonObject_); l != end(jsonObject_); ++l )
+    {
+        std::cout << *l << std::endl;
+    }
 }
 
 void PtsDataCollector::aggrigateData()

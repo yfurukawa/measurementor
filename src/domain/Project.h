@@ -87,6 +87,12 @@ public:
     std::optional<std::string> createJson();
 
     /*!
+     @brief      定義されたSprintのJSONオブジェクトを生成して返す
+     @return     JSONオブジェクト（文字列）
+    */
+    std::optional<std::list<std::string>> createJsonOfSprint();
+
+    /*!
      @brief      親プロジェクトのIDを返す
      @return     親プロジェクトのID
     */
