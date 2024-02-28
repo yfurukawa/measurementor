@@ -93,22 +93,12 @@ void Sprint::printChild()
     }
 }
 
-std::string Sprint::createJson()
+std::string Sprint::createJson( const Timestamp& timestamp )
 {
-    
-    if( !items_.empty() )
-    {
-        this->aggrigateRemainingWorkTime();
-        JsonKey keyItem("item");
+    JsonKey tstamp("timestamp");
+    jsonCreator_.holdData( tstamp, timestamp.get() );
 
-        for( auto item = begin(items_); item != end(items_); ++item )
-        {
-            JsonObject object( item->second->createJson() );
-            jsonCreator_.holdDataAsArray(keyItem, object);
-        }
-    }
-
-    JsonKey id("id");
+    JsonKey id("sprintId");
     jsonCreator_.holdData( id, id_.get() );
 
     JsonKey name("name");

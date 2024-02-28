@@ -91,9 +91,10 @@ public:
 
     /*!
      @brief      自身の情報からJSONオブジェクトを生成して返す
+     @param[in]  timestamp elasticserchに登録する際に使用する日時（ISO8601の拡張型GMT形式）
      @return     JSONオブジェクト（文字列）
     */
-    std::string createJson();
+    std::string createJson( const Timestamp& timestamp );
 
     /*!
      @brief      割り当てられたProduct Backlog ItemにJSONオブジェクト生成を指示する

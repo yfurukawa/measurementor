@@ -95,7 +95,7 @@ std::optional<std::list<std::string>> Project::createJsonOfSprint()
 
     for( auto sprint = begin(sprints_); sprint != end(sprints_); ++sprint )
     {
-        JsonObject4Sprint.push_back( sprint->second->createJson() );
+        JsonObject4Sprint.push_back( sprint->second->createJson( timestamp_ ) );
     }
 
     for( auto sprint = begin(sprints_); sprint != end(sprints_); ++sprint )
