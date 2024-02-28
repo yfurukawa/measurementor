@@ -20,7 +20,7 @@ namespace measurementor
 
     TEST_F(ProjectTest, createJson_EmptyProject)
     {
-        Id id(1);
+        ProjectId id(1);
         Name name("Test Project");
         ParentId parentId(10);
         Timestamp timestamp("2024-02-26T12:34:56.000");
@@ -40,14 +40,14 @@ namespace measurementor
 
     TEST_F(ProjectTest, createJson_ParentProject)
     {
-        Id id(1);
+        ProjectId id(1);
         Name name("Test Project");
         ParentId parentId(10);
         Timestamp timestamp("2024-02-26T12:34:56.000");
         
         sut = new Project( id, name, parentId, timestamp );
         
-        Id childId(5);
+        ProjectId childId(5);
         sut->relateChildProject( childId );
 
         auto result = sut->createJson();
@@ -64,7 +64,7 @@ namespace measurementor
     TEST_F(ProjectTest, createJson_TweItemsInProductBackLog)
     {
         // Item
-        Id itemId(1);
+        ItemId itemId(1);
         Name itemName("Test Item");
         ProjectId itemProjectId(10);
         Point storyPoint(3);
@@ -74,7 +74,7 @@ namespace measurementor
         SprintId sprintId(12);
         std::shared_ptr<Item> item = std::make_shared<Item>( itemId, itemName, itemProjectId, sprintId, storyPoint, status, statusCode );
 
-        Id item2Id(2);
+        ItemId item2Id(2);
         Name item2Name("Test Item2");
         ProjectId item2ProjectId(11);
         Point item2StoryPoint(5);
@@ -84,7 +84,7 @@ namespace measurementor
         SprintId item2SprintId(12);
         std::shared_ptr<Item> item2 = std::make_shared<Item>( item2Id, item2Name, item2ProjectId, item2SprintId, item2StoryPoint, item2Status, item2StatusCode );
 
-        Id id(1);
+        ProjectId id(1);
         Name name("Test Project");
         ParentId parentId(10);
         Timestamp timestamp("2024-02-26T12:34:56.000");
@@ -104,7 +104,7 @@ namespace measurementor
     TEST_F(ProjectTest, createJson_TweItemsInSprint)
     {
         // Item
-        Id itemId(1);
+        ItemId itemId(1);
         Name itemName("Test Item");
         ProjectId itemProjectId(10);
         Point storyPoint(3);
@@ -114,7 +114,7 @@ namespace measurementor
         SprintId itemSprintId(12);
         std::shared_ptr<Item> item = std::make_shared<Item>( itemId, itemName, itemProjectId, itemSprintId, storyPoint, itemStatus, statusCode );
 
-        Id item2Id(2);
+        ItemId item2Id(2);
         Name item2Name("Test Item2");
         ProjectId item2ProjectId(11);
         Point item2StoryPoint(5);
@@ -125,7 +125,7 @@ namespace measurementor
         std::shared_ptr<Item> item2 = std::make_shared<Item>( item2Id, item2Name, item2ProjectId, item2SprintId, item2StoryPoint, item2Status, item2StatusCode );
 
         // Sprint
-        Id sprintId(1);
+        SprintId sprintId(1);
         Name sprintName("Test Sprint");
         Status status("open");
         StartDate startDate("2024-02-23T12:34:56+09:00");
@@ -136,7 +136,7 @@ namespace measurementor
         sprint->addItem( item2 );
 
         // Project
-        Id id(1);
+        ProjectId id(1);
         Name name("Test Project");
         ParentId parentId(10); 
         Timestamp timestamp("2024-02-26T12:34:56.000");
