@@ -24,6 +24,7 @@ using Id = IdRaw<unsigned int>;
 using ParentId  = IdRaw<unsigned int>;
 using ProjectId = IdRaw<unsigned int>;
 using ItemId    = IdRaw<unsigned int>;
+using TaskId    = IdRaw<unsigned int>;
 
 template< typename T >
 using SprintIdRaw =
