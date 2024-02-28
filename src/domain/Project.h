@@ -110,7 +110,7 @@ public:
         return !(childProjects_.empty()) || !(sprints_.empty()) || !(productBackLog_.empty()) ;
     }
 
-    Id id() { return projectId_; };
+    ProjectId id() { return projectId_; };
     Name name() { return name_; };
 
     std::shared_ptr<Sprint> getSprint( measurementor::SprintId sprintId );
@@ -124,9 +124,9 @@ private:
     const Timestamp timestamp_;                               //!< elasticserchに登録する際に使用する日時（ISO8601の拡張型GMT形式）
     Point storyPointInprogress_;                              //!< 現在進行中のSprintのユーザーストーリポイント数
     Point remaingStoryPoints_;                                //!< Product Back Logに残っているユーザストーリーの総ポイント数
-    std::list<Id> childProjects_;                             //!< 子プロジェクトのIDリスト
-    std::map<Id, std::shared_ptr<Sprint>> sprints_;           //!< Project内に定義されたSprint
-    std::map<Id, std::shared_ptr<Item>> productBackLog_;      //!< ProjectのProduct Backlog Item
+    std::list<ProjectId> childProjects_;                             //!< 子プロジェクトのIDリスト
+    std::map<SprintId, std::shared_ptr<Sprint>> sprints_;           //!< Project内に定義されたSprint
+    std::map<ItemId, std::shared_ptr<Item>> productBackLog_;      //!< ProjectのProduct Backlog Item
     JsonCreator jsonCreator_;                                 //!< JSON Objectを生成するクラスのインスタンス
 
     /*!
