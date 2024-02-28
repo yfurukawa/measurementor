@@ -21,6 +21,7 @@ namespace measurementor
     {
         Id id(1);
         Name name("Test Sprint");
+        const Timestamp tstamp("2024-02-28T12:34:56.123");
         ProjectId projectId(10);
         Status status("open");
         StartDate startDate("2024-02-23T12:34:56+09:00");
@@ -28,9 +29,11 @@ namespace measurementor
          
         sut = new Sprint( id, name, status, startDate, endDate );
 
-        std::string expected(R"({"endDate":"2024-02-25T12:34:56+09:00","sprintId":1,"name":"Test Sprint","projectId":0,"remainingWorkTime":0.0,"startDate":"2024-02-23T12:34:56+09:00","status":"open","timestamp":"","totalStoryPoint":0})");
+        std::string expected(R"({"endDate":"2024-02-25T12:34:56+09:00","name":"Test Sprint","projectId":0,"remainingWorkTime":0.0,"sprintId":1,"startDate":"2024-02-23T12:34:56+09:00","status":"open","timestamp":"2024-02-28T12:34:56.123","totalStoryPoint":0})");
 
-        EXPECT_EQ( expected, sut->createJson() );
+        sut->aggrigateRemainingWorkTime();
+        sut->aggrigateStoryPoint();
+        EXPECT_EQ( expected, sut->createJson( tstamp ) );
  
     }
 
@@ -64,6 +67,7 @@ namespace measurementor
         // Sprint
         Id id(1);
         Name name("Test Sprint");
+        const Timestamp tstamp("2024-02-28T12:34:56.123");
         Status status("open");
         StartDate startDate("2024-02-23T12:34:56+09:00");
         EndDate endDate("2024-02-25T12:34:56+09:00");
@@ -71,9 +75,11 @@ namespace measurementor
 
         sut->addItem( item );
 
-        std::string expected(R"({"endDate":"2024-02-25T12:34:56+09:00","sprintId":1,"name":"Test Sprint","projectId":0,"remainingWorkTime":5.5,"startDate":"2024-02-23T12:34:56+09:00","status":"open","timestamp":"","totalStoryPoint":0})");
+        std::string expected(R"({"endDate":"2024-02-25T12:34:56+09:00","name":"Test Sprint","projectId":0,"remainingWorkTime":5.5,"sprintId":1,"startDate":"2024-02-23T12:34:56+09:00","status":"open","timestamp":"2024-02-28T12:34:56.123","totalStoryPoint":3})");
 
-        EXPECT_EQ( expected, sut->createJson() );
+        sut->aggrigateRemainingWorkTime();
+        sut->aggrigateStoryPoint();
+        EXPECT_EQ( expected, sut->createJson( tstamp ) );
     }
 
     TEST_F(SprintTest, reportStoryPoint_SprintStillOpen)
