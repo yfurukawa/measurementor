@@ -19,7 +19,7 @@ namespace measurementor
 
     TEST_F(SprintTest, createJson_noAssignedItem)
     {
-        Id id(1);
+        SprintId id(1);
         Name name("Test Sprint");
         const Timestamp tstamp("2024-02-28T12:34:56.123");
         ProjectId projectId(10);
@@ -40,7 +40,7 @@ namespace measurementor
     TEST_F(SprintTest, createJson_OneItemAndTask)
     {
         // Task
-        Id taskId(11);
+        TaskId taskId(11);
         Name taskName("Test Task");
         Author author("Test Author");
         ItemId itemId(1);
@@ -65,7 +65,7 @@ namespace measurementor
         item->addTask( task );
 
         // Sprint
-        Id id(1);
+        SprintId id(1);
         Name name("Test Sprint");
         const Timestamp tstamp("2024-02-28T12:34:56.123");
         Status status("open");
@@ -85,7 +85,7 @@ namespace measurementor
     TEST_F(SprintTest, reportStoryPoint_SprintStillOpen)
     {
         // Task
-        Id taskId(11);
+        TaskId taskId(11);
         Name taskName("Test Task");
         Author author("Test Author");
         ItemId itemId(1);
@@ -110,7 +110,7 @@ namespace measurementor
         item->addTask( task );
 
         // Sprint
-        Id id(1);
+        SprintId id(1);
         Name name("Test Sprint");
         Status status("open");
         StartDate startDate("2024-02-23T12:34:56+09:00");
@@ -126,7 +126,7 @@ namespace measurementor
     TEST_F(SprintTest, reportStoryPoint_SprintWasClosed)
     {
         // Task
-        Id taskId(11);
+        TaskId taskId(11);
         Name taskName("Test Task");
         Author author("Test Author");
         ItemId itemId(1);
@@ -151,7 +151,7 @@ namespace measurementor
         item->addTask( task );
 
         // Sprint
-        Id id(1);
+        SprintId id(1);
         Name name("Test Sprint");
         Status status("closed");
         StartDate startDate("2024-02-23T12:34:56+09:00");
