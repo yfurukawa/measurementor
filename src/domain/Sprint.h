@@ -38,7 +38,7 @@ public:
     /*!
      @brief  コンストラクタ
     */
-    Sprint( Id id, Name name, Status status, StartDate startDate, EndDate endDate );
+    Sprint( SprintId id, Name name, Status status, StartDate startDate, EndDate endDate );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -100,7 +100,7 @@ public:
      @brief      割り当てられたProduct Backlog ItemにJSONオブジェクト生成を指示する
      @return     JSONオブジェクト（文字列）
     */
-    std::optional<std::list<std::string>> createJsonOfItem();
+    std::optional<std::list<std::string>> createJsonOfItem( const Timestamp& timestamp );
 
     Id id() { return id_; };
     Name name() { return name_; };
@@ -108,11 +108,11 @@ public:
     void printChild();
     
 private:
-    const Id id_;                                  //!< Sprint ID
+    const SprintId id_;                                  //!< Sprint ID
     const Name name_;                              //!< Sprint名称
     ProjectId projectId_;                          //!< 親のID
     Point totalPoint_;                             //!< スプリントに割り当てられたアイテムの総見積もりポイント
-    Status status_;                           //!< スプリントのステータス（未完了open/完了closeを表す）
+    Status status_;                                //!< スプリントのステータス（未完了open/完了closeを表す）
     StartDate startDate_;                          //!< スプリント開始日
     EndDate endDate_;                              //!< スプリント終了日
     EstimatedTime remainingEstimatedTime_;         //!< タスクの残見積もり時間（スプリントバーンダウンチャート用）

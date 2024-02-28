@@ -6,7 +6,7 @@
 namespace measurementor
 {
 
-Sprint::Sprint( Id id, Name name, Status status, StartDate startDate, EndDate endDate )
+Sprint::Sprint( SprintId id, Name name, Status status, StartDate startDate, EndDate endDate )
     : id_(id),
     name_(name),
     projectId_(0),
@@ -69,7 +69,7 @@ Point Sprint::reportStoryPoint()
     
 }
 
-std::optional<std::list<std::string>> Sprint::createJsonOfItem()
+std::optional<std::list<std::string>> Sprint::createJsonOfItem( const Timestamp& timestamp )
 {
     std::list<std::string> json;
     json.clear();
@@ -78,6 +78,7 @@ std::optional<std::list<std::string>> Sprint::createJsonOfItem()
     {
         return std::nullopt;
     }
+
     for( auto item = begin(items_); item != end(items_); ++item )
     {
         json.push_back( item->second->createJson() );
