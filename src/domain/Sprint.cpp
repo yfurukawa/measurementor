@@ -81,7 +81,7 @@ std::optional<std::list<std::string>> Sprint::createJsonOfItem( const Timestamp&
 
     for( auto item = begin(items_); item != end(items_); ++item )
     {
-        json.push_back( item->second->createJson() );
+        json.push_back( item->second->createJson( timestamp ) );
     }
     return json;
 }

@@ -5,9 +5,8 @@
 namespace measurementor
 {
 
-Item::Item( Id id, Name name, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status, StatusCode statusCode )
-    : timestamp_(""),
-    id_(id),
+Item::Item( ItemId id, Name name, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status, StatusCode statusCode )
+    : id_(id),
     name_(name),
     projectId_(projectId),
     storyPoint_(storyPoint),
@@ -66,7 +65,7 @@ Point Item::reportStoryPoint()
     return Point(0);
 }
 
-std::optional<std::list<std::string>> Item::createJsonOfTask()
+std::optional<std::list<std::string>> Item::createJsonOfTask( const Timestamp& timestamp )
 {
     std::list<std::string> json;
     json.clear();
@@ -77,7 +76,7 @@ std::optional<std::list<std::string>> Item::createJsonOfTask()
     }
     for( auto task = begin(tasks_); task != end(tasks_); ++task )
     {
-        json.push_back( task->second->createJson( timestamp_, projectId_, sprintId_ ) );
+        json.push_back( task->second->createJson( timestamp, projectId_, sprintId_ ) );
     }
     return json;
 }
@@ -90,20 +89,25 @@ void Item::printChild()
     }
 }
 
-std::string Item::createJson()
+std::string Item::createJson( const Timestamp& timestamp )
 {
+    /*
     if( !tasks_.empty() )
     {
         JsonKey keyTask("task");
 
         for( auto task = begin(tasks_); task != end(tasks_); ++task )
         {
-            JsonObject object( task->second->createJson( timestamp_, projectId_, sprintId_ ) );
+            JsonObject object( task->second->createJson( timestamp, projectId_, sprintId_ ) );
             jsonCreator_.holdDataAsArray(keyTask, object);
         }
     }
+*/
 
-    JsonKey id("id");
+    JsonKey tstamp("timestamp");
+    jsonCreator_.holdData( tstamp, timestamp.get() );
+    
+    JsonKey id("itemId");
     jsonCreator_.holdData( id, id_.get() );
 
     JsonKey name("name");

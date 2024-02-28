@@ -18,8 +18,9 @@ namespace measurementor
 
     TEST_F(ItemTest, createJson_noAssignedTask)
     {
-        Id id(1);
+        ItemId id(1);
         Name name("Test Item");
+        const Timestamp tstamp("2024-02-28T12:34:56.123");
         ProjectId projectId(10);
         Point storyPoint(3);
         EstimatedTime totalEstimatedTime(5.5);
@@ -29,16 +30,16 @@ namespace measurementor
  
         sut = new Item( id, name, projectId, sprintId, storyPoint, status, statusCode );
 
-        std::string expected(R"({"itemId":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,","timestamp":"",totalEstimatedTime":0.0})");
+        std::string expected(R"({"itemId":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,"timestamp":"2024-02-28T12:34:56.123","totalEstimatedTime":0.0})");
 
-        EXPECT_EQ( expected, sut->createJson() );
+        EXPECT_EQ( expected, sut->createJson( tstamp ) );
  
     }
 
     TEST_F(ItemTest, createJson_OneTask)
     {
         // Task
-        Id taskId(11);
+        TaskId taskId(11);
         Name taskName("Test Task");
         Author author("Test Author");
         ItemId itemId(1);
@@ -50,8 +51,9 @@ namespace measurementor
         std::shared_ptr<Task> task = std::make_shared<Task>( taskId, taskName, author, itemId, estimatedTime, assignee, taskStatus, taskStatusCode, updatedAt );
 
         // Item
-        Id id(1);
+        ItemId id(1);
         Name name("Test Item");
+        const Timestamp tstamp("2024-02-28T12:34:56.123");
         ProjectId projectId(10);
         Point storyPoint(3);
         EstimatedTime totalEstimatedTime(5.5);
@@ -63,16 +65,16 @@ namespace measurementor
 
         sut->addTask( task );
 
-        std::string expected(R"({"itemId":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,"timestamp":"","totalEstimatedTime":5.5})");
+        std::string expected(R"({"itemId":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,"timestamp":"2024-02-28T12:34:56.123","totalEstimatedTime":5.5})");
         sut->aggrigateEstimatedTime();  // 通常はSprintから呼び出されるのでテストでも外から呼び出す必要がある
 
-        EXPECT_EQ( expected, sut->createJson() );
+        EXPECT_EQ( expected, sut->createJson( tstamp ) );
     }
 
     TEST_F(ItemTest, createJson_reportPoint_ItemStilOpen)
     {
         // Task
-        Id taskId(11);
+        TaskId taskId(11);
         Name taskName("Test Task");
         Author author("Test Author");
         ItemId itemId(1);
@@ -84,8 +86,9 @@ namespace measurementor
         std::shared_ptr<Task> task = std::make_shared<Task>( taskId, taskName, author, itemId, estimatedTime, assignee, taskStatus, taskStatusCode, updatedAt );
 
         // Item
-        Id id(1);
+        ItemId id(1);
         Name name("Test Item");
+        const Timestamp tstamp("2024-02-28T12:34:56.123");
         ProjectId projectId(10);
         Point storyPoint(3);
         EstimatedTime totalEstimatedTime(5.5);
@@ -97,17 +100,17 @@ namespace measurementor
 
         sut->addTask( task );
 
-        std::string expected(R"({"itemId":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,"timestamp":"","totalEstimatedTime":5.5})");
+        std::string expected(R"({"itemId":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,"timestamp":"2024-02-28T12:34:56.123","totalEstimatedTime":5.5})");
         sut->aggrigateEstimatedTime();  // 通常はSprintから呼び出されるのでテストでも外から呼び出す必要がある
 
-        EXPECT_EQ( expected, sut->createJson() );
+        EXPECT_EQ( expected, sut->createJson( tstamp ) );
  
     }
 
     TEST_F(ItemTest, createJson_reportPoint_ItemWasClosed)
     {
         // Task
-        Id taskId(11);
+        TaskId taskId(11);
         Name taskName("Test Task");
         Author author("Test Author");
         ItemId itemId(1);
@@ -119,8 +122,9 @@ namespace measurementor
         std::shared_ptr<Task> task = std::make_shared<Task>( taskId, taskName, author, itemId, estimatedTime, assignee, taskStatus, taskStatusCode, updatedAt );
 
         // Item
-        Id id(1);
+        ItemId id(1);
         Name name("Test Item");
+        const Timestamp tstamp("2024-02-28T12:34:56.123");
         ProjectId projectId(10);
         Point storyPoint(3);
         EstimatedTime totalEstimatedTime(5.5);
@@ -132,10 +136,10 @@ namespace measurementor
 
         sut->addTask( task );
 
-        std::string expected(R"({"itemId":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"Closed","statusCode":12,"storyPoint":0,"timestamp":"","totalEstimatedTime":0.0})");
+        std::string expected(R"({"itemId":1,"name":"Test Item","projectId":10,"sprintId":12,"status":"Closed","statusCode":12,"storyPoint":0,"timestamp":"2024-02-28T12:34:56.123","totalEstimatedTime":0.0})");
         sut->aggrigateEstimatedTime();  // 通常はSprintから呼び出されるのでテストでも外から呼び出す必要がある
 
-        EXPECT_EQ( expected, sut->createJson() );
+        EXPECT_EQ( expected, sut->createJson( tstamp ) );
  
     }
 }

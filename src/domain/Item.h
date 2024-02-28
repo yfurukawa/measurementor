@@ -46,7 +46,7 @@ public:
      @param[in]  status     このItemの完了状態を表すステータス
      @param[in]  statusCode このItemの完了状態を表すステータスの番号
     */
-    Item( Id id, Name name, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status, StatusCode statusCode );
+    Item( ItemId id, Name name, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status, StatusCode statusCode );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -100,22 +100,21 @@ public:
      @brief      自身の情報からJSONオブジェクトを生成して返す
      @return     JSONオブジェクト（文字列）
     */
-    std::string createJson();
+    std::string createJson( const Timestamp& timestamp );
 
     /*!
      @brief      TaskにJSONオブジェクト生成を指示する
      @return     JSONオブジェクト（文字列）
     */
-    std::optional<std::list<std::string>> createJsonOfTask();
+    std::optional<std::list<std::string>> createJsonOfTask( const Timestamp& timestamp );
 
-    Id id() { return id_; };
+    ItemId id() { return id_; };
     Name name() { return name_; };
 
     void printChild();
     
 private:
-    const Timestamp timestamp_;
-    const Id id_;                                  //!< Item ID
+    const ItemId id_;                              //!< Item ID
     const Name name_;                              //!< Item名称
     ProjectId projectId_;                          //!< 所属するプロジェクトのID
     Point storyPoint_;                             //!< 見積もりポイント
