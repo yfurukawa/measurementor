@@ -102,13 +102,13 @@ public:
     */
     std::optional<std::list<std::string>> createJsonOfItem( const Timestamp& timestamp );
 
-    Id id() { return id_; };
+    SprintId id() { return id_; };
     Name name() { return name_; };
 
     void printChild();
     
 private:
-    const SprintId id_;                                  //!< Sprint ID
+    const SprintId id_;                            //!< Sprint ID
     const Name name_;                              //!< Sprint名称
     ProjectId projectId_;                          //!< 親のID
     Point totalPoint_;                             //!< スプリントに割り当てられたアイテムの総見積もりポイント
