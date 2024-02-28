@@ -100,7 +100,7 @@ std::optional<std::list<std::string>> Project::createJsonOfSprint()
 
     for( auto sprint = begin(sprints_); sprint != end(sprints_); ++sprint )
     {
-        auto result = sprint->second->createJsonOfItem();
+        auto result = sprint->second->createJsonOfItem( timestamp_ );
         if( !result )
         {
             continue;;
@@ -124,7 +124,7 @@ void Project::printChild()
 
 std::shared_ptr<Sprint> Project::getSprint( measurementor::SprintId sprintId )
 {
-    measurementor::Id id{ sprintId.get() };
+    measurementor::SprintId id{ sprintId.get() };
     return sprints_.at( id );
 }
 
