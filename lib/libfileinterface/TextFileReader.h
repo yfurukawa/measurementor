@@ -5,6 +5,7 @@
 #pragma once
 
 // ---------------< include >----------------------------
+#include <filesystem>
 #include "ITextFileReader.h"
 
 // --------------< namespace >---------------------------
