@@ -32,7 +32,9 @@ public:
     /*!
     @brief  デフォルトコンストラクタ
     */
-    OpenProjectFactory() {
+    OpenProjectFactory()
+        : pts_(nullptr)
+    {
         OpenProjectFactory::destroyed_ = false;
     }
 
@@ -68,8 +70,9 @@ public:
     }
 
 private:
-    static bool destroyed_;    //!< インスタンスの破棄ステータス
-    measurementor::Pts* pts_{nullptr};  //!< 具象クラスのインスタンス
+    measurementor::Pts* pts_;                            //!< OpenProjectとインターフェースするクラス
+    static bool destroyed_;                              //!< インスタンスの破棄ステータス
+    
 };
 
 }
