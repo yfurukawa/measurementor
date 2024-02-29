@@ -7,6 +7,7 @@
 // ---------------< include >----------------------------
 #include <map>
 #include <memory>
+#include "DomainPrimitives.h"
 #include "../../domain/Pts.h"
 
 // ---------< forward declaration (Global) >-------------
@@ -36,7 +37,7 @@ public:
      @brief  コンストラクタ
      @param[in]  tcpClient OpenProjectと通信するためのTCPクライアント
     */
-    explicit OpenProject( std::unique_ptr<TcpClient> tcpClient );
+    explicit OpenProject( std::unique_ptr<TcpClient> tcpClient, ApiKey apiKey );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -62,8 +63,9 @@ public:
     void collectPBLandTaskInformation( std::shared_ptr<measurementor::Project>& project ) override;
 
 private:
-    std::unique_ptr<::TcpClient> tcpClient_; //!< OpenProjectと通信するためのTCPクライアント
-    std::unique_ptr<JsonParser> jsonParser_; //!< Json文字列のパーサ
+    std::unique_ptr<::TcpClient> tcpClient_;         //!< OpenProjectと通信するためのTCPクライアント
+    std::unique_ptr<JsonParser> jsonParser_;         //!< Json文字列のパーサ
+    ApiKey apiKey_;                                  //!< OpenProjectに接続する際に使用するBasic認証キー
 
     /*!
      @brief  受信データからJSONストリングを抽出する

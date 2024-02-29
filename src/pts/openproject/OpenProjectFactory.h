@@ -6,6 +6,7 @@
 
 // ---------------< include >----------------------------
 #include <memory>
+#include "DomainPrimitives.h"
 #include "../../domain/PtsFactory.h"
 #include "IPv4.h"
 #include "OpenProject.h"
@@ -59,7 +60,8 @@ public:
             if( !pts_ ) {
                 IPv4 ip("127.0.0.1");
                 Port port(8080);
-                pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_unique<::TcpClient>( ip, port ) ) );
+                ApiKey apiKey("fc7f45d68414b015ae95a536617a6ddbc3f8836c3d60d98bd04546c9b3fd726c");  // TODO tokenはファイルから読み込むようにする
+                pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_unique<::TcpClient>( ip, port ), apiKey ) );
             }
         }
         return pts_;
