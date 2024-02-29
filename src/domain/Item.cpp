@@ -91,19 +91,6 @@ void Item::printChild()
 
 std::string Item::createJson( const Timestamp& timestamp )
 {
-    /*
-    if( !tasks_.empty() )
-    {
-        JsonKey keyTask("task");
-
-        for( auto task = begin(tasks_); task != end(tasks_); ++task )
-        {
-            JsonObject object( task->second->createJson( timestamp, projectId_, sprintId_ ) );
-            jsonCreator_.holdDataAsArray(keyTask, object);
-        }
-    }
-*/
-
     JsonKey tstamp("timestamp");
     jsonCreator_.holdData( tstamp, timestamp.get() );
     
