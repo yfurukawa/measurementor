@@ -28,12 +28,6 @@ public:
     ITextFileReader() = default;
 
     /*!
-     @brief      コンストラクタ
-     @param[in]  path ファイル名を含む読み込み元ファイルのパス
-    */
-    explicit ITextFileReader( std::filesystem::path path ) {};
-
-    /*!
      @brief  デフォルトデストラクタ
     */
     virtual ~ITextFileReader() = default;
@@ -42,12 +36,12 @@ public:
      @brief      ファイルをオープンする
      @param[in]  path ファイル名を含む読み込み元ファイルのパス
     */
-    virtual std::optional<std::string> openFile( std::filesystem::path path ) = 0;
+    virtual std::optional<std::string> openFile( const std::filesystem::path& path ) = 0;
 
     /*!
      @brief      ファイルをクローズする
     */
-    virtual std::optional<std::string> close() = 0;
+    virtual std::optional<std::string> closeFile() = 0;
     
     /*!
      @brief    データを１行読み込む

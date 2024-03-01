@@ -9,8 +9,8 @@ LIB_DIR = /usr/local/lib64
 INCLUDE_DIR = /usr/local/include
 LIB = 
 OPT = -O0 -Wall -std=c++17 -fPIC
-TARGET = libfileinterface.a.0.2.0
-SRC = TextFileWriter.cpp TextFileReader.cpp
+TARGET = libfileinterface.a.0.3.1
+SRC = TextFileWriter.cpp TextFileReader.cpp ConfFileParser.cpp
 
 $(TARGET):
 	$(CC) $(INCLUUDE) $(OPT) -c $(SRC)
