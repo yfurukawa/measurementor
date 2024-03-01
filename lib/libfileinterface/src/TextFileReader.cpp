@@ -1,7 +1,7 @@
 #include <ios>
 #include "TextFileReader.h"
 
-TextFileReader::TextFileReader( std::filesystem::path path )
+TextFileReader::TextFileReader()
 {
 
 }

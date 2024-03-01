@@ -44,5 +44,5 @@ public:
     std::optional<std::map<std::string, std::string>> parseFile();
 
 private:
-    std::filesystem::path configFile_;   //!< configファイル
+    const std::filesystem::path configFile_;   //!< configファイル
 };
