@@ -11,7 +11,7 @@ namespace pts
 
     void OpenProjectTest::TearDown()
     {
-        delete sut;
+        //delete sut;
     }
 
     TEST_F(OpenProjectTest, createJson_Eject)
