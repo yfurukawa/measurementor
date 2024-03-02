@@ -42,4 +42,25 @@ namespace pts
         
     }
 
+    TEST_F(JsonParserTest, collectItemData_oneItem)
+    {
+        std::ifstream ifs("./oneItem.json");
+        std::string testJson("");
+        std::getline(ifs, testJson);
+        std::map<std::string, std::string> expect{
+            {"itemId","37"},
+            {"itemName","Test Feature"},
+            {"projectId","3"},
+            {"sprintId","5"},
+            {"status","New"},
+            {"statusCode","1"},
+            {"storyPoint","3"}
+        };
+
+        std::list<std::map<std::string, std::string>> result = sut->collectItemData( testJson );
+        EXPECT_EQ(1, result.size() );
+        EXPECT_EQ( expect, result.front() );
+        
+    }
+
 }
