@@ -63,4 +63,24 @@ namespace pts
         
     }
 
+    TEST_F(JsonParserTest, collectItemData_oneSprint)
+    {
+        std::ifstream ifs("./oneSprint.json");
+        std::string testJson("");
+        std::getline(ifs, testJson);
+        std::map<std::string, std::string> expect{
+            {"endDate","2024-03-06"},
+            {"sprintName","Sprint1 of Test Project"},
+            {"projectId","3"},
+            {"startDate","2024-02-27"},
+            {"sprintId","5"},
+            {"status","open"}
+        };
+
+        std::list<std::map<std::string, std::string>> result = sut->collectSprintData( testJson );
+        EXPECT_EQ(1, result.size() );
+        EXPECT_EQ( expect, result.front() );
+        
+    }
+
 }
