@@ -37,6 +37,7 @@ void JsonParser::collectProjectData( const std::string& jsonString, std::map<uns
 
 }
 
+// TODO delete
 void JsonParser::collectSprintData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project )
 {
     auto j = nlohmann::json::parse( jsonString );
@@ -52,6 +53,7 @@ void JsonParser::collectSprintData( const std::string& jsonString, std::shared_p
     }
 }
 
+// TODO delete
 void JsonParser::collectPBLandTaskData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project )
 {
     auto j = nlohmann::json::parse( jsonString );
@@ -91,6 +93,36 @@ void JsonParser::collectPBLandTaskData( const std::string& jsonString, std::shar
             project->addPBL( item->second );
         }
     }
+}
+
+std::list<std::map<std::string, std::string>> JsonParser::collectSprintData( const std::string& jsonString )
+{
+    std::list<std::map<std::string, std::string>> sprintList;
+    std::map<std::string, std::string> parsedData;
+    sprintList.clear();
+    auto j = nlohmann::json::parse( jsonString );
+
+    for( int count = 0; count < j["count"]; ++count )
+    {
+        unsigned int sprintId(j["_embedded"]["elements"][count]["id"]);
+        parsedData.insert( std::make_pair( "sprintId", std::to_string( sprintId ) ));
+        if( (j["_embedded"]["elements"][count]["_links"]["definingProject"]["href"]).is_null() )
+        {
+            parsedData.insert( std::make_pair( "projectId", "0" ));
+        }
+        else
+        {
+            unsigned int sprintId( pickupId( j["_embedded"]["elements"][count]["_links"]["definingProject"]["href"] ));
+            parsedData.insert( std::make_pair( "projectId", std::to_string( sprintId )));
+        }
+        parsedData.insert( std::make_pair( "sprintName", j["_embedded"]["elements"][count]["name"] ));
+        parsedData.insert( std::make_pair( "status", j["_embedded"]["elements"][count]["status"] ));
+        parsedData.insert( std::make_pair( "startDate", (j["_embedded"]["elements"][count]["startDate"]).is_null() ? "" : j["_embedded"]["elements"][count]["startDate"] ));
+        parsedData.insert( std::make_pair( "endDate",   (j["_embedded"]["elements"][count]["endDate"]).is_null()   ? "" : j["_embedded"]["elements"][count]["endDate"] ));
+        sprintList.push_back( parsedData );
+    }
+
+    return sprintList;
 }
 
 std::list<std::map<std::string, std::string>> JsonParser::collectItemData( const std::string& jsonString )
