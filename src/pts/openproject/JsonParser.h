@@ -5,6 +5,7 @@
 #pragma once
 
 // ---------------< include >----------------------------
+#include <list>
 #include <map>
 #include <memory>
 #include <string>
@@ -29,7 +30,7 @@ namespace pts
 /*!
  @class     JsonParser
  @brief     Json文字列を解析して必要なデータを抽出する
- @note      本クラスは、OpenProjectから受信したJson文字列から必要な情報を抽出し、オブジェクトリストを返すものである。
+ @note      本クラスは、OpenProjectから受信したJson文字列から必要な情報を抽出し、それを返すものである。
 */
 class JsonParser final
 {
@@ -62,10 +63,22 @@ public:
      @brief        Json文字列からPBLとTaskの情報を抽出し、紐付ける
      @param[in]    入力となるJson文字列
      @param[out]   対象プロジェクト
+     @attention    TODO delete
     */
     void collectPBLandTaskData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project );
 
+    /*!
+     @brief        Json文字列からTaskの情報を抽出する
+     @param[in]    入力となるJson文字列
+     @return       抽出情報（タスクの情報マップをリスト化したもの）
+    */
+    std::list<std::map<std::string, std::string>> collectTaskData( const std::string& jsonString );
+
 private:
+    std::shared_ptr<measurementor::Item> extractPBLData( nlohmann::json jsonString, int count );
+    std::shared_ptr<measurementor::Task> extractTaskData( nlohmann::json jsonString, int count );
+    ::Chronos chronos_;
+
     /*!
      @brief        Json文字列のparent::hrefから親プロジェクトのidを抽出する
      @param[in]    入力となるJson文字列
@@ -73,9 +86,15 @@ private:
     */
     unsigned int pickupId( std::string href );
 
-    std::shared_ptr<measurementor::Item> extractPBLData( nlohmann::json jsonString, int count );
-    std::shared_ptr<measurementor::Task> extractTaskData( nlohmann::json jsonString, int count );
-    ::Chronos chronos_;
+    /*!
+     @brief        Json文字列のremainingTimeの設定値（PTxH）から数値を抽出する
+     @param[in]    remainingTimeの設定値
+     @return       時間を表す数値（文字列）
+    */
+    std::string pickupHour( std::string remainingTimeValue );
+
+
+
 };
 
 }

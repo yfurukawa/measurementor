@@ -64,7 +64,7 @@ void JsonParser::collectPBLandTaskData( const std::string& jsonString, std::shar
     {
         measurementor::Id id(j["_embedded"]["elements"][count]["id"]);
         
-        type = j["_embedded"]["elements"][count]["_lynks"]["type"]["title"];
+        type = j["_embedded"]["elements"][count]["_links"]["type"]["title"];
         if( type == "Feature") {
             items.insert( std::make_pair( id, extractPBLData( j, count ) ) );
         }
@@ -93,6 +93,50 @@ void JsonParser::collectPBLandTaskData( const std::string& jsonString, std::shar
     }
 }
 
+std::list<std::map<std::string, std::string>> JsonParser::collectTaskData( const std::string& jsonString )
+{
+    std::list<std::map<std::string, std::string>> taskList;
+    std::map<std::string, std::string> parsedData;
+    taskList.clear();
+    auto j = nlohmann::json::parse( jsonString );
+    std::string type("");
+
+    for( int count = 0; count < j["count"]; ++count )
+    {
+        parsedData.clear();
+        type = j["_embedded"]["elements"][count]["_links"]["type"]["title"];
+
+        if( type == "Task" )
+        {
+        
+            unsigned int taskId(j["_embedded"]["elements"][count]["id"]);
+            parsedData.insert( std::make_pair( "taskId", std::to_string( taskId ) ) );
+            parsedData.insert( std::make_pair( "taskName", j["_embedded"]["elements"][count]["subject"] ));
+
+            parsedData.insert( std::make_pair( "itemId", std::to_string(pickupId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]) ) ));
+            parsedData.insert( std::make_pair( "sprintId", std::to_string(pickupId(j["_embedded"]["elements"][count]["_links"]["version"]["href"]) ) ));
+            parsedData.insert( std::make_pair( "projectId", std::to_string(pickupId(j["_embedded"]["elements"][count]["_links"]["project"]["href"]) ) ));
+            parsedData.insert( std::make_pair( "author", j["_embedded"]["elements"][count]["_links"]["author"]["title"] ));
+            // 見積もり時間はOpenProjectの設定により取得先を変更する必要がありそう
+            if( (j["_embedded"]["elements"][count]["remainingTime"]).is_null() )
+            {
+                parsedData.insert( std::make_pair( "estimatedTime", "0" ));    
+            }
+            else
+            {
+                parsedData.insert( std::make_pair( "estimatedTime", pickupHour( j["_embedded"]["elements"][count]["remainingTime"] )));
+            }
+            parsedData.insert( std::make_pair( "assignee", (j["_embedded"]["elements"][count]["_links"]["assignee"]["href"]).is_null() ? "" : j["_embedded"]["elements"][count]["_links"]["assignee"]["title"] ) );
+            parsedData.insert( std::make_pair( "status", j["_embedded"]["elements"][count]["_links"]["status"]["title"] ));
+            parsedData.insert( std::make_pair( "statusCode", std::to_string( pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"] ) )));
+            parsedData.insert( std::make_pair( "updatedAt", j["_embedded"]["elements"][count]["updatedAt"]) );
+
+            taskList.push_back( parsedData );
+        }
+    }
+    return taskList;
+}
+
 unsigned int JsonParser::pickupId(std::string href)
 {
     auto lastPosition = href.find_last_of( "/", href.length() );
@@ -104,11 +148,11 @@ std::shared_ptr<measurementor::Item> JsonParser::extractPBLData( nlohmann::json 
 {
     measurementor::ItemId id(jsonString["_embedded"]["elements"][count]["id"]);
     measurementor::Name name(jsonString["_embedded"]["elements"][count]["subject"]);
-    measurementor::ProjectId projectId( pickupId( jsonString["_embedded"]["elements"][count]["_lynks"]["Project"]["href"] ) );
-    measurementor::SprintId sprintId( (jsonString["_embedded"]["elements"][count]["_lynks"]["version"]["href"]).is_null() ? 0 : (pickupId(jsonString["_embedded"]["elements"][count]["_lynks"]["version"]["href"])) );
+    measurementor::ProjectId projectId( pickupId( jsonString["_embedded"]["elements"][count]["_links"]["Project"]["href"] ) );
+    measurementor::SprintId sprintId( (jsonString["_embedded"]["elements"][count]["_links"]["version"]["href"]).is_null() ? 0 : (pickupId(jsonString["_embedded"]["elements"][count]["_links"]["version"]["href"])) );
     measurementor::Point storyPoint( (jsonString["_embedded"]["elements"][count]["storyPoints"]));
-    measurementor::Status status( jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["title"] );
-    measurementor::StatusCode statusCode( pickupId(jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["href"]) );
+    measurementor::Status status( jsonString["_embedded"]["elements"][count]["_links"]["status"]["title"] );
+    measurementor::StatusCode statusCode( pickupId(jsonString["_embedded"]["elements"][count]["_links"]["status"]["href"]) );
     return std::make_shared<measurementor::Item>(id, name, projectId, sprintId, storyPoint, status, statusCode);
 }
 
@@ -116,14 +160,20 @@ std::shared_ptr<measurementor::Task> JsonParser::extractTaskData( nlohmann::json
 {
     measurementor::TaskId id(jsonString["_embedded"]["elements"][count]["id"]);
     measurementor::Name name(jsonString["_embedded"]["elements"][count]["subject"]);
-    measurementor::ItemId itemId( pickupId(jsonString["_embedded"]["elements"][count]["_lynks"]["parent"]) );
-    measurementor::Author author( jsonString["_embedded"]["elements"][count]["_lynks"]["author"]["title"] );
+    measurementor::ItemId itemId( pickupId(jsonString["_embedded"]["elements"][count]["_links"]["parent"]) );
+    measurementor::Author author( jsonString["_embedded"]["elements"][count]["_links"]["author"]["title"] );
     measurementor::EstimatedTime estimatedTime( jsonString["_embedded"]["elements"][count]["estimatedTime"]);
-    measurementor::Assignee assignee( (jsonString["_embedded"]["elements"][count]["_lynks"]["assignee"]["href"]).is_null() ? "" : jsonString["_embedded"]["elements"][count]["_lynks"]["assignee"]["title"] );
-    measurementor::Status status( jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["title"] );
-    measurementor::StatusCode statusCode( pickupId(jsonString["_embedded"]["elements"][count]["_lynks"]["status"]["href"] ) );
+    measurementor::Assignee assignee( (jsonString["_embedded"]["elements"][count]["_links"]["assignee"]["href"]).is_null() ? "" : jsonString["_embedded"]["elements"][count]["_links"]["assignee"]["title"] );
+    measurementor::Status status( jsonString["_embedded"]["elements"][count]["_links"]["status"]["title"] );
+    measurementor::StatusCode statusCode( pickupId(jsonString["_embedded"]["elements"][count]["_links"]["status"]["href"] ) );
     measurementor::UpdatedAt updatedAt( jsonString["_embedded"]["elements"][count]["updatedAt"]);
     return std::make_shared<measurementor::Task>(id, name, author, itemId, estimatedTime, assignee, status, statusCode, updatedAt );
+}
+
+std::string JsonParser::pickupHour( std::string remainingTimeValue )
+{
+    int length( remainingTimeValue.length() );
+    return remainingTimeValue.substr(2, length - 3 );
 }
 
 }
