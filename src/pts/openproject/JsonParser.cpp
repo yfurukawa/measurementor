@@ -153,7 +153,14 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData( const
             {
                 parsedData.insert( std::make_pair( "sprintId", std::to_string( pickupId(j["_embedded"]["elements"][count]["_links"]["version"]["href"])) ));
             }
-            parsedData.insert( std::make_pair( "storyPoint", std::to_string((int)j["_embedded"]["elements"][count]["storyPoints"])) );
+            if( (j["_embedded"]["elements"][count]["storyPoints"]).is_null() )
+            {
+                parsedData.insert( std::make_pair( "storyPoint", "0" ));
+            }
+            else
+            {
+                parsedData.insert( std::make_pair( "storyPoint", std::to_string((int)j["_embedded"]["elements"][count]["storyPoints"])) );
+            }
             parsedData.insert( std::make_pair( "status", j["_embedded"]["elements"][count]["_links"]["status"]["title"] ));
             parsedData.insert( std::make_pair( "statusCode", std::to_string( pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]) )));
             itemList.push_back( parsedData );
