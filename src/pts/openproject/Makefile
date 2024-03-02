@@ -9,7 +9,7 @@ TARGET = libpts.a
 SRC = OpenProject.cpp OpenProjectFactory.cpp JsonParser.cpp ../../../lib/libclock/Chronos.cpp ../../../lib/libfileinterface/src/ConfFileParser.cpp ../../../lib/libfileinterface/src/TextFileReader.cpp
 
 all:
-	$(CC) $(INCLUDE) $(LIB_DIR) $(OPT) -c $(SRC) $(LIB)
+	$(CC) $(INCLUDE) $(LIB_DIR) $(OPT) -c $(SRC)
 	$(AR) -o $(TARGET) $(SRC:.cpp=.o)
 	$(MV) $(TARGET) ..
 
