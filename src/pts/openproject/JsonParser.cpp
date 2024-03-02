@@ -93,6 +93,45 @@ void JsonParser::collectPBLandTaskData( const std::string& jsonString, std::shar
     }
 }
 
+std::list<std::map<std::string, std::string>> JsonParser::collectItemData( const std::string& jsonString )
+{
+    std::list<std::map<std::string, std::string>> itemList;
+    std::map<std::string, std::string> parsedData;
+    itemList.clear();
+    auto j = nlohmann::json::parse( jsonString );
+    std::string type("");
+
+    for( int count = 0; count < j["count"]; ++count )
+    {
+        parsedData.clear();
+        type = j["_embedded"]["elements"][count]["_links"]["type"]["title"];
+
+        if( type == "Feature" )
+        {
+            unsigned int itemId(j["_embedded"]["elements"][count]["id"]);
+            parsedData.insert( std::make_pair( "itemId", std::to_string( itemId ) ));
+            parsedData.insert( std::make_pair( "itemName", j["_embedded"]["elements"][count]["subject"]) );
+            parsedData.insert( std::make_pair( "projectId", std::to_string( pickupId(j["_embedded"]["elements"][count]["_links"]["project"]["href"]) ) ));
+            if( (j["_embedded"]["elements"][count]["_links"]["version"]["href"]).is_null() )
+            {
+                // プロダクトバックログに積まれているPBIはスプリントに紐付いていないのでsprintIdは0にする
+                parsedData.insert( std::make_pair( "sprintId", "0" ) );
+            }
+            else
+            {
+                parsedData.insert( std::make_pair( "sprintId", std::to_string( pickupId(j["_embedded"]["elements"][count]["_links"]["version"]["href"])) ));
+            }
+            parsedData.insert( std::make_pair( "storyPoint", std::to_string((int)j["_embedded"]["elements"][count]["storyPoints"])) );
+            parsedData.insert( std::make_pair( "status", j["_embedded"]["elements"][count]["_links"]["status"]["title"] ));
+            parsedData.insert( std::make_pair( "statusCode", std::to_string( pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]) )));
+            itemList.push_back( parsedData );
+        }
+        
+    }
+
+    return itemList;
+}
+
 std::list<std::map<std::string, std::string>> JsonParser::collectTaskData( const std::string& jsonString )
 {
     std::list<std::map<std::string, std::string>> taskList;
@@ -144,6 +183,7 @@ unsigned int JsonParser::pickupId(std::string href)
     return std::stoi(idString);
 }
 
+// TODO delete
 std::shared_ptr<measurementor::Item> JsonParser::extractPBLData( nlohmann::json jsonString, int count )
 {
     measurementor::ItemId id(jsonString["_embedded"]["elements"][count]["id"]);
@@ -156,6 +196,7 @@ std::shared_ptr<measurementor::Item> JsonParser::extractPBLData( nlohmann::json 
     return std::make_shared<measurementor::Item>(id, name, projectId, sprintId, storyPoint, status, statusCode);
 }
 
+// TODO delete
 std::shared_ptr<measurementor::Task> JsonParser::extractTaskData( nlohmann::json jsonString, int count )
 {
     measurementor::TaskId id(jsonString["_embedded"]["elements"][count]["id"]);
