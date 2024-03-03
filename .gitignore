@@ -32,6 +32,7 @@
 *.out
 *.app
 measurementor
+*Test
 
-*.json
+pretty*.json
 
