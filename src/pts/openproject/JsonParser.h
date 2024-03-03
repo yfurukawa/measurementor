@@ -94,11 +94,11 @@ private:
     ::Chronos chronos_;
 
     /*!
-     @brief        Json文字列のparent::hrefから親プロジェクトのidを抽出する
+     @brief        Json文字列のparent::hrefからidを抽出する
      @param[in]    入力となるJson文字列
-     @param[out]   作成したオブジェクトリスト
+     @return       抽出したidの文字列
     */
-    unsigned int pickupId( std::string href );
+    std::string pickupId( std::string href );
 
     /*!
      @brief        Json文字列のremainingTimeの設定値（PTxH）から数値を抽出する
