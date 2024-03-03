@@ -97,6 +97,24 @@ void JsonParser::collectPBLandTaskData( const std::string& jsonString, std::shar
     }
 }
 
+std::list<std::map<std::string, std::string>> JsonParser::collectProjectData( const std::string& jsonString )
+{
+    std::list<std::map<std::string, std::string>> projectList;
+    std::map<std::string, std::string> parsedData;
+    projectList.clear();
+    auto j = nlohmann::json::parse( jsonString );
+
+    for( int count = 0; count < j["count"]; ++count )
+    {
+        parsedData.insert( std::make_pair( "projectId", std::to_string((unsigned int)j["_embedded"]["elements"][count]["id"]) ));
+        parsedData.insert( std::make_pair( "projectName", j["_embedded"]["elements"][count]["name"] ));
+        parsedData.insert( std::make_pair( "parentId", ( (j["_embedded"]["elements"][count]["_links"]["parent"]["href"]).is_null() ? "0" : pickupId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]) )));
+        projectList.push_back( parsedData );
+    }
+
+    return projectList;
+}
+
 std::list<std::map<std::string, std::string>> JsonParser::collectSprintData( const std::string& jsonString )
 {
     std::list<std::map<std::string, std::string>> sprintList;

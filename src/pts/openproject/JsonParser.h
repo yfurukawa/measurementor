@@ -68,6 +68,13 @@ public:
     void collectPBLandTaskData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project );
 
     /*!
+     @brief        Json文字列からProjectの情報を抽出する
+     @param[in]    入力となるJson文字列
+     @return       抽出情報（Projectの情報マップをリスト化したもの）
+    */
+    std::list<std::map<std::string, std::string>> collectProjectData( const std::string& jsonString );
+
+    /*!
      @brief        Json文字列からSprintの情報を抽出する
      @param[in]    入力となるJson文字列
      @return       抽出情報（Sprintの情報マップをリスト化したもの）
