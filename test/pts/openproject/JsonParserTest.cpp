@@ -25,7 +25,7 @@ namespace pts
         std::map<std::string, std::string> expect{
             {"assignee","Yoshihiro Furukawa"},
             {"author","Yoshihiro Furukawa"},
-            {"estimatedTime","4"},
+            {"estimatedTime","4.00"},
             {"itemId","37"},
             {"taskName","test Tsk"},
             {"projectId","3"},
@@ -62,7 +62,8 @@ namespace pts
         };
 
         std::list<std::map<std::string, std::string>> result = sut->collectTaskData( testJson );
-        EXPECT_EQ(5, result.size() );        
+        EXPECT_EQ(5, result.size() );
+
     }
 
     TEST_F(JsonParserTest, collectItemData_oneItem)
@@ -142,6 +143,23 @@ TEST_F(JsonParserTest, collectItemData_manyItem)
 
         std::list<std::map<std::string, std::string>> result = sut->collectSprintData( testJson );
         EXPECT_EQ(3, result.size() );
+        
+    }
+
+    TEST_F(JsonParserTest, collectItemData_Project)
+    {
+        std::ifstream ifs("./availableProjects.json");
+        std::string testJson("");
+        std::getline(ifs, testJson);
+        std::map<std::string, std::string> expect{
+            {"projectName","Demo project"},
+            {"projectId","1"},
+            {"parentId","0"}
+        };
+
+        std::list<std::map<std::string, std::string>> result = sut->collectProjectData( testJson );
+        EXPECT_EQ(3, result.size() );
+        EXPECT_EQ( expect, result.front() );
         
     }
 }
