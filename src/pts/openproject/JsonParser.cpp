@@ -1,5 +1,6 @@
 #include <map>
 #include <memory>
+#include <regex>
 #include <string>
 #include "JsonParser.h"
 #include "../../domain/Project.h"
@@ -163,6 +164,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData( const
             }
             parsedData.insert( std::make_pair( "status", j["_embedded"]["elements"][count]["_links"]["status"]["title"] ));
             parsedData.insert( std::make_pair( "statusCode", std::to_string( pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]) )));
+            //parsedData.insert( std::make_pair( "totalEstimatTime", j["_embedded"]["elements"][count]["derivedRemainingTime"] ));  // 総見積もり時間が取れる
             itemList.push_back( parsedData );
         }
         
@@ -198,7 +200,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData( const
             // 見積もり時間はOpenProjectの設定により取得先を変更する必要がありそう
             if( (j["_embedded"]["elements"][count]["remainingTime"]).is_null() )
             {
-                parsedData.insert( std::make_pair( "estimatedTime", "0" ));    
+                parsedData.insert( std::make_pair( "estimatedTime", "0.00" ));    
             }
             else
             {
@@ -252,8 +254,19 @@ std::shared_ptr<measurementor::Task> JsonParser::extractTaskData( nlohmann::json
 
 std::string JsonParser::pickupHour( std::string remainingTimeValue )
 {
-    int length( remainingTimeValue.length() );
-    return remainingTimeValue.substr(2, length - 3 );
+    std::regex re(R"(PT(([0-9]+)H)*(([0-9]{1,2})M)*(([0-9]{1,2})S)*)");
+    std::cmatch match;
+    std::regex_match(remainingTimeValue.c_str(), match, re);
+    if( match.empty() ){
+        // TODO error log
+        std::cerr << "RemainingTime pattern is unmatched" << std::endl;
+    }
+    std::cout << match.str(0) << " : " << match.str(2) << " : " << match.str(4) << std::endl;
+    double hour = match.length(2) != 0 ? std::stod( match.str(2) ) : (double)0;
+    double min  = match.length(4) != 0 ? std::stod( match.str(4) ) : (double)0;
+    double remainingTime = hour + min/60;
+    return std::to_string( remainingTime );
+
 }
 
 }
