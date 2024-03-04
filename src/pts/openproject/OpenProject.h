@@ -7,6 +7,7 @@
 // ---------------< include >----------------------------
 #include <map>
 #include <memory>
+#include <string>
 #include "DomainPrimitives.h"
 #include "../../domain/Pts.h"
 
@@ -48,7 +49,7 @@ public:
      @brief  全てのアクティブプロジェクトを収集する
      @return アクティブプロジェクトのリスト
     */
-    void collectAllActiveProject( std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList ) override;
+    std::string collectAllActiveProject( std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList ) override;
 
     /*!
      @brief          指定されたプロジェクトに定義されているSprint情報を収集する

@@ -50,7 +50,7 @@ public:
      @param[in]    入力となるJson文字列
      @param[out]   作成したオブジェクトリスト
     */
-    void collectProjectData( const std::string& jsonString, std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList );
+    //void collectProjectData( const std::string& jsonString, std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList );
 
     /*!
      @brief        Json文字列からSprint情報を抽出し、プロジェクトに紐付ける

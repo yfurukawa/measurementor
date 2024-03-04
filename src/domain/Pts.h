@@ -7,6 +7,7 @@
 // ---------------< include >----------------------------
 #include <map>
 #include <memory>
+#include <string>
 #include "Project.h"
 
 // --------------< namespace >---------------------------
@@ -38,7 +39,7 @@ public:
      @brief      全てのアクティブプロジェクトを収集する
      @param[out] アクティブプロジェクトのリスト
     */
-    virtual void collectAllActiveProject( std::map<unsigned int, std::shared_ptr<Project>>& projectList ) = 0;
+    virtual std::string collectAllActiveProject( std::map<unsigned int, std::shared_ptr<Project>>& projectList ) = 0;
 
     /*!
      @brief          指定されたプロジェクトに定義されているSprint情報を収集する

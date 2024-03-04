@@ -15,10 +15,11 @@
 namespace pts
 {
 
+/*
 void JsonParser::collectProjectData( const std::string& jsonString, std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList )
 {
     auto j = nlohmann::json::parse( jsonString );
-    /*
+    
     // プロジェクトリストを作る際に、子プロジェクトを別のリストに隔離しておき
     // 次に子プロジェクトのリストを探索し、親プロジェクト内の小プロジェクトリストに追加する
     for( int count = 0; count < j["count"]; ++count ) {
@@ -36,8 +37,9 @@ void JsonParser::collectProjectData( const std::string& jsonString, std::map<uns
             projectList.at(project->second->parentId().get())->relateChildProject(project->second->id());
         }
     }
-*/
+
 }
+*/
 
 // TODO delete
 void JsonParser::collectSprintData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project )

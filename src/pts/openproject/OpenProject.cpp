@@ -16,13 +16,14 @@ OpenProject::OpenProject( std::unique_ptr<::TcpClient> tcpClient, ApiKey apiKey 
 {
 }
 
-void OpenProject::collectAllActiveProject( std::map<unsigned int,std::shared_ptr<measurementor::Project>>& projectList )
+std::string OpenProject::collectAllActiveProject( std::map<unsigned int,std::shared_ptr<measurementor::Project>>& projectList )
 {
     std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
     std::string message("GET /api/v3/queries/available_projects HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
 
     std::string receivedJson = sendQueryMessage( message );
-    jsonParser_->collectProjectData( receivedJson, projectList );
+    // TODO ここでサーバからの応答が正常であることを確認する
+    return jsonParser_->collectProjectData( receivedJson );
     
 }
 
@@ -33,7 +34,6 @@ void OpenProject::collectSprintInformationOf( std::shared_ptr<measurementor::Pro
     
     std::string receivedJson = sendQueryMessage( message );
     jsonParser_->collectSprintData( receivedJson, project );
-    //std::cout << receivedJson << std::endl;
 }
 
 void OpenProject::collectPBLandTaskInformation( std::shared_ptr<measurementor::Project>& project )
