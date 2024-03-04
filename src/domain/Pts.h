@@ -5,6 +5,7 @@
 #pragma once
 
 // ---------------< include >----------------------------
+#include <list>
 #include <map>
 #include <memory>
 #include <string>
@@ -39,20 +40,26 @@ public:
      @brief      全てのアクティブプロジェクトを収集する
      @param[out] アクティブプロジェクトのリスト
     */
-    virtual std::string collectAllActiveProject( std::map<unsigned int, std::shared_ptr<Project>>& projectList ) = 0;
+    virtual std::list<std::map<std::string, std::string>>  collectAllActiveProject( std::map<unsigned int, std::shared_ptr<Project>>& projectList ) = 0;
 
     /*!
      @brief          指定されたプロジェクトに定義されているSprint情報を収集する
      @param[in,out]  project 収集したいプロジェクト
     */
-    virtual void collectSprintInformationOf( std::shared_ptr<Project>& project ) = 0;
+    virtual std::list<std::map<std::string, std::string>> collectSprintInformationOf( std::shared_ptr<Project>& project ) = 0;
     
     /*!
-     @brief          指定されたプロジェクトに定義されているPBLとTaskの情報を収集する
+     @brief          指定されたプロジェクトに定義されているItemの情報を収集する
      @param[in,out]  project 収集したいプロジェクト
     */
-    virtual void collectPBLandTaskInformation( std::shared_ptr<Project>& project ) = 0;
-    
+    virtual std::list<std::map<std::string, std::string>> collectItemInformation( std::shared_ptr<Project>& project ) = 0;
+
+    /*!
+     @brief          指定されたプロジェクトに定義されているTaskの情報を収集する
+     @param[in,out]  project 収集したいプロジェクト
+    */
+    virtual std::list<std::map<std::string, std::string>> collectTaskInformation( std::shared_ptr<Project>& project ) = 0;
+
 protected:
     
 };

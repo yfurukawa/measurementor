@@ -57,7 +57,7 @@ public:
      @param[in]    入力となるJson文字列
      @param[out]   紐付けの対象であるプロジェクト
     */
-    void collectSprintData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project );
+//    void collectSprintData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project );
 
     /*!
      @brief        Json文字列からPBLとTaskの情報を抽出し、紐付ける
@@ -65,7 +65,7 @@ public:
      @param[out]   対象プロジェクト
      @attention    TODO delete
     */
-    void collectPBLandTaskData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project );
+ //   void collectPBLandTaskData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project );
 
     /*!
      @brief        Json文字列からProjectの情報を抽出する

@@ -5,9 +5,9 @@
 #pragma once
 
 // ---------------< include >----------------------------
-#include <map>
-#include <memory>
-#include <string>
+//#include <map>
+//#include <memory>
+//#include <string>
 #include "DomainPrimitives.h"
 #include "../../domain/Pts.h"
 
@@ -49,19 +49,25 @@ public:
      @brief  全てのアクティブプロジェクトを収集する
      @return アクティブプロジェクトのリスト
     */
-    std::string collectAllActiveProject( std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList ) override;
+    std::list<std::map<std::string, std::string>>  collectAllActiveProject( std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList ) override;
 
     /*!
      @brief          指定されたプロジェクトに定義されているSprint情報を収集する
      @param[in,out]  project 収集したいプロジェクト
     */
-    void collectSprintInformationOf( std::shared_ptr<measurementor::Project>& project ) override;
+    std::list<std::map<std::string, std::string>> collectSprintInformationOf( std::shared_ptr<measurementor::Project>& project ) override;
 
     /*!
-     @brief          指定されたプロジェクトに定義されているPBLとTaskの情報を収集する
+     @brief          指定されたプロジェクトに定義されているItemの情報を収集する
      @param[in,out]  project 収集したいプロジェクト
     */
-    void collectPBLandTaskInformation( std::shared_ptr<measurementor::Project>& project ) override;
+    std::list<std::map<std::string, std::string>> collectItemInformation( std::shared_ptr<measurementor::Project>& project ) override;
+
+    /*!
+     @brief          指定されたプロジェクトに定義されているTaskの情報を収集する
+     @param[in,out]  project 収集したいプロジェクト
+    */
+    std::list<std::map<std::string, std::string>> collectTaskInformation( std::shared_ptr<measurementor::Project>& project ) override;
 
 private:
     std::unique_ptr<::TcpClient> tcpClient_;         //!< OpenProjectと通信するためのTCPクライアント

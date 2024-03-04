@@ -39,9 +39,10 @@ void JsonParser::collectProjectData( const std::string& jsonString, std::map<uns
     }
 
 }
-*/
+
 
 // TODO delete
+
 void JsonParser::collectSprintData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project )
 {
     auto j = nlohmann::json::parse( jsonString );
@@ -56,6 +57,7 @@ void JsonParser::collectSprintData( const std::string& jsonString, std::shared_p
         project->addSprint( std::make_shared<measurementor::Sprint>( id, name, status, startDate, endDate ) );
     }
 }
+
 
 // TODO delete
 void JsonParser::collectPBLandTaskData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project )
@@ -98,6 +100,7 @@ void JsonParser::collectPBLandTaskData( const std::string& jsonString, std::shar
         }
     }
 }
+*/
 
 std::list<std::map<std::string, std::string>> JsonParser::collectProjectData( const std::string& jsonString )
 {
