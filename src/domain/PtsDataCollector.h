@@ -18,6 +18,11 @@ namespace measurementor
 
 // ---------< forward declaration >----------------------
 class PtsFactory;
+class Pts;
+class Project;
+class Sprint;
+class Item;
+class Task;
 
 /*!
  @class     PtsDataCollector.h
@@ -58,14 +63,22 @@ public:
 
 protected:
     PtsFactory* ptsFactory_;                                         //!< PTSとインターフェースするクラス
-    std::map<unsigned int, std::shared_ptr<Project>> projectList_;   //!< PTSで管理されているプロジェクトのリスト
+    Pts* pts_;
+    std::map<ProjectId, std::shared_ptr<Project>> projectList_;   //!< PTSで管理されているプロジェクトのリスト
+    std::map<SprintId,  std::shared_ptr<Sprint>>  sprintList_;
+    std::map<ItemId,    std::shared_ptr<Item>>    itemList_;
+    std::map<TaskId,    std::shared_ptr<Task>>    taskList_;
     std::list<std::string> jsonObject_;                              //!< 各データクラスが生成したJSONオブジェクトの格納用
 
-private:
     /*!
      @brief    収集したデータの内、合計する必要がある残ポイント数、残工数を集計する
     */
     void aggrigateData();
+
+    void collectProjectData();
+    void collectSprintData();
+    void collectItemData();
+    void collectTaskData();
 };
 
 }

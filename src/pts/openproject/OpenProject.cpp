@@ -16,7 +16,7 @@ OpenProject::OpenProject( std::unique_ptr<::TcpClient> tcpClient, ApiKey apiKey 
 {
 }
 
-std::list<std::map<std::string, std::string>>  OpenProject::collectAllActiveProject( std::map<unsigned int,std::shared_ptr<measurementor::Project>>& projectList )
+std::list<std::map<std::string, std::string>>  OpenProject::collectAllActiveProject()
 {
     std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
     std::string message("GET /api/v3/queries/available_projects HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
@@ -44,7 +44,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
     
     std::string receivedJson = sendQueryMessage( message );
     // TODO ここでサーバからの応答が正常であることを確認する
-    jsonParser_->collectPBLandTaskData( receivedJson, project );
+    jsonParser_->collectItemData( receivedJson );
 }
 
 std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformation( std::shared_ptr<measurementor::Project>& project )
@@ -54,7 +54,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformatio
     
     std::string receivedJson = sendQueryMessage( message );
     // TODO ここでサーバからの応答が正常であることを確認する
-    jsonParser_->collectPBLandTaskData( receivedJson, project );
+    jsonParser_->collectTaskData( receivedJson );
 }
 
 std::string OpenProject::extractJsonFrom()

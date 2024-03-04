@@ -40,7 +40,7 @@ public:
      @brief      全てのアクティブプロジェクトを収集する
      @param[out] アクティブプロジェクトのリスト
     */
-    virtual std::list<std::map<std::string, std::string>>  collectAllActiveProject( std::map<unsigned int, std::shared_ptr<Project>>& projectList ) = 0;
+    virtual std::list<std::map<std::string, std::string>>  collectAllActiveProject() = 0;
 
     /*!
      @brief          指定されたプロジェクトに定義されているSprint情報を収集する

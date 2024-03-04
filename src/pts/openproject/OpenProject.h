@@ -49,7 +49,7 @@ public:
      @brief  全てのアクティブプロジェクトを収集する
      @return アクティブプロジェクトのリスト
     */
-    std::list<std::map<std::string, std::string>>  collectAllActiveProject( std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList ) override;
+    std::list<std::map<std::string, std::string>>  collectAllActiveProject() override;
 
     /*!
      @brief          指定されたプロジェクトに定義されているSprint情報を収集する
