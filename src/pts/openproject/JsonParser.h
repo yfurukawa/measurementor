@@ -46,28 +46,6 @@ public:
     virtual ~JsonParser() = default;
 
     /*!
-     @brief        Json文字列からプロジェクトオブジェクトリストを作成する
-     @param[in]    入力となるJson文字列
-     @param[out]   作成したオブジェクトリスト
-    */
-    //void collectProjectData( const std::string& jsonString, std::map<unsigned int, std::shared_ptr<measurementor::Project>>& projectList );
-
-    /*!
-     @brief        Json文字列からSprint情報を抽出し、プロジェクトに紐付ける
-     @param[in]    入力となるJson文字列
-     @param[out]   紐付けの対象であるプロジェクト
-    */
-//    void collectSprintData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project );
-
-    /*!
-     @brief        Json文字列からPBLとTaskの情報を抽出し、紐付ける
-     @param[in]    入力となるJson文字列
-     @param[out]   対象プロジェクト
-     @attention    TODO delete
-    */
- //   void collectPBLandTaskData( const std::string& jsonString, std::shared_ptr<measurementor::Project>& project );
-
-    /*!
      @brief        Json文字列からProjectの情報を抽出する
      @param[in]    入力となるJson文字列
      @return       抽出情報（Projectの情報マップをリスト化したもの）
@@ -96,9 +74,9 @@ public:
     std::list<std::map<std::string, std::string>> collectTaskData( const std::string& jsonString );
 
 private:
-    std::shared_ptr<measurementor::Item> extractPBLData( nlohmann::json jsonString, int count );
-    std::shared_ptr<measurementor::Task> extractTaskData( nlohmann::json jsonString, int count );
-    ::Chronos chronos_;
+//    std::shared_ptr<measurementor::Item> extractPBLData( nlohmann::json jsonString, int count );
+//    std::shared_ptr<measurementor::Task> extractTaskData( nlohmann::json jsonString, int count );
+//    ::Chronos chronos_;
 
     /*!
      @brief        Json文字列のparent::hrefからidを抽出する
@@ -113,8 +91,6 @@ private:
      @return       時間を表す数値（文字列）
     */
     std::string pickupHour( std::string remainingTimeValue );
-
-
 
 };
 
