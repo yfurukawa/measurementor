@@ -40,7 +40,7 @@ public:
     /*!
      @brief  コンストラクタ
     */
-    Project( ProjectId projectId, Name name, ParentId parentId, Timestamp timestamp );
+    Project( ProjectId projectId, Name name, ProjectId parentId, Timestamp timestamp );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -50,18 +50,21 @@ public:
     /*!
      @brief      子プロジェクトと関連付ける
      @param[in]  id 子プロジェクトのプロジェクトID
+     @note       deprecated
     */
-    void relateChildProject( Id childProjectId );
+    void relateChildProject( ProjectId childProjectId );
 
     /*!
      @brief      Sprintを追加する
      @param[in]  sprint 追加するスプリント
+     @note       deprecated
     */
     void addSprint( std::shared_ptr<Sprint> sprint );
 
     /*!
      @brief      Product Back LogにProduct Backlog Itemを追加する
      @param[in]  pbi  Product Back Logに追加するProduct Backlog Item
+     @note       deprecated
     */
     void addPBL( std::shared_ptr<Item> pbi );
 
@@ -77,6 +80,7 @@ public:
 
     /*!
      @brief      進行中Sprintの残を集計する
+     @note       deprecated
     */
     void aggrigateRemainingWorkTime();
 
@@ -95,8 +99,9 @@ public:
     /*!
      @brief      親プロジェクトのIDを返す
      @return     親プロジェクトのID
+     @note       deprecated
     */
-    ParentId parentId() const
+    ProjectId parentId() const
     {
         return parentId_;
     }
@@ -104,6 +109,7 @@ public:
     /*!
      @brief      子プロジェクトの有無を返す
      @return     true : 子プロジェクトあり
+     @note       deprecated
     */
     bool hasChild() const
     {
@@ -120,7 +126,7 @@ public:
 private:
     const ProjectId projectId_;                               //!< Project ID
     const Name name_;                                         //!< Project名称
-    const ParentId parentId_;                                 //!< 親のID
+    const ProjectId parentId_;                                 //!< 親のID
     const Timestamp timestamp_;                               //!< elasticserchに登録する際に使用する日時（ISO8601の拡張型GMT形式）
     Point storyPointInprogress_;                              //!< 現在進行中のSprintのユーザーストーリポイント数
     Point remaingStoryPoints_;                                //!< Product Back Logに残っているユーザストーリーの総ポイント数

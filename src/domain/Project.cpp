@@ -5,7 +5,7 @@
 namespace measurementor
 {
 
-Project::Project( ProjectId projectId, Name name, ParentId parentId, Timestamp timestamp )
+Project::Project( ProjectId projectId, Name name, ProjectId parentId, Timestamp timestamp )
     : projectId_(projectId),
     name_(name),
     parentId_(parentId),
@@ -18,7 +18,7 @@ Project::Project( ProjectId projectId, Name name, ParentId parentId, Timestamp t
     productBackLog_.clear();
 }
 
-void Project::relateChildProject( Id childProjectId )
+void Project::relateChildProject( ProjectId childProjectId )
 {
     childProjects_.emplace_back( childProjectId );
 }
