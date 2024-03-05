@@ -52,13 +52,13 @@ public:
      @brief          指定されたプロジェクトに定義されているItemの情報を収集する
      @param[in]      project 収集したいプロジェクト
     */
-    virtual std::list<std::map<std::string, std::string>> collectItemInformation( measurementor::ProjectId& projectId ) = 0;
+    virtual std::list<std::map<std::string, std::string>> collectItemInformation( const measurementor::ProjectId& projectId ) = 0;
 
     /*!
      @brief          指定されたプロジェクトに定義されているTaskの情報を収集する
      @param[in]      project 収集したいプロジェクト
     */
-    virtual std::list<std::map<std::string, std::string>> collectTaskInformation( measurementor::ProjectId& projectId ) = 0;
+    virtual std::list<std::map<std::string, std::string>> collectTaskInformation( const measurementor::ProjectId& projectId ) = 0;
 
 protected:
     

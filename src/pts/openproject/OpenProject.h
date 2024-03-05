@@ -61,13 +61,13 @@ public:
      @brief          指定されたプロジェクトに定義されているItemの情報を収集する
      @param[in]      project 収集したいプロジェクト
     */
-    std::list<std::map<std::string, std::string>> collectItemInformation( measurementor::ProjectId& projectId ) override;
+    std::list<std::map<std::string, std::string>> collectItemInformation( const measurementor::ProjectId& projectId ) override;
 
     /*!
      @brief          指定されたプロジェクトに定義されているTaskの情報を収集する
      @param[in]      project 収集したいプロジェクト
     */
-    std::list<std::map<std::string, std::string>> collectTaskInformation( measurementor::ProjectId& projectId ) override;
+    std::list<std::map<std::string, std::string>> collectTaskInformation( const measurementor::ProjectId& projectId ) override;
 
 private:
     std::unique_ptr<::TcpClient> tcpClient_;         //!< OpenProjectと通信するためのTCPクライアント

@@ -37,7 +37,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformat
     return jsonParser_->collectSprintData( receivedJson );
 }
 
-std::list<std::map<std::string, std::string>> OpenProject::collectItemInformation( measurementor::ProjectId& projectId )
+std::list<std::map<std::string, std::string>> OpenProject::collectItemInformation( const measurementor::ProjectId& projectId )
 {
     std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
     std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
@@ -47,7 +47,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
     jsonParser_->collectItemData( receivedJson );
 }
 
-std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformation( measurementor::ProjectId& projectId )
+std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformation( const measurementor::ProjectId& projectId )
 {
     std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
     std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
