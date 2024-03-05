@@ -122,6 +122,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectProjectData( co
 
 std::list<std::map<std::string, std::string>> JsonParser::collectSprintData( const std::string& jsonString )
 {
+    // TODO ストーリーポイントが取れているはずなので確認する
     std::list<std::map<std::string, std::string>> sprintList;
     std::map<std::string, std::string> parsedData;
     sprintList.clear();
