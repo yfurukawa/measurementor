@@ -200,7 +200,18 @@ void PtsDataCollector::collectTaskData()
 
     for( auto json = begin(jsonObjectList); json != end(jsonObjectList); ++json )
     {
-        //projectList_.insert( std::make_paire( ProjectId{0}, std::make_shared<Project>() ));
+        ProjectId projectId( std::stoi((*json)["projectId"] ));
+        SprintId sprintId( std::stoi((*json)["sprintId"]));
+        ItemId itemId( std::stoi((*json)["itemId"]));
+        TaskId taskId( std::stoi((*json)["taskId"]));
+        Name taskName( (*json)["taskName"] );
+        Status status( (*json)["status"] );
+        StatusCode statusCode( std::stoi((*json)["statusCode"]));
+        Author author( (*json)["author"] );
+        EstimatedTime estimatedTime( std::stoi( (*json)["totalEstimatedTime"] ) );
+        Assignee assignee( (*json)["assignee"] );
+        UpdatedAt updatedAt( (*json)["updatedAt"] );
+        taskList_.insert( std::make_pair( taskId, std::make_shared<Task>( projectId, sprintId, itemId, taskId, taskName, author, estimatedTime, assignee, status, statusCode, updatedAt )));
     }
 
 }
