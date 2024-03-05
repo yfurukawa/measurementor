@@ -5,9 +5,9 @@
 namespace measurementor
 {
 
-Item::Item( ItemId id, Name name, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status, StatusCode statusCode )
-    : id_(id),
-    name_(name),
+Item::Item( ItemId itemId, Name itemName, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status, StatusCode statusCode )
+    : itemId_(itemId),
+    itemName_(itemName),
     projectId_(projectId),
     storyPoint_(storyPoint),
     status_(status),
@@ -94,11 +94,11 @@ std::string Item::createJson( const Timestamp& timestamp )
     JsonKey tstamp("timestamp");
     jsonCreator_.holdData( tstamp, timestamp.get() );
     
-    JsonKey id("itemId");
-    jsonCreator_.holdData( id, id_.get() );
+    JsonKey itemId("itemId");
+    jsonCreator_.holdData( itemId, itemId_.get() );
 
-    JsonKey name("name");
-    jsonCreator_.holdData( name, name_.get() );
+    JsonKey itemName("itemName");
+    jsonCreator_.holdData( itemName, itemName_.get() );
 
     JsonKey projectId("projectId");
     jsonCreator_.holdData( projectId, projectId_.get() );
