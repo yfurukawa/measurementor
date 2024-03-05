@@ -10,7 +10,6 @@
 #include <memory>
 #include <string>
 #include "../../lib/libclock/Chronos.h"
-#include "Project.h"
 #include "domainPrimitives/MeasurementPrimitives.h"
 
 // --------------< namespace >---------------------------

@@ -1,6 +1,10 @@
 #include "PtsDataCollector.h"
 #include "../pts/openproject/OpenProjectFactory.h"   // TODO
 #include "../pts/openproject/OpenProject.h"          // TODO
+#include "Project.h"
+#include "Sprint.h"
+#include "Item.h"
+#include "Task.h"
 
 #include <iostream>
 
