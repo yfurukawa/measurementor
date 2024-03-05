@@ -32,6 +32,8 @@ private:
 public:
     /*!
      @brief  コンストラクタ
+     @param[in]  projectId
+     @param[in]  sprintId
      @param[in]  taskId Task ID
      @param[in]  name Task名称
      @param[in]  author タスクの作成者
@@ -41,7 +43,7 @@ public:
      @param[in]  status タスクの状態
      @param[in]  updatedAt 更新日時（ISO8601形式）
     */
-    Task( TaskId taskId, Name name, Author author, ItemId itemId, EstimatedTime estimatedTime, Assignee assignee, Status status, StatusCode statusCode, UpdatedAt updatedAt );
+    Task( ProjectId projectId, SprintId sprintId, ItemId itemId, TaskId taskId, Name taskName, Author author, EstimatedTime estimatedTime, Assignee assignee, Status status, StatusCode statusCode, UpdatedAt updatedAt );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -95,13 +97,15 @@ public:
     std::string createJson( Timestamp timestamp, ProjectId projectId, SprintId sprintId );
 
     TaskId id() { return taskId_; };
-    Name name() { return name_; };
+    Name name() { return taskName_; };
     
 private:
-    const TaskId taskId_;         //!< Task ID
-    const Name name_;             //!< Task名称
-    const Author author_;         //!< タスクの作成者
+    const ProjectId projectId_;
+    const SprintId sprintId_;
     const ItemId itemId_;         //!< Taskを持つItemのID
+    const TaskId taskId_;         //!< Task ID
+    const Name taskName_;             //!< Task名称
+    const Author author_;         //!< タスクの作成者
     EstimatedTime estimatedTime_; //!< 見積もりポイント
     Assignee assignee_;           //!< タスクの担当者
     Status status_;               //!< タスクの状態
