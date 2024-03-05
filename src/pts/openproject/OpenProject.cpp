@@ -27,7 +27,7 @@ std::list<std::map<std::string, std::string>>  OpenProject::collectAllActiveProj
     
 }
 
-std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformationOf( measurementor::ProjectId& projectId )
+std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformationOf( const measurementor::ProjectId& projectId )
 {
     std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
     std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/versions HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");

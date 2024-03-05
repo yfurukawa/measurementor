@@ -55,7 +55,7 @@ public:
      @brief          指定されたプロジェクトに定義されているSprint情報を収集する
      @param[in]      project 収集したいプロジェクト
     */
-    std::list<std::map<std::string, std::string>> collectSprintInformationOf( measurementor::ProjectId& projectId ) override;
+    std::list<std::map<std::string, std::string>> collectSprintInformationOf( const measurementor::ProjectId& projectId ) override;
 
     /*!
      @brief          指定されたプロジェクトに定義されているItemの情報を収集する
