@@ -139,11 +139,23 @@ void PtsDataCollector::collectSprintData()
     std::list<std::map<std::string, std::string>> jsonObjectList;
     jsonObjectList.clear();
 
-    //jsonObjectList = pts_.collectSprintData();
+    // アクティブなプロジェクトのみのSprint情報を取得するには、プロジェクトIDを指定する必要があるので
+    // 取得済みのプロジェクトに対して処理を行う
+    for( auto project = begin( projectList_ ); project != end( projectList_ ); ++project )
+    {
+        jsonObjectList.merge( pts_->collectSprintInformationOf( project->first ) );
+    }
+    
 
     for( auto json = begin(jsonObjectList); json != end(jsonObjectList); ++json )
     {
-        //projectList_.insert( std::make_paire( ProjectId{0}, std::make_shared<Project>(ProjectId{ std::stoi(json["projectId"]) }, json["projectName"], ProjectId{ json["parentId"] }, "2024-03-04T12:34:56:123Z") ));
+        ProjectId projectId( std::stoi((*json)["projectId"] ));
+        SprintId sprintId( std::stoi((*json)["sprintId"]));
+        Name sprintName( (*json)["sprimtName"] );
+        Status status( (*json)["status"] );
+        StartDate startDate( (*json)["startDate"]) ;
+        EndDate endDate( (*json)["endDate"] );
+        sprintList_.insert( std::make_pair( sprintId, std::make_shared<Sprint>( projectId, sprintId, sprintName, status, startDate, endDate )));
     }
 
 }
