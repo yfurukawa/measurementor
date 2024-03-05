@@ -6,10 +6,10 @@
 namespace measurementor
 {
 
-Sprint::Sprint( SprintId id, Name name, Status status, StartDate startDate, EndDate endDate )
-    : id_(id),
-    name_(name),
-    projectId_(0),
+Sprint::Sprint( ProjectId projectId, SprintId sprintId, Name sprintName, Status status, StartDate startDate, EndDate endDate )
+    : sprintId_(sprintId),
+    sprintName_(sprintName),
+    projectId_(projectId),
     totalPoint_(0),
     status_(status),
     startDate_( startDate ),
@@ -110,11 +110,11 @@ std::string Sprint::createJson( const Timestamp& timestamp )
     JsonKey tstamp("timestamp");
     jsonCreator_.holdData( tstamp, timestamp.get() );
 
-    JsonKey id("sprintId");
-    jsonCreator_.holdData( id, id_.get() );
+    JsonKey sprintId("sprintId");
+    jsonCreator_.holdData( sprintId, sprintId_.get() );
 
-    JsonKey name("name");
-    jsonCreator_.holdData( name, name_.get() );
+    JsonKey sprintName("name");
+    jsonCreator_.holdData( sprintName, sprintName_.get() );
 
     JsonKey startDate("startDate");
     jsonCreator_.holdData( startDate, startDate_.get() );

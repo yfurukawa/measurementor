@@ -38,7 +38,7 @@ public:
     /*!
      @brief  コンストラクタ
     */
-    Sprint( SprintId id, Name name, Status status, StartDate startDate, EndDate endDate );
+    Sprint( ProjectId projectId, SprintId sprintId, Name sprintName, Status status, StartDate startDate, EndDate endDate );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -102,21 +102,21 @@ public:
     */
     std::optional<std::list<std::string>> createJsonOfItem( const Timestamp& timestamp );
 
-    SprintId id() { return id_; };
-    Name name() { return name_; };
+    SprintId id() { return sprintId_; };
+    Name name() { return sprintName_; };
 
     void printChild();
     
 private:
-    const SprintId id_;                            //!< Sprint ID
-    const Name name_;                              //!< Sprint名称
+    const SprintId sprintId_;                            //!< Sprint ID
+    const Name sprintName_;                              //!< Sprint名称
     ProjectId projectId_;                          //!< 親のID
     Point totalPoint_;                             //!< スプリントに割り当てられたアイテムの総見積もりポイント
     Status status_;                                //!< スプリントのステータス（未完了open/完了closeを表す）
     StartDate startDate_;                          //!< スプリント開始日
     EndDate endDate_;                              //!< スプリント終了日
     EstimatedTime remainingEstimatedTime_;         //!< タスクの残見積もり時間（スプリントバーンダウンチャート用）
-    std::map<Id, std::shared_ptr<Item>> items_;    //!< アイテムリスト
+    std::map<ItemId, std::shared_ptr<Item>> items_;    //!< アイテムリスト
     JsonCreator jsonCreator_;                      //!< JSON Objectを生成するクラスのインスタンス
 };
 
