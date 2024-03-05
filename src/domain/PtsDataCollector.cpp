@@ -7,15 +7,16 @@
 namespace measurementor
 {
 
-PtsDataCollector::PtsDataCollector() : ptsFactory_( PtsFactory::getInstance() )
+PtsDataCollector::PtsDataCollector()
+ : ptsFactory_( PtsFactory::getInstance() ),
+    pts_( ptsFactory_->createPts() ),
+    chronos_( std::make_unique<::Chronos>() )
 {
-    pts_ = ptsFactory_->createPts();
     projectList_.clear();
     sprintList_.clear();
     itemList_.clear();
     taskList_.clear();
     jsonObject_.clear();
-
 }
 
 PtsDataCollector::~PtsDataCollector()
@@ -100,16 +101,36 @@ void PtsDataCollector::collectProjectData()
 {
     std::list<std::map<std::string, std::string>> jsonObjectList;
     jsonObjectList.clear();
-
+    Timestamp timestamp( chronos_->nowIso8601ExtendedGmt() );
     jsonObjectList = pts_->collectAllActiveProject();
+    std::list<ProjectId> exclusiveProjects;
 
     for( auto json = begin(jsonObjectList); json != end(jsonObjectList); ++json )
     {
         ProjectId projectId( std::stoi((*json)["projectId"] ));
         Name projectName( (*json)["projectName"] );
-        ParentId parentId( std::stoi((*json)["parentId"] ));
-        Timestamp timestamp("2024-03-04T12:34:56:123Z");
+        ProjectId parentId( std::stoi((*json)["parentId"] ));
+        exclusiveProjects.push_back( parentId );
         projectList_.insert( std::make_pair( projectId, std::make_shared<Project>( projectId, projectName, parentId, timestamp) ));
+    }
+
+    // 同じ親を持つプロジェクトが複数ある可能性があるので、重複している親プロジェクトのidを削除する
+    exclusiveProjects.sort();
+    exclusiveProjects.unique();
+
+    // 親プロジェクトはSprint等を持たないので集計対象とする必要はないので削除する
+    for( auto exclusive = begin( exclusiveProjects ); exclusive != end( exclusiveProjects); ++exclusive )
+    {
+        for( auto project = begin( projectList_ ); project != end( projectList_ ); )
+        {
+            if( project->first == *exclusive )
+            {
+                project = projectList_.erase( project );
+            }
+            else {
+                ++project;
+            }
+        }
     }
 }
 
