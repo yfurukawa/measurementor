@@ -18,36 +18,30 @@ namespace measurementor
  @tparam    IDの型
 */
 template< typename T >
-using IdRaw =
-    StrongType<T, struct IdTag, Comparable, Printable>;
-using Id = IdRaw<unsigned int>;
-using ParentId  = IdRaw<unsigned int>;
-using ProjectId = IdRaw<unsigned int>;
-using ItemId    = IdRaw<unsigned int>;
-using TaskId    = IdRaw<unsigned int>;
+using TaskIdRaw =
+    StrongType<T, struct TaskIdTag, Comparable, Printable>;
+using TaskId    = TaskIdRaw<unsigned int>;
+
+template< typename T >
+using ProjectIdRaw =
+    StrongType<T, struct ProjectIdTag, Comparable, Printable, Swappable>;
+using ProjectId = ProjectIdRaw<unsigned int>;
 
 template< typename T >
 using SprintIdRaw =
     StrongType<T, struct SprintIdTag, Comparable, Printable, Swappable>;
 using SprintId = SprintIdRaw<unsigned int>;
 
-/*
 template< typename T >
 using ParentIdRaw =
     StrongType<T, struct ParentIdTag, Comparable, Printable>;
 using ParentId  = ParentIdRaw<unsigned int>;
 
 template< typename T >
-using ProjectIdRaw =
-    StrongType<T, struct ProjectIdTag, Comparable, Printable>;
-using ProjectId = ProjectIdRaw<unsigned int>;
-
-
-template< typename T >
 using ItemIdRaw =
     StrongType<T, struct ItemIdTag, Comparable, Printable>;
 using ItemId    = ItemIdRaw<unsigned int>;
-*/
+
 /*!
  @def       Name
  @brief     Project、PBI及びTaskの名称
@@ -106,7 +100,7 @@ using Author = AuthorRaw<std::string>;
 */
 template< typename T >
 using TimestampRaw =
-    StrongType<T, struct TimestampTag, Printable>;
+    StrongType<T, struct TimestampTag, Printable, Swappable>;
 using Timestamp = TimestampRaw<std::string>;
 
 /*!
