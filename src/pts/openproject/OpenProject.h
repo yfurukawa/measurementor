@@ -53,21 +53,21 @@ public:
 
     /*!
      @brief          指定されたプロジェクトに定義されているSprint情報を収集する
-     @param[in,out]  project 収集したいプロジェクト
+     @param[in]      project 収集したいプロジェクト
     */
-    std::list<std::map<std::string, std::string>> collectSprintInformationOf( std::shared_ptr<measurementor::Project>& project ) override;
+    std::list<std::map<std::string, std::string>> collectSprintInformationOf( measurementor::ProjectId& projectId ) override;
 
     /*!
      @brief          指定されたプロジェクトに定義されているItemの情報を収集する
-     @param[in,out]  project 収集したいプロジェクト
+     @param[in]      project 収集したいプロジェクト
     */
-    std::list<std::map<std::string, std::string>> collectItemInformation( std::shared_ptr<measurementor::Project>& project ) override;
+    std::list<std::map<std::string, std::string>> collectItemInformation( measurementor::ProjectId& projectId ) override;
 
     /*!
      @brief          指定されたプロジェクトに定義されているTaskの情報を収集する
-     @param[in,out]  project 収集したいプロジェクト
+     @param[in]      project 収集したいプロジェクト
     */
-    std::list<std::map<std::string, std::string>> collectTaskInformation( std::shared_ptr<measurementor::Project>& project ) override;
+    std::list<std::map<std::string, std::string>> collectTaskInformation( measurementor::ProjectId& projectId ) override;
 
 private:
     std::unique_ptr<::TcpClient> tcpClient_;         //!< OpenProjectと通信するためのTCPクライアント

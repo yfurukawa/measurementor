@@ -44,21 +44,21 @@ public:
 
     /*!
      @brief          指定されたプロジェクトに定義されているSprint情報を収集する
-     @param[in,out]  project 収集したいプロジェクト
+     @param[in]      project 収集したいプロジェクト
     */
-    virtual std::list<std::map<std::string, std::string>> collectSprintInformationOf( std::shared_ptr<Project>& project ) = 0;
+    virtual std::list<std::map<std::string, std::string>> collectSprintInformationOf( measurementor::ProjectId& projectId ) = 0;
     
     /*!
      @brief          指定されたプロジェクトに定義されているItemの情報を収集する
-     @param[in,out]  project 収集したいプロジェクト
+     @param[in]      project 収集したいプロジェクト
     */
-    virtual std::list<std::map<std::string, std::string>> collectItemInformation( std::shared_ptr<Project>& project ) = 0;
+    virtual std::list<std::map<std::string, std::string>> collectItemInformation( measurementor::ProjectId& projectId ) = 0;
 
     /*!
      @brief          指定されたプロジェクトに定義されているTaskの情報を収集する
-     @param[in,out]  project 収集したいプロジェクト
+     @param[in]      project 収集したいプロジェクト
     */
-    virtual std::list<std::map<std::string, std::string>> collectTaskInformation( std::shared_ptr<Project>& project ) = 0;
+    virtual std::list<std::map<std::string, std::string>> collectTaskInformation( measurementor::ProjectId& projectId ) = 0;
 
 protected:
     
