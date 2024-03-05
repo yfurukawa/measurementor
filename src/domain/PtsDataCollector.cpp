@@ -153,7 +153,7 @@ void PtsDataCollector::collectSprintData()
         SprintId sprintId( std::stoi((*json)["sprintId"]));
         Name sprintName( (*json)["sprimtName"] );
         Status status( (*json)["status"] );
-        StartDate startDate( (*json)["startDate"]) ;
+        StartDate startDate( (*json)["startDate"]);
         EndDate endDate( (*json)["endDate"] );
         sprintList_.insert( std::make_pair( sprintId, std::make_shared<Sprint>( projectId, sprintId, sprintName, status, startDate, endDate )));
     }
@@ -165,11 +165,23 @@ void PtsDataCollector::collectItemData()
     std::list<std::map<std::string, std::string>> jsonObjectList;
     jsonObjectList.clear();
 
-    //jsonObjectList = pts_.collectItemData();
+    // アクティブなプロジェクトのみのSprint情報を取得するには、プロジェクトIDを指定する必要があるので
+    // 取得済みのプロジェクトに対して処理を行う
+    for( auto project = begin( projectList_ ); project != end( projectList_ ); ++project )
+    {
+        jsonObjectList.merge( pts_->collectItemInformation( project->first ) );
+    }
 
     for( auto json = begin(jsonObjectList); json != end(jsonObjectList); ++json )
     {
-        //projectList_.insert( std::make_paire( ProjectId{0}, std::make_shared<Project>() ));
+        ProjectId projectId( std::stoi((*json)["projectId"] ));
+        SprintId sprintId( std::stoi((*json)["sprintId"]));
+        ItemId itemId( std::stoi((*json)["itemId"]));
+        Name itemName( (*json)["itemName"] );
+        Status status( (*json)["status"] );
+        StatusCode statusCode( std::stoi((*json)["statusCode"]));
+        Point storyPoint(0);   // TODO 計算？
+        itemList_.insert( std::make_pair( itemId, std::make_shared<Item>( itemId, itemName, projectId, sprintId, storyPoint, status, statusCode )));
     }
 
 }
@@ -179,7 +191,12 @@ void PtsDataCollector::collectTaskData()
     std::list<std::map<std::string, std::string>> jsonObjectList;
     jsonObjectList.clear();
 
-    //jsonObjectList = pts_.collectllTaskData();
+    // アクティブなプロジェクトのみのSprint情報を取得するには、プロジェクトIDを指定する必要があるので
+    // 取得済みのプロジェクトに対して処理を行う
+    for( auto project = begin( projectList_ ); project != end( projectList_ ); ++project )
+    {
+        jsonObjectList.merge( pts_->collectTaskInformation( project->first ) );
+    }
 
     for( auto json = begin(jsonObjectList); json != end(jsonObjectList); ++json )
     {
