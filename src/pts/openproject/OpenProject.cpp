@@ -44,7 +44,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
     
     std::string receivedJson = sendQueryMessage( message );
     // TODO ここでサーバからの応答が正常であることを確認する
-    jsonParser_->collectItemData( receivedJson );
+    return jsonParser_->collectItemData( receivedJson );
 }
 
 std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformation( const measurementor::ProjectId& projectId )
@@ -54,7 +54,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformatio
     
     std::string receivedJson = sendQueryMessage( message );
     // TODO ここでサーバからの応答が正常であることを確認する
-    jsonParser_->collectTaskData( receivedJson );
+    return jsonParser_->collectTaskData( receivedJson );
 }
 
 std::string OpenProject::extractJsonFrom()
