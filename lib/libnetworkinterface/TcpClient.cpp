@@ -13,14 +13,14 @@
 TcpClient::TcpClient( IPv4 ipAddress, Port port )
     : ip_( ipAddress ),
     port_( port ),
-    bufferSize_(10000000)
+    bufferSize_(1000000)
 {
 }
 
 TcpClient::TcpClient( Hostname hostname, Port port )
     : ip_( resolveHostname(hostname) ),
     port_( port ),
-    bufferSize_(10000000)
+    bufferSize_(1000000)
 {
 }
 
