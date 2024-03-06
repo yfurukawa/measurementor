@@ -24,12 +24,6 @@ public:
     TextFileWriter() = default;
 
     /*!
-    @brief      コンストラクタ
-    @param[in]  path ファイル名を含む出力先ファイルのパス
-    */
-    explicit TextFileWriter( std::filesystem::path path );
-
-    /*!
     @brief  デフォルトデストラクタ
     */
     virtual ~TextFileWriter() {

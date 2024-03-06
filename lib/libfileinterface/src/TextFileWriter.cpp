@@ -1,15 +1,6 @@
 #include <iostream>
 #include "TextFileWriter.h"
 
-TextFileWriter::TextFileWriter( std::filesystem::path path )
-{
-    auto result = this->openFile( path, std::ios_base::out | std::ios_base::app );
-    if( result != std::nullopt ) {
-        std::cerr << result.value() << std::endl;
-        exit(1);
-    }
-}
-
 std::optional<std::string> TextFileWriter::openFile( std::filesystem::path path, std::ios_base::openmode mode )
 {
     try {
