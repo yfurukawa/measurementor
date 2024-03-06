@@ -5,7 +5,6 @@
 #include "Sprint.h"
 #include "Item.h"
 #include "Task.h"
-
 #include <iostream>
 
 namespace measurementor
@@ -42,14 +41,7 @@ void PtsDataCollector::correctData()
     collectSprintData();
     collectItemData();
     collectTaskData();
-/*
-    ptsFactory_->createPts()->collectAllActiveProject( projectList_ );
 
-    for( auto project = begin(projectList_); project != end(projectList_); ++project )
-    {
-        ptsFactory_->createPts()->collectSprintInformationOf( project->second );
-    }
-*/
     this->aggrigateData();
 }
 
@@ -184,8 +176,9 @@ void PtsDataCollector::collectItemData()
         Name itemName( (*json)["itemName"] );
         Status status( (*json)["status"] );
         StatusCode statusCode( std::stoi((*json)["statusCode"]));
+        EstimatedTime totalEstimatedTime( std::stoi( (*json)["totalEstimatedTime"] ) );
         Point storyPoint(0);   // TODO 計算？
-        itemList_.insert( std::make_pair( itemId, std::make_shared<Item>( itemId, itemName, projectId, sprintId, storyPoint, status, statusCode )));
+        itemList_.insert( std::make_pair( itemId, std::make_shared<Item>( itemId, itemName, projectId, sprintId, storyPoint, status, statusCode, totalEstimatedTime )));
     }
 
 }
@@ -212,7 +205,7 @@ void PtsDataCollector::collectTaskData()
         Status status( (*json)["status"] );
         StatusCode statusCode( std::stoi((*json)["statusCode"]));
         Author author( (*json)["author"] );
-        EstimatedTime estimatedTime( std::stoi( (*json)["totalEstimatedTime"] ) );
+        EstimatedTime estimatedTime( std::stoi( (*json)["estimatedTime"] ) );
         Assignee assignee( (*json)["assignee"] );
         UpdatedAt updatedAt( (*json)["updatedAt"] );
         taskList_.insert( std::make_pair( taskId, std::make_shared<Task>( projectId, sprintId, itemId, taskId, taskName, author, estimatedTime, assignee, status, statusCode, updatedAt )));
