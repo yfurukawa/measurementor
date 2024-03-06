@@ -42,7 +42,7 @@ public:
     @param[in]  path ファイル名を含む出力先ファイルのパス
     @return     ファイルオープン失敗時の理由
     */
-    std::optional<std::string> open( std::filesystem::path path, std::ios_base::openmode mode = std::ios_base::out ) override;
+    std::optional<std::string> openFile( std::filesystem::path path, std::ios_base::openmode mode = std::ios_base::out ) override;
 
     /*!
     @brief      データを記録する
@@ -50,6 +50,11 @@ public:
     @return     記録失敗時の理由
     */
     std::optional<std::string> write( const std::string content ) override;
+
+    /*!
+    @brief      ファイルをクローズする
+    */
+    std::optional<std::string> closeFile() override;
 
 private:
     std::ofstream ofs_{};  //!< output stream

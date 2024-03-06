@@ -42,7 +42,7 @@ public:
     @brief      ファイルをオープンする
     @param[in]  path ファイル名を含む出力先ファイルのパス
     */
-    virtual std::optional<std::string> open( std::filesystem::path path, std::ios_base::openmode mode = std::ios_base::out ) = 0;
+    virtual std::optional<std::string> openFile( std::filesystem::path path, std::ios_base::openmode mode = std::ios_base::out ) = 0;
 
     /*!
     @brief      データを記録する
@@ -50,4 +50,8 @@ public:
     */
     virtual std::optional<std::string> write( const std::string content ) = 0;
 
+    /*!
+    @brief      ファイルをクローズする
+    */
+    virtual std::optional<std::string> closeFile() = 0;
 };
