@@ -5,14 +5,12 @@
 #pragma once
 
 // ---------------< include >----------------------------
-//#include <map>
-//#include <memory>
-//#include <string>
 #include "DomainPrimitives.h"
 #include "../../domain/Pts.h"
 
 // ---------< forward declaration (Global) >-------------
 class TcpClient;
+class TextFileWriter;
 
 // --------------< namespace >---------------------------
 namespace pts
@@ -71,6 +69,7 @@ public:
 
 private:
     std::unique_ptr<::TcpClient> tcpClient_;         //!< OpenProjectと通信するためのTCPクライアント
+    std::unique_ptr<::TextFileWriter> previousDataWriter_;
     std::unique_ptr<JsonParser> jsonParser_;         //!< Json文字列のパーサ
     ApiKey apiKey_;                                  //!< OpenProjectに接続する際に使用するBasic認証キー
 

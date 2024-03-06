@@ -1,7 +1,9 @@
+#include <filesystem>
 #include "OpenProject.h"
 #include "../../domain/Project.h"
 #include "JsonParser.h"
 #include "TcpClient.h"
+#include "TextFileWriter.h"
 #include "RestAPIHelper.hpp"
 
 #include <iostream>
@@ -11,6 +13,7 @@ namespace pts
 
 OpenProject::OpenProject( std::unique_ptr<::TcpClient> tcpClient, ApiKey apiKey )
     : tcpClient_( std::move(tcpClient) ),
+    previousDataWriter_( std::make_unique<::TextFileWriter>() ),
     jsonParser_( std::make_unique<JsonParser>() ),
     apiKey_( apiKey )
 {
@@ -20,9 +23,14 @@ std::list<std::map<std::string, std::string>>  OpenProject::collectAllActiveProj
 {
     std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
     std::string message("GET /api/v3/queries/available_projects HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
-
+    std::cout << message << std::endl;
     std::string receivedJson = sendQueryMessage( message );
     // TODO ここでサーバからの応答が正常であることを確認する
+
+    std::filesystem::path previousFile("previousProject.json");
+    previousDataWriter_->openFile( previousFile );
+    previousDataWriter_->write( receivedJson );
+    previousDataWriter_->closeFile();
     return jsonParser_->collectProjectData( receivedJson );
     
 }
@@ -31,9 +39,14 @@ std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformat
 {
     std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
     std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/versions HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
-    
+    std::cout << message << std::endl;
     std::string receivedJson = sendQueryMessage( message );
     // TODO ここでサーバからの応答が正常であることを確認する
+
+    std::filesystem::path previousFile("previousSprint.json");
+    previousDataWriter_->openFile( previousFile );
+    previousDataWriter_->write( receivedJson );
+    previousDataWriter_->closeFile();
     return jsonParser_->collectSprintData( receivedJson );
 }
 
@@ -41,9 +54,15 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
 {
     std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
     std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
-    
+    std::cout << message << std::endl;
     std::string receivedJson = sendQueryMessage( message );
+    std::cout << receivedJson << std::endl;
     // TODO ここでサーバからの応答が正常であることを確認する
+
+    std::filesystem::path previousFile("previousItem.json");
+    previousDataWriter_->openFile( previousFile );
+    previousDataWriter_->write( receivedJson );
+    previousDataWriter_->closeFile();
     return jsonParser_->collectItemData( receivedJson );
 }
 
@@ -51,9 +70,14 @@ std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformatio
 {
     std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
     std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
-    
+    std::cout << message << std::endl;
     std::string receivedJson = sendQueryMessage( message );
     // TODO ここでサーバからの応答が正常であることを確認する
+
+    std::filesystem::path previousFile("previousTask.json");
+    previousDataWriter_->openFile( previousFile );
+    previousDataWriter_->write( receivedJson );
+    previousDataWriter_->closeFile();
     return jsonParser_->collectTaskData( receivedJson );
 }
 
