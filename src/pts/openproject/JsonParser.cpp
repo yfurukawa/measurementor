@@ -101,7 +101,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData( const
             }
             parsedData.insert( std::make_pair( "status", j["_embedded"]["elements"][count]["_links"]["status"]["title"] ));
             parsedData.insert( std::make_pair( "statusCode", pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]) ));
-            parsedData.insert( std::make_pair( "totalEstimatedTime", j["_embedded"]["elements"][count]["derivedRemainingTime"] ));  // 総見積もり時間が取れる
+            parsedData.insert( std::make_pair( "totalEstimatedTime", pickupHour(j["_embedded"]["elements"][count]["derivedRemainingTime"]) ));  // 総見積もり時間が取れる
             itemList.push_back( parsedData );
         }
         
