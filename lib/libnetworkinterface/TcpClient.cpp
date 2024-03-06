@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/fcntl.h>
@@ -11,13 +12,15 @@
 
 TcpClient::TcpClient( IPv4 ipAddress, Port port )
     : ip_( ipAddress ),
-    port_( port )
+    port_( port ),
+    bufferSize_(10000000)
 {
 }
 
 TcpClient::TcpClient( Hostname hostname, Port port )
     : ip_( resolveHostname(hostname) ),
-    port_( port )
+    port_( port ),
+    bufferSize_(10000000)
 {
 }
 
@@ -40,12 +43,11 @@ void TcpClient::sendData( std::string content ) const
 
 std::optional<std::string> TcpClient::receiveData()
 {
-    const int BUFFER_SIZE(10240);
-    char receiveBuffer[BUFFER_SIZE] = {0x00};   // テンポラリ受信バッファ ジャンボフレーム対応
+    char receiveBuffer[bufferSize_] = {0x00};   // テンポラリ受信バッファ ジャンボフレーム対応
     int byteReceived(0);
     int byteIndex(0);
 
-    while (byteIndex < BUFFER_SIZE) {
+    while (byteIndex < bufferSize_) {
         byteReceived = recv(sock_, &receiveBuffer[byteIndex], 1, 0);
         if (byteReceived > 0) {
             if (receiveBuffer[byteIndex] == '\n'){
@@ -76,6 +78,13 @@ void TcpClient::openSocket()
         perror("socket");
         exit(1);
     }
+
+    int result = setsockopt(sock_, SOL_SOCKET, SO_RCVBUF, &bufferSize_, sizeof(bufferSize_) );
+    if( result == -1 )
+    {
+        std::cerr << "setsockopt error : " << errno << std::endl;
+    }
+
     addr_.sin_family = PF_INET;
     addr_.sin_addr.s_addr = inet_addr( ip_.get().c_str() );
     addr_.sin_port = htons( port_.get() );

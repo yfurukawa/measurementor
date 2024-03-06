@@ -74,8 +74,8 @@ public:
 private:
     IPv4 ip_;                  //!< 送信先サーバアドレス
     Port port_;                //!< サーバ待受ポート
-    int sock_;                       //!< 送信用ソケット
-    struct sockaddr_in addr_;        //!< ネットワーク設定
-
-
+    const int bufferSize_;     //!< 受信バッファサイズ（OSの受信バッファも併せて）
+    int sock_;                 //!< 送信用ソケット
+    struct sockaddr_in addr_;  //!< ネットワーク設定
+    
 };

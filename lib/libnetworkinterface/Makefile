@@ -10,12 +10,17 @@ LIB_DIR = /usr/local/lib64
 INCLUDE_DIR = /usr/local/include
 LIB = 
 OPT = -O0 -Wall -std=c++17 -fPIC
-TARGET = libnetworkinterface.a.0.4.1
+TARGET = libnetworkinterface.a.0.4.2
+TARGETD = libnetworkinterfaced.a.0.4.2
 SRC = UdpClient.cpp Port.cpp IPv4.cpp Hostname.cpp TcpClient.cpp
 
 $(TARGET):
 	$(CC) $(INCLUUDE) $(OPT) -c $(SRC)
 	$(AR) rc -o $(TARGET) $(SRC:.cpp=.o)
+
+debug:
+	$(CC) $(INCLUUDE) $(OPT) -g -c $(SRC)
+	$(AR) rc -o $(TARGETD) $(SRC:.cpp=.o)
 
 .PHONY: clean install
 clean:
@@ -25,6 +30,7 @@ install:
 	$(MKDIR) $(LIB_DIR)
 	$(MKDIR) $(INCLUDE_DIR)/skills
 	$(INSTALL) $(TARGET) $(LIB_DIR)
+	$(INSTALL) $(TARGETD) $(LIB_DIR)
 	$(INSTALL) *.h $(INCLUDE_DIR)
 	$(INSTALL) *.hpp $(INCLUDE_DIR)
 	$(INSTALL) skills/* $(INCLUDE_DIR)/skills
