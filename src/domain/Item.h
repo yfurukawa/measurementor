@@ -46,7 +46,7 @@ public:
      @param[in]  status     このItemの完了状態を表すステータス
      @param[in]  statusCode このItemの完了状態を表すステータスの番号
     */
-    Item( ItemId itemId, Name itemName, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status, StatusCode statusCode );
+    Item( ItemId itemId, Name itemName, ProjectId projectId, SprintId sprintId, Point storyPoint, Status status, StatusCode statusCode, EstimatedTime totalEstimatedTime );
 
     /*!
      @brief  デフォルトデストラクタ
