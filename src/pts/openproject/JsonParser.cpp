@@ -28,6 +28,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectProjectData( co
         parsedData.insert( std::make_pair( "projectName", j["_embedded"]["elements"][count]["name"] ));
         parsedData.insert( std::make_pair( "parentId", ( (j["_embedded"]["elements"][count]["_links"]["parent"]["href"]).is_null() ? "0" : pickupId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]) )));
         projectList.push_back( parsedData );
+        parsedData.clear();
     }
 
     return projectList;
@@ -58,6 +59,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectSprintData( con
         parsedData.insert( std::make_pair( "startDate", (j["_embedded"]["elements"][count]["startDate"]).is_null() ? "" : j["_embedded"]["elements"][count]["startDate"] ));
         parsedData.insert( std::make_pair( "endDate",   (j["_embedded"]["elements"][count]["endDate"]).is_null()   ? "" : j["_embedded"]["elements"][count]["endDate"] ));
         sprintList.push_back( parsedData );
+        parsedData.clear();
     }
 
     return sprintList;
@@ -101,8 +103,16 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData( const
             }
             parsedData.insert( std::make_pair( "status", j["_embedded"]["elements"][count]["_links"]["status"]["title"] ));
             parsedData.insert( std::make_pair( "statusCode", pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]) ));
+            if( (j["_embedded"]["elements"][count]["derivedRemainingTime"]).is_null() )
+            {
+                parsedData.insert( std::make_pair( "totalEstimatedTime", "0.00" ) );
+            }
+            else
+            {
             parsedData.insert( std::make_pair( "totalEstimatedTime", pickupHour(j["_embedded"]["elements"][count]["derivedRemainingTime"]) ));  // 総見積もり時間が取れる
+            }
             itemList.push_back( parsedData );
+            parsedData.clear();
         }
         
     }
@@ -149,6 +159,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData( const
             parsedData.insert( std::make_pair( "updatedAt", j["_embedded"]["elements"][count]["updatedAt"]) );
 
             taskList.push_back( parsedData );
+            parsedData.clear();
         }
     }
     return taskList;
