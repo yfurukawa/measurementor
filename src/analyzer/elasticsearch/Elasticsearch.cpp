@@ -1,7 +1,7 @@
 #include "Elasticsearch.h"
 #include "TcpClient.h"
 #include "TextFileWriter.h"
-#include "RestAPIHelper.hpp"
+//#include "RestAPIHelper.hpp"
 
 #include <iostream>
 
@@ -19,7 +19,7 @@ void Elasticsearch::registerMeasurementedData(const std::string &registerData)
 {
     std::cout << registerData << std::endl;
 
-    std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
+    std::string key(/*createBasicAuthorizationKey("apikey:" + apiKey_.get())*/ "" );
     std::string message("/measurementor/_doc/ HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
 
     // TODO 送信文字列のフォーマットをを確認したら有効にする
