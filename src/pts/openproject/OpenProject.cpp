@@ -1,4 +1,3 @@
-#include <filesystem>
 #include "OpenProject.h"
 #include "../../domain/Project.h"
 #include "JsonParser.h"
@@ -26,11 +25,8 @@ std::list<std::map<std::string, std::string>>  OpenProject::collectAllActiveProj
 
     std::string receivedJson = sendQueryMessage( message );
     // TODO ここでサーバからの応答が正常であることを確認する
-
     std::filesystem::path previousFile("previousProject.json");
-    previousDataWriter_->openFile( previousFile );
-    previousDataWriter_->write( receivedJson );
-    previousDataWriter_->closeFile();
+    saveJsonObjectAsPreviousData( previousFile, receivedJson );
     return jsonParser_->collectProjectData( receivedJson );
     
 }
@@ -44,9 +40,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformat
     // TODO ここでサーバからの応答が正常であることを確認する
 
     std::filesystem::path previousFile("previousSprint.json");
-    previousDataWriter_->openFile( previousFile );
-    previousDataWriter_->write( receivedJson );
-    previousDataWriter_->closeFile();
+    saveJsonObjectAsPreviousData( previousFile, receivedJson );
     return jsonParser_->collectSprintData( receivedJson );
 }
 
@@ -60,9 +54,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
     // TODO ここでサーバからの応答が正常であることを確認する
 
     std::filesystem::path previousFile("previousItem.json");
-    previousDataWriter_->openFile( previousFile );
-    previousDataWriter_->write( receivedJson );
-    previousDataWriter_->closeFile();
+    saveJsonObjectAsPreviousData( previousFile, receivedJson );
     return jsonParser_->collectItemData( receivedJson );
 }
 
@@ -75,9 +67,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformatio
     // TODO ここでサーバからの応答が正常であることを確認する
 
     std::filesystem::path previousFile("previousTask.json");
-    previousDataWriter_->openFile( previousFile );
-    previousDataWriter_->write( receivedJson );
-    previousDataWriter_->closeFile();
+    saveJsonObjectAsPreviousData( previousFile, receivedJson );
     return jsonParser_->collectTaskData( receivedJson );
 }
 
@@ -121,6 +111,17 @@ std::string OpenProject::sendQueryMessage( std::string queryMessage )
     
     return receivedJson;
 
+}
+
+void OpenProject::saveJsonObjectAsPreviousData( std::filesystem::path previousFile, std::string& receivedJson )
+{
+    previousDataWriter_->openFile( previousFile );
+    auto result = previousDataWriter_->write( receivedJson );
+    if( result )
+    {
+        std::cout << result.value() << std::endl;
+    }
+    previousDataWriter_->closeFile();
 }
 
 }

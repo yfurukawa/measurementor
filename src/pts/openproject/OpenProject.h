@@ -5,6 +5,7 @@
 #pragma once
 
 // ---------------< include >----------------------------
+#include <filesystem>
 #include "DomainPrimitives.h"
 #include "../../domain/Pts.h"
 
@@ -87,6 +88,8 @@ private:
     bool isJsonString( std::string received );
 
     std::string sendQueryMessage(std::string queryString );
+
+    void saveJsonObjectAsPreviousData( std::filesystem::path previousFile, std::string& receivedJson );
 };
 
 }
