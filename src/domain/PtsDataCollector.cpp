@@ -48,8 +48,6 @@ void PtsDataCollector::correctData()
 
 void PtsDataCollector::permanentProjectData()
 {
-    jsonObject_.clear();
-
     for( auto project = begin(projectList_); project != end(projectList_); ++project )
     {
         auto result = project->second->createJson();
@@ -129,6 +127,7 @@ void PtsDataCollector::collectProjectData()
             }
         }
     }
+
 }
 
 void PtsDataCollector::collectSprintData()
