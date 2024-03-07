@@ -88,7 +88,7 @@ public:
     /*!
      @brief      残っている作業時間（見積もり時間ベース）を報告する
     */
-    EstimatedTime reportRemainingWorkTime();
+    EstimatedTime reportRemainingWorkTime( SprintId sprintId );
 
     /*!
      @brief      ストーリポイント集計のため、ポイントを回答する

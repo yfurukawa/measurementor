@@ -45,9 +45,9 @@ void Item::aggrigateEstimatedTime()
     }
 }
 
-EstimatedTime Item::reportRemainingWorkTime()
+EstimatedTime Item::reportRemainingWorkTime( SprintId sprintId )
 {
-    if( this->isOpen() )
+    if( this->isOpen() && sprintId_ == sprintId )
     {
         return totalEstimatedTime_;
     }
@@ -107,7 +107,7 @@ std::string Item::createJson( const Timestamp& timestamp )
     jsonCreator_.holdData( sprintId, sprintId_.get() );
 
     JsonKey totalEstimatedTime("totalEstimatedTime");
-    jsonCreator_.holdData( totalEstimatedTime, this->reportRemainingWorkTime().get() );
+    jsonCreator_.holdData( totalEstimatedTime, totalEstimatedTime_.get() );
 
     JsonKey storyPoint("storyPoint");
     jsonCreator_.holdData( storyPoint, this->reportStoryPoint().get() );
