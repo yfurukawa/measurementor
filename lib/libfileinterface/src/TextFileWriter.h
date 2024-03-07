@@ -26,10 +26,7 @@ public:
     /*!
     @brief  デフォルトデストラクタ
     */
-    virtual ~TextFileWriter() {
-        ofs_.flush();
-        ofs_.close();
-    }
+    virtual ~TextFileWriter();
 
     /*!
     @brief      ファイルをオープンする
