@@ -1,3 +1,4 @@
+#include <string>
 #include "OpenProject.h"
 #include "../../domain/Project.h"
 #include "JsonParser.h"
@@ -66,7 +67,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformatio
     std::string receivedJson = sendQueryMessage( message );
     // TODO ここでサーバからの応答が正常であることを確認する
 
-    std::filesystem::path previousFile("previousTask.json");
+    std::filesystem::path previousFile("previousTask_" + std::to_string(projectId.get()) + ".json");
     saveJsonObjectAsPreviousData( previousFile, receivedJson );
     return jsonParser_->collectTaskData( receivedJson );
 }
