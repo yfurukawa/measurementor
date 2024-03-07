@@ -113,6 +113,7 @@ bool OpenProject::isJsonString(std::string received)
 
 std::string OpenProject::sendQueryMessage( std::string queryMessage )
 {
+    // TODO エラー処理を追加
     tcpClient_->openSocket();
     tcpClient_->sendData( queryMessage );
     std::string receivedJson(extractJsonFrom());
