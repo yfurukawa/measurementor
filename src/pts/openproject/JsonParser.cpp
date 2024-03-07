@@ -141,7 +141,14 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData( const
             parsedData.insert( std::make_pair( "taskName", j["_embedded"]["elements"][count]["subject"] ));
 
             parsedData.insert( std::make_pair( "itemId", pickupId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]) ) );
-            parsedData.insert( std::make_pair( "sprintId", pickupId(j["_embedded"]["elements"][count]["_links"]["version"]["href"]) ) );
+            if( (j["_embedded"]["elements"][count]["_links"]["version"]["href"]).is_null() )
+            {
+                parsedData.insert( std::make_pair( "sprintId", "0" ) );
+            }
+            else
+            {
+                parsedData.insert( std::make_pair( "sprintId", pickupId(j["_embedded"]["elements"][count]["_links"]["version"]["href"]) ) );
+            }
             parsedData.insert( std::make_pair( "projectId", pickupId(j["_embedded"]["elements"][count]["_links"]["project"]["href"]) ) );
             parsedData.insert( std::make_pair( "author", j["_embedded"]["elements"][count]["_links"]["author"]["title"] ));
             // 見積もり時間はOpenProjectの設定により取得先を変更する必要がありそう
