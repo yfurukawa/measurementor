@@ -68,15 +68,17 @@ void PtsDataCollector::permanentSprintData()
             jsonObject_.merge( std::move(result.value()) );
         }
     }
-    
+    /*
     for( auto l = begin(jsonObject_); l != end(jsonObject_); ++l )
     {
         std::cout << *l << std::endl;
     }
+    */
 }
 
 void PtsDataCollector::aggrigateData()
 {
+    /*
     for( auto project = begin(projectList_); project != end(projectList_); ++project )
     {
         project->second->aggrigateStoryPointsInPBL();
@@ -90,6 +92,11 @@ void PtsDataCollector::aggrigateData()
     for( auto project = begin(projectList_); project != end(projectList_); ++project )
     {
         project->second->aggrigateRemainingWorkTime();
+    }
+    */
+    for( auto sprint = begin( sprintList_ ); sprint != end( sprintList_ ); ++sprint )
+    {
+        sprint->second->aggrigateRemainingWorkTime( itemList_ );
     }
 }
 
