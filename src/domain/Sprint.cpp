@@ -16,17 +16,6 @@ Sprint::Sprint( ProjectId projectId, SprintId sprintId, Name sprintName, Status 
     endDate_( endDate ),
     remainingEstimatedTime_(0)
 {
-    items_.clear();
-}
-
-void Sprint::assignProject( ProjectId projectId )
-{
-    projectId_ = ProjectId{ projectId.get() };
-}
-
-void Sprint::addItem( std::shared_ptr<Item> item )
-{
-    items_.insert( std::make_pair( item->id(), std::move(item) ) );
 }
 
 std::optional<ProjectId> Sprint::projectId() const
@@ -38,17 +27,9 @@ std::optional<ProjectId> Sprint::projectId() const
     return projectId_;
 }
 
-void Sprint::aggrigateStoryPoint()
-{
-    for( auto item = begin(items_); item != end(items_); ++item )
-    {
-        totalPoint_ = totalPoint_ + item->second->reportStoryPoint();
-    }
-}
-
 void Sprint::aggrigateRemainingWorkTime( std::map<ItemId, std::shared_ptr<Item>> itemList )
 {
-    for( auto item = begin(items_); item != end(items_); ++item )
+    for( auto item = begin( itemList ); item != end( itemList ); ++item )
     {
         remainingEstimatedTime_ = remainingEstimatedTime_ + item->second->reportRemainingWorkTime( sprintId_ );
     }
@@ -63,42 +44,6 @@ Point Sprint::reportStoryPoint()
     }
     return totalPoint_;
     
-}
-
-std::optional<std::list<std::string>> Sprint::createJsonOfItem( const Timestamp& timestamp )
-{
-    std::list<std::string> json;
-    json.clear();
-
-    if( items_.empty() )
-    {
-        return std::nullopt;
-    }
-
-    for( auto item = begin(items_); item != end(items_); ++item )
-    {
-        json.push_back( item->second->createJson( timestamp ) );
-    }
-
-    for( auto item = begin(items_); item != end(items_); ++item )
-    {
-        auto result = item->second->createJsonOfTask( timestamp );
-        if( !result )
-        {
-            continue;
-        }
-        json.merge( std::move( result.value() ) );
-    }
-
-    return json;
-}
-
-void Sprint::printChild()
-{
-    for( auto item = begin(items_); item != end(items_); ++item )
-    {
-        std::cout << item->second->id() << " : " << item->second->name() << std::endl;
-    }
 }
 
 std::string Sprint::createJson( const Timestamp& timestamp )

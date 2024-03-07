@@ -46,36 +46,10 @@ public:
     virtual ~Sprint() = default;
 
     /*!
-     @brief      SprintをProjectに割り当てる
-     @param[in]  id 割当先ProjectのID
-    */
-    void assignProject( ProjectId projectId );
-
-    /*!
-     @brief      Sprintにアイテムを追加する
-     @param[in]  id アイテムのID
-    */
-    void addItem( std::shared_ptr<Item> item );
-
-    /*!
      @brief      親となるプロジェクトのIDを返す
      @return     プロジェクトのID
     */
     std::optional<ProjectId> projectId() const;
-
-    /*!
-     @brief      割り当てられたアイテムの有無を返す
-     @return     true : アイテムあり
-    */
-    bool hasChild() const
-    {
-        return !items_.empty();
-    }
-
-    /*!
-     @brief      アイテムのストーリーポイントを集計する
-    */
-    void aggrigateStoryPoint();
 
     /*!
      @brief      残りの作業時間（見積もりベース）を集計する
@@ -96,27 +70,15 @@ public:
     */
     std::string createJson( const Timestamp& timestamp );
 
-    /*!
-     @brief      割り当てられたProduct Backlog ItemにJSONオブジェクト生成を指示する
-     @return     JSONオブジェクト（文字列）
-    */
-    std::optional<std::list<std::string>> createJsonOfItem( const Timestamp& timestamp );
-
-    SprintId id() { return sprintId_; };
-    Name name() { return sprintName_; };
-
-    void printChild();
-    
 private:
-    const SprintId sprintId_;                            //!< Sprint ID
-    const Name sprintName_;                              //!< Sprint名称
+    const SprintId sprintId_;                      //!< Sprint ID
+    const Name sprintName_;                        //!< Sprint名称
     ProjectId projectId_;                          //!< 親のID
     Point totalPoint_;                             //!< スプリントに割り当てられたアイテムの総見積もりポイント
     Status status_;                                //!< スプリントのステータス（未完了open/完了closeを表す）
     StartDate startDate_;                          //!< スプリント開始日
     EndDate endDate_;                              //!< スプリント終了日
     EstimatedTime remainingEstimatedTime_;         //!< タスクの残見積もり時間（スプリントバーンダウンチャート用）
-    std::map<ItemId, std::shared_ptr<Item>> items_;    //!< アイテムリスト
     JsonCreator jsonCreator_;                      //!< JSON Objectを生成するクラスのインスタンス
 };
 

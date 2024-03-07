@@ -61,6 +61,7 @@ void PtsDataCollector::permanentProjectData()
 
 void PtsDataCollector::permanentSprintData()
 {
+    /*
     for( auto project = begin(projectList_); project != end(projectList_); ++project )
     {
         auto result = project->second->createJsonOfSprint();
@@ -68,7 +69,7 @@ void PtsDataCollector::permanentSprintData()
             jsonObject_.merge( std::move(result.value()) );
         }
     }
-    /*
+    
     for( auto l = begin(jsonObject_); l != end(jsonObject_); ++l )
     {
         std::cout << *l << std::endl;
@@ -78,22 +79,6 @@ void PtsDataCollector::permanentSprintData()
 
 void PtsDataCollector::aggrigateData()
 {
-    /*
-    for( auto project = begin(projectList_); project != end(projectList_); ++project )
-    {
-        project->second->aggrigateStoryPointsInPBL();
-    }
-
-    for( auto project = begin(projectList_); project != end(projectList_); ++project )
-    {
-        project->second->aggrigateStoryPointsInProgress();
-    }
-
-    for( auto project = begin(projectList_); project != end(projectList_); ++project )
-    {
-        project->second->aggrigateRemainingWorkTime();
-    }
-    */
     for( auto sprint = begin( sprintList_ ); sprint != end( sprintList_ ); ++sprint )
     {
         sprint->second->aggrigateRemainingWorkTime( itemList_ );
@@ -104,7 +89,11 @@ void PtsDataCollector::collectProjectData()
 {
     std::list<std::map<std::string, std::string>> jsonObjectList;
     jsonObjectList.clear();
+
+    // 分析するためにデータの取得日時が必要
     Timestamp timestamp( chronos_->nowIso8601ExtendedGmt() );
+
+    // PTSには、クローズした（非アクティブな）過去のプロジェクトも登録されているので、現状アクティブなプロジェクトのみを対象とする
     jsonObjectList = pts_->collectAllActiveProject();
     std::list<ProjectId> exclusiveProjects;
 

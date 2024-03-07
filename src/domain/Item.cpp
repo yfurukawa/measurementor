@@ -15,17 +15,6 @@ Item::Item( ItemId itemId, Name itemName, ProjectId projectId, SprintId sprintId
     sprintId_(sprintId),
     totalEstimatedTime_(totalEstimatedTime)
 {
-    tasks_.clear();
-}
-
-void Item::assignSprint( SprintId sprintId )
-{
-    sprintId_ = SprintId{ sprintId.get() };
-}
-
-void Item::addTask( std::shared_ptr<Task> task )
-{
-    tasks_.insert( std::make_pair( task->id(), std::move(task) ) );
 }
 
 std::optional<SprintId> Item::sprintId() const
@@ -35,14 +24,6 @@ std::optional<SprintId> Item::sprintId() const
         return std::nullopt;
     }
     return sprintId_;
-}
-
-void Item::aggrigateEstimatedTime()
-{
-    for( auto task = begin(tasks_); task != end(tasks_); ++task )
-    {
-        totalEstimatedTime_ = totalEstimatedTime_ + task->second->estimatedTime();
-    }
 }
 
 EstimatedTime Item::reportRemainingWorkTime( SprintId sprintId )
@@ -63,30 +44,6 @@ Point Item::reportStoryPoint()
     }
     
     return Point(0);
-}
-
-std::optional<std::list<std::string>> Item::createJsonOfTask( const Timestamp& timestamp )
-{
-    std::list<std::string> json;
-    json.clear();
-
-    if( tasks_.empty() )
-    {
-        return std::nullopt;
-    }
-    for( auto task = begin(tasks_); task != end(tasks_); ++task )
-    {
-        json.push_back( task->second->createJson( timestamp, projectId_, sprintId_ ) );
-    }
-    return json;
-}
-
-void Item::printChild()
-{
-    for( auto p = tasks_.begin(); p != tasks_.end(); ++p )
-    {
-        std::cout << p->second->id() << " : " << p->second->name() << std::endl;
-    }
 }
 
 std::string Item::createJson( const Timestamp& timestamp )

@@ -54,36 +54,10 @@ public:
     virtual ~Item() = default;
 
     /*!
-     @brief      ItemをSprintに割り当てる
-     @param[in]  id SprintのID
-    */
-    void assignSprint( SprintId sprintId );
-
-    /*!
-     @brief      Itemにタスクを追加する
-     @param[in]  task 追加するタスク
-    */
-    void addTask( std::shared_ptr<Task> task );
-
-    /*!
      @brief      親となるバージョンのIDを返す
      @return     バージョンのID
     */
     std::optional<SprintId> sprintId() const;
-
-    /*!
-     @brief      子プロジェクトの有無を返す
-     @return     true : 子プロジェクトあり
-    */
-    bool hasChild() const
-    {
-        return !tasks_.empty();
-    }
-
-    /*!
-     @brief      タスクの見積もり時間を集計する
-    */
-    void aggrigateEstimatedTime();
 
     /*!
      @brief      残っている作業時間（見積もり時間ベース）を報告する
@@ -101,17 +75,6 @@ public:
      @return     JSONオブジェクト（文字列）
     */
     std::string createJson( const Timestamp& timestamp );
-
-    /*!
-     @brief      TaskにJSONオブジェクト生成を指示する
-     @return     JSONオブジェクト（文字列）
-    */
-    std::optional<std::list<std::string>> createJsonOfTask( const Timestamp& timestamp );
-
-    ItemId id() { return itemId_; };
-    Name name() { return itemName_; };
-
-    void printChild();
     
 private:
     const ItemId itemId_;                          //!< Item ID
@@ -122,7 +85,6 @@ private:
     StatusCode statusCode_;                        //!< タスクの状態を表す番号
     SprintId sprintId_;                            //!< 割り当てられたスプリントのID
     EstimatedTime totalEstimatedTime_;             //!< タスクの総見積もり時間
-    std::map<TaskId, std::shared_ptr<Task>> tasks_;    //!< タスクリスト
     JsonCreator jsonCreator_;                      //!< JSON Objectを生成するクラスのインスタンス
 
     /*!

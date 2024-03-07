@@ -48,53 +48,10 @@ public:
     virtual ~Project() = default;
 
     /*!
-     @brief      子プロジェクトと関連付ける
-     @param[in]  id 子プロジェクトのプロジェクトID
-     @note       deprecated
-    */
-    void relateChildProject( ProjectId childProjectId );
-
-    /*!
-     @brief      Sprintを追加する
-     @param[in]  sprint 追加するスプリント
-     @note       deprecated
-    */
-    void addSprint( std::shared_ptr<Sprint> sprint );
-
-    /*!
-     @brief      Product Back LogにProduct Backlog Itemを追加する
-     @param[in]  pbi  Product Back Logに追加するProduct Backlog Item
-     @note       deprecated
-    */
-    void addPBL( std::shared_ptr<Item> pbi );
-
-    /*!
-     @brief      Product Back Log内の残ストーリーポイントを集計する
-    */
-    void aggrigateStoryPointsInPBL();
-
-    /*!
-     @brief      進行中Sprintの残ストーリーポイントを集計する
-    */
-    void aggrigateStoryPointsInProgress();
-
-    /*!
-     @brief      進行中Sprintの残を集計する
-     @note       deprecated
-    */
-    void aggrigateRemainingWorkTime();
-
-    /*!
      @brief      自身の情報からJSONオブジェクトを生成して返す
      @return     JSONオブジェクト（文字列）
     */
     std::optional<std::string> createJson();
-
-    /*!
-     @brief      定義されたSprintのJSONオブジェクトを生成して返す
-     @return     JSONオブジェクト（文字列）
-    */
-    std::optional<std::list<std::string>> createJsonOfSprint();
 
     /*!
      @brief      親プロジェクトのIDを返す
@@ -113,15 +70,8 @@ public:
     */
     bool hasChild() const
     {
-        return !(childProjects_.empty()) || !(sprints_.empty()) || !(productBackLog_.empty()) ;
+        return !(childProjects_.empty()) /*|| !(sprints_.empty()) || !(productBackLog_.empty() )*/ ;
     }
-
-    ProjectId id() { return projectId_; };
-    Name name() { return name_; };
-
-    std::shared_ptr<Sprint> getSprint( measurementor::SprintId sprintId );
-
-    void printChild();
     
 private:
     const ProjectId projectId_;                               //!< Project ID
@@ -131,8 +81,6 @@ private:
     Point storyPointInprogress_;                              //!< 現在進行中のSprintのユーザーストーリポイント数
     Point remaingStoryPoints_;                                //!< Product Back Logに残っているユーザストーリーの総ポイント数
     std::list<ProjectId> childProjects_;                             //!< 子プロジェクトのIDリスト
-    std::map<SprintId, std::shared_ptr<Sprint>> sprints_;           //!< Project内に定義されたSprint
-    std::map<ItemId, std::shared_ptr<Item>> productBackLog_;      //!< ProjectのProduct Backlog Item
     JsonCreator jsonCreator_;                                 //!< JSON Objectを生成するクラスのインスタンス
 
     /*!

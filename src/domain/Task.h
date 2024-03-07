@@ -96,9 +96,6 @@ public:
     */
     std::string createJson( Timestamp timestamp, ProjectId projectId, SprintId sprintId );
 
-    TaskId id() { return taskId_; };
-    Name name() { return taskName_; };
-    
 private:
     const ProjectId projectId_;
     const SprintId sprintId_;
