@@ -36,7 +36,7 @@ public:
      @brief  コンストラクタ
      @param[in]  tcpClient Elasticsearchと通信するためのTCPクライアント
     */
-    Elasticsearch( std::unique_ptr<TcpClient> tcpClient, ApiKey apiKey );
+    Elasticsearch( std::unique_ptr<TcpClient> tcpClient, ApiKey apiKey, Version version );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -44,10 +44,14 @@ public:
     virtual ~Elasticsearch() = default;
 
 private:
-    std::unique_ptr<::TcpClient> tcpClient_;         //!< Elasticsearchと通信するためのTCPクライアント
-    ApiKey apiKey_;                                  //!< Elasticsearchに接続する際に使用するBasic認証キー
+    std::unique_ptr<::TcpClient> tcpClient_;    //!< Elasticsearchと通信するためのTCPクライアント
+    ApiKey apiKey_;                             //!< Elasticsearchに接続する際に使用するBasic認証キー
+    const Version version_;                     //!< Elasticsearchのバージョン
 
-    std::string sendQueryMessage(std::string queryString );
+    /*!
+     @brief  デフォルトデストラクタ
+    */
+    std::string sendRegisterMessage(std::string registoryString );
 
 };
 

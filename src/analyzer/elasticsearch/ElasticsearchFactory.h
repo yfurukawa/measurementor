@@ -81,7 +81,8 @@ public:
                 IPv4 ip( setting_["IP"] );
                 Port port( std::stoi( setting_["Port"] ) );
                 ApiKey apiKey( setting_["apikey"] );
-                analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_unique<::TcpClient>( ip, port ), apiKey ) );
+                Version version( setting_["version"] );
+                analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_unique<::TcpClient>( ip, port ), apiKey, version ) );
             }
         }
         return analyzer_;
