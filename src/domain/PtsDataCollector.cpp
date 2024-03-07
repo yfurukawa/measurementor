@@ -29,10 +29,11 @@ PtsDataCollector::~PtsDataCollector()
     itemList_.clear();
     taskList_.clear();
     jsonObject_.clear();
-    if( pts_ != nullptr )
-    delete pts_;
-    pts_= nullptr;
-    ptsFactory_->~PtsFactory();
+    if( pts_ == nullptr )
+    {
+        delete pts_;
+        pts_ = nullptr;
+    }
 }
 
 void PtsDataCollector::correctData()
