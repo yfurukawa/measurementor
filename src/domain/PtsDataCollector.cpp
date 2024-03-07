@@ -1,6 +1,9 @@
+#include "Chronos.h"
 #include "PtsDataCollector.h"
 #include "../pts/openproject/OpenProjectFactory.h"   // TODO
 #include "../pts/openproject/OpenProject.h"          // TODO
+#include "../analyzer/elasticsearch/ElasticsearchFactory.h"
+#include "../analyzer/elasticsearch/Elasticsearch.h"
 #include "Project.h"
 #include "Sprint.h"
 #include "Item.h"
@@ -13,6 +16,7 @@ namespace measurementor
 PtsDataCollector::PtsDataCollector()
  : ptsFactory_( PtsFactory::getInstance() ),
     pts_( ptsFactory_->createPts() ),
+    analyzer_( analyzer::ElasticsearchFactory::getInstance()->createIAnalyzer() ),
     chronos_( std::make_unique<::Chronos>() )
 {
     projectList_.clear();
@@ -29,11 +33,7 @@ PtsDataCollector::~PtsDataCollector()
     itemList_.clear();
     taskList_.clear();
     jsonObject_.clear();
-    if( pts_ == nullptr )
-    {
-        delete pts_;
-        pts_ = nullptr;
-    }
+
 }
 
 void PtsDataCollector::correctData()
@@ -58,6 +58,10 @@ void PtsDataCollector::permanentProjectData()
         }
     }
 
+    for( auto json = begin(jsonObject_); json != end(jsonObject_); ++json )
+    {
+        analyzer_->registerMeasurementedData( *json );
+    }
 }
 
 void PtsDataCollector::permanentSprintData()
