@@ -16,7 +16,7 @@
 #include "TcpClient.h"
 #include "Port.h"
 #include "Hostname.h"
-#include "../../../lib/libfileinterface/src/ConfFileParser.h"
+#include "ConfFileParser.h"
 
 #include <iostream>
 
