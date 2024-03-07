@@ -18,15 +18,6 @@ Sprint::Sprint( ProjectId projectId, SprintId sprintId, Name sprintName, Status 
 {
 }
 
-std::optional<ProjectId> Sprint::projectId() const
-{
-    if( projectId_ == 0 )
-    {
-        return std::nullopt;
-    }
-    return projectId_;
-}
-
 void Sprint::aggrigateRemainingWorkTime( std::map<ItemId, std::shared_ptr<Item>> itemList )
 {
     for( auto item = begin( itemList ); item != end( itemList ); ++item )

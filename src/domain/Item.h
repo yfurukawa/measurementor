@@ -54,21 +54,9 @@ public:
     virtual ~Item() = default;
 
     /*!
-     @brief      親となるバージョンのIDを返す
-     @return     バージョンのID
-    */
-    std::optional<SprintId> sprintId() const;
-
-    /*!
      @brief      残っている作業時間（見積もり時間ベース）を報告する
     */
     EstimatedTime reportRemainingWorkTime( SprintId sprintId );
-
-    /*!
-     @brief      ストーリポイント集計のため、ポイントを回答する
-     @return     ポイント
-    */
-    Point reportStoryPoint();
 
     /*!
      @brief      自身の情報からJSONオブジェクトを生成して返す
@@ -92,6 +80,12 @@ private:
      @return     true ： オープン状態
     */
     bool isOpen();
+
+    /*!
+     @brief      自身がオープンの場合に、ストーリポイント集計のため、ポイントを回答する
+     @return     ポイント
+    */
+    Point reportStoryPoint();
 };
 
 }

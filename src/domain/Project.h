@@ -53,47 +53,15 @@ public:
     */
     std::optional<std::string> createJson();
 
-    /*!
-     @brief      親プロジェクトのIDを返す
-     @return     親プロジェクトのID
-     @note       deprecated
-    */
-    ProjectId parentId() const
-    {
-        return parentId_;
-    }
-
-    /*!
-     @brief      子プロジェクトの有無を返す
-     @return     true : 子プロジェクトあり
-     @note       deprecated
-    */
-    bool hasChild() const
-    {
-        return !(childProjects_.empty()) /*|| !(sprints_.empty()) || !(productBackLog_.empty() )*/ ;
-    }
-    
 private:
     const ProjectId projectId_;                               //!< Project ID
     const Name name_;                                         //!< Project名称
-    const ProjectId parentId_;                                 //!< 親のID
+    const ProjectId parentId_;                                //!< 親のID
     const Timestamp timestamp_;                               //!< elasticserchに登録する際に使用する日時（ISO8601の拡張型GMT形式）
     Point storyPointInprogress_;                              //!< 現在進行中のSprintのユーザーストーリポイント数
     Point remaingStoryPoints_;                                //!< Product Back Logに残っているユーザストーリーの総ポイント数
-    std::list<ProjectId> childProjects_;                             //!< 子プロジェクトのIDリスト
     JsonCreator jsonCreator_;                                 //!< JSON Objectを生成するクラスのインスタンス
 
-    /*!
-     @brief      自身が親プロジェクトかどうかを返す
-     @return     true : 親プロジェクト
-    */
-    bool isParentProject() const;
-
-    /*!
-     @brief      自身が空プロジェクトかどうかを返す
-     @return     true : 空プロジェクト
-    */
-    bool isEmptyProject() const;
 };
 
 }

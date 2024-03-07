@@ -13,16 +13,10 @@ Project::Project( ProjectId projectId, Name name, ProjectId parentId, Timestamp 
     storyPointInprogress_(0),
     remaingStoryPoints_(0)    
 {
-    childProjects_.clear();
 }
 
 std::optional<std::string> Project::createJson()
 {
-    if( this->isParentProject() || this->isEmptyProject()  )
-    {
-        return std::nullopt;
-    }
-
     JsonKey id("projectId");
     jsonCreator_.holdData( id, projectId_.get() );
 
@@ -39,16 +33,6 @@ std::optional<std::string> Project::createJson()
     jsonCreator_.holdData( timestamp, timestamp_.get() );
 
     return jsonCreator_.createJson();
-}
-
-bool Project::isParentProject() const
-{
-    return !(childProjects_.empty());
-}
-
-bool Project::isEmptyProject() const
-{
-    return childProjects_.empty();
 }
 
 }

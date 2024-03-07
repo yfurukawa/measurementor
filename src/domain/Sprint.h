@@ -46,12 +46,6 @@ public:
     virtual ~Sprint() = default;
 
     /*!
-     @brief      親となるプロジェクトのIDを返す
-     @return     プロジェクトのID
-    */
-    std::optional<ProjectId> projectId() const;
-
-    /*!
      @brief      残りの作業時間（見積もりベース）を集計する
      @note       残りの作業時間を集計することでスプリントバーンダウンチャートを作成する
     */

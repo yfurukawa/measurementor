@@ -17,15 +17,6 @@ Item::Item( ItemId itemId, Name itemName, ProjectId projectId, SprintId sprintId
 {
 }
 
-std::optional<SprintId> Item::sprintId() const
-{
-    if( sprintId_ == 0 )
-    {
-        return std::nullopt;
-    }
-    return sprintId_;
-}
-
 EstimatedTime Item::reportRemainingWorkTime( SprintId sprintId )
 {
     if( this->isOpen() && sprintId_ == sprintId )
@@ -34,16 +25,6 @@ EstimatedTime Item::reportRemainingWorkTime( SprintId sprintId )
     }
     
     return EstimatedTime(0);
-}
-
-Point Item::reportStoryPoint()
-{
-    if( this->isOpen() )
-    {
-        return storyPoint_;
-    }
-    
-    return Point(0);
 }
 
 std::string Item::createJson( const Timestamp& timestamp )
@@ -81,6 +62,16 @@ std::string Item::createJson( const Timestamp& timestamp )
 bool Item::isOpen()
 {
     return statusCode_ != 12;
+}
+
+Point Item::reportStoryPoint()
+{
+    if( this->isOpen() )
+    {
+        return storyPoint_;
+    }
+    
+    return Point(0);
 }
 
 }
