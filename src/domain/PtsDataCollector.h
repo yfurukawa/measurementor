@@ -9,10 +9,11 @@
 #include <map>
 #include <memory>
 #include <string>
-#include "../../lib/libclock/Chronos.h"
 #include "domainPrimitives/MeasurementPrimitives.h"
 
 // --------------< namespace >---------------------------
+class Chronos;
+
 namespace measurementor
 {
 
@@ -23,6 +24,7 @@ class Project;
 class Sprint;
 class Item;
 class Task;
+class IAnalyzer;
 
 /*!
  @class     PtsDataCollector.h
@@ -62,9 +64,10 @@ public:
     void permanentSprintData();
 
 protected:
-    PtsFactory* ptsFactory_;                                        //!< PTSとインターフェースするクラス
-    Pts* pts_;
-    std::unique_ptr<::Chronos> chronos_;
+    PtsFactory* ptsFactory_;                                      //!< PTSとインターフェースするクラスのファクトリ
+    Pts* pts_;                                                    //!< PTSとインターフェースするクラス
+    IAnalyzer* analyzer_;                                         //!< 計測データを分析するシステムとインターフェースするクラス
+    std::unique_ptr<::Chronos> chronos_;                          //!< 時刻情報を提供するクラス
     std::map<ProjectId, std::shared_ptr<Project>> projectList_;   //!< PTSで管理されているプロジェクトのリスト
     std::map<SprintId,  std::shared_ptr<Sprint>>  sprintList_;
     std::map<ItemId,    std::shared_ptr<Item>>    itemList_;
