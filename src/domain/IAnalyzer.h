@@ -5,6 +5,7 @@
 #pragma once
 
 // ---------------< include >----------------------------
+#include <string>
 
 // ---------< forward declaration (Global) >-------------
 
@@ -33,6 +34,11 @@ public:
     */
     virtual ~IAnalyzer() = default;
 
+    /*!
+     @brief      測定データ登録
+     @param[in]  登録するデータ
+    */
+    virtual void registerMeasurementedData( const std::string& registerData ) = 0;
 };
 
 }

@@ -6,6 +6,8 @@
 
 // ---------------< include >----------------------------
 #include <memory>
+#include <optional>
+#include <string>
 #include "../../domain/IAnalyzer.h"
 #include "DomainPrimitives.h"
 
@@ -43,16 +45,24 @@ public:
     */
     virtual ~Elasticsearch() = default;
 
+    /*!
+     @brief      測定データ登録
+     @param[in]  登録するデータ
+    */
+    void registerMeasurementedData( const std::string& registerData ) override;
+
 private:
     std::unique_ptr<::TcpClient> tcpClient_;    //!< Elasticsearchと通信するためのTCPクライアント
     ApiKey apiKey_;                             //!< Elasticsearchに接続する際に使用するBasic認証キー
     const Version version_;                     //!< Elasticsearchのバージョン
 
     /*!
-     @brief  デフォルトデストラクタ
+     @brief       計測データ登録
+     @param[in]   登録データ
     */
-    std::string sendRegisterMessage(std::string registoryString );
+    void sendRegisterMessage( const std::string& registoryString );
 
+    std::optional<std::string> confirmServerResponse();
 };
 
 }
