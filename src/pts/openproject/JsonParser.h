@@ -74,10 +74,6 @@ public:
     std::list<std::map<std::string, std::string>> collectTaskData( const std::string& jsonString );
 
 private:
-//    std::shared_ptr<measurementor::Item> extractPBLData( nlohmann::json jsonString, int count );
-//    std::shared_ptr<measurementor::Task> extractTaskData( nlohmann::json jsonString, int count );
-//    ::Chronos chronos_;
-
     /*!
      @brief        Json文字列のparent::hrefからidを抽出する
      @param[in]    入力となるJson文字列
