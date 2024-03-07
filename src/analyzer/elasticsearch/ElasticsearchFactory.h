@@ -41,7 +41,7 @@ public:
     ElasticsearchFactory()
         : analyzer_(nullptr)
     {
-        std::filesystem::path confFile("/usr/local/etc/measurementor/Elasticsearch.conf");   // TODO pathは別途設定できると良い
+        std::filesystem::path confFile("/usr/local/etc/measurementor/elasticsearch.conf");   // TODO pathは別途設定できると良い
         confFileParser_ = std::make_unique<ConfFileParser>( confFile );
         ElasticsearchFactory::destroyed_ = false;
     }
