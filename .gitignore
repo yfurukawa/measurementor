@@ -33,6 +33,8 @@
 *.app
 measurementor
 *Test
+openprojectTest
 
 pretty*.json
+previous*json
 
