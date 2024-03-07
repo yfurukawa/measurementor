@@ -78,7 +78,8 @@ namespace pts
             {"sprintId","5"},
             {"status","New"},
             {"statusCode","1"},
-            {"storyPoint","3"}
+            {"storyPoint","3"},
+            {"totalEstimatedTime","4.00"}
         };
 
         std::list<std::map<std::string, std::string>> result = sut->collectItemData( testJson );
@@ -99,7 +100,8 @@ TEST_F(JsonParserTest, collectItemData_manyItem)
             {"sprintId","5"},
             {"status","New"},
             {"statusCode","1"},
-            {"storyPoint","3"}
+            {"storyPoint","3"},
+            {"totalEstimatedTime","4.00"}
         };
 
         std::list<std::map<std::string, std::string>> result = sut->collectItemData( testJson );
@@ -151,15 +153,28 @@ TEST_F(JsonParserTest, collectItemData_manyItem)
         std::ifstream ifs("./availableProjects.json");
         std::string testJson("");
         std::getline(ifs, testJson);
-        std::map<std::string, std::string> expect{
-            {"projectName","Demo project"},
-            {"projectId","1"},
-            {"parentId","0"}
+        std::list<std::map<std::string, std::string>> expect
+        {
+            {
+                {"projectName","Demo project"},
+                {"projectId","1"},
+                {"parentId","0"}
+            },
+            {
+                {"projectName","Scrum project"},
+                {"projectId","2"},
+                {"parentId","0"}
+            },
+            {
+                {"projectName","TestProject1"},
+                {"projectId","3"},
+                {"parentId","0"}
+            }
         };
 
         std::list<std::map<std::string, std::string>> result = sut->collectProjectData( testJson );
         EXPECT_EQ(3, result.size() );
-        EXPECT_EQ( expect, result.front() );
+        EXPECT_EQ( expect, result );
         
     }
 }
