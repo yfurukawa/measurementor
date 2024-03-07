@@ -46,15 +46,11 @@ void Sprint::aggrigateStoryPoint()
     }
 }
 
-void Sprint::aggrigateRemainingWorkTime()
+void Sprint::aggrigateRemainingWorkTime( std::map<ItemId, std::shared_ptr<Item>> itemList )
 {
     for( auto item = begin(items_); item != end(items_); ++item )
     {
-        item->second->aggrigateEstimatedTime();
-    }
-    for( auto item = begin(items_); item != end(items_); ++item )
-    {
-        remainingEstimatedTime_ = remainingEstimatedTime_ + item->second->reportRemainingWorkTime();
+        remainingEstimatedTime_ = remainingEstimatedTime_ + item->second->reportRemainingWorkTime( sprintId_ );
     }
 
 }

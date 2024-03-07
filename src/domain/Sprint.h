@@ -81,7 +81,7 @@ public:
      @brief      残りの作業時間（見積もりベース）を集計する
      @note       残りの作業時間を集計することでスプリントバーンダウンチャートを作成する
     */
-    void aggrigateRemainingWorkTime();
+    void aggrigateRemainingWorkTime( std::map<ItemId, std::shared_ptr<Item>> itemList );
 
     /*!
      @brief      ストーリポイント集計のため、ポイントを回答する
