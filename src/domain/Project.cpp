@@ -10,7 +10,6 @@ Project::Project( ProjectId projectId, Name name, ProjectId parentId, Timestamp 
     name_(name),
     parentId_(parentId),
     timestamp_(timestamp),
-    storyPointInprogress_(0),
     remaingStoryPoints_(0)    
 {
 }
@@ -26,13 +25,15 @@ std::optional<std::string> Project::createJson()
     JsonKey remainingStoryPoints("remainingStoryPoints");
     jsonCreator_.holdData( remainingStoryPoints, remaingStoryPoints_.get() );
 
-    JsonKey inProgressStoryPoints("inProgressStoryPoints");
-    jsonCreator_.holdData( inProgressStoryPoints, storyPointInprogress_.get() );
-
     JsonKey timestamp("timestamp");
     jsonCreator_.holdData( timestamp, timestamp_.get() );
 
     return jsonCreator_.createJson();
+}
+
+void Project::registerStoryPoint(Point remainingStoryPint)
+{
+    remaingStoryPoints_ = remainingStoryPint;
 }
 
 }

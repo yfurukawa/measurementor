@@ -53,12 +53,17 @@ public:
     */
     std::optional<std::string> createJson();
 
+    /*!
+     @brief      残りのユーザーストーリーポイントを登録する
+     @param[in]  remainingStoryPint  プロジェクト毎に集計した残ユーザーストーリーポイント
+    */
+    void registerStoryPoint( Point remainingStoryPint );
+
 private:
     const ProjectId projectId_;                               //!< Project ID
     const Name name_;                                         //!< Project名称
     const ProjectId parentId_;                                //!< 親のID
     const Timestamp timestamp_;                               //!< elasticserchに登録する際に使用する日時（ISO8601の拡張型GMT形式）
-    Point storyPointInprogress_;                              //!< 現在進行中のSprintのユーザーストーリポイント数
     Point remaingStoryPoints_;                                //!< Product Back Logに残っているユーザストーリーの総ポイント数
     JsonCreator jsonCreator_;                                 //!< JSON Objectを生成するクラスのインスタンス
 
