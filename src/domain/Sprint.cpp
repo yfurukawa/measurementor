@@ -27,14 +27,19 @@ void Sprint::aggrigateRemainingWorkTime( std::map<ItemId, std::shared_ptr<Item>>
 
 }
 
-Point Sprint::reportStoryPoint()
+Point Sprint::reportStoryPoint( ProjectId blongingProject )
 {
-    if( status_.get() == "closed" )
+    if( status_.get() == "closed" || projectId_ != blongingProject )
     {
         return Point(0);
     }
     return totalPoint_;
     
+}
+
+void Sprint::registerStoryPoint(Point remainingStoryPint)
+{
+    totalPoint_ = remainingStoryPint;
 }
 
 std::string Sprint::createJson( const Timestamp& timestamp )

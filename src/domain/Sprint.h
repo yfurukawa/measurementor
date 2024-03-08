@@ -52,10 +52,16 @@ public:
     void aggrigateRemainingWorkTime( std::map<ItemId, std::shared_ptr<Item>> itemList );
 
     /*!
-     @brief      ストーリポイント集計のため、ポイントを回答する
+     @brief      ストーリポイント集計のため、自身のプロジェクトに対してポイントを回答する
      @return     ポイント
     */
-    Point reportStoryPoint();
+    Point reportStoryPoint( ProjectId blongingProject );
+
+    /*!
+     @brief      残りのユーザーストーリーポイントを登録する
+     @param[in]  remainingStoryPint  プロジェクト毎に集計した残ユーザーストーリーポイント
+    */
+    void registerStoryPoint( Point remainingStoryPint );
 
     /*!
      @brief      自身の情報からJSONオブジェクトを生成して返す
