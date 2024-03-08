@@ -40,7 +40,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformat
     std::string receivedJson = sendQueryMessage( message );
     // TODO ここでサーバからの応答が正常であることを確認する
 
-    std::filesystem::path previousFile("previousSprint.json");
+    std::filesystem::path previousFile("previousSprint_" + std::to_string(projectId.get()) + ".json");
     saveJsonObjectAsPreviousData( previousFile, receivedJson );
     return jsonParser_->collectSprintData( receivedJson );
 }
@@ -54,7 +54,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
 
     // TODO ここでサーバからの応答が正常であることを確認する
 
-    std::filesystem::path previousFile("previousItem.json");
+    std::filesystem::path previousFile("previousItem_" + std::to_string(projectId.get()) + ".json");
     saveJsonObjectAsPreviousData( previousFile, receivedJson );
     return jsonParser_->collectItemData( receivedJson );
 }
