@@ -80,14 +80,6 @@ void PtsDataCollector::permanentSprintData()
     */
 }
 
-void PtsDataCollector::aggrigateData()
-{
-    for( auto sprint = begin( sprintList_ ); sprint != end( sprintList_ ); ++sprint )
-    {
-        sprint->second->aggrigateRemainingWorkTime( itemList_ );
-    }
-}
-
 void PtsDataCollector::collectProjectData()
 {
     std::list<std::map<std::string, std::string>> jsonObjectList;
@@ -177,7 +169,7 @@ void PtsDataCollector::collectItemData()
         Status status( (*json)["status"] );
         StatusCode statusCode( std::stoi((*json)["statusCode"]));
         EstimatedTime totalEstimatedTime( std::stoi( (*json)["totalEstimatedTime"] ) );
-        Point storyPoint(0);   // TODO 計算？
+        Point storyPoint( std::stoi( (*json)["storyPoint"] ) );
         itemList_.insert( std::make_pair( itemId, std::make_shared<Item>( itemId, itemName, projectId, sprintId, storyPoint, status, statusCode, totalEstimatedTime )));
     }
 
@@ -211,6 +203,46 @@ void PtsDataCollector::collectTaskData()
         taskList_.insert( std::make_pair( taskId, std::make_shared<Task>( projectId, sprintId, itemId, taskId, taskName, author, estimatedTime, assignee, status, statusCode, updatedAt )));
     }
 
+}
+
+void PtsDataCollector::aggrigateData()
+{
+    this->aggrigateStoryPoint();
+    this->aggrigateRemainingWorkTime();    
+}
+
+void PtsDataCollector::aggrigateStoryPoint()
+{
+    Point remainingPointforSprint(0);
+    Point remainingPointforProject(0);
+
+    for( auto sprint = begin( sprintList_ ); sprint != end( sprintList_ ); ++sprint )
+    {
+        remainingPointforSprint = remainingPointforSprint - remainingPointforSprint;  // StrongTypeは初期化後に代入できないので、自分自身の差分を取ることで値を0にしている
+        for( auto item = begin( itemList_ ); item != end( itemList_ ); ++item )
+        {
+            remainingPointforSprint = remainingPointforSprint + item->second->reportStoryPoint( sprint->first );
+        }
+        sprint->second->registerStoryPoint( remainingPointforSprint );
+    }
+
+    for( auto project = begin( projectList_ ); project != end( projectList_ ); ++project )
+    {
+        remainingPointforProject = remainingPointforProject - remainingPointforProject;
+        for( auto sprint = begin( sprintList_ ); sprint != end( sprintList_ ); ++sprint )
+        {
+            remainingPointforProject = remainingPointforProject + sprint->second->reportStoryPoint( project->first );
+        }
+        project->second->registerStoryPoint( remainingPointforProject );
+    }
+}
+
+void PtsDataCollector::aggrigateRemainingWorkTime()
+{
+    for( auto sprint = begin( sprintList_ ); sprint != end( sprintList_ ); ++sprint )
+    {
+        sprint->second->aggrigateRemainingWorkTime( itemList_ );
+    }
 }
 
 }

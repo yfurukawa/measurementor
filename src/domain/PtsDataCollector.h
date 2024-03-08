@@ -69,21 +69,49 @@ protected:
     IAnalyzer* analyzer_;                                         //!< 計測データを分析するシステムとインターフェースするクラス
     std::unique_ptr<::Chronos> chronos_;                          //!< 時刻情報を提供するクラス
     std::map<ProjectId, std::shared_ptr<Project>> projectList_;   //!< PTSで管理されているプロジェクトのリスト
-    std::map<SprintId,  std::shared_ptr<Sprint>>  sprintList_;
-    std::map<ItemId,    std::shared_ptr<Item>>    itemList_;
-    std::map<TaskId,    std::shared_ptr<Task>>    taskList_;
-    std::list<std::string> jsonObject_;                              //!< 各データクラスが生成したJSONオブジェクトの格納用
+    std::map<SprintId,  std::shared_ptr<Sprint>>  sprintList_;    //!< PTSで管理されているスプリンTのリスト
+    std::map<ItemId,    std::shared_ptr<Item>>    itemList_;      //!< PTSで管理されているプロダクトバックログアイテムのリスト
+    std::map<TaskId,    std::shared_ptr<Task>>    taskList_;      //!< PTSで管理されているタスクのリスト
+    std::list<std::string> jsonObject_;                           //!< 各データクラスが生成したJSONオブジェクトの格納用
     
+    /*!
+     @brief    プロジェクトのデータを収集する
+     @note     収集したデータprojectList_はに格納する
+    */
+    void collectProjectData();
+
+    /*!
+     @brief    スプリントのデータを収集する
+     @note     収集したデータはsprintList_に格納する
+    */
+    void collectSprintData();
+    
+    /*!
+     @brief    プロダクトバックログアイテムのデータを収集する
+     @note     収集したデータはitemList_に格納する
+    */
+    void collectItemData();
+
+    /*!
+     @brief    タスクのデータを収集する
+     @note     収集したデータはtaskList_に格納する
+    */
+    void collectTaskData();
 
     /*!
      @brief    収集したデータの内、合計する必要がある残ポイント数、残工数を集計する
     */
     void aggrigateData();
 
-    void collectProjectData();
-    void collectSprintData();
-    void collectItemData();
-    void collectTaskData();
+    /*!
+     @brief    スプリントが持つユーザストーリポイントをプロジェクト単位で集計する
+    */
+    void aggrigateStoryPoint();
+
+    /*!
+     @brief    プロダクトバックログアイテムが持つ見積もり作業時間の残り時間をスプリント単位で集計する
+    */
+    void aggrigateRemainingWorkTime();
 };
 
 }
