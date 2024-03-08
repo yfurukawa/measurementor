@@ -54,7 +54,16 @@ public:
     virtual ~Item() = default;
 
     /*!
-     @brief      残っている作業時間（見積もり時間ベース）を報告する
+     @brief      ストーリポイント集計のため、自身のスプリントに対してポイントを回答する
+     @param[in]  spintId  割り当てられているスプリントのID
+     @return     見積もったユーザーストーリーポイント
+    */
+    Point reportStoryPoint( SprintId sprintId );
+
+/*!
+     @brief      残作業時間集計のため、自身のスプリントに対した残っている作業時間（見積もり時間ベース）を回答する
+     @param[in]  spintId  割り当てられているスプリントのID
+     @return     残作業時間
     */
     EstimatedTime reportRemainingWorkTime( SprintId sprintId );
 

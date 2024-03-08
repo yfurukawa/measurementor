@@ -17,7 +17,17 @@ Item::Item( ItemId itemId, Name itemName, ProjectId projectId, SprintId sprintId
 {
 }
 
-EstimatedTime Item::reportRemainingWorkTime( SprintId sprintId )
+Point Item::reportStoryPoint(SprintId sprintId)
+{
+    if( this->isOpen() && sprintId_ == sprintId )
+    {
+        return storyPoint_;
+    }
+
+    return Point(0);
+}
+
+EstimatedTime Item::reportRemainingWorkTime(SprintId sprintId)
 {
     if( this->isOpen() && sprintId_ == sprintId )
     {
