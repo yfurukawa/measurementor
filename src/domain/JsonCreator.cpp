@@ -1,8 +1,8 @@
-#include <sstream>
 #include "JsonCreator.h"
 
 namespace measurementor
 {
+
 JsonCreator::JsonCreator()
 {
     jsonRaw_.clear();
