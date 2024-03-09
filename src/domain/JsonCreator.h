@@ -91,8 +91,8 @@ public:
     void holdDataAsArray( JsonKey key, JsonObject jsonObject );
 
     /*!
-     @brief          保持しているデータからJson文字列を生成する
-     @param[in,out]  生成されたJson文字列
+     @brief      保持しているデータからJson文字列を生成する
+     @return     生成されたJson文字列
     */
     std::string createJson();
     
