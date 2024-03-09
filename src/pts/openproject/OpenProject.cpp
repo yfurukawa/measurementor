@@ -4,7 +4,7 @@
 #include "JsonParser.h"
 #include "TcpClient.h"
 #include "TextFileWriter.h"
-#include "RestAPIHelper.hpp"
+#include "RestAPIHelper.h"
 
 #include <iostream>
 
