@@ -1,5 +1,5 @@
 /*!
- @file      RestAPIHelper.hpp
+ @file      RestAPIHelper.h
  @brief     REST APIアクセスに関する補助的な関数を提供する
  @attention
 */
@@ -7,7 +7,6 @@
 
 // ---------------< include >----------------------------
 #include <string>
-#include "clx/base64.h"
 
 /*!
  @fn         createBasicAuthorizationKey
@@ -15,7 +14,4 @@
  @param[in]  token 認証の基となるトークン
  @return     Basic認証キー
 */
-std::string createBasicAuthorizationKey( std::string token )
-{
-    return clx::base64::encode( token );
-}
+std::string createBasicAuthorizationKey( std::string token );

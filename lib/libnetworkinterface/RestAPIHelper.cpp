@@ -1,12 +1,4 @@
-/*!
- @file      RestAPIHelper.hpp
- @brief     REST APIアクセスに関する補助的な関数を提供する
- @attention
-*/
-#pragma once
-
-// ---------------< include >----------------------------
-#include <string>
+#include "RestAPIHelper.h"
 #include "clx/base64.h"
 
 /*!
