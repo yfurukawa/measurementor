@@ -1,6 +1,5 @@
 #include <iostream>
 #include "Item.h"
-#include "Task.h"
 
 namespace measurementor
 {
@@ -58,7 +57,7 @@ std::string Item::createJson( const Timestamp& timestamp )
     jsonCreator_.holdData( totalEstimatedTime, totalEstimatedTime_.get() );
 
     JsonKey storyPoint("storyPoint");
-    jsonCreator_.holdData( storyPoint, this->reportStoryPoint().get() );
+    jsonCreator_.holdData( storyPoint, storyPoint_.get() );
 
     JsonKey status("status");
     jsonCreator_.holdData( status, status_.get() );
@@ -69,19 +68,10 @@ std::string Item::createJson( const Timestamp& timestamp )
     return jsonCreator_.createJson();
 }
 
-bool Item::isOpen()
+inline bool Item::isOpen()
 {
-    return statusCode_ != 12;
-}
-
-Point Item::reportStoryPoint()
-{
-    if( this->isOpen() )
-    {
-        return storyPoint_;
-    }
-    
-    return Point(0);
+    int closed(12);
+    return statusCode_ != closed;
 }
 
 }
