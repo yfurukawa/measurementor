@@ -94,7 +94,7 @@ public:
      @brief      自身の情報からJSONオブジェクトを生成して返す
      @return     JSONオブジェクト（文字列）
     */
-    std::string createJson( Timestamp timestamp, ProjectId projectId, SprintId sprintId );
+    std::string createJson( Timestamp timestamp );
 
 private:
     const ProjectId projectId_;

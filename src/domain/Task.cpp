@@ -28,16 +28,16 @@ EstimatedTime Task::estimatedTime()
     return EstimatedTime(0);
 }
 
-std::string Task::createJson(  Timestamp timestamp, ProjectId projectId, SprintId sprintId )
+std::string Task::createJson(  Timestamp timestamp )
 {
     JsonKey tstamp("timestamp");
     jsonCreator_.holdData( tstamp, timestamp.get() );
 
     JsonKey pid("projectId");
-    jsonCreator_.holdData( pid, projectId.get() );
+    jsonCreator_.holdData( pid, projectId_.get() );
 
     JsonKey sid("sprintId");
-    jsonCreator_.holdData( sid, sprintId.get() );
+    jsonCreator_.holdData( sid, sprintId_.get() );
 
     JsonKey id("taskId");
     jsonCreator_.holdData( id, taskId_.get() );
