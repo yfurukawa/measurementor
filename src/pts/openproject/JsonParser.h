@@ -38,28 +38,28 @@ public:
     /*!
      @brief        Json文字列からProjectの情報を抽出する
      @param[in]    入力となるJson文字列
-     @return       抽出情報（Projectの情報マップをリスト化したもの）
+     @return       抽出情報（Projectの情報マップ（情報名、値）をリスト化したもの）
     */
     std::list<std::map<std::string, std::string>> collectProjectData( const std::string& jsonString );
 
     /*!
      @brief        Json文字列からSprintの情報を抽出する
      @param[in]    入力となるJson文字列
-     @return       抽出情報（Sprintの情報マップをリスト化したもの）
+     @return       抽出情報（Sprintの情報マップ（情報名、値）をリスト化したもの）
     */
     std::list<std::map<std::string, std::string>> collectSprintData( const std::string& jsonString );
 
     /*!
      @brief        Json文字列からPBIの情報を抽出する
      @param[in]    入力となるJson文字列
-     @return       抽出情報（PBIの情報マップをリスト化したもの）
+     @return       抽出情報（PBIの情報マップ（情報名、値）をリスト化したもの）
     */
     std::list<std::map<std::string, std::string>> collectItemData( const std::string& jsonString );
 
     /*!
      @brief        Json文字列からTaskの情報を抽出する
      @param[in]    入力となるJson文字列
-     @return       抽出情報（タスクの情報マップをリスト化したもの）
+     @return       抽出情報（タスクの情報マップ（情報名、値）をリスト化したもの）
     */
     std::list<std::map<std::string, std::string>> collectTaskData( const std::string& jsonString );
 
