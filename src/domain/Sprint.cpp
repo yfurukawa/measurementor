@@ -1,7 +1,6 @@
 #include "Item.h"
 #include "Sprint.h"
 #include "Task.h"
-#include <iostream>
 
 namespace measurementor
 {
