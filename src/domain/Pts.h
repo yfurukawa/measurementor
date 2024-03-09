@@ -7,9 +7,8 @@
 // ---------------< include >----------------------------
 #include <list>
 #include <map>
-#include <memory>
 #include <string>
-#include "Project.h"
+#include "domainPrimitives/MeasurementPrimitives.h"
 
 // --------------< namespace >---------------------------
 namespace measurementor
@@ -37,26 +36,29 @@ public:
     virtual ~Pts() = default;
 
     /*!
-     @brief      全てのアクティブプロジェクトを収集する
-     @param[out] アクティブプロジェクトのリスト
+     @brief   全てのアクティブプロジェクトを収集する
+     @return  アクティブプロジェクトのリスト（Projectの情報マップ（情報名、値）をリスト化したもの）
     */
     virtual std::list<std::map<std::string, std::string>>  collectAllActiveProject() = 0;
 
     /*!
      @brief          指定されたプロジェクトに定義されているSprint情報を収集する
      @param[in]      project 収集したいプロジェクト
+     @return         スプリントのリスト（Sprintの情報マップ（情報名、値）をリスト化したもの）
     */
     virtual std::list<std::map<std::string, std::string>> collectSprintInformation( const measurementor::ProjectId& projectId ) = 0;
     
     /*!
      @brief          指定されたプロジェクトに定義されているItemの情報を収集する
      @param[in]      project 収集したいプロジェクト
+     @return         プロダクトバックログアイテムのリスト（PBIの情報マップ（情報名、値）をリスト化したもの）
     */
     virtual std::list<std::map<std::string, std::string>> collectItemInformation( const measurementor::ProjectId& projectId ) = 0;
 
     /*!
      @brief          指定されたプロジェクトに定義されているTaskの情報を収集する
      @param[in]      project 収集したいプロジェクト
+     @return         タスクのリスト（タスクの情報マップ（情報名、値）をリスト化したもの）
     */
     virtual std::list<std::map<std::string, std::string>> collectTaskInformation( const measurementor::ProjectId& projectId ) = 0;
 
