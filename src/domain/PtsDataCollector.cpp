@@ -52,32 +52,24 @@ void PtsDataCollector::permanentProjectData()
     {
         auto result = project->second->createJson();
         if( result ) {
-            jsonObject_.push_back( result.value() );
+            jsonObject_.push_back( std::move(result.value()) );
         }
     }
 
-    for( auto json = begin(jsonObject_); json != end(jsonObject_); ++json )
-    {
-        analyzer_->registerMeasurementedData( *json );
-    }
 }
 
 void PtsDataCollector::permanentSprintData()
 {
-    /*
-    for( auto project = begin(projectList_); project != end(projectList_); ++project )
+    Timestamp timestamp( chronos_->nowIso8601ExtendedGmt() );
+    for( auto sprint = begin( sprintList_ ); sprint != end( sprintList_ ); ++sprint )
     {
-        auto result = project->second->createJsonOfSprint();
-        if( result ) {
-            jsonObject_.merge( std::move(result.value()) );
-        }
+        jsonObject_.push_back( std::move( sprint->second->createJson( timestamp ) ) );
     }
-    
-    for( auto l = begin(jsonObject_); l != end(jsonObject_); ++l )
+
+   for( auto json = begin(jsonObject_); json != end(jsonObject_); ++json )
     {
-        std::cout << *l << std::endl;
+        analyzer_->registerMeasurementedData( *json );
     }
-    */
 }
 
 void PtsDataCollector::collectProjectData()
@@ -139,7 +131,7 @@ void PtsDataCollector::collectSprintData()
     {
         ProjectId projectId( std::stoi((*json)["projectId"] ));
         SprintId sprintId( std::stoi((*json)["sprintId"]));
-        Name sprintName( (*json)["sprimtName"] );
+        Name sprintName( (*json)["sprintName"] );
         Status status( (*json)["status"] );
         StartDate startDate( (*json)["startDate"]);
         EndDate endDate( (*json)["endDate"] );
