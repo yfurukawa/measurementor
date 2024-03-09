@@ -9,7 +9,7 @@
 #include <optional>
 #include <string>
 #include "../../domain/IAnalyzer.h"
-#include "DomainPrimitives.h"
+#include "DomainPrimitivesForElasticasearch.h"
 
 // ---------< forward declaration (Global) >-------------
 class TcpClient;

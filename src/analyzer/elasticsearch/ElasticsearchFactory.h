@@ -10,7 +10,7 @@
 #include <memory>
 #include <string>
 #include "ConfFileParser.h"
-#include "DomainPrimitives.h"
+#include "DomainPrimitivesForElasticasearch.h"
 #include "Elasticsearch.h"
 #include "../../domain/IAnalyzerFactory.h"
 #include "Hostname.h"

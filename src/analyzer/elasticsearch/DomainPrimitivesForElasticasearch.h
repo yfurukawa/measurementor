@@ -1,5 +1,5 @@
 /*!
- @file      DomainPrimitives.h
+ @file      DomainPrimitivesForElasticasearch.h
  @brief     ドメインプリミティブ
 */
 #pragma once

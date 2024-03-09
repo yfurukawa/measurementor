@@ -17,7 +17,6 @@ Elasticsearch::Elasticsearch( std::unique_ptr<::TcpClient> tcpClient, ApiKey api
 
 void Elasticsearch::registerMeasurementedData(const std::string &registerData)
 {
-    std::cout << registerData << std::endl;
     std::string method("POST");
     std::string location("/measurementor/_doc/");
     std::string httpVersion("HTTP/1.1");
@@ -29,11 +28,8 @@ void Elasticsearch::registerMeasurementedData(const std::string &registerData)
     std::string contentType("Content-Type: application/json; charset=UTF-8");
     std::string contentLength("Content-Length: " + std::to_string(registerData.length()) );
     std::string message(method + " " + location + " " + httpVersion + "\r\n" + hostLocation + "\r\n" + userAgent + "\r\n" + acceptInfo + "\r\n" + contentType + "\r\n" + contentLength + "\r\n" + registerData + "\r\n\r\n");
-    std::string key(/*createBasicAuthorizationKey("apikey:" + apiKey_.get())*/ "" );
 
-    // TODO 送信文字列のフォーマットをを確認したら有効にする
-    sendRegisterMessage( message );
-    
+    sendRegisterMessage( message );   
 }
 
 void Elasticsearch::sendRegisterMessage( const std::string& registoryString )
