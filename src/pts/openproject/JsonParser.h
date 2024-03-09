@@ -9,17 +9,7 @@
 #include <map>
 #include <memory>
 #include <string>
-#include "../../domain/Project.h"
 #include "nlohmann/json.hpp"
-//#include "Chronos.h"
-
-// ---------< forward declaration (Global) >-------------
-namespace measurementor
-{
-    class Project;
-    class Item;
-    class Task;
-}
 
 // --------------< namespace >---------------------------
 namespace pts
