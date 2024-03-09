@@ -14,7 +14,7 @@ Project::Project( ProjectId projectId, Name name, ProjectId parentId, Timestamp 
 {
 }
 
-std::optional<std::string> Project::createJson()
+std::string Project::createJson()
 {
     JsonKey id("projectId");
     jsonCreator_.holdData( id, projectId_.get() );

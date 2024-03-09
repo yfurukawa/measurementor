@@ -50,12 +50,8 @@ void PtsDataCollector::permanentProjectData()
 {
     for( auto project = begin(projectList_); project != end(projectList_); ++project )
     {
-        auto result = project->second->createJson();
-        if( result ) {
-            jsonObject_.push_back( std::move(result.value()) );
-        }
+        jsonObject_.push_back( std::move( project->second->createJson() ) );
     }
-
 }
 
 void PtsDataCollector::permanentSprintData()

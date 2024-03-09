@@ -8,7 +8,6 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <optional>
 #include <string>
 #include "domainPrimitives/MeasurementPrimitives.h"
 #include "JsonCreator.h"
@@ -51,7 +50,7 @@ public:
      @brief      自身の情報からJSONオブジェクトを生成して返す
      @return     JSONオブジェクト（文字列）
     */
-    std::optional<std::string> createJson();
+    std::string createJson();
 
     /*!
      @brief      残りのユーザーストーリーポイントを登録する
