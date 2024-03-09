@@ -8,37 +8,37 @@ JsonCreator::JsonCreator()
     jsonRaw_.clear();
 }
 
-void JsonCreator::holdData(JsonKey key, std::string stringValue)
+inline void JsonCreator::holdData(JsonKey key, std::string stringValue)
 {
     jsonRaw_[key.get()] = stringValue;
 }
 
-void JsonCreator::holdData(JsonKey key, int intValue)
+inline void JsonCreator::holdData(JsonKey key, int intValue)
 {
     jsonRaw_[key.get()] = intValue;
 }
 
-void JsonCreator::holdData(JsonKey key, unsigned int intValue)
+inline void JsonCreator::holdData(JsonKey key, unsigned int intValue)
 {
     jsonRaw_[key.get()] = intValue;
 }
 
-void JsonCreator::holdData(JsonKey key, long longValue)
+inline void JsonCreator::holdData(JsonKey key, long longValue)
 {
     jsonRaw_[key.get()] = longValue;
 }
 
-void JsonCreator::holdData(JsonKey key, double doubleValue)
+inline void JsonCreator::holdData(JsonKey key, double doubleValue)
 {
     jsonRaw_[key.get()] = doubleValue;
 }
 
-void JsonCreator::holdData(JsonKey key, bool boolValue)
+inline void JsonCreator::holdData(JsonKey key, bool boolValue)
 {
     jsonRaw_[key.get()] = boolValue;
 }
 
-void JsonCreator::holdData(JsonKey key, JsonObject jsonObject)
+inline void JsonCreator::holdData(JsonKey key, JsonObject jsonObject)
 {
     jsonRaw_[key.get()] = nlohmann::json::parse(jsonObject.get());
 }
@@ -60,7 +60,7 @@ void JsonCreator::holdDataAsArray(JsonKey key, JsonObject jsonObject)
 
 }
 
-std::string JsonCreator::createJson()
+inline std::string JsonCreator::createJson()
 {
     return jsonRaw_.dump();
 }
