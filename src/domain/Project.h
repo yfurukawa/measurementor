@@ -9,10 +9,9 @@
 #include <map>
 #include <memory>
 #include <string>
-#include "domainPrimitives/MeasurementPrimitives.h"
 #include "JsonCreator.h"
+#include "domainPrimitives/MeasurementPrimitives.h"
 
-#include <iostream>
 // --------------< namespace >---------------------------
 namespace measurementor
 {
@@ -38,8 +37,12 @@ private:
 public:
     /*!
      @brief  コンストラクタ
+     @param[in]  projectId    このProjectのID
+     @param[in]  projectName  このProjectの名称
+     @param[in]  parentId     このProjectの親ProjectのID（親が無ければ0）
+     @param[in]  timestamp    elasticserchに登録する際に使用する日時（ISO8601の拡張型GMT形式）
     */
-    Project( ProjectId projectId, Name name, ProjectId parentId, Timestamp timestamp );
+    Project( ProjectId projectId, Name projectName, ProjectId parentId, Timestamp timestamp );
 
     /*!
      @brief  デフォルトデストラクタ
