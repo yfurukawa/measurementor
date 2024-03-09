@@ -8,21 +8,25 @@ OPT = -O0 -Wall -std=c++17 -g
 TARGET = measurementor
 SRC = main.cpp
 OBJ = main.o domain/PtsDataCollector.o domain/Project.o domain/Sprint.o domain/Item.o domain/Task.o domain/JsonCreator.o \
-pts/openproject/OpenProject.o pts/openproject/OpenProjectFactory.o pts/openproject/JsonParser.o
+pts/openproject/OpenProject.o pts/openproject/OpenProjectFactory.o pts/openproject/JsonParser.o \
+analyzer/elasticsearch/Elasticsearch.o analyzer/elasticsearch/ElasticsearchFactory.o
 
 all: $(SRC:.cpp=.o)
 	$(CC) $(INCLUDE) $(LIB_DIR) $(OPT) -o $(TARGET) $(OBJ) $(LIB)
 
 $(SRC:.cpp=.o): $(SRC)
 	$(CC) $(INCLUDE) $(LIB_DIR) $(OPT) -c $(SRC)
+	$(MAKE) sub
 
 sub:
 	cd domain ; $(MAKE) all
 	cd pts/openproject ; $(MAKE) all
+	cd analyzer/elasticsearch ; $(MAKE) all
 
 .PHONY: clean
 clean:
 	$(RM) *.o $(TARGET)
 	cd domain ; $(MAKE) clean
 	cd pts/openproject ; $(MAKE) clean
+	cd analyzer/elasticsearch ; $(MAKE) clean
 
