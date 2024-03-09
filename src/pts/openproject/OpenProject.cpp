@@ -31,7 +31,7 @@ std::list<std::map<std::string, std::string>>  OpenProject::collectAllActiveProj
     
 }
 
-std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformationOf( const measurementor::ProjectId& projectId )
+std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformation( const measurementor::ProjectId& projectId )
 {
     std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/versions");
 

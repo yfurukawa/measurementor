@@ -46,7 +46,7 @@ public:
      @brief          指定されたプロジェクトに定義されているSprint情報を収集する
      @param[in]      project 収集したいプロジェクト
     */
-    virtual std::list<std::map<std::string, std::string>> collectSprintInformationOf( const measurementor::ProjectId& projectId ) = 0;
+    virtual std::list<std::map<std::string, std::string>> collectSprintInformation( const measurementor::ProjectId& projectId ) = 0;
     
     /*!
      @brief          指定されたプロジェクトに定義されているItemの情報を収集する

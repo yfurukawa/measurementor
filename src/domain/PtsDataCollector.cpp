@@ -129,7 +129,7 @@ void PtsDataCollector::collectSprintData()
     // 取得済みのプロジェクトに対して処理を行う
     for( auto project = begin( projectList_ ); project != end( projectList_ ); ++project )
     {
-        jsonObjectList.merge( pts_->collectSprintInformationOf( project->first ) );
+        jsonObjectList.merge( pts_->collectSprintInformation( project->first ) );
     }
     
 
