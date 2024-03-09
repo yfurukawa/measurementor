@@ -9,16 +9,14 @@
 #include <map>
 #include <memory>
 #include <string>
+#include "ConfFileParser.h"
 #include "DomainPrimitivesForOpenProject.h"
-#include "../../domain/PtsFactory.h"
+#include "Hostname.h"
 #include "IPv4.h"
 #include "OpenProject.h"
-#include "TcpClient.h"
 #include "Port.h"
-#include "Hostname.h"
-#include "ConfFileParser.h"
-
-#include <iostream>
+#include "TcpClient.h"
+#include "../../domain/PtsFactory.h"
 
 // --------------< namespace >---------------------------
 namespace pts
