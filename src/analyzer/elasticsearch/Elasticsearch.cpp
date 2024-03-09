@@ -1,7 +1,7 @@
 #include "Elasticsearch.h"
 #include "TcpClient.h"
 #include "TextFileWriter.h"
-//#include "RestAPIHelper.hpp"
+#include "RestAPIHelper.h"
 
 #include <iostream>
 
@@ -18,9 +18,18 @@ Elasticsearch::Elasticsearch( std::unique_ptr<::TcpClient> tcpClient, ApiKey api
 void Elasticsearch::registerMeasurementedData(const std::string &registerData)
 {
     std::cout << registerData << std::endl;
-
+    std::string method("POST");
+    std::string location("/measurementor/_doc/");
+    std::string httpVersion("HTTP/1.1");
+    std::string hostLocation("Host:localhost:9200");
+    std::string userAgent("User-Agent: libnet");
+//    std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
+//    std::string authorizationKey("Authorization: Basic " + key);
+    std::string acceptInfo("Accept: */*");
+    std::string contentType("Content-Type: application/json; charset=UTF-8");
+    std::string contentLength("Content-Length: " + std::to_string(registerData.length()) );
+    std::string message(method + " " + location + " " + httpVersion + "\r\n" + hostLocation + "\r\n" + userAgent + "\r\n" + acceptInfo + "\r\n" + contentType + "\r\n" + contentLength + "\r\n" + registerData + "\r\n\r\n");
     std::string key(/*createBasicAuthorizationKey("apikey:" + apiKey_.get())*/ "" );
-    std::string message("/measurementor/_doc/ HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic " + key + "\r\n\r\n");
 
     // TODO 送信文字列のフォーマットをを確認したら有効にする
     // sendRegisterMessage( message );
