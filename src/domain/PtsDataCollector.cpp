@@ -66,7 +66,17 @@ void PtsDataCollector::permanentSprintData()
         jsonObject_.push_back( std::move( sprint->second->createJson( timestamp ) ) );
     }
 
-   for( auto json = begin(jsonObject_); json != end(jsonObject_); ++json )
+    for( auto item = begin( itemList_ ); item != end( itemList_ ); ++item )
+    {
+        jsonObject_.push_back( std::move( item->second->createJson( timestamp ) ) );
+    }
+
+    for( auto task = begin( taskList_ ); task != end( taskList_ ); ++task )
+    {
+        jsonObject_.push_back( std::move( task->second->createJson( timestamp ) ) );
+    }
+
+    for( auto json = begin(jsonObject_); json != end(jsonObject_); ++json )
     {
         analyzer_->registerMeasurementedData( *json );
     }
