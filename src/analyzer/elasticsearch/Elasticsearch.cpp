@@ -32,7 +32,7 @@ void Elasticsearch::registerMeasurementedData(const std::string &registerData)
     std::string key(/*createBasicAuthorizationKey("apikey:" + apiKey_.get())*/ "" );
 
     // TODO 送信文字列のフォーマットをを確認したら有効にする
-    // sendRegisterMessage( message );
+    sendRegisterMessage( message );
     
 }
 
