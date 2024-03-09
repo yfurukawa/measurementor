@@ -21,13 +21,7 @@ OpenProject::OpenProject( std::unique_ptr<::TcpClient> tcpClient, ApiKey apiKey 
 
 std::list<std::map<std::string, std::string>>  OpenProject::collectAllActiveProject()
 {
-    std::string method("GET /api/v3/queries/available_projects");
-    std::string httpVersion("HTTP/1.1");
-    std::string hostLocation("Host:localhost:8080");
-    std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
-    std::string authorizationKey("Authorization: Basic " + key);
-    std::string acceptInfo("Accept: */*");
-    std::string message(method + " "+ httpVersion + "\r\n" + hostLocation + "\r\n" + authorizationKey + acceptInfo + "\r\n\r\n");
+    std::string message("GET /api/v3/queries/available_projects");
 
     std::string receivedJson = sendQueryMessage( message );
     // TODO ここでサーバからの応答が正常であることを確認する
@@ -39,13 +33,7 @@ std::list<std::map<std::string, std::string>>  OpenProject::collectAllActiveProj
 
 std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformationOf( const measurementor::ProjectId& projectId )
 {
-    std::string method("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/versions");
-    std::string httpVersion("HTTP/1.1");
-    std::string hostLocation("Host:localhost:8080");
-    std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
-    std::string authorizationKey("Authorization: Basic " + key);
-    std::string acceptInfo("Accept: */*");
-    std::string message(method + " "+ httpVersion + "\r\n" + hostLocation + "\r\n" + authorizationKey + acceptInfo + "\r\n\r\n");
+    std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/versions");
 
     std::string receivedJson = sendQueryMessage( message );
     // TODO ここでサーバからの応答が正常であることを確認する
@@ -57,13 +45,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformat
 
 std::list<std::map<std::string, std::string>> OpenProject::collectItemInformation( const measurementor::ProjectId& projectId )
 {
-    std::string method("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d");
-    std::string httpVersion("HTTP/1.1");
-    std::string hostLocation("Host:localhost:8080");
-    std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
-    std::string authorizationKey("Authorization: Basic " + key);
-    std::string acceptInfo("Accept: */*");
-    std::string message(method + " "+ httpVersion + "\r\n" + hostLocation + "\r\n" + authorizationKey + acceptInfo + "\r\n\r\n");
+    std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d");
 
     std::string receivedJson = sendQueryMessage( message );
 
@@ -76,13 +58,7 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
 
 std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformation( const measurementor::ProjectId& projectId )
 {
-    std::string method("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d");
-    std::string httpVersion("HTTP/1.1");
-    std::string hostLocation("Host:localhost:8080");
-    std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
-    std::string authorizationKey("Authorization: Basic " + key);
-    std::string acceptInfo("Accept: */*");
-    std::string message(method + " "+ httpVersion + "\r\n" + hostLocation + "\r\n" + authorizationKey + acceptInfo + "\r\n\r\n");
+    std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d");
 
     std::string receivedJson = sendQueryMessage( message );
     // TODO ここでサーバからの応答が正常であることを確認する
@@ -124,9 +100,16 @@ bool OpenProject::isJsonString(std::string received)
 
 std::string OpenProject::sendQueryMessage( std::string queryMessage )
 {
+    std::string httpVersion("HTTP/1.1");
+    std::string hostLocation("Host:localhost:8080");
+    std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
+    std::string authorizationKey("Authorization: Basic " + key);
+    std::string acceptInfo("Accept: */*");
+    std::string message(queryMessage + " "+ httpVersion + "\r\n" + hostLocation + "\r\n" + authorizationKey + acceptInfo + "\r\n\r\n");
+
     // TODO エラー処理を追加
     tcpClient_->openSocket();
-    tcpClient_->sendData( queryMessage );
+    tcpClient_->sendData( message );
     std::string receivedJson(extractJsonFrom());
     tcpClient_->closeSocket();
     
