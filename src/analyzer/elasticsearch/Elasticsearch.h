@@ -24,7 +24,7 @@ namespace analyzer
 /*!
  @class     Elasticsearch
  @brief     Elasticsearchとインターフェースするクラス
- @note      本クラスは、Elasticsearchからプロジェクトの情報を取得し、メトリックスの算出ができるように加工するクラスのためのクラスである。<br>
+ @note      本クラスは、Elasticsearchへデータと登録するためのクラスである。<br>
  本クラスは、専用のファクトリによりインスタンス化される。
 */
 class Elasticsearch final : public measurementor::IAnalyzer

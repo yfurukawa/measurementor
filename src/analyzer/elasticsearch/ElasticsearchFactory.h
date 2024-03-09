@@ -12,13 +12,11 @@
 #include "ConfFileParser.h"
 #include "DomainPrimitivesForElasticasearch.h"
 #include "Elasticsearch.h"
-#include "../../domain/IAnalyzerFactory.h"
 #include "Hostname.h"
 #include "IPv4.h"
 #include "Port.h"
 #include "TcpClient.h"
-
-#include <iostream>
+#include "../../domain/IAnalyzerFactory.h"
 
 // --------------< namespace >---------------------------
 namespace analyzer
@@ -60,8 +58,8 @@ public:
     }
 
     /*!
-    @brief      Loggerインスタンスを生成する
-    @return     ToSyslogLoggerインスタンス
+    @brief      分析システムとインターフェースするクラスインスタンスを生成する
+    @return     Elasticsearchクラスのインスタンス
     */
     measurementor::IAnalyzer* createIAnalyzer() override
     {
@@ -71,7 +69,7 @@ public:
                 auto result = confFileParser_->parseFile();
                 if( !result )
                 {
-                    perror(" Can not read Elasticsearch.conf");
+                    perror(" Can not read elasticsearch.conf");
                     exit(1);
                 }
                 else

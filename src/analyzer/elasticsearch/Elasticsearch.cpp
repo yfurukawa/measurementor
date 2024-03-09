@@ -1,9 +1,7 @@
 #include "Elasticsearch.h"
+#include "RestAPIHelper.h"
 #include "TcpClient.h"
 #include "TextFileWriter.h"
-#include "RestAPIHelper.h"
-
-#include <iostream>
 
 namespace analyzer
 {
