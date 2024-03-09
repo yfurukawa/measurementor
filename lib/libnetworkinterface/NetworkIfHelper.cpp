@@ -1,14 +1,7 @@
-/*!
- @file      NetworkIfHelper.hpp
- @brief     Networkに関する補助的な関数を提供する
- @attention
-*/
-#pragma once
-
-// ---------------< include >----------------------------
 #include <netdb.h>
 #include <sstream>
 #include <string>
+#include "NetworkIfHelper.h"
 #include "Hostname.h"
 #include "clx/base64.h"
 

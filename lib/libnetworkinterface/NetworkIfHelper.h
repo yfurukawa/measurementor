@@ -1,16 +1,12 @@
 /*!
- @file      NetworkIfHelper.hpp
+ @file      NetworkIfHelper.h
  @brief     Networkに関する補助的な関数を提供する
  @attention
 */
 #pragma once
 
 // ---------------< include >----------------------------
-#include <netdb.h>
-#include <sstream>
-#include <string>
 #include "Hostname.h"
-#include "clx/base64.h"
 
 /*!
  @fn         resolveHostname
@@ -18,15 +14,4 @@
  @param[in]  hostname RFC952及びRFC1123に準拠したホスト名
  @return     IPアドレス（v4）
 */
-std::string resolveHostname(Hostname& hostname)
-{
-    auto host = gethostbyname( hostname.get().c_str() );
-    std::stringstream ss;
-
-    ss << std::to_string( (unsigned char)*(host->h_addr_list[0]) ) << "."
-    << std::to_string( (unsigned char)*(host->h_addr_list[0] + 1) ) << "."
-    << std::to_string( (unsigned char)*(host->h_addr_list[0] + 2) ) << "."
-    << std::to_string( (unsigned char)*(host->h_addr_list[0] + 3) );
-
-    return ss.str();
-}
+std::string resolveHostname(Hostname& hostname);

@@ -7,7 +7,7 @@
 #include "UdpClient.h"
 #include "Hostname.h"
 #include "IPv4.h"
-#include "NetworkIfHelper.hpp"
+#include "NetworkIfHelper.h"
 #include "Port.h"
 
 UdpClient::UdpClient( IPv4& ipAddress, Port& port )
