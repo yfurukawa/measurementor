@@ -5,9 +5,9 @@
 namespace measurementor
 {
 
-Project::Project( ProjectId projectId, Name name, ProjectId parentId, Timestamp timestamp )
+Project::Project( ProjectId projectId, Name projectName, ProjectId parentId, Timestamp timestamp )
     : projectId_(projectId),
-    name_(name),
+    name_(projectName),
     parentId_(parentId),
     timestamp_(timestamp),
     remaingStoryPoints_(0)    
