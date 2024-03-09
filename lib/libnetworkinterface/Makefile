@@ -10,9 +10,9 @@ LIB_DIR = /usr/local/lib64
 INCLUDE_DIR = /usr/local/include
 LIB = 
 OPT = -O0 -Wall -std=c++17 -fPIC
-TARGET = libnetworkinterface.a.0.4.2
-TARGETD = libnetworkinterfaced.a.0.4.2
-SRC = UdpClient.cpp Port.cpp IPv4.cpp Hostname.cpp TcpClient.cpp
+TARGET = libnetworkinterface.a.0.4.3
+TARGETD = libnetworkinterfaced.a.0.4.3
+SRC = UdpClient.cpp Port.cpp IPv4.cpp Hostname.cpp TcpClient.cpp NetworkIfHelper.cpp RestAPIHelper.cpp
 
 $(TARGET):
 	$(CC) $(INCLUUDE) $(OPT) -c $(SRC)
@@ -32,5 +32,4 @@ install:
 	$(INSTALL) $(TARGET) $(LIB_DIR)
 	$(INSTALL) $(TARGETD) $(LIB_DIR)
 	$(INSTALL) *.h $(INCLUDE_DIR)
-	$(INSTALL) *.hpp $(INCLUDE_DIR)
 	$(INSTALL) skills/* $(INCLUDE_DIR)/skills
