@@ -1,5 +1,5 @@
 /*!
- @file      DomainPrimitives.h
+ @file      DomainPrimitivesForOpenProject.h
  @brief     ドメインプリミティブ
 */
 #pragma once

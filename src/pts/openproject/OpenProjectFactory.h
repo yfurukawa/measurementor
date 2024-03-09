@@ -9,7 +9,7 @@
 #include <map>
 #include <memory>
 #include <string>
-#include "DomainPrimitives.h"
+#include "DomainPrimitivesForOpenProject.h"
 #include "../../domain/PtsFactory.h"
 #include "IPv4.h"
 #include "OpenProject.h"
