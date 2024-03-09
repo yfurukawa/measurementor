@@ -6,8 +6,8 @@
 
 // ---------------< include >----------------------------
 #include <string>
-#include "domainPrimitives/MeasurementPrimitives.h"
 #include "JsonCreator.h"
+#include "domainPrimitives/MeasurementPrimitives.h"
 
 // --------------< namespace >---------------------------
 namespace measurementor
@@ -32,16 +32,16 @@ private:
 public:
     /*!
      @brief  コンストラクタ
-     @param[in]  projectId
-     @param[in]  sprintId
-     @param[in]  taskId Task ID
-     @param[in]  name Task名称
-     @param[in]  author タスクの作成者
-     @param[in]  itemId Taskを持つItemのID
-     @param[in]  estimatedTime 見積もりポイント
-     @param[in]  assignee タスクの担当者
-     @param[in]  status タスクの状態
-     @param[in]  updatedAt 更新日時（ISO8601形式）
+     @param[in]  projectId       このTaskが定義されているProjectのID
+     @param[in]  sprintId        このTaskが割り当てられているSprintのID<br>Sprintに未割り当ての場合の値は0
+     @param[in]  taskId          このTaskのID
+     @param[in]  taskName        このTaskの名称
+     @param[in]  author          このタスクの作成者
+     @param[in]  itemId          このTaskが割り当てられているItemのID<br>Itemに未割り当ての場合の値は0
+     @param[in]  estimatedTime   このTaskの見積もり作業時間[H]
+     @param[in]  assignee        このタスクの担当者
+     @param[in]  status          このタスクの状態
+     @param[in]  updatedAt       このTaskを更新した日時（ISO8601形式）
     */
     Task( ProjectId projectId, SprintId sprintId, ItemId itemId, TaskId taskId, Name taskName, Author author, EstimatedTime estimatedTime, Assignee assignee, Status status, StatusCode statusCode, UpdatedAt updatedAt );
 
@@ -51,59 +51,19 @@ public:
     virtual ~Task() = default;
 
     /*!
-     @brief      親となるバージョンのIDを返す
-     @return     バージョンのID
-    */
-    ItemId itemId() const
-    {
-        return itemId_;
-    }
-
-    /*!
-     @brief      作業時間を見積もる
-     @param[in]  time 見積もり時間
-    */
-    void estimateWorkTime( EstimatedTime time )
-    {
-        swap( estimatedTime_, time );
-    }
-
-    /*!
-     @brief      担当者を割り当てる
-     @param[in]  assignee  担当者名
-    */
-    void assignAsignee( Assignee assignee )
-    {
-        swap( assignee_, assignee );
-    }
-
-    /*!
-     @brief      ステータスを更新する
-     @param[in]  newStatus  新しい状態
-    */
-    void updateStatus( unsigned int newStatus );
-
-    /*!
-     @brief      スプリントバーンダウンチャート作成のため見積もり時間を回答する
-     @note       タスクが未完了の場合には見積もり時間を返す。完了していれば残作業は無いので０時間を返す
-     @return     見積もり時間
-    */
-    EstimatedTime estimatedTime();
-
-    /*!
      @brief      自身の情報からJSONオブジェクトを生成して返す
      @return     JSONオブジェクト（文字列）
     */
     std::string createJson( Timestamp timestamp );
 
 private:
-    const ProjectId projectId_;
-    const SprintId sprintId_;
+    const ProjectId projectId_;   //!< 所属するプロジェクトのID
+    const SprintId sprintId_;     //!< 割り当てられたスプリントのID
     const ItemId itemId_;         //!< Taskを持つItemのID
     const TaskId taskId_;         //!< Task ID
-    const Name taskName_;             //!< Task名称
+    const Name taskName_;         //!< Task名称
     const Author author_;         //!< タスクの作成者
-    EstimatedTime estimatedTime_; //!< 見積もりポイント
+    EstimatedTime estimatedTime_; //!< 見積もり時間[H]
     Assignee assignee_;           //!< タスクの担当者
     Status status_;               //!< タスクの状態
     StatusCode statusCode_;       //!< タスクの状態を表す番号

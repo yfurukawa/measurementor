@@ -18,16 +18,6 @@ Task::Task( ProjectId projectId, SprintId sprintId, ItemId itemId, TaskId taskId
 {
 }
 
-EstimatedTime Task::estimatedTime()
-{
-    if( this->isOpen() )  // Taskがオープンのときのみ見積もり時間を返せば良い
-    {
-        return estimatedTime_;
-    }
-    
-    return EstimatedTime(0);
-}
-
 std::string Task::createJson(  Timestamp timestamp )
 {
     JsonKey tstamp("timestamp");
@@ -69,21 +59,10 @@ std::string Task::createJson(  Timestamp timestamp )
     return jsonCreator_.createJson();
 }
 
-void Task::updateStatus( unsigned int newStatus )
-{
-    /*
-    if( status_ > newStatus )
-    {
-        // TODO 手戻りなのでその処理を作る
-        return;
-    }
-    
-    //status_ = newStatus;
-    */
-}
-
 bool Task::isOpen()
 {
-    return statusCode_ != 12;
+    int closed(12);
+    return statusCode_ != closed;
 }
+
 }
