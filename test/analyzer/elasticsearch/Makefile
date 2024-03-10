@@ -3,12 +3,12 @@ CC = g++
 MAKE = make
 INCLUUDE = -I/usr/include -I/usr/local/include
 LD_PATH = -L/usr/lib64 -L/usr/local/lib64
-LIB = /usr/local/lib/libgtest.a /usr/local/lib/libgtest_main.a
+LIB = /usr/local/lib/libgtest.a /usr/local/lib/libgtest_main.a /usr/local/lib64/libnetworkinterface.a
 OPT = -O0 -Wall -std=c++17
 TARGET = analyzerTest
-OBJ = ../../../src/analyzer/elasticsearch/Index.o
-TESTSRC = IndexTest.cpp
-TESTOBJ = IndexTest.o
+OBJ = ../../../src/analyzer/elasticsearch/Index.o ../../../src/analyzer/elasticsearch/Elasticsearch.o
+TESTSRC = IndexTest.cpp ElasticsearchTest.cpp
+TESTOBJ = IndexTest.o ElasticsearchTest.o
 
 all: $(OBJ) $(TESTOBJ)
 	$(CC) $(INCLUUDE) $(OPT) -o $(TARGET) $(OBJ) $(TESTOBJ) $(LIB)
