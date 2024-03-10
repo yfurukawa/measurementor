@@ -80,7 +80,8 @@ public:
                 Port port( std::stoi( setting_["Port"] ) );
                 ApiKey apiKey( setting_["apikey"] );
                 Version version( setting_["version"] );
-                analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_unique<::TcpClient>( ip, port ), apiKey, version ) );
+                std::string index( setting_["index"] );
+                analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_shared<::TcpClient>( ip, port ), apiKey, version, index ) );
             }
         }
         return analyzer_;
