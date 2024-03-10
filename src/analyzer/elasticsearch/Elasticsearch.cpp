@@ -2,7 +2,6 @@
 #include "RestAPIHelper.h"
 #include "Index.h"
 #include "ITcpClient.h"
-#include "TextFileWriter.h"
 
 namespace analyzer
 {
