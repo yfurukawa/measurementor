@@ -8,8 +8,6 @@
 #include <gtest/gtest.h>
 
 // --------------< namespace >---------------------------
-class TcpClient;
-
 namespace pts
 {
 
