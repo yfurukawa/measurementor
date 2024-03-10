@@ -7,10 +7,12 @@
 // ---------------< include >----------------------------
 #include <filesystem>
 #include "DomainPrimitivesForOpenProject.h"
+#include "ITextFileWriter.h"
+
 #include "../../domain/Pts.h"
 
 // ---------< forward declaration (Global) >-------------
-class TcpClient;
+class ITcpClient;
 class TextFileWriter;
 
 // --------------< namespace >---------------------------
@@ -38,7 +40,7 @@ public:
      @param[in]  tcpClient OpenProjectと通信するためのTCPクライアント
      @param[in]  apiKey  サーバに接続するための認証キー
     */
-    explicit OpenProject( std::unique_ptr<TcpClient> tcpClient, ApiKey apiKey );
+    explicit OpenProject( std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -73,8 +75,8 @@ public:
     std::list<std::map<std::string, std::string>> collectTaskInformation( const measurementor::ProjectId& projectId ) override;
 
 private:
-    std::unique_ptr<::TcpClient> tcpClient_;                 //!< OpenProjectと通信するためのTCPクライアント
-    std::unique_ptr<::TextFileWriter> previousDataWriter_;   //!< OpenProjectのサーバから取得したJsonオブジェクトをファイルに保存しておくためのWriter
+    std::shared_ptr<::ITcpClient> tcpClient_;                 //!< OpenProjectと通信するためのTCPクライアント
+    std::unique_ptr<::ITextFileWriter> previousDataWriter_;   //!< OpenProjectのサーバから取得したJsonオブジェクトをファイルに保存しておくためのWriter
     std::unique_ptr<JsonParser> jsonParser_;                 //!< Jsonオブジェクトのパーサ
     ApiKey apiKey_;                                          //!< OpenProjectに接続する際に使用するBasic認証キー
 

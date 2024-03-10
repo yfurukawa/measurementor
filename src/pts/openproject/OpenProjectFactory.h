@@ -79,7 +79,7 @@ public:
                 IPv4 ip( setting_["IP"] );
                 Port port( std::stoi( setting_["Port"] ) );
                 ApiKey apiKey( setting_["apikey"] );
-                pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_unique<::TcpClient>( ip, port ), apiKey ) );
+                pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_shared<::TcpClient>( ip, port ), apiKey ) );
             }
         }
         return pts_;
