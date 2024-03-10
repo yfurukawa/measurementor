@@ -1,12 +1,12 @@
 #include "Elasticsearch.h"
 #include "RestAPIHelper.h"
-#include "TcpClient.h"
+#include "ITcpClient.h"
 #include "TextFileWriter.h"
 
 namespace analyzer
 {
 
-Elasticsearch::Elasticsearch( std::unique_ptr<::TcpClient> tcpClient, ApiKey apiKey, Version version )
+Elasticsearch::Elasticsearch( std::unique_ptr<::ITcpClient> tcpClient, ApiKey apiKey, Version version )
     : tcpClient_( std::move(tcpClient) ),
     apiKey_( apiKey ),
     version_( version )
@@ -27,7 +27,7 @@ void Elasticsearch::registerMeasurementedData(const std::string &registerData)
     std::string contentLength("Content-Length: " + std::to_string(registerData.length()) );
     std::string message(method + " " + location + " " + httpVersion + "\r\n" + hostLocation + "\r\n" + userAgent + "\r\n" + acceptInfo + "\r\n" + contentType + "\r\n" + contentLength + "\r\n" + registerData + "\r\n\r\n");
 
-    sendRegisterMessage( message );   
+    //sendRegisterMessage( message );   // TODO 通信相手ができたら有効化する
 }
 
 void Elasticsearch::sendRegisterMessage( const std::string& registoryString )

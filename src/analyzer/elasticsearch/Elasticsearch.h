@@ -12,7 +12,7 @@
 #include "DomainPrimitivesForElasticasearch.h"
 
 // ---------< forward declaration (Global) >-------------
-class TcpClient;
+class ITcpClient;
 class TextFileWriter;
 
 // --------------< namespace >---------------------------
@@ -38,7 +38,7 @@ public:
      @brief  コンストラクタ
      @param[in]  tcpClient Elasticsearchと通信するためのTCPクライアント
     */
-    Elasticsearch( std::unique_ptr<TcpClient> tcpClient, ApiKey apiKey, Version version );
+    Elasticsearch( std::unique_ptr<ITcpClient> tcpClient, ApiKey apiKey, Version version );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -52,7 +52,7 @@ public:
     void registerMeasurementedData( const std::string& registerData ) override;
 
 private:
-    std::unique_ptr<::TcpClient> tcpClient_;    //!< Elasticsearchと通信するためのTCPクライアント
+    std::unique_ptr<::ITcpClient> tcpClient_;    //!< Elasticsearchと通信するためのTCPクライアント
     ApiKey apiKey_;                             //!< Elasticsearchに接続する際に使用するBasic認証キー
     const Version version_;                     //!< Elasticsearchのバージョン
 
