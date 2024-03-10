@@ -1,5 +1,4 @@
 #include <memory>
-#include <new>
 #include <string>
 #include "ElasticsearchTest.h"
 #include "ITcpClient.h"
