@@ -10,13 +10,14 @@ LIB_DIR = /usr/local/lib64
 INCLUDE_DIR = /usr/local/include
 LIB = 
 OPT = -O0 -Wall -std=c++17 -fPIC
-TARGET = libnetworkinterface.a.0.4.3
-TARGETD = libnetworkinterfaced.a.0.4.3
-SRC = UdpClient.cpp Port.cpp IPv4.cpp Hostname.cpp TcpClient.cpp NetworkIfHelper.cpp RestAPIHelper.cpp
+TARGET = libnetworkinterface.a.0.5.0
+TARGETD = libnetworkinterfaced.a.0.5.0
+SRC = UdpClient.cpp Port.cpp IPv4.cpp Hostname.cpp TcpClient.cpp NetworkIfHelper.cpp RestAPIHelper.cpp TcpClientMock.cpp
 
 $(TARGET):
 	$(CC) $(INCLUUDE) $(OPT) -c $(SRC)
 	$(AR) rc -o $(TARGET) $(SRC:.cpp=.o)
+	make debug
 
 debug:
 	$(CC) $(INCLUUDE) $(OPT) -g -c $(SRC)
@@ -24,7 +25,7 @@ debug:
 
 .PHONY: clean install
 clean:
-	$(RM) *.o $(TARGET)
+	$(RM) *.o $(TARGET) $(TARGETD)
 
 install:
 	$(MKDIR) $(LIB_DIR)
