@@ -2,17 +2,16 @@
 #include "OpenProject.h"
 #include "../../domain/Project.h"
 #include "JsonParser.h"
-#include "TcpClient.h"
-#include "TextFileWriter.h"
+#include "ITcpClient.h"
 #include "RestAPIHelper.h"
-
+#include "TextFileWriter.h"
 #include <iostream>
 
 namespace pts
 {
 
-OpenProject::OpenProject( std::unique_ptr<::TcpClient> tcpClient, ApiKey apiKey )
-    : tcpClient_( std::move(tcpClient) ),
+OpenProject::OpenProject( std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey )
+    : tcpClient_( tcpClient ),
     previousDataWriter_( std::make_unique<::TextFileWriter>() ),
     jsonParser_( std::make_unique<JsonParser>() ),
     apiKey_( apiKey )
@@ -104,8 +103,9 @@ std::string OpenProject::sendQueryMessage( std::string queryMessage )
     std::string hostLocation("Host:localhost:8080");
     std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
     std::string authorizationKey("Authorization: Basic " + key);
+    std::string userAgent("User-Agent: libnet");
     std::string acceptInfo("Accept: */*");
-    std::string message(queryMessage + " "+ httpVersion + "\r\n" + hostLocation + "\r\n" + authorizationKey + acceptInfo + "\r\n\r\n");
+    std::string message(queryMessage + " "+ httpVersion + "\r\n" + hostLocation + "\r\n" + authorizationKey + "\r\n" + userAgent + "\r\n" + acceptInfo + "\r\n\r\n");
 
     // TODO エラー処理を追加
     tcpClient_->openSocket();
