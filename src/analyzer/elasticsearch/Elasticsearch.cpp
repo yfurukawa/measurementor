@@ -2,6 +2,8 @@
 #include "RestAPIHelper.h"
 #include "Index.h"
 #include "ITcpClient.h"
+#include "Logger.h"
+#include "LoggerFactory.h"
 
 namespace analyzer
 {
@@ -28,6 +30,7 @@ void Elasticsearch::registerMeasurementedData(const std::string &registerData)
     std::string contentLength("Content-Length: " + std::to_string(registerData.length()) );
     std::string message(method + " " + location + " " + httpVersion + "\r\n" + hostLocation + "\r\n" + userAgent + "\r\n" + acceptInfo + "\r\n" + contentType + "\r\n" + contentLength + "\r\n" + registerData + "\r\n\r\n");
 
+    AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[elasticsearch] : " + registerData );
     sendRegisterMessage( message );   // TODO 通信相手ができたら有効化する
 }
 

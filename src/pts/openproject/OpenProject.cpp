@@ -1,11 +1,13 @@
 #include <string>
 #include "OpenProject.h"
 #include "../../domain/Project.h"
-#include "JsonParser.h"
 #include "ITcpClient.h"
+#include "JsonParser.h"
+#include "Logger.h"
+#include "LoggerFactory.h"
 #include "RestAPIHelper.h"
 #include "TextFileWriter.h"
-#include <iostream>
+
 
 namespace pts
 {
@@ -106,6 +108,8 @@ std::string OpenProject::sendQueryMessage( std::string queryMessage )
     std::string userAgent("User-Agent: libnet");
     std::string acceptInfo("Accept: */*");
     std::string message(queryMessage + " "+ httpVersion + "\r\n" + hostLocation + "\r\n" + authorizationKey + "\r\n" + userAgent + "\r\n" + acceptInfo + "\r\n\r\n");
+
+    AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject] : " + queryMessage);
 
     // TODO エラー処理を追加
     tcpClient_->openSocket();
