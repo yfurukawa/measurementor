@@ -12,11 +12,13 @@
 namespace pts
 {
 
-OpenProject::OpenProject( std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey )
+OpenProject::OpenProject( std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, std::string destination, unsigned int destinationPort )
     : tcpClient_( tcpClient ),
     previousDataWriter_( std::make_unique<::TextFileWriter>() ),
     jsonParser_( std::make_unique<JsonParser>() ),
-    apiKey_( apiKey )
+    apiKey_( apiKey ),
+    destination_( destination ),
+    destinationPort_( destinationPort )
 {
 }
 
@@ -102,7 +104,7 @@ bool OpenProject::isJsonString(std::string received)
 std::string OpenProject::sendQueryMessage( std::string queryMessage )
 {
     std::string httpVersion("HTTP/1.1");
-    std::string hostLocation("Host:localhost:8080");
+    std::string hostLocation("Host:" + destination_ + ":" + std::to_string( destinationPort_ ) );
     std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
     std::string authorizationKey("Authorization: Basic " + key);
     std::string userAgent("User-Agent: libnet");

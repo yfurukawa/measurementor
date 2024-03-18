@@ -40,8 +40,10 @@ public:
      @param[in]  apiKey Elasticsearchに送信する際に使用するAPIキー（6系のElasticsearchには不要）
      @param[in]  version 送信先Elasticsearchのバージョン
      @param[in]  index Elasticsearchへの登録に必要なインデックス
+     @param[in]  destination_ 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
+     @param[in]  destinationPort_ 接続先ポート<br>通信ヘッダで使用する
     */
-    Elasticsearch( std::shared_ptr<ITcpClient> tcpClient, ApiKey apiKey, Version version, std::string index );
+    Elasticsearch( std::shared_ptr<ITcpClient> tcpClient, ApiKey apiKey, Version version, std::string index, std::string destination, unsigned int destinationPort );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -59,6 +61,8 @@ private:
     ApiKey apiKey_;                              //!< Elasticsearchに接続する際に使用するBasic認証キー
     const Version version_;                      //!< Elasticsearchのバージョン
     std::unique_ptr<Index> index_;               //!< indexのドメインプリミティブ
+    std::string destination_;                    //!< 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
+    unsigned int destinationPort_;               //!< 接続先ポート<br>通信ヘッダで使用する
 
     /*!
      @brief       計測データ登録

@@ -39,8 +39,10 @@ public:
      @brief  コンストラクタ
      @param[in]  tcpClient OpenProjectと通信するためのTCPクライアント
      @param[in]  apiKey  サーバに接続するための認証キー
+     std::string destination_;                    //!< 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
+    unsigned int destinationPort_;               //!< 接続先ポート<br>通信ヘッダで使用する
     */
-    explicit OpenProject( std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey );
+    explicit OpenProject( std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, std::string destination, unsigned int destinationPort );
 
     /*!
      @brief  デフォルトデストラクタ
@@ -77,8 +79,10 @@ public:
 private:
     std::shared_ptr<::ITcpClient> tcpClient_;                 //!< OpenProjectと通信するためのTCPクライアント
     std::unique_ptr<::ITextFileWriter> previousDataWriter_;   //!< OpenProjectのサーバから取得したJsonオブジェクトをファイルに保存しておくためのWriter
-    std::unique_ptr<JsonParser> jsonParser_;                 //!< Jsonオブジェクトのパーサ
-    ApiKey apiKey_;                                          //!< OpenProjectに接続する際に使用するBasic認証キー
+    std::unique_ptr<JsonParser> jsonParser_;                  //!< Jsonオブジェクトのパーサ
+    ApiKey apiKey_;                                           //!< OpenProjectに接続する際に使用するBasic認証キー
+    std::string destination_;                                 //!< 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
+    unsigned int destinationPort_;                            //!< 接続先ポート<br>通信ヘッダで使用する
 
     /*!
      @brief  受信データからJSONストリングを抽出する

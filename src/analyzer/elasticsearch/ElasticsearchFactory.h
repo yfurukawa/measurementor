@@ -86,10 +86,10 @@ public:
                 std::string index( setting_["index"] );
                 if( ip != "0.0.0.0" )
                 {
-                    analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_shared<::TcpClient>( ip, port ), apiKey, version, index ) );
+                    analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_shared<::TcpClient>( ip, port ), apiKey, version, index, ip.get(), port.get() ) );
                 }
                 else{
-                    analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_shared<::TcpClient>( host, port ), apiKey, version, index ) );
+                    analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_shared<::TcpClient>( host, port ), apiKey, version, index, host.get(), port.get() ) );
                 }
             }
         }

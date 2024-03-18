@@ -84,11 +84,11 @@ public:
                 ApiKey apiKey( setting_["apikey"] );
                 if( ip != "0.0.0.0" )
                 {
-                    pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_shared<::TcpClient>( ip, port ), apiKey ) );
+                    pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_shared<::TcpClient>( ip, port ), apiKey, ip.get(), port.get() ) );
                 }
                 else
                 {
-                    pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_shared<::TcpClient>( host, port ), apiKey ) );
+                    pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_shared<::TcpClient>( host, port ), apiKey, host.get(), port.get() ) );
                 }
             }
         }

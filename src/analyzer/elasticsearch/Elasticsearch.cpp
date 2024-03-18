@@ -8,11 +8,13 @@
 namespace analyzer
 {
 
-Elasticsearch::Elasticsearch( std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, Version version, std::string index )
+Elasticsearch::Elasticsearch( std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, Version version, std::string index, std::string destination, unsigned int destinationPort )
     : tcpClient_( tcpClient ),
     apiKey_( apiKey ),
     version_( version ),
-    index_( std::make_unique<Index>( index ) )
+    index_( std::make_unique<Index>( index ) ),
+    destination_( destination ),
+    destinationPort_( destinationPort )
 {
 }
 
@@ -21,7 +23,7 @@ void Elasticsearch::registerMeasurementedData(const std::string &registerData)
     std::string method("POST");
     std::string location("/" + index_->get() + "/_doc/");
     std::string httpVersion("HTTP/1.1");
-    std::string hostLocation("Host:localhost:9200");
+    std::string hostLocation("Host:" + destination_ + ":" + std::to_string( destinationPort_ ) );
     std::string userAgent("User-Agent: libnet");
 //    std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
 //    std::string authorizationKey("Authorization: Basic " + key);
