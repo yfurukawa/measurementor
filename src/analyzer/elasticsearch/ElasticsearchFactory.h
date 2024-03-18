@@ -13,6 +13,7 @@
 #include "DomainPrimitivesForElasticasearch.h"
 #include "Elasticsearch.h"
 #include "Hostname.h"
+#include "Index.h"
 #include "IPv4.h"
 #include "Port.h"
 #include "TcpClient.h"
@@ -83,7 +84,7 @@ public:
                 Port port( std::stoi( setting_["Port"] ) );
                 ApiKey apiKey( setting_["apikey"] );
                 Version version( setting_["version"] );
-                std::string index( setting_["index"] );
+                std::unique_ptr<Index> index( std::make_unique<Index>( setting_["index"] ) );
                 if( ip != "0.0.0.0" )
                 {
                     analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_shared<::TcpClient>( ip, port ), apiKey, version, index, ip.get(), port.get() ) );

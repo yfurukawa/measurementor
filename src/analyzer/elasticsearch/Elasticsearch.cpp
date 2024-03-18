@@ -8,11 +8,11 @@
 namespace analyzer
 {
 
-Elasticsearch::Elasticsearch( std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, Version version, std::string index, std::string destination, unsigned int destinationPort )
+Elasticsearch::Elasticsearch( std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, Version version, std::unique_ptr<Index> index, std::string destination, unsigned int destinationPort )
     : tcpClient_( tcpClient ),
     apiKey_( apiKey ),
     version_( version ),
-    index_( std::make_unique<Index>( index ) ),
+    index_( std::move( index ) ),
     destination_( destination ),
     destinationPort_( destinationPort )
 {

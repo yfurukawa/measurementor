@@ -43,7 +43,7 @@ public:
      @param[in]  destination_ 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
      @param[in]  destinationPort_ 接続先ポート<br>通信ヘッダで使用する
     */
-    Elasticsearch( std::shared_ptr<ITcpClient> tcpClient, ApiKey apiKey, Version version, std::string index, std::string destination, unsigned int destinationPort );
+    Elasticsearch( std::shared_ptr<ITcpClient> tcpClient, ApiKey apiKey, Version version, std::unique_ptr<Index> index, std::string destination, unsigned int destinationPort );
 
     /*!
      @brief  デフォルトデストラクタ
