@@ -87,10 +87,10 @@ public:
                 std::unique_ptr<Index> index( std::make_unique<Index>( setting_["index"] ) );
                 if( ip != "0.0.0.0" )
                 {
-                    analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_shared<::TcpClient>( ip, port ), apiKey, version, index, ip.get(), port.get() ) );
+                    analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_shared<::TcpClient>( ip, port ), apiKey, version, std::move( index ), ip.get(), port.get() ) );
                 }
                 else{
-                    analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_shared<::TcpClient>( host, port ), apiKey, version, index, host.get(), port.get() ) );
+                    analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_shared<::TcpClient>( host, port ), apiKey, version, std::move( index ), host.get(), port.get() ) );
                 }
             }
         }
