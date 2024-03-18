@@ -76,10 +76,20 @@ public:
                 {
                     setting_ = result.value();
                 }
-                IPv4 ip( setting_["IP"] );
+                // confファイルにIPが設定されていればそれを使う
+                IPv4 ip( ( setting_.find("IP") != end( setting_ ) ) ? setting_["IP"] : "0.0.0.0" );
+                // confファイルにHostが設定されていればそれを使う
+                Hostname host( ( setting_.find("Host") != end( setting_ ) ) ? setting_["Host"] : "" );
                 Port port( std::stoi( setting_["Port"] ) );
                 ApiKey apiKey( setting_["apikey"] );
-                pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_shared<::TcpClient>( ip, port ), apiKey ) );
+                if( ip == "0.0.0.0" )
+                {
+                    pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_shared<::TcpClient>( ip, port ), apiKey ) );
+                }
+                else
+                {
+                    pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_shared<::TcpClient>( host, port ), apiKey ) );
+                }
             }
         }
         return pts_;
