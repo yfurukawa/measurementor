@@ -10,8 +10,8 @@ LIB_DIR = /usr/local/lib64
 INCLUDE_DIR = /usr/local/include
 LIB = 
 OPT = -O0 -Wall -std=c++17 -fPIC
-TARGET = libnetworkinterface.a.0.5.1
-TARGETD = libnetworkinterfaced.a.0.5.1
+TARGET = libnetworkinterface.a.0.6.0
+TARGETD = libnetworkinterfaced.a.0.6.0
 SRC = UdpClient.cpp Port.cpp IPv4.cpp Hostname.cpp TcpClient.cpp NetworkIfHelper.cpp RestAPIHelper.cpp TcpClientMock.cpp
 
 $(TARGET):
