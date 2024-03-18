@@ -2,8 +2,8 @@
 #include "PtsDataCollector.h"
 #include "../pts/openproject/OpenProjectFactory.h"   // TODO
 #include "../pts/openproject/OpenProject.h"          // TODO
-#include "../analyzer/elasticsearch/ElasticsearchFactory.h"
-#include "../analyzer/elasticsearch/Elasticsearch.h"
+#include "IAnalyzer.h"
+#include "IAnalyzerFactory.h"
 #include "Project.h"
 #include "Sprint.h"
 #include "Item.h"
@@ -16,7 +16,7 @@ namespace measurementor
 PtsDataCollector::PtsDataCollector()
  : ptsFactory_( PtsFactory::getInstance() ),
     pts_( ptsFactory_->createPts() ),
-    analyzer_( analyzer::ElasticsearchFactory::getInstance()->createIAnalyzer() ),
+    analyzer_( IAnalyzerFactory::getInstance()->createIAnalyzer() ),
     chronos_( std::make_unique<::Chronos>() )
 {
     projectList_.clear();
