@@ -31,7 +31,7 @@ TcpClient::~TcpClient()
 
 void TcpClient::sendData( std::string content ) const
 {
-    if( connect(sock_, (struct sockaddr *)&addr_, sizeof(addr_)) > 0 ) {
+    if( connect(sock_, (struct sockaddr *)&addr_, sizeof(addr_)) == -1 ) {
         perror(("Tcp Client at connect"));
         exit(1);
     }
