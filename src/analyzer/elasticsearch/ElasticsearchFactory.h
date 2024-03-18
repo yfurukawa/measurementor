@@ -76,12 +76,21 @@ public:
                 {
                     setting_ = result.value();
                 }
-                IPv4 ip( setting_["IP"] );
+                // confファイルにIPが設定されていればそれを使う
+                IPv4 ip( ( setting_.find("IP") != end( setting_ ) ) ? setting_["IP"] : "0.0.0.0" );
+                // confファイルにHostが設定されていればそれを使う
+                Hostname host( ( setting_.find("Host") != end( setting_ ) ) ? setting_["Host"] : "" );
                 Port port( std::stoi( setting_["Port"] ) );
                 ApiKey apiKey( setting_["apikey"] );
                 Version version( setting_["version"] );
                 std::string index( setting_["index"] );
-                analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_shared<::TcpClient>( ip, port ), apiKey, version, index ) );
+                if( ip != "0.0.0.0" )
+                {
+                    analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_shared<::TcpClient>( ip, port ), apiKey, version, index ) );
+                }
+                else{
+                    analyzer_ = dynamic_cast<measurementor::IAnalyzer*>( new Elasticsearch( std::make_shared<::TcpClient>( host, port ), apiKey, version, index ) );
+                }
             }
         }
         return analyzer_;
