@@ -82,7 +82,7 @@ public:
                 Hostname host( ( setting_.find("Host") != end( setting_ ) ) ? setting_["Host"] : "" );
                 Port port( std::stoi( setting_["Port"] ) );
                 ApiKey apiKey( setting_["apikey"] );
-                if( ip == "0.0.0.0" )
+                if( ip != "0.0.0.0" )
                 {
                     pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_shared<::TcpClient>( ip, port ), apiKey ) );
                 }
