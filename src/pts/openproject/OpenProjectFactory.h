@@ -16,7 +16,7 @@
 #include "OpenProject.h"
 #include "Port.h"
 #include "TcpClient.h"
-#include "../../domain/PtsFactory.h"
+#include "../../domain/IPtsFactory.h"
 
 // --------------< namespace >---------------------------
 namespace pts
@@ -30,7 +30,7 @@ namespace pts
  @note      本クラスはOpenProjectとインターフェースするクラスのファクトリクラスである。OpenProjectクラスとでAbstruct Factoryパターンを形成している。
  また、OpenProjectクラスは、TcpClientを必要としているためそのインスタンスも生成している。
 */
-class OpenProjectFactory final : public measurementor::PtsFactory
+class OpenProjectFactory final : public measurementor::IPtsFactory
 {
 public:
     /*!
@@ -61,7 +61,7 @@ public:
     @brief      Loggerインスタンスを生成する
     @return     ToSyslogLoggerインスタンス
     */
-    measurementor::Pts* createPts() override
+    measurementor::IPts* createPts() override
     {
         if( !pts_ ) {
             std::lock_guard<std::mutex> lock(ptsMtx_);
@@ -84,11 +84,11 @@ public:
                 ApiKey apiKey( setting_["apikey"] );
                 if( ip != "0.0.0.0" )
                 {
-                    pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_shared<::TcpClient>( ip, port ), apiKey, ip.get(), port.get() ) );
+                    pts_ = dynamic_cast<measurementor::IPts*>( new OpenProject( std::make_shared<::TcpClient>( ip, port ), apiKey, ip.get(), port.get() ) );
                 }
                 else
                 {
-                    pts_ = dynamic_cast<measurementor::Pts*>( new OpenProject( std::make_shared<::TcpClient>( host, port ), apiKey, host.get(), port.get() ) );
+                    pts_ = dynamic_cast<measurementor::IPts*>( new OpenProject( std::make_shared<::TcpClient>( host, port ), apiKey, host.get(), port.get() ) );
                 }
             }
         }
@@ -96,7 +96,7 @@ public:
     }
 
 private:
-    measurementor::Pts* pts_;                              //!< OpenProjectとインターフェースするクラス
+    measurementor::IPts* pts_;                              //!< OpenProjectとインターフェースするクラス
     static bool destroyed_;                                //!< インスタンスの破棄ステータス
     std::unique_ptr<ConfFileParser> confFileParser_;       //!< confファイルのパーサ
     std::map<std::string, std::string> setting_;           //!< confファイルから読み込んだOpenProjectサーバに関する設定（ホスト名、IPアドレス、接続先ポート、API Key）

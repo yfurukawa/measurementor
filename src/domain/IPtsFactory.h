@@ -1,5 +1,5 @@
 /*!
- @file      PtsFactory.h
+ @file      IPtsFactory.h
  @brief     Ptsとインターフェースするクラスのファクトリの抽象クラス
 */
 #pragma once
@@ -12,37 +12,37 @@ namespace measurementor
 {
 
 // ---------< forward declaration >----------------------
-class Pts;
+class IPts;
 
 /*!
- @class     PtsFactory
+ @class     IPtsFactory
  @brief     Ptsとインターフェースするクラスのファクトリの抽象クラス
 */
-class PtsFactory
+class IPtsFactory
 {
 public:
     /*!
     @brief  デフォルトコンストラクタ
     */
-    PtsFactory() = default;
+    IPtsFactory() = default;
 
     /*!
     @brief  デフォルトデストラクタ
     */
-    virtual ~PtsFactory() = default;
+    virtual ~IPtsFactory() = default;
 
     /*!
     @brief      PtsFactoryインスタンスを生成する
     @return     PtsFactoryインスタンス
     @note       本メソッドは、各具象クラス内でPtsFactoryクラスのメソッドとして実装される。
     */
-    static PtsFactory* getInstance();
+    static IPtsFactory* getInstance();
 
     /*!
     @brief      Ptsとインターフェースするクラスのインスタンスを生成する
     @return     Ptsとインターフェースするクラスのインスタンス
     */
-    virtual Pts* createPts() = 0;
+    virtual IPts* createPts() = 0;
 
 protected:
     std::mutex ptsMtx_;  //!< インスタンス生成処理保護用mutex

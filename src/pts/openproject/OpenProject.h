@@ -9,7 +9,7 @@
 #include "DomainPrimitivesForOpenProject.h"
 #include "ITextFileWriter.h"
 
-#include "../../domain/Pts.h"
+#include "../../domain/IPts.h"
 
 // ---------< forward declaration (Global) >-------------
 class ITcpClient;
@@ -28,7 +28,7 @@ class JsonParser;
  @note      本クラスは、OpenProjectからプロジェクトの情報を取得し、メトリックスの算出ができるように加工するクラスのためのクラスである。<br>
  本クラスは、専用のファクトリによりインスタンス化される。
 */
-class OpenProject final : public measurementor::Pts
+class OpenProject final : public measurementor::IPts
 {
     /*!
      @brief  デフォルトコンストラクタ

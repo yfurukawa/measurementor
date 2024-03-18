@@ -4,7 +4,7 @@
 namespace measurementor
 {
 
-PtsFactory* PtsFactory::getInstance()
+IPtsFactory* IPtsFactory::getInstance()
 {
     static pts::OpenProjectFactory theFactory;
     if( pts::OpenProjectFactory::isDestroyed() ) {

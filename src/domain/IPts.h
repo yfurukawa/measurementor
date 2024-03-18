@@ -1,5 +1,5 @@
 /*!
- @file      Pts.h
+ @file      IPts.h
  @brief     PTSとインターフェースするクラスの抽象
 */
 #pragma once
@@ -17,23 +17,23 @@ namespace measurementor
 // ---------< forward declaration >----------------------
 
 /*!
- @class     Pts
+ @class     IPts
  @brief     PTSとインターフェースするクラスの抽象
  @note      本クラスは、Project Tracking System (PTS) からプロジェクトの情報を取得し、メトリックスの算出ができるように
  加工するクラスのための抽象クラスである。
 */
-class Pts
+class IPts
 {
 public:
     /*!
      @brief  デフォルトコンストラクタ
     */
-    Pts() = default;
+    IPts() = default;
 
     /*!
      @brief  デフォルトデストラクタ
     */
-    virtual ~Pts() = default;
+    virtual ~IPts() = default;
 
     /*!
      @brief   全てのアクティブプロジェクトを収集する
