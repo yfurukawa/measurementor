@@ -1,20 +1,19 @@
 #include "Chronos.h"
-#include "PtsDataCollector.h"
-#include "../pts/openproject/OpenProjectFactory.h"   // TODO
-#include "../pts/openproject/OpenProject.h"          // TODO
 #include "IAnalyzer.h"
 #include "IAnalyzerFactory.h"
-#include "Project.h"
-#include "Sprint.h"
+#include "IPts.h"
+#include "IPtsFactory.h"
 #include "Item.h"
+#include "Project.h"
+#include "PtsDataCollector.h"
+#include "Sprint.h"
 #include "Task.h"
-#include <iostream>
 
 namespace measurementor
 {
 
 PtsDataCollector::PtsDataCollector()
- : ptsFactory_( PtsFactory::getInstance() ),
+ : ptsFactory_( IPtsFactory::getInstance() ),
     pts_( ptsFactory_->createPts() ),
     analyzer_( IAnalyzerFactory::getInstance()->createIAnalyzer() ),
     chronos_( std::make_unique<::Chronos>() )

@@ -18,8 +18,8 @@ namespace measurementor
 {
 
 // ---------< forward declaration >----------------------
-class PtsFactory;
-class Pts;
+class IPtsFactory;
+class IPts;
 class Project;
 class Sprint;
 class Item;
@@ -64,8 +64,8 @@ public:
     void permanentSprintData();
 
 protected:
-    PtsFactory* ptsFactory_;                                      //!< PTSとインターフェースするクラスのファクトリ
-    Pts* pts_;                                                    //!< PTSとインターフェースするクラス
+    IPtsFactory* ptsFactory_;                                      //!< PTSとインターフェースするクラスのファクトリ
+    IPts* pts_;                                                    //!< PTSとインターフェースするクラス
     IAnalyzer* analyzer_;                                         //!< 計測データを分析するシステムとインターフェースするクラス
     std::unique_ptr<::Chronos> chronos_;                          //!< 時刻情報を提供するクラス
     std::map<ProjectId, std::shared_ptr<Project>> projectList_;   //!< PTSで管理されているプロジェクトのリスト
