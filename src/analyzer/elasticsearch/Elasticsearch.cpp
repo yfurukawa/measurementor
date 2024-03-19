@@ -23,17 +23,17 @@ void Elasticsearch::registerMeasurementedData(const std::string &registerData)
     std::string method("POST");
     std::string location("/" + index_->get() + "/_doc/");
     std::string httpVersion("HTTP/1.1");
-    std::string hostLocation("Host:" + destination_ + ":" + std::to_string( destinationPort_ ) );
+    std::string hostLocation("Host: " + destination_ + ":" + std::to_string( destinationPort_ ) );
     std::string userAgent("User-Agent: libnet");
 //    std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
 //    std::string authorizationKey("Authorization: Basic " + key);
     std::string acceptInfo("Accept: */*");
     std::string contentType("Content-Type: application/json; charset=UTF-8");
     std::string contentLength("Content-Length: " + std::to_string(registerData.length()) );
-    std::string message(method + " " + location + " " + httpVersion + "\r\n" + hostLocation + "\r\n" + userAgent + "\r\n" + acceptInfo + "\r\n" + contentType + "\r\n" + contentLength + "\r\n" + registerData + "\r\n\r\n");
+    std::string message(method + " " + location + " " + httpVersion + "\r\n" + hostLocation + "\r\n" + userAgent + "\r\n" + acceptInfo + "\r\n" + contentType + "\r\n" + contentLength + "\r\n\r\n" + registerData + "\r\n\r\n");
 
     AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[elasticsearch] : " + registerData );
-    sendRegisterMessage( message );   // TODO 通信相手ができたら有効化する
+    sendRegisterMessage( message );
 }
 
 void Elasticsearch::sendRegisterMessage( const std::string& registoryString )
