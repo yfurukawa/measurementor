@@ -35,6 +35,8 @@ std::list<std::map<std::string, std::string>> JsonParser::collectSprintData( con
     std::list<std::map<std::string, std::string>> sprintList;
     std::map<std::string, std::string> parsedData;
     sprintList.clear();
+    std::string startDate("");
+    std::string endDate("");
     auto j = nlohmann::json::parse( jsonString );
 
     for( int count = 0; count < j["count"]; ++count )
@@ -51,8 +53,26 @@ std::list<std::map<std::string, std::string>> JsonParser::collectSprintData( con
         }
         parsedData.insert( std::make_pair( "sprintName", j["_embedded"]["elements"][count]["name"] ));
         parsedData.insert( std::make_pair( "status", j["_embedded"]["elements"][count]["status"] ));
-        parsedData.insert( std::make_pair( "startDate", (j["_embedded"]["elements"][count]["startDate"]).is_null() ? "" : j["_embedded"]["elements"][count]["startDate"] ));
-        parsedData.insert( std::make_pair( "endDate",   (j["_embedded"]["elements"][count]["endDate"]).is_null()   ? "" : j["_embedded"]["elements"][count]["endDate"] ));
+        if( (j["_embedded"]["elements"][count]["startDate"]).is_null() )
+        {
+            startDate =  "0000-01-01T00:00:00Z";    
+        }
+        else
+        {
+            startDate = j["_embedded"]["elements"][count]["startDate"];
+            startDate += "T00:00:00.000Z";
+        }
+        parsedData.insert( std::make_pair( "startDate", startDate ) );
+        if( (j["_embedded"]["elements"][count]["endDate"]).is_null() )
+        {
+            endDate = "0000-01-01T00:00:00Z";
+        }
+        else
+        {
+            endDate = j["_embedded"]["elements"][count]["endDate"];
+            endDate += "T00:00:00.000Z";
+        }
+        parsedData.insert( std::make_pair( "endDate", endDate ));
         sprintList.push_back( parsedData );
         parsedData.clear();
     }
