@@ -43,6 +43,10 @@ void Sprint::registerStoryPoint(Point remainingStoryPint)
 
 std::string Sprint::createJson( const Timestamp& timestamp )
 {
+    JsonKey indexType("indexType");
+    std::string type("Sprint");
+    jsonCreator_.holdData( indexType, type );
+
     JsonKey tstamp("timestamp");
     jsonCreator_.holdData( tstamp, timestamp.get() );
 

@@ -20,6 +20,10 @@ Task::Task( ProjectId projectId, SprintId sprintId, ItemId itemId, TaskId taskId
 
 std::string Task::createJson(  Timestamp timestamp )
 {
+    JsonKey indexType("indexType");
+    std::string type("Task");
+    jsonCreator_.holdData( indexType, type );
+
     JsonKey tstamp("timestamp");
     jsonCreator_.holdData( tstamp, timestamp.get() );
 

@@ -16,6 +16,10 @@ Project::Project( ProjectId projectId, Name projectName, ProjectId parentId, Tim
 
 std::string Project::createJson()
 {
+    JsonKey indexType("indexType");
+    std::string type("Project");
+    jsonCreator_.holdData( indexType, type );
+
     JsonKey id("projectId");
     jsonCreator_.holdData( id, projectId_.get() );
 
