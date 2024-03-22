@@ -1,6 +1,7 @@
 /*!
  @file      DomainPrimitivesForOpenProject.h
  @brief     ドメインプリミティブ
+ @copyright Copyright 2024 Yoshihiro Furukawa
 */
 #pragma once
 
