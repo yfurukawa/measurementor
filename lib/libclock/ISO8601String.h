@@ -11,6 +11,11 @@
 // --------------< namespace >---------------------------
 
 // ---------< forward declaration >----------------------
+
+/*!
+ @class     ISO8601String
+ @brief     ISO8601形式の日時を表す文字列を保持する
+*/
 class ISO8601String
 {
 private:
