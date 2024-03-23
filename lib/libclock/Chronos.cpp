@@ -159,7 +159,10 @@ ISO8601String Chronos::convertLocalToGMT(ISO8601String iso8601local)
 {
   std::string formatDateTime("%FT%T");
   std::time_t gmt_t = convertToTime_t(iso8601local);
-  auto lt = *std::localtime(&gmt_t);
+
+  // time_tに変換した段階でGMTを表す日時になっているので、tmにする際にはローカルタイムとして扱うことで
+  // GMTのtmを作り出す
+  tm lt = *std::localtime(&gmt_t);
 
   std::stringstream ss;
   ss << std::put_time(&lt, formatDateTime.c_str());
