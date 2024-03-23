@@ -13,10 +13,31 @@ void ChronosTest::TearDown()
     delete sut;
 }
 
-TEST_F(ChronosTest, get)
+TEST_F(ChronosTest, convertLocalToGMT_sameDay)
 {
     ISO8601String localTime("2024-03-12T12:34:56+09:00");
     ISO8601String expected("2024-03-12T03:34:56Z");
+    EXPECT_EQ(expected.get(), sut->convertLocalToGMT(localTime).get());
+}
+
+TEST_F(ChronosTest, convertLocalToGMT_yesterday)
+{
+    ISO8601String localTime("2024-03-12T02:34:56+09:00");
+    ISO8601String expected("2024-03-11T17:34:56Z");
+    EXPECT_EQ(expected.get(), sut->convertLocalToGMT(localTime).get());
+}
+
+TEST_F(ChronosTest, convertLocalToGMT_sameDay_west)
+{
+    ISO8601String localTime("2024-03-12T12:34:56-10:00");
+    ISO8601String expected("2024-03-12T22:34:56Z");
+    EXPECT_EQ(expected.get(), sut->convertLocalToGMT(localTime).get());
+}
+
+TEST_F(ChronosTest, convertLocalToGMT_tomorrow_west)
+{
+    ISO8601String localTime("2024-03-12T22:34:56-10:00");
+    ISO8601String expected("2024-03-13T08:34:56Z");
     EXPECT_EQ(expected.get(), sut->convertLocalToGMT(localTime).get());
 }
 
