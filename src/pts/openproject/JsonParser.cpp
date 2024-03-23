@@ -9,8 +9,10 @@
 #include <sstream>
 #include <string>
 #include <utility>
+#include "ISO8601String.h"
 #include "JsonParser.h"
 #include "../../domain/domainPrimitives/MeasurementPrimitives.h"
+#include <iostream>
 
 namespace pts
 {
@@ -61,24 +63,24 @@ std::list<std::map<std::string, std::string>> JsonParser::collectSprintData(cons
     parsedData.insert(std::make_pair("status", j["_embedded"]["elements"][count]["status"]));
     if ((j["_embedded"]["elements"][count]["startDate"]).is_null())
     {
-      startDate = "0000-01-01T00:00:00Z";
+      startDate = "1970-01-01T09:00:00+09:00";
     }
     else
     {
       startDate = j["_embedded"]["elements"][count]["startDate"];
-      startDate += "T00:00:00.000Z";
+      startDate += "T00:00:00+09:00";
     }
-    parsedData.insert(std::make_pair("startDate", startDate));
+    parsedData.insert(std::make_pair("startDate", timeConverter_->convertLocalToGMT(ISO8601String(startDate)).get()));
     if ((j["_embedded"]["elements"][count]["endDate"]).is_null())
     {
-      endDate = "0000-01-01T00:00:00Z";
+      endDate = "1970-01-01T09:00:00+09:00";
     }
     else
     {
       endDate = j["_embedded"]["elements"][count]["endDate"];
-      endDate += "T00:00:00.000Z";
+      endDate += "T00:00:00+09:00";
     }
-    parsedData.insert(std::make_pair("endDate", endDate));
+    parsedData.insert(std::make_pair("endDate", timeConverter_->convertLocalToGMT(ISO8601String(endDate)).get()));
     sprintList.push_back(parsedData);
     parsedData.clear();
   }
