@@ -11,7 +11,7 @@ ISO8601String::ISO8601String(std::string iso8601String)
 {
   if (!checkFormat(iso8601String))
   {
-    throw std::invalid_argument("DateTime String Format error");
+    throw std::invalid_argument("DateTime String Format error : " + iso8601String);
   }
   iso8601String_ = iso8601String;
 }
