@@ -17,7 +17,7 @@ namespace measurementor
 // ---------< forward declaration >----------------------
 
 /*!
- @file      JsonCreator.h
+ @class      JsonCreator
  @brief     与えられた値のペアを保持し、それらからJSON文字列を作成する
  @note      本クラスは、キーと値のペアを複数受取り、それらからJSON文字列を生成するものである。
 */
