@@ -6,6 +6,7 @@
 
 // ---------------< include >----------------------------
 #include "IClock.h"
+#include "ISO8601String.h"
 
 // --------------< namespace >---------------------------
 
@@ -65,5 +66,14 @@ public:
      @return    入力文字列の日時に相当するtime_t（GMT）
      @attention 戻り値はGMTである
     */
-    std::time_t convertToTime_t( std::string iso8601String ) override;
+    std::time_t convertToTime_t(ISO8601String iso8601String ) override;
+
+    /*!
+     @brief     ISO8601形式のローカルタイムをISO8601形式のGMTに変換する
+     @param[in] iso8601local ISO8601形式のローカルタイム
+     @return    ISO8601形式のGMT
+    */
+    std::string convertLocalToGMT(std::string iso8601local) override;
+private:
+
 };
