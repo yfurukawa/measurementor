@@ -1,6 +1,7 @@
 /*!
  @file      IPtsFactory.h
  @brief     Ptsとインターフェースするクラスのファクトリの抽象クラス
+ @copyright Copyright 2024 Yoshihiro Furukawa
 */
 #pragma once
 
@@ -21,31 +22,31 @@ class IPts;
 class IPtsFactory
 {
 public:
-    /*!
-    @brief  デフォルトコンストラクタ
-    */
-    IPtsFactory() = default;
+  /*!
+  @brief  デフォルトコンストラクタ
+  */
+  IPtsFactory() = default;
 
-    /*!
-    @brief  デフォルトデストラクタ
-    */
-    virtual ~IPtsFactory() = default;
+  /*!
+  @brief  デフォルトデストラクタ
+  */
+  virtual ~IPtsFactory() = default;
 
-    /*!
-    @brief      PtsFactoryインスタンスを生成する
-    @return     PtsFactoryインスタンス
-    @note       本メソッドは、各具象クラス内でPtsFactoryクラスのメソッドとして実装される。
-    */
-    static IPtsFactory* getInstance();
+  /*!
+  @brief      PtsFactoryインスタンスを生成する
+  @return     PtsFactoryインスタンス
+  @note       本メソッドは、各具象クラス内でPtsFactoryクラスのメソッドとして実装される。
+  */
+  static IPtsFactory* getInstance();
 
-    /*!
-    @brief      Ptsとインターフェースするクラスのインスタンスを生成する
-    @return     Ptsとインターフェースするクラスのインスタンス
-    */
-    virtual IPts* createPts() = 0;
+  /*!
+  @brief      Ptsとインターフェースするクラスのインスタンスを生成する
+  @return     Ptsとインターフェースするクラスのインスタンス
+  */
+  virtual IPts* createPts() = 0;
 
 protected:
-    std::mutex ptsMtx_;  //!< インスタンス生成処理保護用mutex
+  std::mutex ptsMtx_;  //!< インスタンス生成処理保護用mutex
 };
 
-}
+}  // namespace measurementor
