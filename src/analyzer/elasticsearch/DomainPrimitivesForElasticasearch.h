@@ -1,6 +1,7 @@
 /*!
  @file      DomainPrimitivesForElasticasearch.h
  @brief     ドメインプリミティブ
+ @copyright Copyright 2024 Yoshihiro Furukawa
 */
 #pragma once
 
@@ -13,9 +14,8 @@
  @brief     Basic認証のキー文字列
  @tparam    std::string
 */
-template< typename T >
-using ApiKeyRaw =
-    StrongType<T, struct ApiKeyTag, Comparable, Printable>;
+template <typename T>
+using ApiKeyRaw = StrongType<T, struct ApiKeyTag, Comparable, Printable>;
 using ApiKey = ApiKeyRaw<std::string>;
 
 /*!
@@ -23,7 +23,6 @@ using ApiKey = ApiKeyRaw<std::string>;
  @brief     Elasticsearchのバージョン
  @tparam    std::string
 */
-template< typename T >
-using VersionRaw =
-    StrongType<T, struct VersionTag, Comparable, Printable>;
+template <typename T>
+using VersionRaw = StrongType<T, struct VersionTag, Comparable, Printable>;
 using Version = VersionRaw<std::string>;

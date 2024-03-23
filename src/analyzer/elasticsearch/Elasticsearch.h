@@ -1,6 +1,7 @@
 /*!
  @file      Elasticsearch.h
  @brief     Elasticsearchとインターフェースするクラス
+ @copyright Copyright 2024 Yoshihiro Furukawa
 */
 #pragma once
 
@@ -29,48 +30,50 @@ namespace analyzer
 */
 class Elasticsearch final : public measurementor::IAnalyzer
 {
-    /*!
-     @brief  デフォルトコンストラクタ
-    */
-    Elasticsearch() = delete;
+  /*!
+   @brief  デフォルトコンストラクタ
+  */
+  Elasticsearch() = delete;
+
 public:
-    /*!
-     @brief  コンストラクタ
-     @param[in]  tcpClient Elasticsearchと通信するためのTCPクライアント
-     @param[in]  apiKey Elasticsearchに送信する際に使用するAPIキー（6系のElasticsearchには不要）
-     @param[in]  version 送信先Elasticsearchのバージョン
-     @param[in]  index Elasticsearchへの登録に必要なインデックス
-     @param[in]  destination_ 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
-     @param[in]  destinationPort_ 接続先ポート<br>通信ヘッダで使用する
-    */
-    Elasticsearch( std::shared_ptr<ITcpClient> tcpClient, ApiKey apiKey, Version version, std::unique_ptr<Index> index, std::string destination, unsigned int destinationPort );
+  /*!
+   @brief  コンストラクタ
+   @param[in]  tcpClient Elasticsearchと通信するためのTCPクライアント
+   @param[in]  apiKey Elasticsearchに送信する際に使用するAPIキー（6系のElasticsearchには不要）
+   @param[in]  version 送信先Elasticsearchのバージョン
+   @param[in]  index Elasticsearchへの登録に必要なインデックス
+   @param[in]  destination_ 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
+   @param[in]  destinationPort_ 接続先ポート<br>通信ヘッダで使用する
+  */
+  Elasticsearch(std::shared_ptr<ITcpClient> tcpClient, ApiKey apiKey, Version version, std::unique_ptr<Index> index,
+                std::string destination, unsigned int destinationPort);
 
-    /*!
-     @brief  デフォルトデストラクタ
-    */
-    virtual ~Elasticsearch() = default;
+  /*!
+   @brief  デフォルトデストラクタ
+  */
+  virtual ~Elasticsearch() = default;
 
-    /*!
-     @brief      測定データ登録
-     @param[in]  登録するデータ
-    */
-    void registerMeasurementedData( const std::string& registerData ) override;
+  /*!
+   @brief      測定データ登録
+   @param[in]  登録するデータ
+  */
+  void registerMeasurementedData(const std::string& registerData) override;
 
 private:
-    std::shared_ptr<::ITcpClient> tcpClient_;    //!< Elasticsearchと通信するためのTCPクライアント
-    ApiKey apiKey_;                              //!< Elasticsearchに接続する際に使用するBasic認証キー
-    const Version version_;                      //!< Elasticsearchのバージョン
-    std::unique_ptr<Index> index_;               //!< indexのドメインプリミティブ
-    std::string destination_;                    //!< 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
-    unsigned int destinationPort_;               //!< 接続先ポート<br>通信ヘッダで使用する
+  std::shared_ptr<::ITcpClient> tcpClient_;  //!< Elasticsearchと通信するためのTCPクライアント
+  ApiKey apiKey_;                            //!< Elasticsearchに接続する際に使用するBasic認証キー
+  const Version version_;                    //!< Elasticsearchのバージョン
+  std::unique_ptr<Index> index_;             //!< indexのドメインプリミティブ
+  std::string destination_;       //!< 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
+  unsigned int destinationPort_;  //!< 接続先ポート<br>通信ヘッダで使用する
 
-    /*!
-     @brief       計測データ登録
-     @param[in]   登録データ
-    */
-    void sendRegisterMessage( const std::string& registoryString );
+  /*!
+   @brief       計測データ登録
+   @param[in]   登録データ
+  */
+  void sendRegisterMessage(const std::string& registoryString);
 
-    std::optional<std::string> confirmServerResponse();
+  std::optional<std::string> confirmServerResponse();
 };
 
-}
+}  // namespace analyzer
