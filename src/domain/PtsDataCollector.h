@@ -50,8 +50,14 @@ public:
   /*!
   @brief      Ptsからデータを収集する
   */
-  void correctData();
+  void collectAllData();
 
+  /*!
+   @brief    プロジェクトのデータを収集する
+   @note     収集したデータはprojectList_に格納する
+  */
+  void collectProjectData();
+  
   /*!
    @brief     Projectに関するデータを分析基盤に保存する
    @note      Projectに関するデータは、各Sprint終了時点で更新されるのでdailyで測定すれば良い
@@ -74,12 +80,6 @@ protected:
   std::map<ItemId, std::shared_ptr<Item>> itemList_;  //!< PTSで管理されているプロダクトバックログアイテムのリスト
   std::map<TaskId, std::shared_ptr<Task>> taskList_;  //!< PTSで管理されているタスクのリスト
   std::list<std::string> jsonObject_;                 //!< 各データクラスが生成したJSONオブジェクトの格納用
-
-  /*!
-   @brief    プロジェクトのデータを収集する
-   @note     収集したデータprojectList_はに格納する
-  */
-  void collectProjectData();
 
   /*!
    @brief    スプリントのデータを収集する

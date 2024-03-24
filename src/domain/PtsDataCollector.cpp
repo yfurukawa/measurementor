@@ -40,7 +40,7 @@ PtsDataCollector::~PtsDataCollector()
   jsonObject_.clear();
 }
 
-void PtsDataCollector::correctData()
+void PtsDataCollector::collectAllData()
 {
   collectProjectData();
   collectSprintData();
@@ -55,6 +55,11 @@ void PtsDataCollector::permanentProjectData()
   for (auto project = begin(projectList_); project != end(projectList_); ++project)
   {
     jsonObject_.push_back(std::move(project->second->createJson()));
+  }
+
+  for (auto json = begin(jsonObject_); json != end(jsonObject_); ++json)
+  {
+    analyzer_->registerMeasurementedData(*json);
   }
 }
 
