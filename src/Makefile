@@ -5,6 +5,7 @@ INCLUDE = -I/usr/include -I/usr/local/include
 LD_PATH = -L/usr/lib64 -L/usr/local/lib64 -L/usr/lib -L/usr/local/lib
 LIB_DIR = /usr/local/lib64
 LIB = /usr/local/lib64/libnetworkinterface.a /usr/local/lib64/libclock.a /usr/local/lib64/libfileinterface.a
+LIBD = /usr/local/lib64/libnetworkinterfaced.a /usr/local/lib64/libclockd.a /usr/local/lib64/libfileinterfaced.a
 DLIB= -llogger
 OPT = -O0 -Wall -std=c++17 -fPIC -g
 TARGET = measurementor
@@ -14,7 +15,7 @@ pts/openproject/OpenProject.o pts/openproject/OpenProjectFactory.o pts/openproje
 analyzer/elasticsearch/Elasticsearch.o analyzer/elasticsearch/ElasticsearchFactory.o analyzer/elasticsearch/Index.o
 
 all: $(SRC:.cpp=.o)
-	$(CC) $(INCLUDE) $(LD_PATH) $(OPT) -o $(TARGET) $(OBJ) $(LIB) $(DLIB)
+	$(CC) $(INCLUDE) $(LD_PATH) $(OPT) -o $(TARGET) $(OBJ) $(LIBD) $(DLIB)
 
 $(SRC:.cpp=.o): $(SRC)
 	$(CC) $(INCLUDE) $(LD_PATH) $(OPT) -c $(SRC)
