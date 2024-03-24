@@ -12,7 +12,6 @@
 #include "ISO8601String.h"
 #include "JsonParser.h"
 #include "../../domain/domainPrimitives/MeasurementPrimitives.h"
-#include <iostream>
 
 namespace pts
 {
