@@ -34,7 +34,7 @@ public:
   /*!
    @brief  デフォルトコンストラクタ
   */
-  PreviousDataReader() = delete;
+  PreviousDataReader();
 
   /*!
    @brief  デフォルトデストラクタ
@@ -46,18 +46,12 @@ public:
    @param[in]      project 収集したいプロジェクト
    @return         スプリントのリスト（Sprintの情報マップ（情報名、値）をリスト化したもの）
   */
-  std::list<std::map<std::string, std::string>> collectSprintInformation(const measurementor::ProjectId& projectId);
+  std::list<std::map<std::string, std::string>> preparePreviousTaskData(const measurementor::ProjectId& projectId);
 
 private:
   std::unique_ptr<::ITextFileReader>
     previousDataReader_;  //!< OpenProjectのサーバから取得したJsonオブジェクトをファイルに保存しておくためのWriter
   std::unique_ptr<JsonParser> jsonParser_;  //!< Jsonオブジェクトのパーサ
-
-  /*!
-   @brief      保存されているJsonオブジェクトを読み出す
-   @param[in]  previousFaile  読み込み元のファイル名
-  */
-  void readJsonObjectFromPreviousData(std::filesystem::path previousFile);
 };
 
 }  // namespace pts
