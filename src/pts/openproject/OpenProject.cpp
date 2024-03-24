@@ -9,20 +9,21 @@
 #include "JsonParser.h"
 #include "Logger.h"
 #include "LoggerFactory.h"
+#include "PreviousDataReader.h"
 #include "RestAPIHelper.h"
 #include "TextFileWriter.h"
-
 
 namespace pts
 {
 
 OpenProject::OpenProject(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, std::string destination, unsigned int destinationPort)
   : tcpClient_(tcpClient)
-  , previousDataWriter_(std::make_unique<::TextFileWriter>())
-  , jsonParser_(std::make_unique<JsonParser>())
   , apiKey_(apiKey)
   , destination_(destination)
   , destinationPort_(destinationPort)
+  , previousDataWriter_(std::make_unique<::TextFileWriter>())
+  , jsonParser_(std::make_unique<JsonParser>())
+  , previousDataReader_(std::make_unique<PreviousDataReader>())
 {
 }
 
@@ -65,6 +66,8 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
 
 std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformation(const measurementor::ProjectId& projectId)
 {
+  previousDataReader_->preparePreviousTaskData(projectId);
+
   std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) +
                       "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d");
 
@@ -131,10 +134,17 @@ std::string OpenProject::sendQueryMessage(std::string queryMessage)
 void OpenProject::saveJsonObjectAsPreviousData(std::filesystem::path previousFile, const std::string& receivedJson)
 {
   previousDataWriter_->openFile(previousFile);
-  auto result = previousDataWriter_->write(receivedJson);
-  if (result)
+  auto writeError = previousDataWriter_->write(receivedJson);
+  if (writeError)
   {
-    std::cout << result.value() << std::endl;
+    std::cout << writeError.value() << std::endl;
+  }
+
+  // 末尾に改行がないと次に読み込めないので改行を追加する
+  writeError = previousDataWriter_->write("\n");
+  if (writeError)
+  {
+    std::cout << writeError.value() << std::endl;
   }
   previousDataWriter_->closeFile();
 }

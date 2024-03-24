@@ -14,7 +14,6 @@
 #include "DomainPrimitivesForOpenProject.h"
 #include "ITextFileWriter.h"
 
-
 #include "../../domain/IPts.h"
 
 // ---------< forward declaration (Global) >-------------
@@ -27,6 +26,7 @@ namespace pts
 
 // ---------< forward declaration >----------------------
 class JsonParser;
+class PreviousDataReader;
 
 /*!
  @class     OpenProject
@@ -85,12 +85,13 @@ public:
 
 private:
   std::shared_ptr<::ITcpClient> tcpClient_;  //!< OpenProjectと通信するためのTCPクライアント
-  std::unique_ptr<::ITextFileWriter>
-    previousDataWriter_;  //!< OpenProjectのサーバから取得したJsonオブジェクトをファイルに保存しておくためのWriter
-  std::unique_ptr<JsonParser> jsonParser_;  //!< Jsonオブジェクトのパーサ
-  ApiKey apiKey_;                           //!< OpenProjectに接続する際に使用するBasic認証キー
+  ApiKey apiKey_;                            //!< OpenProjectに接続する際に使用するBasic認証キー
   std::string destination_;       //!< 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
   unsigned int destinationPort_;  //!< 接続先ポート<br>通信ヘッダで使用する
+  std::unique_ptr<::ITextFileWriter>
+    previousDataWriter_;  //!< OpenProjectのサーバから取得したJsonオブジェクトをファイルに保存しておくためのWriter
+  std::unique_ptr<JsonParser> jsonParser_;                  //!< Jsonオブジェクトのパーサ
+  std::unique_ptr<PreviousDataReader> previousDataReader_;  //!< 前回値データのファイルを読み込むためのリーダ
 
   /*!
    @brief  受信データからJSONストリングを抽出する
