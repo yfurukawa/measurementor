@@ -2,8 +2,10 @@ RM = rm -rf
 CC = g++
 AR = ar
 CP = cp -Rf
+LN = ln -s
 INSTALL = install -o root -g root -m 644
 MKDIR = mkdir -p -m 644
+MAKE = make
 INCLUUDE = -I/usr/include -I/usr/local/include
 LD_PATH = -L/usr/lib64 -L/usr/local/lib64
 LIB_DIR = /usr/local/lib64
@@ -17,7 +19,7 @@ SRC = UdpClient.cpp Port.cpp IPv4.cpp Hostname.cpp TcpClient.cpp NetworkIfHelper
 $(TARGET):
 	$(CC) $(INCLUUDE) $(OPT) -c $(SRC)
 	$(AR) rc -o $(TARGET) $(SRC:.cpp=.o)
-	make debug
+	$(MAKE) debug
 
 debug:
 	$(CC) $(INCLUUDE) $(OPT) -g -c $(SRC)
@@ -34,3 +36,7 @@ install:
 	$(INSTALL) $(TARGETD) $(LIB_DIR)
 	$(INSTALL) *.h $(INCLUDE_DIR)
 	$(INSTALL) skills/* $(INCLUDE_DIR)/skills
+	$(RM) $(LIB_DIR)/libnetworkinterface.a
+	$(RM) $(LIB_DIR)/libnetworkinterfaced.a
+	$(LN) $(LIB_DIR)/$(TARGET) $(LIB_DIR)/libnetworkinterface.a
+	$(LN) $(LIB_DIR)/$(TARGETD) $(LIB_DIR)/libnetworkinterfaced.a
