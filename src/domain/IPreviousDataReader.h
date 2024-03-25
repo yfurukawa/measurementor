@@ -1,6 +1,7 @@
 /*!
  @file      IPreviousDataReader.h
- @brief     ptsとインターフェースクラスが生成したPreviousTask_x.jsonファイルを読み込み、メトリックス取得に必要なデータを抽出するクラスのインターフェース
+ @brief
+ ptsとインターフェースクラスが生成したPreviousTask_x.jsonファイルを読み込み、メトリックス取得に必要なデータを抽出するクラスのインターフェース
  @copyright Copyright 2024 Yoshihiro Furukawa
 */
 #pragma once
@@ -11,7 +12,7 @@
 #include <memory>
 #include <string>
 #include "ITextFileReader.h"
-#include "domainPrimitives/MeasurementPrimitivies.h"
+#include "domainPrimitives/MeasurementPrimitives.h"
 
 // ---------< forward declaration (Global) >-------------
 
@@ -24,7 +25,8 @@ class JsonParser;
 
 /*!
  @class     IPreviousDataReader
- @brief     ptsとインターフェースクラスが生成したPreviousTask_x.jsonファイルを読み込み、メトリックス取得に必要なデータを抽出するクラスのインターフェース
+ @brief
+ ptsとインターフェースクラスが生成したPreviousTask_x.jsonファイルを読み込み、メトリックス取得に必要なデータを抽出するクラスのインターフェース
 */
 class IPreviousDataReader
 {
