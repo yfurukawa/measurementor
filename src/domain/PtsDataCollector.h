@@ -57,7 +57,7 @@ public:
    @note     収集したデータはprojectList_に格納する
   */
   void collectProjectData();
-  
+
   /*!
    @brief     Projectに関するデータを分析基盤に保存する
    @note      Projectに関するデータは、各Sprint終了時点で更新されるのでdailyで測定すれば良い
