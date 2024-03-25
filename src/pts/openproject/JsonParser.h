@@ -30,7 +30,7 @@ public:
   /*!
    @brief  デフォルトコンストラクタ
   */
-  JsonParser() : timeConverter_(std::make_unique<Chronos>()){}
+  JsonParser() : timeConverter_(std::make_unique<Chronos>()) {}
 
   /*!
    @brief  デフォルトデストラクタ
