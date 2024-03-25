@@ -26,7 +26,6 @@ namespace pts
 
 // ---------< forward declaration >----------------------
 class JsonParser;
-class PreviousDataReader;
 
 /*!
  @class     OpenProject
@@ -46,8 +45,8 @@ public:
    @brief  コンストラクタ
    @param[in]  tcpClient OpenProjectと通信するためのTCPクライアント
    @param[in]  apiKey  サーバに接続するための認証キー
-   std::string destination_;                    //!< 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
-  unsigned int destinationPort_;               //!< 接続先ポート<br>通信ヘッダで使用する
+   @param[in]  destination 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
+   @param[in]  destinationPort 接続先ポート<br>通信ヘッダで使用する
   */
   explicit OpenProject(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, std::string destination, unsigned int destinationPort);
 
@@ -90,8 +89,7 @@ private:
   unsigned int destinationPort_;  //!< 接続先ポート<br>通信ヘッダで使用する
   std::unique_ptr<::ITextFileWriter>
     previousDataWriter_;  //!< OpenProjectのサーバから取得したJsonオブジェクトをファイルに保存しておくためのWriter
-  std::unique_ptr<JsonParser> jsonParser_;                  //!< Jsonオブジェクトのパーサ
-  std::unique_ptr<PreviousDataReader> previousDataReader_;  //!< 前回値データのファイルを読み込むためのリーダ
+  std::unique_ptr<JsonParser> jsonParser_;  //!< Jsonオブジェクトのパーサ
 
   /*!
    @brief  受信データからJSONストリングを抽出する
