@@ -3,6 +3,7 @@
  @copyright Copyright 2024 Yoshihiro Furukawa
 */
 #include <filesystem>
+#include <utility>
 #include "JsonParser.h"
 #include "Logger.h"
 #include "LoggerFactory.h"
@@ -13,8 +14,8 @@
 namespace pts
 {
 
-PreviousDataReader::PreviousDataReader()
-  : previousDataReader_(std::make_unique<TextFileReader>()), jsonParser_(std::make_unique<JsonParser>())
+PreviousDataReader::PreviousDataReader(std::unique_ptr<::ITextFileReader> fileReader)
+  : previousDataReader_(std::move(fileReader)), jsonParser_(std::make_unique<JsonParser>())
 {
 }
 
