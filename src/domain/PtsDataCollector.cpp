@@ -10,6 +10,8 @@
 #include "IAnalyzerFactory.h"
 #include "IPts.h"
 #include "IPtsFactory.h"
+#include "IPreviousDataReader.h"
+#include "IPreviousDataReaderFactory.h"
 #include "Item.h"
 #include "Project.h"
 #include "Sprint.h"
@@ -23,6 +25,9 @@ PtsDataCollector::PtsDataCollector()
   , pts_(ptsFactory_->createPts())
   , analyzer_(IAnalyzerFactory::getInstance()->createIAnalyzer())
   , chronos_(std::make_unique<::Chronos>())
+  , previousDataReaderFactory_(IPreviousDataReaderFactory::getInstance())
+  , previousDataReader_(previousDataReaderFactory_->createPreviousDataReader())
+
 {
   projectList_.clear();
   sprintList_.clear();

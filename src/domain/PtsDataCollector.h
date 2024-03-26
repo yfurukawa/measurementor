@@ -26,6 +26,8 @@ class Sprint;
 class Item;
 class Task;
 class IAnalyzer;
+class IPreviousDataReader;
+class IPreviousDataReaderFactory;
 
 /*!
  @class     PtsDataCollector
@@ -75,6 +77,8 @@ protected:
   IPts* pts_;                           //!< PTSとインターフェースするクラス
   IAnalyzer* analyzer_;                 //!< 計測データを分析するシステムとインターフェースするクラス
   std::unique_ptr<::Chronos> chronos_;  //!< 時刻情報を提供するクラス
+  IPreviousDataReaderFactory* previousDataReaderFactory_;  //!< 前回値を読み込むクラスのファクトリ
+  IPreviousDataReader* previousDataReader_;  //!< 前回値を読み込むクラス
   std::map<ProjectId, std::shared_ptr<Project>> projectList_;  //!< PTSで管理されているプロジェクトのリスト
   std::map<SprintId, std::shared_ptr<Sprint>> sprintList_;     //!< PTSで管理されているスプリンTのリスト
   std::map<ItemId, std::shared_ptr<Item>> itemList_;  //!< PTSで管理されているプロダクトバックログアイテムのリスト
