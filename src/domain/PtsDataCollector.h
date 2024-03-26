@@ -83,6 +83,7 @@ protected:
   std::map<SprintId, std::shared_ptr<Sprint>> sprintList_;     //!< PTSで管理されているスプリンTのリスト
   std::map<ItemId, std::shared_ptr<Item>> itemList_;  //!< PTSで管理されているプロダクトバックログアイテムのリスト
   std::map<TaskId, std::shared_ptr<Task>> taskList_;  //!< PTSで管理されているタスクのリスト
+  std::map<TaskId, std::shared_ptr<Task>> previousTaskList_;  //!< 前回値を保持しているタスクのリスト
   std::list<std::string> jsonObject_;                 //!< 各データクラスが生成したJSONオブジェクトの格納用
 
   /*!
@@ -102,6 +103,12 @@ protected:
    @note     収集したデータはtaskList_に格納する
   */
   void collectTaskData();
+
+  /*!
+   @brief    タスクの前回値データを読み込む
+   @note     収集したデータはpreviousTaskList_に格納する
+  */
+  void readPreviousTaskData();
 
   /*!
    @brief    収集したデータの内、合計する必要がある残ポイント数、残工数を集計する
