@@ -7,8 +7,6 @@
 #include "RestAPIHelper.h"
 #include "Index.h"
 #include "ITcpClient.h"
-#include "Logger.h"
-#include "LoggerFactory.h"
 
 namespace analyzer
 {
@@ -21,6 +19,8 @@ Elasticsearch::Elasticsearch(std::shared_ptr<::ITcpClient> tcpClient, ApiKey api
   , index_(std::move(index))
   , destination_(destination)
   , destinationPort_(destinationPort)
+  , loggerFactory_(AbstLogger::LoggerFactory::getInstance())
+  , logger_(loggerFactory_->createLogger())
 {
 }
 
@@ -39,7 +39,7 @@ void Elasticsearch::registerMeasurementedData(const std::string& registerData)
   std::string message(method + " " + location + " " + httpVersion + "\r\n" + hostLocation + "\r\n" + userAgent + "\r\n" + acceptInfo +
                       "\r\n" + contentType + "\r\n" + contentLength + "\r\n\r\n" + registerData + "\r\n\r\n");
 
-  AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[elasticsearch] : " + registerData);
+  logger_->log("[elasticsearch] : " + registerData);
   sendRegisterMessage(message);
 }
 

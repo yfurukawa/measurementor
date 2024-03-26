@@ -12,6 +12,8 @@
 #include "Index.h"
 #include "../../domain/IAnalyzer.h"
 #include "DomainPrimitivesForElasticasearch.h"
+#include "Logger.h"
+#include "LoggerFactory.h"
 
 // ---------< forward declaration (Global) >-------------
 class ITcpClient;
@@ -66,6 +68,8 @@ private:
   std::unique_ptr<Index> index_;             //!< indexのドメインプリミティブ
   std::string destination_;       //!< 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
   unsigned int destinationPort_;  //!< 接続先ポート<br>通信ヘッダで使用する
+  AbstLogger::LoggerFactory* loggerFactory_;
+  AbstLogger::Logger* logger_;
 
   /*!
    @brief       計測データ登録
