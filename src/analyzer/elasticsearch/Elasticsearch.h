@@ -68,8 +68,8 @@ private:
   std::unique_ptr<Index> index_;             //!< indexのドメインプリミティブ
   std::string destination_;       //!< 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
   unsigned int destinationPort_;  //!< 接続先ポート<br>通信ヘッダで使用する
-  AbstLogger::LoggerFactory* loggerFactory_;
-  AbstLogger::Logger* logger_;
+  AbstLogger::LoggerFactory* loggerFactory_;  //!< Logger Factory
+  AbstLogger::Logger* logger_;  //!< Logger
 
   /*!
    @brief       計測データ登録
