@@ -13,7 +13,8 @@
 #include <string>
 #include "DomainPrimitivesForOpenProject.h"
 #include "ITextFileWriter.h"
-
+#include "Logger.h"
+#include "LoggerFactory.h"
 #include "../../domain/IPts.h"
 
 // ---------< forward declaration (Global) >-------------
@@ -90,6 +91,8 @@ private:
   std::unique_ptr<::ITextFileWriter>
     previousDataWriter_;  //!< OpenProjectのサーバから取得したJsonオブジェクトをファイルに保存しておくためのWriter
   std::unique_ptr<JsonParser> jsonParser_;  //!< Jsonオブジェクトのパーサ
+  AbstLogger::LoggerFactory* loggerFactory_;  //!< Logger Factory
+  AbstLogger::Logger* logger_;  //!< Logger
 
   /*!
    @brief  受信データからJSONストリングを抽出する

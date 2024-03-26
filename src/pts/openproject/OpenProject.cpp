@@ -7,8 +7,6 @@
 #include "../../domain/Project.h"
 #include "ITcpClient.h"
 #include "JsonParser.h"
-#include "Logger.h"
-#include "LoggerFactory.h"
 #include "RestAPIHelper.h"
 #include "TextFileWriter.h"
 
@@ -22,6 +20,8 @@ OpenProject::OpenProject(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey,
   , destinationPort_(destinationPort)
   , previousDataWriter_(std::make_unique<::TextFileWriter>())
   , jsonParser_(std::make_unique<JsonParser>())
+  , loggerFactory_(AbstLogger::LoggerFactory::getInstance())
+  , logger_(loggerFactory_->createLogger())
 {
 }
 
@@ -116,7 +116,7 @@ std::string OpenProject::sendQueryMessage(std::string queryMessage)
   std::string message(queryMessage + " " + httpVersion + "\r\n" + hostLocation + "\r\n" + authorizationKey + "\r\n" + userAgent + "\r\n" +
                       acceptInfo + "\r\n\r\n");
 
-  AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject] : " + queryMessage);
+  logger_->log("[OpenProject] : " + queryMessage);
 
   // TODO(yfurukawa) エラー処理を追加
   tcpClient_->openSocket();
