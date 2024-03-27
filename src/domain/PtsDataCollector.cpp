@@ -69,6 +69,8 @@ void PtsDataCollector::permanentProjectData()
   {
     analyzer_->registerMeasurementedData(*json);
   }
+  // データを登録したことで不要になったデータは削除しておく
+  jsonObject_.clear();
 }
 
 void PtsDataCollector::permanentSprintData()
@@ -93,6 +95,8 @@ void PtsDataCollector::permanentSprintData()
   {
     analyzer_->registerMeasurementedData(*json);
   }
+  // データを登録したことで不要になったデータは削除しておく
+  jsonObject_.clear();
 }
 
 void PtsDataCollector::collectProjectData()
