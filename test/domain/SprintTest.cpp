@@ -26,7 +26,7 @@ namespace measurementor
          
         sut = new Sprint( projectId, sprintId, sprintName, status, startDate, endDate );
 
-        std::string expected(R"({"endDate":"2024-02-25T12:34:56+09:00","name":"Test Sprint","projectId":10,"remainingWorkTime":0.0,"sprintId":1,"startDate":"2024-02-23T12:34:56+09:00","status":"open","timestamp":"2024-02-25T12:34:56+09:00","totalStoryPoint":0})");
+        std::string expected(R"({"endDate":"2024-02-25T12:34:56+09:00","indexType":"Sprint","name":"Test Sprint","projectId":10,"remainingWorkTime":0.0,"sprintId":1,"startDate":"2024-02-23T12:34:56+09:00","status":"open","timestamp":"2024-02-25T12:34:56+09:00","totalStoryPoint":0})");
 
         EXPECT_EQ( expected, sut->createJson( tstamp ) );
     }

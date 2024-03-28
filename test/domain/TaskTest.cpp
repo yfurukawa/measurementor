@@ -30,7 +30,7 @@ namespace measurementor
         
         sut = new measurementor::Task( projectId, sprintId, itemId, taskId, taskName, author, estimatedTime, assignee, status, statusCode, updatedAt );
 
-        std::string expected(R"({"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"itemId":1,"projectId":1,"sprintId":11,"status":"In Progress","statusCode":2,"taskId":11,"taskName":"Test Task","timestamp":"2024-02-27T12:34:56.123","updatedAt":"2024-02-23T19:18:25+09:00"})");
+        std::string expected(R"({"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"indexType":"Task","itemId":1,"projectId":1,"sprintId":11,"status":"In Progress","statusCode":2,"taskId":11,"taskName":"Test Task","timestamp":"2024-02-27T12:34:56.123","updatedAt":"2024-02-23T19:18:25+09:00"})");
 
         EXPECT_EQ( expected, sut->createJson( timestamp ) );
     }
