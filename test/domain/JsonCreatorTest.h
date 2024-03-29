@@ -21,21 +21,21 @@ class JsonCreator;
 class JsonCreatorTest : public ::testing::Test
 {
 public:
-    /*!
-     @brief  デフォルトコンストラクタ
-    */
-    JsonCreatorTest() = default;
+  /*!
+   @brief  デフォルトコンストラクタ
+  */
+  JsonCreatorTest() = default;
 
-    /*!
-     @brief  デフォルトデストラクタ
-    */
-    virtual ~JsonCreatorTest() = default;
+  /*!
+   @brief  デフォルトデストラクタ
+  */
+  virtual ~JsonCreatorTest() = default;
 
 protected:
-    JsonCreator* sut;
+  JsonCreator* sut;
 
-    void SetUp();
-    void TearDown();
+  void SetUp();
+  void TearDown();
 };
 
-}
+}  // namespace measurementor

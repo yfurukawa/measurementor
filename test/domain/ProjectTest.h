@@ -21,21 +21,21 @@ class Project;
 class ProjectTest : public ::testing::Test
 {
 public:
-    /*!
-     @brief  デフォルトコンストラクタ
-    */
-    ProjectTest() = default;
+  /*!
+   @brief  デフォルトコンストラクタ
+  */
+  ProjectTest() = default;
 
-    /*!
-     @brief  デフォルトデストラクタ
-    */
-    virtual ~ProjectTest() = default;
+  /*!
+   @brief  デフォルトデストラクタ
+  */
+  virtual ~ProjectTest() = default;
 
 protected:
-    Project* sut;
+  Project* sut;
 
-    void SetUp();
-    void TearDown();
+  void SetUp();
+  void TearDown();
 };
 
-}
+}  // namespace measurementor
