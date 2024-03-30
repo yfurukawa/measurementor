@@ -246,8 +246,8 @@ void PtsDataCollector::readPreviousTaskData()
     EstimatedTime estimatedTime(std::stoi((*json)["estimatedTime"]));
     Assignee assignee((*json)["assignee"]);
     UpdatedAt updatedAt((*json)["updatedAt"]);
-    previousTaskList_.insert(std::make_pair(taskId, std::make_shared<Task>(projectId, sprintId, itemId, taskId, taskName, author, estimatedTime,
-                                                                   assignee, status, statusCode, updatedAt)));
+    previousTaskList_.insert(std::make_pair(taskId, std::make_shared<Task>(projectId, sprintId, itemId, taskId, taskName, author,
+                                                                           estimatedTime, assignee, status, statusCode, updatedAt)));
   }
 }
 

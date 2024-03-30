@@ -77,14 +77,14 @@ protected:
   IPts* pts_;                           //!< PTSとインターフェースするクラス
   IAnalyzer* analyzer_;                 //!< 計測データを分析するシステムとインターフェースするクラス
   std::unique_ptr<::Chronos> chronos_;  //!< 時刻情報を提供するクラス
-  IPreviousDataReaderFactory* previousDataReaderFactory_;  //!< 前回値を読み込むクラスのファクトリ
-  IPreviousDataReader* previousDataReader_;  //!< 前回値を読み込むクラス
+  IPreviousDataReaderFactory* previousDataReaderFactory_;      //!< 前回値を読み込むクラスのファクトリ
+  IPreviousDataReader* previousDataReader_;                    //!< 前回値を読み込むクラス
   std::map<ProjectId, std::shared_ptr<Project>> projectList_;  //!< PTSで管理されているプロジェクトのリスト
   std::map<SprintId, std::shared_ptr<Sprint>> sprintList_;     //!< PTSで管理されているスプリンTのリスト
   std::map<ItemId, std::shared_ptr<Item>> itemList_;  //!< PTSで管理されているプロダクトバックログアイテムのリスト
   std::map<TaskId, std::shared_ptr<Task>> taskList_;  //!< PTSで管理されているタスクのリスト
   std::map<TaskId, std::shared_ptr<Task>> previousTaskList_;  //!< 前回値を保持しているタスクのリスト
-  std::list<std::string> jsonObject_;                 //!< 各データクラスが生成したJSONオブジェクトの格納用
+  std::list<std::string> jsonObject_;                         //!< 各データクラスが生成したJSONオブジェクトの格納用
 
   /*!
    @brief    スプリントのデータを収集する
