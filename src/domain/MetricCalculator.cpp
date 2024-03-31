@@ -49,6 +49,7 @@ void MetricCalculator::calculateDuration(std::shared_ptr<Task>& currentTask, std
     updateData["TaskId"] = currentTask->taskId_.get();
     updateData["InProgressStartDate"] = currentTask->updatedAt_.get();
     durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+    // TODO(yfurukawa) implement to stare In-progress start date
   }
   
   // Changed state from In Progress To Review
@@ -58,6 +59,8 @@ void MetricCalculator::calculateDuration(std::shared_ptr<Task>& currentTask, std
     updateData["TaskId"] = currentTask->taskId_.get();
     updateData["ReviewStartDate"] = currentTask->updatedAt_.get();
     durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+    // TODO(yfurukawa) implement to stare Revire start date
+    // TODO(yfurukawa) implement to calculate In-Progress duration
   }
 
     // Changed state from In Progress To Review
@@ -67,6 +70,9 @@ void MetricCalculator::calculateDuration(std::shared_ptr<Task>& currentTask, std
     updateData["TaskId"] = currentTask->taskId_.get();
     updateData["CompleteDate"] = currentTask->updatedAt_.get();
     durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+    // TODO(yfurukawa) implement to stare Revire start date
+    // TODO(yfurukawa) implement to calculate Review duration
+    // TODO(yfurukawa) implement to calculate working time of this task
   }
 }
 
