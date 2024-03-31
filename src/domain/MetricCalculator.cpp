@@ -43,11 +43,20 @@ void MetricCalculator::calculateDuration(std::shared_ptr<Task>& currentTask, std
     return;
   }
   // Changed state from New to In Progress
-  if (currentTask->statusCode_ == 7 && previousTask->statusCode_ == 1)
+  if (previousTask->statusCode_ == 1 && currentTask->statusCode_ == 7)
   {
     //UpdatedAt startDate{currentTask->updatedAt_};
     updateData["TaskId"] = currentTask->taskId_.get();
     updateData["InProgressStartDate"] = currentTask->updatedAt_.get();
+    durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+  }
+  
+  // Changed state from In Progress To Review
+  if (previousTask->statusCode_ == 7 && currentTask->statusCode_ == 15)
+  {
+    //UpdatedAt startDate{currentTask->updatedAt_};
+    updateData["TaskId"] = currentTask->taskId_.get();
+    updateData["ReviewStartDate"] = currentTask->updatedAt_.get();
     durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
   }
 }

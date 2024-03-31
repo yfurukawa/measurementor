@@ -43,4 +43,30 @@ TEST_F(MetricCalculatorTest, calculateDuration_ChangeStateFromNewToInProgress)
   EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
 }
 
+TEST_F(MetricCalculatorTest, calculateDuration_ChangeStateFromInProgressToReview)
+{
+  std::map<TaskId, std::shared_ptr<Task>> currentTaskList;
+  std::map<TaskId, std::shared_ptr<Task>> previousTaskList;
+  currentTaskList.clear();
+  previousTaskList.clear();
+
+  currentTaskList.insert(std::make_pair(TaskId{10}, std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+       Assignee{"Assignee"}, Status{"Review"}, StatusCode{15}, UpdatedAt{"2024-03-29T14:34:56Z"})));
+  previousTaskList.insert(std::make_pair(TaskId{10}, std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+       Assignee{"Assignee"}, Status{"In progress"}, StatusCode{7}, UpdatedAt{"2024-03-28T12:34:56Z"})));
+
+  nlohmann::json expected;
+  expected["TaskId"] = 10;
+  expected["InProgressStartDate"] = nullptr;
+  expected["ReviewStartDate"] = "2024-03-29T14:34:56Z";
+  expected["CompleteDate"] = nullptr;
+  expected["InProgressDuration"] = 0;
+  expected["ReviewDuration"] = 0;
+  expected["TotalDuration"] = 0;
+  
+  sut->calculateMetrics(currentTaskList, previousTaskList);
+  EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
+}
+
+
 }  // namespace measurementor
