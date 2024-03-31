@@ -59,6 +59,15 @@ void MetricCalculator::calculateDuration(std::shared_ptr<Task>& currentTask, std
     updateData["ReviewStartDate"] = currentTask->updatedAt_.get();
     durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
   }
+
+    // Changed state from In Progress To Review
+  if (currentTask->statusCode_ == 10 && (previousTask->statusCode_ == 15 || previousTask->statusCode_ < currentTask->statusCode_))
+  {
+    //UpdatedAt startDate{currentTask->updatedAt_};
+    updateData["TaskId"] = currentTask->taskId_.get();
+    updateData["CompleteDate"] = currentTask->updatedAt_.get();
+    durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+  }
 }
 
 }  // namespace measurementor
