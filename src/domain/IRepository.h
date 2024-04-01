@@ -38,14 +38,14 @@ public:
    @param[in] taskId 登録対象タスクのID
    @param[in] updatedAt 移行した日時
   */
-  virtual registerInProgressStartDate(TaskId taskId, UpdatedAt updateAt) = 0;
+  virtual void registerInProgressStartDate(TaskId taskId, UpdatedAt updateAt) = 0;
 
   /*!
    @brief     タスクがIn Progress状態に移行した日付を取得する
    @param[in] taskId 取得対象タスクのID 
    @return    In Progress状態に移行した日時
   */
-  virtual UpdateAt getInProgressStartedDate(TasjId taskId) = 0;
+  virtual UpdatedAt getInProgressStartedDate(TaskId taskId) = 0;
 
 protected:
 };
