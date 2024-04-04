@@ -55,18 +55,18 @@ public:
   virtual ~Repository() = default;
 
   /*!
-   @brief     タスクがIn Progress状態に移行した日時を登録する
+   @brief     タスクのメトリックスを登録する
    @param[in] taskId 登録対象タスクのID
-   @param[in] updatedAt 移行した日時
+   @param[in] metricsData json形式にしたメトリックスデータ
   */
-  void registerInProgressStartDate(measurementor::TaskId taskId, measurementor::UpdatedAt updateAt) override;
+  void registerMetricsData(TaskId taskId, nlohmann::json metricsData) override;
 
   /*!
    @brief     タスクがIn Progress状態に移行した日付を取得する
    @param[in] taskId 取得対象タスクのID 
-   @return    In Progress状態に移行した日時
+   @return    nlohmann::json メトリックスデータ
   */
-  measurementor::UpdatedAt getInProgressStartedDate(measurementor::TaskId taskId) override;
+  nlohmann::json getInProgressStartedDate(measurementor::TaskId taskId) override;
 
 private:
   std::shared_ptr<::ITcpClient> tcpClient_;  //!< Repositoryと通信するためのTCPクライアント

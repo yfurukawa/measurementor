@@ -7,6 +7,7 @@
 
 // ---------------< include >----------------------------
 #include <optional>
+#include "nlohmann/json.hpp"
 #include "domainPrimitives/MeasurementPrimitives.h"
 
 // --------------< namespace >---------------------------
@@ -34,18 +35,18 @@ public:
   virtual ~IRepository() = default;
 
   /*!
-   @brief     タスクがIn Progress状態に移行した日時を登録する
+   @brief     タスクのメトリックスを登録する
    @param[in] taskId 登録対象タスクのID
-   @param[in] updatedAt 移行した日時
+   @param[in] metricsData json形式にしたメトリックスデータ
   */
-  virtual void registerInProgressStartDate(TaskId taskId, UpdatedAt updateAt) = 0;
+  virtual void registerMetricsData(TaskId taskId, nlohmann::json metricsData) = 0;
 
   /*!
    @brief     タスクがIn Progress状態に移行した日付を取得する
    @param[in] taskId 取得対象タスクのID 
-   @return    In Progress状態に移行した日時
+   @return    nlohmann::json メトリックスデータ
   */
-  virtual UpdatedAt getInProgressStartedDate(TaskId taskId) = 0;
+  virtual nlohmann::json getMetricsData(TaskId taskId) = 0;
 
 protected:
 };
