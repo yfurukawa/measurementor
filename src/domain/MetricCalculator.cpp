@@ -36,7 +36,7 @@ void MetricCalculator::calculateDuration(std::shared_ptr<Task>& currentTask, std
   updateData["ReviewDuration"] = 0;
   updateData["TotalDuration"] = 0;
 
-  // Status is New
+  // Status is still New
   if (currentTask->statusCode_ == 1)
   {
     // Nothing to do
