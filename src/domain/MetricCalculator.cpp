@@ -2,6 +2,8 @@
  @file  MetricCalculator.cpp
  @copyright Copyright 2024 Yoshihiro Furukawa
 */
+#include "IRepository.h"
+#include "IRepositoryFactory.h"
 #include "MetricCalculator.h"
 #include "Task.h"
 
@@ -9,7 +11,8 @@ namespace measurementor
 {
 
 MetricCalculator::MetricCalculator()
-  : chronos_(std::make_unique<Chronos>())
+  : repository_(IRepositoryFactory::getInstance()->createRepository())
+  , chronos_(std::make_unique<Chronos>())
 {
   currentTaskList_.clear();
   previousTaskList_.clear();
@@ -49,7 +52,7 @@ void MetricCalculator::calculateDuration(std::shared_ptr<Task>& currentTask, std
     updateData["TaskId"] = currentTask->taskId_.get();
     updateData["InProgressStartDate"] = currentTask->updatedAt_.get();
     durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
-    // TODO(yfurukawa) implement to stare In-progress start date
+    repository_->registerMetricsData(currentTask->taskId_, updateData);
   }
   
   // Changed state from In Progress To Review

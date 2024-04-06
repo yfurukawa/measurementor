@@ -19,6 +19,7 @@ namespace measurementor
 
 // ---------< forward declaration >----------------------
 class Task;
+class IRepository;
 
 /*!
  @class     MetricCalculator
@@ -45,6 +46,7 @@ public:
   void calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> currentTaskList, std::map<TaskId, std::shared_ptr<Task>> previousTaskList);
 
 protected:
+  IRepository* repository_;  //!< メトリックスデータの中間データを永続化するリポジトリ
   std::unique_ptr<::Chronos> chronos_;  //!< 時刻操作を提供するクラス
   std::map<TaskId, std::shared_ptr<Task>> currentTaskList_;   //!< 現在値を保持しているタスクのリスト
   std::map<TaskId, std::shared_ptr<Task>> previousTaskList_;  //!< 前回値を保持しているタスクのリスト
