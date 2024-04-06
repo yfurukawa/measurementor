@@ -83,7 +83,14 @@ public:
      @param[in] taskId 取得対象タスクのID
      @return    nlohmann::json メトリックスデータ
     */
-  std::optional<measurementor::UpdatedAt> getStarDateOnComplte(measurementor::TaskId taskId) override;
+  std::optional<measurementor::UpdatedAt> getStarDateOnClose(measurementor::TaskId taskId) override;
+
+  /*!
+   @brief     InProgressのDurationを取得する
+   @param[in] taskId 取得対象タスクのID 
+   @return    時間[H]
+  */
+  long getInProgressDuration(measurementor::TaskId taskId) override;
 
   /*!
    @brief     タスクのメトリックスを更新する

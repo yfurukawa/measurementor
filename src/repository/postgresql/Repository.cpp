@@ -94,18 +94,18 @@ std::optional<measurementor::UpdatedAt> Repository::getStarDateOnReview(measurem
   }
 }
 
-std::optional<measurementor::UpdatedAt> Repository::getStarDateOnComplte(measurementor::TaskId taskId)
+std::optional<measurementor::UpdatedAt> Repository::getStarDateOnClose(measurementor::TaskId taskId)
 {
   try
   {
     nlohmann::json result = sendQuery(taskId);
-    if (result["CompleteDate"].is_null())
+    if (result["CloseDate"].is_null())
     {
       return std::nullopt;
     }
     else
     {
-      return measurementor::UpdatedAt{result["CompleteDate"]};
+      return measurementor::UpdatedAt{result["CloseDate"]};
     }
   }
   catch (pqxx::sql_error const& e)
@@ -127,9 +127,35 @@ std::optional<measurementor::UpdatedAt> Repository::getStarDateOnComplte(measure
   }
 }
 
+long Repository::getInProgressDuration(measurementor::TaskId taskId)
+{
+  try
+  {
+    nlohmann::json result = sendQuery(taskId);
+    return result["InProgressDuration"];
+  }
+  catch (pqxx::sql_error const& e)
+  {
+    std::stringstream errorStream;
+    std::stringstream queryStream;
+    errorStream << "[Repositoruy][getStarDateOnInProgress] : SQL error: " << e.what();
+    queryStream << "[Repositoruy][getStarDateOnInProgress] : Query was: " << e.query();
+    logger_->log(errorStream.str());
+    logger_->log(queryStream.str());
+    return 0;
+  }
+  catch (std::exception const& e)
+  {
+    std::stringstream errorStream;
+    errorStream << "[Repositoruy][getStarDateOnInProgress] : Error: " << e.what();
+    logger_->log(errorStream.str());
+    return 0;
+  }
+}
+
 void Repository::updateMetricsData(measurementor::TaskId taskId, nlohmann::json metricsData)
 {
-  std::string commandString("UPDATE " + tableName_ + "SET metrics_data = '" + metricsData.dump() +
+  std::string commandString("UPDATE " + tableName_ + " SET metrics_data = '" + metricsData.dump() +
                             "' WHERE taskId = " + std::to_string(taskId.get()));
   sendCommand(commandString);
 }
@@ -156,7 +182,7 @@ nlohmann::json Repository::sendQuery(measurementor::TaskId taskId)
 {
   std::string connectionString("postgresql://" + userName_ + ":" + password_ + "@" + hostName_ + ":" + port_ + "/" + databaseName_);
 
-  std::string queryString("SELECT metrics_data FROM " + tableName_ + "WHERE taskId = " + std::to_string(taskId.get()));
+  std::string queryString("SELECT metrics_data FROM " + tableName_ + " WHERE taskId = " + std::to_string(taskId.get()));
 
   logger_->log("[Repository] : connectionString : " + connectionString);
   logger_->log("[Repository] : command : " + queryString);
