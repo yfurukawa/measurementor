@@ -28,6 +28,7 @@ class Task;
 class IAnalyzer;
 class IPreviousDataReader;
 class IPreviousDataReaderFactory;
+class MetricCalculator;
 
 /*!
  @class     PtsDataCollector
@@ -79,6 +80,7 @@ protected:
   std::unique_ptr<::Chronos> chronos_;  //!< 時刻情報を提供するクラス
   IPreviousDataReaderFactory* previousDataReaderFactory_;      //!< 前回値を読み込むクラスのファクトリ
   IPreviousDataReader* previousDataReader_;                    //!< 前回値を読み込むクラス
+  std::unique_ptr<MetricCalculator> metricCalculator_;   //!< タスクの所要時間等を計算するクラス
   std::map<ProjectId, std::shared_ptr<Project>> projectList_;  //!< PTSで管理されているプロジェクトのリスト
   std::map<SprintId, std::shared_ptr<Sprint>> sprintList_;     //!< PTSで管理されているスプリンTのリスト
   std::map<ItemId, std::shared_ptr<Item>> itemList_;  //!< PTSで管理されているプロダクトバックログアイテムのリスト

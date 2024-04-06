@@ -13,6 +13,7 @@
 #include "IPreviousDataReader.h"
 #include "IPreviousDataReaderFactory.h"
 #include "Item.h"
+#include "MetricCalculator.h"
 #include "Project.h"
 #include "Sprint.h"
 #include "Task.h"
@@ -27,6 +28,7 @@ PtsDataCollector::PtsDataCollector()
   , chronos_(std::make_unique<::Chronos>())
   , previousDataReaderFactory_(IPreviousDataReaderFactory::getInstance())
   , previousDataReader_(previousDataReaderFactory_->createPreviousDataReader())
+  , metricCalculator_(std::make_unique<MetricCalculator>())
 
 {
   projectList_.clear();
@@ -217,9 +219,12 @@ void PtsDataCollector::collectTaskData()
     EstimatedTime estimatedTime(std::stoi((*json)["estimatedTime"]));
     Assignee assignee((*json)["assignee"]);
     UpdatedAt updatedAt((*json)["updatedAt"]);
+
     taskList_.insert(std::make_pair(taskId, std::make_shared<Task>(projectId, sprintId, itemId, taskId, taskName, author, estimatedTime,
                                                                    assignee, status, statusCode, updatedAt)));
   }
+
+  metricCalculator_->calculateMetrics(taskList_, previousTaskList_);
 }
 
 void PtsDataCollector::readPreviousTaskData()
