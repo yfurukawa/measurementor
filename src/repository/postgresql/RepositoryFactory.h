@@ -38,7 +38,7 @@ public:
   */
   RepositoryFactory() : repository_(nullptr)
   {
-    std::filesystem::path confFile("/usr/local/etc/measurementor/Repository.conf");  // TODO(yfurukawa) pathは別途設定できると良い
+    std::filesystem::path confFile("/usr/local/etc/measurementor/postgresql.conf");  // TODO(yfurukawa) pathは別途設定できると良い
     confFileParser_ = std::make_unique<ConfFileParser>(confFile);
     RepositoryFactory::destroyed_ = false;
   }
@@ -75,20 +75,13 @@ public:
         {
           setting_ = result.value();
         }
-        // confファイルにIPが設定されていればそれを使う
-        IPv4 ip((setting_.find("IP") != end(setting_)) ? setting_["IP"] : "0.0.0.0");
-        // confファイルにHostが設定されていればそれを使う
-        Hostname host((setting_.find("Host") != end(setting_)) ? setting_["Host"] : "");
-        Port port(std::stoi(setting_["Port"]));
-        if (ip != "0.0.0.0")
+        if (setting_.find("IP") != end(setting_))
         {
-          // repository_ = dynamic_cast<measurementor::IRepository*>(new Repository(std::make_shared<::TcpClient>(ip, port), apiKey, ip.get(), port.get()));
+          repository_ = dynamic_cast<measurementor::IRepository*>(new Repository(setting_["User"], setting_["Password"], setting_["IP"], setting_["Port"], setting_["DataBase"], setting_["Table"]));
         }
         else
         {
-          // repository_ =
-          //  dynamic_cast<measurementor::IRepository*>(new Repository(std::make_shared<::TcpClient>(host, port), apiKey, host.get(), port.get()));
-        }
+          repository_ = dynamic_cast<measurementor::IRepository*>(new Repository(setting_["User"], setting_["Password"], setting_["Host"], setting_["Port"], setting_["DataBase"], setting_["Table"]));        }
       }
     }
     return repository_;
