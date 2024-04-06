@@ -49,19 +49,27 @@ public:
   */
   virtual std::optional<UpdatedAt> getStarDateOnInProgress(TaskId taskId) = 0;
 
-/*!
+  /*!
    @brief     タスクがReview状態に移行した日付を取得する
    @param[in] taskId 取得対象タスクのID 
    @return    nlohmann::json メトリックスデータ
   */
   virtual std::optional<UpdatedAt> getStarDateOnReview(TaskId taskId) = 0;
 
-/*!
-   @brief     タスクがComplete状態に移行した日付を取得する
+  /*!
+   @brief     タスクがClose状態に移行した日付を取得する
    @param[in] taskId 取得対象タスクのID 
    @return    nlohmann::json メトリックスデータ
+   TODO 不要なメソッドかも
   */
-  virtual std::optional<UpdatedAt> getStarDateOnComplte(TaskId taskId) = 0;
+  virtual std::optional<UpdatedAt> getStarDateOnClose(TaskId taskId) = 0;
+
+  /*!
+   @brief     InProgressのDurationを取得する
+   @param[in] taskId 取得対象タスクのID 
+   @return    時間[H]
+  */
+  virtual long getInProgressDuration(TaskId taskId) = 0;
 
   /*!
    @brief     タスクのメトリックスを更新する
