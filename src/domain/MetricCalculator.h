@@ -58,6 +58,37 @@ protected:
    @param[in] previousTask  前回値を保持しているタスク
   */
   void calculateDuration(std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask);
+
+  /*!
+   @brief  NewからIn-Progressに移行した際の中間データ更新処理をする
+   @param[in] updateData  メトリックスの中間データ
+   @param[in] previousTask  前回値を保持しているタスク
+  */
+  void transitFromNewToInProgress(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask);
+
+  /*!
+   @brief  In-ProgressからReviewに移行した際の中間データ更新処理をする
+   @param[in] updateData  メトリックスの中間データ
+   @param[in] currentTask  現在値を保持しているタスク
+   @param[in] previousTask  前回値を保持しているタスク
+  */
+  void transitFromInProgressToReview(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask);
+
+  /*!
+   @brief  ReviewからCloseに移行した際の中間データ更新処理をする
+   @param[in] updateData  メトリックスの中間データ
+   @param[in] currentTask  現在値を保持しているタスク
+   @param[in] previousTask  前回値を保持しているタスク
+  */
+  void transitFromReviewToClose(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask);
+
+  /*!
+   @brief  In-ProgressからCloseに移行した際の中間データ更新処理をする
+   @param[in] updateData  メトリックスの中間データ
+   @param[in] currentTask  現在値を保持しているタスク
+   @param[in] previousTask  前回値を保持しているタスク
+  */
+  void transitFromInProgressToClose(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask);
 };
 
 }  // namespace measurementor
