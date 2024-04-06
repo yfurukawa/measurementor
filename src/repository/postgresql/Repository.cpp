@@ -10,12 +10,12 @@ namespace repository
 
 Repository::Repository(std::string userName, std::string password, std::string hostName, std::string port, std::string databaseName,
                        std::string tableName)
-  : userName_("root")
-  , password_("root")
-  , hostName_("localhost")
-  , port_("5430")
-  , databaseName_("measurement_metrix")
-  , tableName_("task_metrics")
+  : userName_(userName)
+  , password_(password)
+  , hostName_(hostName)
+  , port_(port)
+  , databaseName_(databaseName)
+  , tableName_(tableName)
 {
   loggerFactory_ = AbstLogger::LoggerFactory::getInstance();
   logger_ = loggerFactory_->createLogger();
@@ -23,8 +23,8 @@ Repository::Repository(std::string userName, std::string password, std::string h
 
 void Repository::registerMetricsData(measurementor::TaskId taskId, nlohmann::json metricsData)
 {
-  std::string commandString("INSERT INTO " + tableName_ + "(taskId, metrics_data)" + "VALUES (" + std::to_string(taskId.get()) + "," +
-                            metricsData.dump() + ")");
+  std::string commandString("INSERT INTO " + tableName_ + "(taskId, metrics_data) VALUES (" + std::to_string(taskId.get()) + ",'" +
+                            metricsData.dump() + "')");
   sendCommand(commandString);
 }
 
@@ -129,8 +129,8 @@ std::optional<measurementor::UpdatedAt> Repository::getStarDateOnComplte(measure
 
 void Repository::updateMetricsData(measurementor::TaskId taskId, nlohmann::json metricsData)
 {
-  std::string commandString("UPDATE " + tableName_ + "SET metrics_data = " + metricsData.dump() +
-                            "WHERE taskId = " + std::to_string(taskId.get()));
+  std::string commandString("UPDATE " + tableName_ + "SET metrics_data = '" + metricsData.dump() +
+                            "' WHERE taskId = " + std::to_string(taskId.get()));
   sendCommand(commandString);
 }
 
