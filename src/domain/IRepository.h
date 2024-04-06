@@ -69,7 +69,7 @@ public:
    @param[in] taskId 取得対象タスクのID 
    @return    時間[H]
   */
-  virtual long getInProgressDuration(TaskId taskId) = 0;
+  virtual double getInProgressDuration(TaskId taskId) = 0;
 
   /*!
    @brief     タスクのメトリックスを更新する

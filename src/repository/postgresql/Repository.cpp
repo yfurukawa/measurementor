@@ -127,7 +127,7 @@ std::optional<measurementor::UpdatedAt> Repository::getStarDateOnClose(measureme
   }
 }
 
-long Repository::getInProgressDuration(measurementor::TaskId taskId)
+double Repository::getInProgressDuration(measurementor::TaskId taskId)
 {
   try
   {

@@ -90,7 +90,7 @@ public:
    @param[in] taskId 取得対象タスクのID 
    @return    時間[H]
   */
-  long getInProgressDuration(measurementor::TaskId taskId) override;
+  double getInProgressDuration(measurementor::TaskId taskId) override;
 
   /*!
    @brief     タスクのメトリックスを更新する
