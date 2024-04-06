@@ -27,7 +27,7 @@ void MetricCalculator::calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> 
 {
   for (auto currentTask = begin(currentTaskList); currentTask != end(currentTaskList); ++currentTask)
   {
-    calculateDuration(currentTask->second, previousTaskList[currentTask->first]);
+    checkTransit(currentTask->second, previousTaskList[currentTask->first]);
   }
 
   for (auto json = begin(durationDataList_); json != end(durationDataList_); ++json)
@@ -38,7 +38,7 @@ void MetricCalculator::calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> 
   durationDataList_.clear();
 }
 
-void MetricCalculator::calculateDuration(std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask)
+void MetricCalculator::checkTransit(std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask)
 {
   nlohmann::json updateData;
   updateData["TaskId"] = 0;
