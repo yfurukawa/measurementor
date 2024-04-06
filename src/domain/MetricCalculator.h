@@ -91,6 +91,15 @@ protected:
    @param[in] previousTask  前回値を保持しているタスク
   */
   void transitFromInProgressToClose(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask);
+
+  /*!
+   @brief  ある状態に留まっていた時間を計算する
+   @param[in] startDate  期間の開始日時
+   @param[in] endData    期間の終了日時
+   @return    滞留時間[H]
+   @note  滞留時間は0.25[H]間隔。日にちを跨いだら、１７時から翌朝８時まではカウントしない。また、週末の土日は考慮するが、祝日は考慮しない。
+  */
+  double calculateDuration(::ISO8601String startDate, ::ISO8601String endDate);
 };
 
 }  // namespace measurementor

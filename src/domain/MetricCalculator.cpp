@@ -169,4 +169,10 @@ void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, 
   durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
 }
 
+double MetricCalculator::calculateDuration(::ISO8601String startDate, ::ISO8601String endDate)
+{
+  double duration = (chronos_->convertToTime_t(endDate) - chronos_->convertToTime_t(startDate)) / 3600;
+  return duration;
+}
+
 }  // namespace measurementor
