@@ -19,6 +19,7 @@ namespace measurementor
 
 // ---------< forward declaration >----------------------
 class Task;
+class IAnalyzer;
 class IRepository;
 
 /*!
@@ -48,6 +49,7 @@ public:
 protected:
   IRepository* repository_;  //!< メトリックスデータの中間データを永続化するリポジトリ
   std::unique_ptr<::Chronos> chronos_;  //!< 時刻操作を提供するクラス
+  IAnalyzer* analyzer_;                 //!< 計測データを分析するシステムとインターフェースするクラス
   std::map<TaskId, std::shared_ptr<Task>> currentTaskList_;   //!< 現在値を保持しているタスクのリスト
   std::map<TaskId, std::shared_ptr<Task>> previousTaskList_;  //!< 前回値を保持しているタスクのリスト
   std::map<TaskId, nlohmann::json> durationDataList_;          //!< 各タスクの作業期間データ

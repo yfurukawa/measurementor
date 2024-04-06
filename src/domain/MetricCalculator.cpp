@@ -2,6 +2,8 @@
  @file  MetricCalculator.cpp
  @copyright Copyright 2024 Yoshihiro Furukawa
 */
+#include "IAnalyzer.h"
+#include "IAnalyzerFactory.h"
 #include "IRepository.h"
 #include "IRepositoryFactory.h"
 #include "MetricCalculator.h"
@@ -13,6 +15,7 @@ namespace measurementor
 MetricCalculator::MetricCalculator()
   : repository_(IRepositoryFactory::getInstance()->createRepository())
   , chronos_(std::make_unique<::Chronos>())
+  , analyzer_(IAnalyzerFactory::getInstance()->createIAnalyzer())
 {
   currentTaskList_.clear();
   previousTaskList_.clear();
@@ -26,6 +29,13 @@ void MetricCalculator::calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> 
   {
     calculateDuration(currentTask->second, previousTaskList[currentTask->first]);
   }
+
+  for (auto json = begin(durationDataList_); json != end(durationDataList_); ++json)
+  {
+    analyzer_->registerMeasurementedData((json->second).dump());
+  }
+  // データを登録したことで不要になったデータは削除しておく
+  durationDataList_.clear();
 }
 
 void MetricCalculator::calculateDuration(std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask)
@@ -38,7 +48,7 @@ void MetricCalculator::calculateDuration(std::shared_ptr<Task>& currentTask, std
   updateData["InProgressDuration"] = 0;
   updateData["ReviewDuration"] = 0;
   updateData["TotalDuration"] = 0;
-
+  updateData["timestamp"] = chronos_->nowIso8601ExtendedGmt();
   // Status is still New
   if (currentTask->statusCode_ == 1)
   {
