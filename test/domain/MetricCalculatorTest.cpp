@@ -146,5 +146,25 @@ TEST_F(MetricCalculatorTest, calculateDuration_SameDay_EQ_60min)
   EXPECT_EQ(1.0, sut->calculateDuration(startDate, endDate));
 }
 
+TEST_F(MetricCalculatorTest, calculateDuration_SameDay_LE_1H_15min)
+{
+  ::ISO8601String   endDate("2014-04-06T13:15:00Z");
+  ::ISO8601String startDate("2014-04-06T12:00:00Z");
+  EXPECT_DOUBLE_EQ(1.25, sut->calculateDuration(startDate, endDate));
+}
+
+TEST_F(MetricCalculatorTest, calculateDuration_SameDay_LE_1H_30min)
+{
+  ::ISO8601String   endDate("2014-04-06T13:30:00Z");
+  ::ISO8601String startDate("2014-04-06T12:00:00Z");
+  EXPECT_EQ(1.5, sut->calculateDuration(startDate, endDate));
+}
+
+TEST_F(MetricCalculatorTest, calculateDuration_SameDay_Over_several_hours)
+{
+  ::ISO8601String   endDate("2014-04-06T14:18:03Z");
+  ::ISO8601String startDate("2014-04-06T12:00:00Z");
+  EXPECT_EQ(2.5, sut->calculateDuration(startDate, endDate));
+}
 
 }  // namespace measurementor
