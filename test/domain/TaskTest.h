@@ -21,21 +21,21 @@ class Task;
 class TaskTest : public ::testing::Test
 {
 public:
-    /*!
-     @brief  デフォルトコンストラクタ
-    */
-    TaskTest() = default;
+  /*!
+   @brief  デフォルトコンストラクタ
+  */
+  TaskTest() = default;
 
-    /*!
-     @brief  デフォルトデストラクタ
-    */
-    virtual ~TaskTest() = default;
+  /*!
+   @brief  デフォルトデストラクタ
+  */
+  virtual ~TaskTest() = default;
 
 protected:
-    Task* sut;
+  Task* sut;
 
-    void SetUp();
-    void TearDown();
+  void SetUp();
+  void TearDown();
 };
 
-}
+}  // namespace measurementor

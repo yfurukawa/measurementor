@@ -15,6 +15,7 @@ namespace measurementor
 {
 
 // ---------< forward declaration >----------------------
+class MetricCalculator;
 
 /*!
  @class     Task
@@ -25,6 +26,8 @@ namespace measurementor
 class Task final
 {
 private:
+  friend MetricCalculator;
+
   /*!
    @brief  デフォルトコンストラクタ
   */

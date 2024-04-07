@@ -1,17 +1,17 @@
 /*!
- @file Elasticsearch.cpp
+ @file AnalyzerMock.cpp
  @copyright Copyright 2024 Yoshihiro Furukawa
 */
 #include <utility>
-#include "Elasticsearch.h"
-#include "RestAPIHelper.h"
-#include "Index.h"
+#include "AnalyzerMock.h"
+//#include "RestAPIHelper.h"
+#include "../../src/analyzer/elasticsearch/Index.h"
 #include "ITcpClient.h"
 
 namespace analyzer
 {
-
-Elasticsearch::Elasticsearch(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, Version version, std::unique_ptr<Index> index,
+/*
+AnalyzerMock::AnalyzerMock(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, Version version, std::unique_ptr<Index> index,
                              std::string destination, unsigned int destinationPort)
   : tcpClient_(tcpClient)
   , apiKey_(apiKey)
@@ -23,29 +23,34 @@ Elasticsearch::Elasticsearch(std::shared_ptr<::ITcpClient> tcpClient, ApiKey api
   , logger_(loggerFactory_->createLogger())
 {
 }
-
-void Elasticsearch::registerMeasurementedData(const std::string& registerData)
+*/
+void AnalyzerMock::registerMeasurementedData(const std::string& registerData)
 {
+  /*
   std::string method("POST");
   std::string location("/" + index_->get() + "/_doc/");
   std::string httpVersion("HTTP/1.1");
   std::string hostLocation("Host: " + destination_ + ":" + std::to_string(destinationPort_));
   std::string userAgent("User-Agent: libnet");
+  */
   //    std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
   //    std::string authorizationKey("Authorization: Basic " + key);
-  std::string acceptInfo("Accept: */*");
+  //std::string acceptInfo("Accept: */*");
+  /*
   std::string contentType("Content-Type: application/json; charset=UTF-8");
   std::string contentLength("Content-Length: " + std::to_string(registerData.length()));
   std::string message(method + " " + location + " " + httpVersion + "\r\n" + hostLocation + "\r\n" + userAgent + "\r\n" + acceptInfo +
                       "\r\n" + contentType + "\r\n" + contentLength + "\r\n\r\n" + registerData + "\r\n\r\n");
 
-  logger_->log("[elasticsearch] : " + registerData);
+  logger_->log("[AnalyzerMock] : " + registerData);
   sendRegisterMessage(message);
+  */
 }
 
-void Elasticsearch::sendRegisterMessage(const std::string& registoryString)
+void AnalyzerMock::sendRegisterMessage(const std::string& registoryString)
 {
   // TODO(yfurukawa) エラー処理を追加
+  /*
   tcpClient_->openSocket();
   tcpClient_->sendData(registoryString);
 
@@ -62,10 +67,12 @@ void Elasticsearch::sendRegisterMessage(const std::string& registoryString)
     }
   }
   tcpClient_->closeSocket();
+  */
 }
 
-std::optional<std::string> Elasticsearch::confirmServerResponse()
+std::optional<std::string> AnalyzerMock::confirmServerResponse()
 {
+  /*
   while (true)
   {
     auto response = tcpClient_->receiveData();
@@ -85,6 +92,7 @@ std::optional<std::string> Elasticsearch::confirmServerResponse()
       return std::nullopt;
     }
   }
+  */
   return "";
 }
 

@@ -39,7 +39,7 @@ public:
   */
   OpenProjectFactory() : pts_(nullptr)
   {
-    std::filesystem::path confFile("/usr/local/etc/measurementor/openproject.conf");  // TODO pathは別途設定できると良い NOLINT
+    std::filesystem::path confFile("/usr/local/etc/measurementor/openproject.conf");  // TODO(yfurukawa) pathは別途設定できると良い
     confFileParser_ = std::make_unique<ConfFileParser>(confFile);
     OpenProjectFactory::destroyed_ = false;
   }
@@ -56,8 +56,8 @@ public:
   static const bool isDestroyed() { return OpenProjectFactory::destroyed_; }
 
   /*!
-  @brief      Loggerインスタンスを生成する
-  @return     ToSyslogLoggerインスタンス
+  @brief      OpenProjectインスタンスを生成する
+  @return     OpenProjectインスタンス
   */
   measurementor::IPts* createPts() override
   {

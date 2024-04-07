@@ -14,6 +14,7 @@
 #include "DomainPrimitivesForOpenProject.h"
 #include "ITextFileReader.h"
 #include "../../domain/domainPrimitives/MeasurementPrimitives.h"
+#include "../../domain/IPreviousDataReader.h"
 
 // ---------< forward declaration (Global) >-------------
 
@@ -28,13 +29,19 @@ class JsonParser;
  @class     PreviousDataReader
  @brief     OpenProjectクラスが生成したPreviousTask_x.jsonファイルを読み込み、メトリックス取得に必要なデータを抽出する
 */
-class PreviousDataReader final
+class PreviousDataReader final : public measurementor::IPreviousDataReader
 {
+private :
+  /*!
+   @brief  デフォルトコンストラクタ
+  */
+  PreviousDataReader() = delete;
+
 public:
   /*!
    @brief  デフォルトコンストラクタ
   */
-  PreviousDataReader();
+  explicit PreviousDataReader(std::unique_ptr<::ITextFileReader> fileReader);
 
   /*!
    @brief  デフォルトデストラクタ
@@ -46,7 +53,7 @@ public:
    @param[in]      project 収集したいプロジェクト
    @return         スプリントのリスト（Sprintの情報マップ（情報名、値）をリスト化したもの）
   */
-  std::list<std::map<std::string, std::string>> preparePreviousTaskData(const measurementor::ProjectId& projectId);
+  std::list<std::map<std::string, std::string>> preparePreviousTaskData(const measurementor::ProjectId& projectId) override;
 
 private:
   std::unique_ptr<::ITextFileReader>

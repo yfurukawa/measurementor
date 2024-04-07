@@ -10,7 +10,10 @@
 #include "IAnalyzerFactory.h"
 #include "IPts.h"
 #include "IPtsFactory.h"
+#include "IPreviousDataReader.h"
+#include "IPreviousDataReaderFactory.h"
 #include "Item.h"
+#include "MetricCalculator.h"
 #include "Project.h"
 #include "Sprint.h"
 #include "Task.h"
@@ -23,11 +26,16 @@ PtsDataCollector::PtsDataCollector()
   , pts_(ptsFactory_->createPts())
   , analyzer_(IAnalyzerFactory::getInstance()->createIAnalyzer())
   , chronos_(std::make_unique<::Chronos>())
+  , previousDataReaderFactory_(IPreviousDataReaderFactory::getInstance())
+  , previousDataReader_(previousDataReaderFactory_->createPreviousDataReader())
+  , metricCalculator_(std::make_unique<MetricCalculator>())
+
 {
   projectList_.clear();
   sprintList_.clear();
   itemList_.clear();
   taskList_.clear();
+  previousTaskList_.clear();
   jsonObject_.clear();
 }
 
@@ -37,12 +45,14 @@ PtsDataCollector::~PtsDataCollector()
   sprintList_.clear();
   itemList_.clear();
   taskList_.clear();
+  previousTaskList_.clear();
   jsonObject_.clear();
 }
 
 void PtsDataCollector::collectAllData()
 {
   collectProjectData();
+  readPreviousTaskData();
   collectSprintData();
   collectItemData();
   collectTaskData();
@@ -61,6 +71,8 @@ void PtsDataCollector::permanentProjectData()
   {
     analyzer_->registerMeasurementedData(*json);
   }
+  // データを登録したことで不要になったデータは削除しておく
+  jsonObject_.clear();
 }
 
 void PtsDataCollector::permanentSprintData()
@@ -85,6 +97,8 @@ void PtsDataCollector::permanentSprintData()
   {
     analyzer_->registerMeasurementedData(*json);
   }
+  // データを登録したことで不要になったデータは削除しておく
+  jsonObject_.clear();
 }
 
 void PtsDataCollector::collectProjectData()
@@ -205,8 +219,40 @@ void PtsDataCollector::collectTaskData()
     EstimatedTime estimatedTime(std::stoi((*json)["estimatedTime"]));
     Assignee assignee((*json)["assignee"]);
     UpdatedAt updatedAt((*json)["updatedAt"]);
+
     taskList_.insert(std::make_pair(taskId, std::make_shared<Task>(projectId, sprintId, itemId, taskId, taskName, author, estimatedTime,
                                                                    assignee, status, statusCode, updatedAt)));
+  }
+
+  metricCalculator_->calculateMetrics(taskList_, previousTaskList_);
+}
+
+void PtsDataCollector::readPreviousTaskData()
+{
+  std::list<std::map<std::string, std::string>> jsonObjectList;
+  jsonObjectList.clear();
+
+  // 前回値データはプロジェクトID毎にファイルが別れているのでプロジェクト毎に読み込み、マージする
+  for (auto project = begin(projectList_); project != end(projectList_); ++project)
+  {
+    jsonObjectList.merge(previousDataReader_->preparePreviousTaskData(project->first));
+  }
+
+  for (auto json = begin(jsonObjectList); json != end(jsonObjectList); ++json)
+  {
+    ProjectId projectId(std::stoi((*json)["projectId"]));
+    SprintId sprintId(std::stoi((*json)["sprintId"]));
+    ItemId itemId(std::stoi((*json)["itemId"]));
+    TaskId taskId(std::stoi((*json)["taskId"]));
+    Name taskName((*json)["taskName"]);
+    Status status((*json)["status"]);
+    StatusCode statusCode(std::stoi((*json)["statusCode"]));
+    Author author((*json)["author"]);
+    EstimatedTime estimatedTime(std::stoi((*json)["estimatedTime"]));
+    Assignee assignee((*json)["assignee"]);
+    UpdatedAt updatedAt((*json)["updatedAt"]);
+    previousTaskList_.insert(std::make_pair(taskId, std::make_shared<Task>(projectId, sprintId, itemId, taskId, taskName, author,
+                                                                           estimatedTime, assignee, status, statusCode, updatedAt)));
   }
 }
 

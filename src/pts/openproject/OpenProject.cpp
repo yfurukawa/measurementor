@@ -7,9 +7,6 @@
 #include "../../domain/Project.h"
 #include "ITcpClient.h"
 #include "JsonParser.h"
-#include "Logger.h"
-#include "LoggerFactory.h"
-#include "PreviousDataReader.h"
 #include "RestAPIHelper.h"
 #include "TextFileWriter.h"
 
@@ -23,7 +20,8 @@ OpenProject::OpenProject(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey,
   , destinationPort_(destinationPort)
   , previousDataWriter_(std::make_unique<::TextFileWriter>())
   , jsonParser_(std::make_unique<JsonParser>())
-  , previousDataReader_(std::make_unique<PreviousDataReader>())
+  , loggerFactory_(AbstLogger::LoggerFactory::getInstance())
+  , logger_(loggerFactory_->createLogger())
 {
 }
 
@@ -66,8 +64,6 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
 
 std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformation(const measurementor::ProjectId& projectId)
 {
-  previousDataReader_->preparePreviousTaskData(projectId);
-
   std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) +
                       "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d");
 
@@ -120,7 +116,7 @@ std::string OpenProject::sendQueryMessage(std::string queryMessage)
   std::string message(queryMessage + " " + httpVersion + "\r\n" + hostLocation + "\r\n" + authorizationKey + "\r\n" + userAgent + "\r\n" +
                       acceptInfo + "\r\n\r\n");
 
-  AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject] : " + queryMessage);
+  logger_->log("[OpenProject] : " + queryMessage);
 
   // TODO(yfurukawa) エラー処理を追加
   tcpClient_->openSocket();

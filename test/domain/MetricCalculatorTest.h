@@ -1,6 +1,6 @@
 /*!
- @file      ProjectTest.h
- @brief     Projectをテストする
+ @file      MetricCalculatorTest.h
+ @brief     MetricCalculatorをテストする
 */
 #pragma once
 
@@ -12,27 +12,27 @@ namespace measurementor
 {
 
 // ---------< forward declaration >----------------------
-class Project;
+class MetricCalculatorSpy;
 
 /*!
- @file      ProjectTest.h
- @brief     Projectをテストする
+ @file      MetricCalculatorTest.h
+ @brief     MetricCalculatorをテストする
 */
-class ProjectTest : public ::testing::Test
+class MetricCalculatorTest : public ::testing::Test
 {
 public:
   /*!
    @brief  デフォルトコンストラクタ
   */
-  ProjectTest() = default;
+  MetricCalculatorTest() = default;
 
   /*!
    @brief  デフォルトデストラクタ
   */
-  virtual ~ProjectTest() = default;
+  virtual ~MetricCalculatorTest() = default;
 
 protected:
-  Project* sut;
+  MetricCalculatorSpy* sut;
 
   void SetUp();
   void TearDown();
