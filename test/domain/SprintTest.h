@@ -21,21 +21,21 @@ class Sprint;
 class SprintTest : public ::testing::Test
 {
 public:
-    /*!
-     @brief  デフォルトコンストラクタ
-    */
-    SprintTest() = default;
+  /*!
+   @brief  デフォルトコンストラクタ
+  */
+  SprintTest() = default;
 
-    /*!
-     @brief  デフォルトデストラクタ
-    */
-    virtual ~SprintTest() = default;
+  /*!
+   @brief  デフォルトデストラクタ
+  */
+  virtual ~SprintTest() = default;
 
 protected:
-    Sprint* sut;
+  Sprint* sut;
 
-    void SetUp();
-    void TearDown();
+  void SetUp();
+  void TearDown();
 };
 
-}
+}  // namespace measurementor

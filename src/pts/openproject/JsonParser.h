@@ -30,10 +30,7 @@ public:
   /*!
    @brief  デフォルトコンストラクタ
   */
-  JsonParser()
-    : timeConverter_(std::make_unique<Chronos>())
-  {
-  };
+  JsonParser() : timeConverter_(std::make_unique<Chronos>()) {}
 
   /*!
    @brief  デフォルトデストラクタ
@@ -84,7 +81,6 @@ private:
    @return       時間を表す数値（文字列）
   */
   std::string pickupHour(std::string remainingTimeValue);
-
 };
 
 }  // namespace pts

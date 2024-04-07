@@ -1,6 +1,6 @@
 /*!
- @file      Elasticsearch.h
- @brief     Elasticsearchとインターフェースするクラス
+ @file      AnalyzerMock.h
+ @brief     AnalyzerMockとインターフェースするクラス
  @copyright Copyright 2024 Yoshihiro Furukawa
 */
 #pragma once
@@ -9,9 +9,9 @@
 #include <memory>
 #include <optional>
 #include <string>
-#include "Index.h"
-#include "../../domain/IAnalyzer.h"
-#include "DomainPrimitivesForElasticasearch.h"
+#include "../../src/analyzer/elasticsearch/Index.h"
+#include "../../src/domain/IAnalyzer.h"
+#include "../../src/analyzer/elasticsearch/DomainPrimitivesForElasticasearch.h"
 #include "Logger.h"
 #include "LoggerFactory.h"
 
@@ -25,35 +25,35 @@ namespace analyzer
 // ---------< forward declaration >----------------------
 
 /*!
- @class     Elasticsearch
- @brief     Elasticsearchとインターフェースするクラス
- @note      本クラスは、Elasticsearchへデータと登録するためのクラスである。<br>
+ @class     AnalyzerMock
+ @brief     AnalyzerMockとインターフェースするクラス
+ @note      本クラスは、AnalyzerMockへデータと登録するためのクラスである。<br>
  本クラスは、専用のファクトリによりインスタンス化される。
 */
-class Elasticsearch final : public measurementor::IAnalyzer
+class AnalyzerMock final : public measurementor::IAnalyzer
 {
+public:
   /*!
    @brief  デフォルトコンストラクタ
   */
-  Elasticsearch() = delete;
+  AnalyzerMock() = default;
 
-public:
   /*!
    @brief  コンストラクタ
-   @param[in]  tcpClient Elasticsearchと通信するためのTCPクライアント
-   @param[in]  apiKey Elasticsearchに送信する際に使用するAPIキー（6系のElasticsearchには不要）
-   @param[in]  version 送信先Elasticsearchのバージョン
-   @param[in]  index Elasticsearchへの登録に必要なインデックス
+   @param[in]  tcpClient AnalyzerMockと通信するためのTCPクライアント
+   @param[in]  apiKey AnalyzerMockに送信する際に使用するAPIキー（6系のAnalyzerMockには不要）
+   @param[in]  version 送信先AnalyzerMockのバージョン
+   @param[in]  index AnalyzerMockへの登録に必要なインデックス
    @param[in]  destination_ 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
    @param[in]  destinationPort_ 接続先ポート<br>通信ヘッダで使用する
   */
-  Elasticsearch(std::shared_ptr<ITcpClient> tcpClient, ApiKey apiKey, Version version, std::unique_ptr<Index> index,
-                std::string destination, unsigned int destinationPort);
+//  AnalyzerMock(std::shared_ptr<ITcpClient> tcpClient, ApiKey apiKey, Version version, std::unique_ptr<Index> index,
+//                std::string destination, unsigned int destinationPort);
 
   /*!
    @brief  デフォルトデストラクタ
   */
-  virtual ~Elasticsearch() = default;
+  virtual ~AnalyzerMock() = default;
 
   /*!
    @brief      測定データ登録
@@ -62,15 +62,16 @@ public:
   void registerMeasurementedData(const std::string& registerData) override;
 
 private:
-  std::shared_ptr<::ITcpClient> tcpClient_;  //!< Elasticsearchと通信するためのTCPクライアント
-  ApiKey apiKey_;                            //!< Elasticsearchに接続する際に使用するBasic認証キー
-  const Version version_;                    //!< Elasticsearchのバージョン
+/*
+  std::shared_ptr<::ITcpClient> tcpClient_;  //!< AnalyzerMockと通信するためのTCPクライアント
+  ApiKey apiKey_;                            //!< AnalyzerMockに接続する際に使用するBasic認証キー
+  const Version version_;                    //!< AnalyzerMockのバージョン
   std::unique_ptr<Index> index_;             //!< indexのドメインプリミティブ
   std::string destination_;       //!< 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
   unsigned int destinationPort_;  //!< 接続先ポート<br>通信ヘッダで使用する
   AbstLogger::LoggerFactory* loggerFactory_;  //!< Logger Factory
   AbstLogger::Logger* logger_;  //!< Logger
-
+*/
   /*!
    @brief       計測データ登録
    @param[in]   登録データ

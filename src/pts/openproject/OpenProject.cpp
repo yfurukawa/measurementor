@@ -7,22 +7,21 @@
 #include "../../domain/Project.h"
 #include "ITcpClient.h"
 #include "JsonParser.h"
-#include "Logger.h"
-#include "LoggerFactory.h"
 #include "RestAPIHelper.h"
 #include "TextFileWriter.h"
-
 
 namespace pts
 {
 
 OpenProject::OpenProject(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, std::string destination, unsigned int destinationPort)
   : tcpClient_(tcpClient)
-  , previousDataWriter_(std::make_unique<::TextFileWriter>())
-  , jsonParser_(std::make_unique<JsonParser>())
   , apiKey_(apiKey)
   , destination_(destination)
   , destinationPort_(destinationPort)
+  , previousDataWriter_(std::make_unique<::TextFileWriter>())
+  , jsonParser_(std::make_unique<JsonParser>())
+  , loggerFactory_(AbstLogger::LoggerFactory::getInstance())
+  , logger_(loggerFactory_->createLogger())
 {
 }
 
@@ -117,7 +116,7 @@ std::string OpenProject::sendQueryMessage(std::string queryMessage)
   std::string message(queryMessage + " " + httpVersion + "\r\n" + hostLocation + "\r\n" + authorizationKey + "\r\n" + userAgent + "\r\n" +
                       acceptInfo + "\r\n\r\n");
 
-  AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject] : " + queryMessage);
+  logger_->log("[OpenProject] : " + queryMessage);
 
   // TODO(yfurukawa) エラー処理を追加
   tcpClient_->openSocket();
@@ -131,10 +130,17 @@ std::string OpenProject::sendQueryMessage(std::string queryMessage)
 void OpenProject::saveJsonObjectAsPreviousData(std::filesystem::path previousFile, const std::string& receivedJson)
 {
   previousDataWriter_->openFile(previousFile);
-  auto result = previousDataWriter_->write(receivedJson);
-  if (result)
+  auto writeError = previousDataWriter_->write(receivedJson);
+  if (writeError)
   {
-    std::cout << result.value() << std::endl;
+    std::cout << writeError.value() << std::endl;
+  }
+
+  // 末尾に改行がないと次に読み込めないので改行を追加する
+  writeError = previousDataWriter_->write("\n");
+  if (writeError)
+  {
+    std::cout << writeError.value() << std::endl;
   }
   previousDataWriter_->closeFile();
 }

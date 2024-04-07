@@ -26,6 +26,9 @@ class Sprint;
 class Item;
 class Task;
 class IAnalyzer;
+class IPreviousDataReader;
+class IPreviousDataReaderFactory;
+class MetricCalculator;
 
 /*!
  @class     PtsDataCollector
@@ -57,7 +60,7 @@ public:
    @note     収集したデータはprojectList_に格納する
   */
   void collectProjectData();
-  
+
   /*!
    @brief     Projectに関するデータを分析基盤に保存する
    @note      Projectに関するデータは、各Sprint終了時点で更新されるのでdailyで測定すれば良い
@@ -75,11 +78,15 @@ protected:
   IPts* pts_;                           //!< PTSとインターフェースするクラス
   IAnalyzer* analyzer_;                 //!< 計測データを分析するシステムとインターフェースするクラス
   std::unique_ptr<::Chronos> chronos_;  //!< 時刻情報を提供するクラス
+  IPreviousDataReaderFactory* previousDataReaderFactory_;      //!< 前回値を読み込むクラスのファクトリ
+  IPreviousDataReader* previousDataReader_;                    //!< 前回値を読み込むクラス
+  std::unique_ptr<MetricCalculator> metricCalculator_;   //!< タスクの所要時間等を計算するクラス
   std::map<ProjectId, std::shared_ptr<Project>> projectList_;  //!< PTSで管理されているプロジェクトのリスト
   std::map<SprintId, std::shared_ptr<Sprint>> sprintList_;     //!< PTSで管理されているスプリンTのリスト
   std::map<ItemId, std::shared_ptr<Item>> itemList_;  //!< PTSで管理されているプロダクトバックログアイテムのリスト
   std::map<TaskId, std::shared_ptr<Task>> taskList_;  //!< PTSで管理されているタスクのリスト
-  std::list<std::string> jsonObject_;                 //!< 各データクラスが生成したJSONオブジェクトの格納用
+  std::map<TaskId, std::shared_ptr<Task>> previousTaskList_;  //!< 前回値を保持しているタスクのリスト
+  std::list<std::string> jsonObject_;                         //!< 各データクラスが生成したJSONオブジェクトの格納用
 
   /*!
    @brief    スプリントのデータを収集する
@@ -98,6 +105,12 @@ protected:
    @note     収集したデータはtaskList_に格納する
   */
   void collectTaskData();
+
+  /*!
+   @brief    タスクの前回値データを読み込む
+   @note     収集したデータはpreviousTaskList_に格納する
+  */
+  void readPreviousTaskData();
 
   /*!
    @brief    収集したデータの内、合計する必要がある残ポイント数、残工数を集計する

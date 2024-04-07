@@ -14,15 +14,16 @@ int main(int argc, char* argv[])
     exit(1);
   }
   measurementor::PtsDataCollector collector;
-  std::string type(argv[1]);
-
+  
   if (argc == 1)
   {
     collector.collectAllData();
     collector.permanentProjectData();
     collector.permanentSprintData();
+    exit(0);
   }
-  
+
+  std::string type(argv[1]);
   if (type == "project")
   {
     collector.collectAllData();

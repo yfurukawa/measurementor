@@ -21,21 +21,21 @@ class Item;
 class ItemTest : public ::testing::Test
 {
 public:
-    /*!
-     @brief  デフォルトコンストラクタ
-    */
-    ItemTest() = default;
+  /*!
+   @brief  デフォルトコンストラクタ
+  */
+  ItemTest() = default;
 
-    /*!
-     @brief  デフォルトデストラクタ
-    */
-    virtual ~ItemTest() = default;
+  /*!
+   @brief  デフォルトデストラクタ
+  */
+  virtual ~ItemTest() = default;
 
 protected:
-    Item* sut;
+  Item* sut;
 
-    void SetUp();
-    void TearDown();
+  void SetUp();
+  void TearDown();
 };
 
-}
+}  // namespace measurementor
