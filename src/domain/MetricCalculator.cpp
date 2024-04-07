@@ -171,7 +171,24 @@ void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, 
 
 double MetricCalculator::calculateDuration(::ISO8601String startDate, ::ISO8601String endDate)
 {
-  double duration = (chronos_->convertToTime_t(endDate) - chronos_->convertToTime_t(startDate)) / 3600;
+  double duration(0.0);
+  double difference = (chronos_->convertToTime_t(endDate) - chronos_->convertToTime_t(startDate)) / 3600.0;
+  if (difference <= 0.25)
+  {
+    duration = 0.25;
+  }
+  else if ((0.25 < difference) && (difference <= 0.5))
+  {
+    duration = 0.5;
+  }
+  else if ((0.5 < difference) && (difference <= 0.75))
+  {
+    duration = 0.75;
+  }
+  else if (0.75 < difference)
+  {
+    duration = 1.0;
+  }
   return duration;
 }
 

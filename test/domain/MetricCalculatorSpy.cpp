@@ -15,7 +15,7 @@ void MetricCalculatorSpy::checkTransit(std::shared_ptr<Task>& currentTask, std::
 
 double MetricCalculatorSpy::calculateDuration(::ISO8601String startDate, ::ISO8601String endDate)
 {
-  return MetricCalculatorSpy::calculateDuration(startDate, endDate);
+  return MetricCalculator::calculateDuration(startDate, endDate);
 }
 
 std::map<TaskId, nlohmann::json> MetricCalculatorSpy::getDurationDataList()
