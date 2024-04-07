@@ -8,6 +8,12 @@
 namespace repository
 {
 
+RepositoryMock::RepositoryMock()
+{
+  loggerFactory_ = AbstLogger::LoggerFactory::getInstance();
+  logger_ = loggerFactory_->createLogger();
+}
+/*
 RepositoryMock::RepositoryMock(std::string userName, std::string password, std::string hostName, std::string port, std::string databaseName,
                        std::string tableName)
   : userName_(userName)
@@ -20,14 +26,10 @@ RepositoryMock::RepositoryMock(std::string userName, std::string password, std::
   loggerFactory_ = AbstLogger::LoggerFactory::getInstance();
   logger_ = loggerFactory_->createLogger();
 }
-
+*/
 void RepositoryMock::registerMetricsData(measurementor::TaskId taskId, nlohmann::json metricsData)
 {
-/*
-  std::string commandString("INSERT INTO " + tableName_ + "(taskId, metrics_data) VALUES (" + std::to_string(taskId.get()) + ",'" +
-                            metricsData.dump() + "')");
-  sendCommand(commandString);
-*/
+  //logger_->log(metricsData.dump());
 }
 
 std::optional<measurementor::UpdatedAt> RepositoryMock::getStarDateOnInProgress(measurementor::TaskId taskId)

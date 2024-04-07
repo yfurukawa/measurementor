@@ -59,7 +59,7 @@ protected:
    @param[in] currentTask  現在値を保持しているタスク
    @param[in] previousTask  前回値を保持しているタスク
   */
-  void checkTransit(std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask);
+  void checkTransit(std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask, std::string timestamp);
 
   /*!
    @brief  NewからIn-Progressに移行した際の中間データ更新処理をする

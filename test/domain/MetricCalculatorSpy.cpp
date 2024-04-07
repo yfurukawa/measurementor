@@ -8,9 +8,19 @@ void MetricCalculatorSpy::calculateMetrics(std::map<TaskId, std::shared_ptr<Task
   MetricCalculator::calculateMetrics(currentTaskList, previousTaskList);
 }
 
+void MetricCalculatorSpy::checkTransit(std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask, std::string timestamp)
+{
+  MetricCalculator::checkTransit(currentTask, previousTask, timestamp);
+}
+
+double MetricCalculatorSpy::calculateDuration(::ISO8601String startDate, ::ISO8601String endDate)
+{
+  return MetricCalculatorSpy::calculateDuration(startDate, endDate);
+}
+
 std::map<TaskId, nlohmann::json> MetricCalculatorSpy::getDurationDataList()
 {
-    return durationDataList_;
+    return MetricCalculator::durationDataList_;
 }
 
 }

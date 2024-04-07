@@ -27,7 +27,7 @@ void MetricCalculator::calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> 
 {
   for (auto currentTask = begin(currentTaskList); currentTask != end(currentTaskList); ++currentTask)
   {
-    checkTransit(currentTask->second, previousTaskList[currentTask->first]);
+    checkTransit(currentTask->second, previousTaskList[currentTask->first], chronos_->nowIso8601ExtendedGmt());
   }
 
   for (auto json = begin(durationDataList_); json != end(durationDataList_); ++json)
@@ -38,7 +38,7 @@ void MetricCalculator::calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> 
   durationDataList_.clear();
 }
 
-void MetricCalculator::checkTransit(std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask)
+void MetricCalculator::checkTransit(std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask, std::string timestamp)
 {
   nlohmann::json updateData;
   updateData["TaskId"] = 0;
@@ -48,7 +48,7 @@ void MetricCalculator::checkTransit(std::shared_ptr<Task>& currentTask, std::sha
   updateData["InProgressDuration"] = 0;
   updateData["ReviewDuration"] = 0;
   updateData["TotalDuration"] = 0;
-  updateData["timestamp"] = chronos_->nowIso8601ExtendedGmt();
+  updateData["timestamp"] = timestamp;
   // Status is still New
   if (currentTask->statusCode_ == 1)
   {

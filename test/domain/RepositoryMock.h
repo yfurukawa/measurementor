@@ -37,7 +37,7 @@ public:
   /*!
    @brief  デフォルトコンストラクタ
   */
-  RepositoryMock() = default;
+  RepositoryMock();
 
   /*!
    @brief  コンストラクタ
@@ -49,8 +49,8 @@ public:
    @param[in]  tableName  メトリックスデータを保存するテーブル名
    @attention  データベース名は、接続文字列に含むことを想定しているため、正確性のチェックはしていない。更に、IPアドレスでも許容される。
   */
-  RepositoryMock(std::string userName, std::string password, std::string hostName, std::string port, std::string databaseName,
-             std::string tableName);
+//  RepositoryMock(std::string userName, std::string password, std::string hostName, std::string port, std::string databaseName,
+//             std::string tableName);
 
   /*!
    @brief  デフォルトデストラクタ
