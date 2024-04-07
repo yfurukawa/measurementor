@@ -43,6 +43,10 @@ EstimatedTime Item::reportRemainingWorkTime(SprintId sprintId)
 
 std::string Item::createJson(const Timestamp& timestamp)
 {
+  JsonKey indexType("indexType");
+  std::string type("Item");
+  jsonCreator_.holdData(indexType, type);
+
   JsonKey tstamp("timestamp");
   jsonCreator_.holdData(tstamp, timestamp.get());
 
