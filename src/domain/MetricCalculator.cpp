@@ -171,34 +171,34 @@ void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, 
 
 double MetricCalculator::calculateDuration(::ISO8601String startDate, ::ISO8601String endDate)
 {
-  double durationMin(0.0);
-  int differenceHour(0);
-  double differenceMin(0.0);
   long long difference = (chronos_->convertToTime_t(endDate) - chronos_->convertToTime_t(startDate));
+  int differenceHour(difference / 3600);
 
-  differenceHour = difference / 3600;
-  differenceMin = (difference - differenceHour * 3600) / 3600.0;
-  if (differenceMin == 0.0)
+  return differenceHour + roundDecimal((difference - differenceHour * 3600) / 3600.0);
+}
+
+double MetricCalculator::roundDecimal(double decimal)
+{
+  if (decimal == 0.0)
   {
-    durationMin = 0.0;
+    return 0.0;
   }
-  else if (differenceMin <= 0.25)
+  else if (decimal <= 0.25)
   {
-    durationMin = 0.25;
+    return 0.25;
   }
-  else if ((0.25 < differenceMin) && (differenceMin <= 0.5))
+  else if ((0.25 < decimal) && (decimal <= 0.5))
   {
-    durationMin = 0.5;
+    return 0.5;
   }
-  else if ((0.5 < differenceMin) && (differenceMin <= 0.75))
+  else if ((0.5 < decimal) && (decimal <= 0.75))
   {
-    durationMin = 0.75;
+    return 0.75;
   }
-  else if (0.75 < differenceMin)
+  else
   {
-    durationMin = 1.0;
+    return 1.0;
   }
-  return differenceHour + durationMin;
 }
 
 }  // namespace measurementor

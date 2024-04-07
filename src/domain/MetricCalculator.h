@@ -100,6 +100,16 @@ protected:
    @note  滞留時間は0.25[H]間隔。日にちを跨いだら、１７時から翌朝８時まではカウントしない。また、週末の土日は考慮するが、祝日は考慮しない。
   */
   double calculateDuration(::ISO8601String startDate, ::ISO8601String endDate);
+
+  /*!
+   @brief  小数点以下の時間を0.25[H]毎に丸める
+   @param[in]  decimal 小数点以下の時間
+   @return  丸めた時間
+   @note しきい値を1秒でも超えたら15分を超えたとみなす。<br>
+        1秒 -> 0.25H<br>
+        15分1秒 -> 0.5H
+  */
+  double roundDecimal(double decimal);
 };
 
 }  // namespace measurementor
