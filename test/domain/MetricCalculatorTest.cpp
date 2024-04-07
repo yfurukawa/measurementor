@@ -167,4 +167,11 @@ TEST_F(MetricCalculatorTest, calculateDuration_SameDay_Over_several_hours)
   EXPECT_EQ(2.5, sut->calculateDuration(startDate, endDate));
 }
 
+TEST_F(MetricCalculatorTest, calculateDuration_passed_several_days)
+{
+  ::ISO8601String   endDate("2014-04-04T14:18:03Z");
+  ::ISO8601String startDate("2014-04-01T13:00:00Z");
+  EXPECT_EQ(28.5, sut->calculateDuration(startDate, endDate));
+}
+
 }  // namespace measurementor

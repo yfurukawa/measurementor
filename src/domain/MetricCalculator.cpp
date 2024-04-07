@@ -2,6 +2,8 @@
  @file  MetricCalculator.cpp
  @copyright Copyright 2024 Yoshihiro Furukawa
 */
+#include <time.h>
+#include <ctime>
 #include "IAnalyzer.h"
 #include "IAnalyzerFactory.h"
 #include "IRepository.h"
@@ -171,10 +173,9 @@ void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, 
 
 double MetricCalculator::calculateDuration(::ISO8601String startDate, ::ISO8601String endDate)
 {
-  long long difference = (chronos_->convertToTime_t(endDate) - chronos_->convertToTime_t(startDate));
-  int differenceHour(difference / 3600);
-
-  return differenceHour + roundDecimal((difference - differenceHour * 3600) / 3600.0);
+  long difference = (chronos_->convertToTime_t(endDate) - chronos_->convertToTime_t(startDate));
+  std::uint_fast32_t differenceHour(difference / 3600);
+  return differenceHour + roundDecimal((difference - differenceHour * 3600) / 3600.0) - passedDays(startDate, endDate) * 15;
 }
 
 double MetricCalculator::roundDecimal(double decimal)
@@ -199,6 +200,22 @@ double MetricCalculator::roundDecimal(double decimal)
   {
     return 1.0;
   }
+}
+
+std::uint_fast32_t MetricCalculator::passedDays(::ISO8601String startDate, ::ISO8601String endDate)
+{
+  std::time_t start_t = chronos_->convertToTime_t(startDate);
+  std::time_t end_t   = chronos_->convertToTime_t(endDate);
+  std::uint_fast16_t yday[] = {31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
+
+  // time_tに変換した段階でGMTを表す日時になっているので、tmにする際にはローカルタイムとして扱うことで
+  // GMTのtmを作り出す
+  tm start = *std::localtime(&start_t);
+  tm end   = *std::localtime(&end_t);
+  std::uint_fast16_t start_yday = yday[start.tm_mon] + start.tm_mday;
+  std::uint_fast16_t end_yday   = yday[end.tm_mon] + end.tm_mday;
+
+  return end_yday - start_yday;
 }
 
 }  // namespace measurementor

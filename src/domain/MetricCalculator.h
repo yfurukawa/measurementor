@@ -6,6 +6,7 @@
 #pragma once
 
 // ---------------< include >----------------------------
+#include <cstdint>
 #include <list>
 #include <map>
 #include <memory>
@@ -110,6 +111,14 @@ protected:
         15分1秒 -> 0.5H
   */
   double roundDecimal(double decimal);
+
+  /*!
+   @brief  start/endの経過日数を算出する
+   @param[in] startDate  期間の開始日時
+   @param[in] endData    期間の終了日時
+   @return  経過日数
+  */
+  std::uint_fast32_t passedDays(::ISO8601String startDate, ::ISO8601String endDate);
 };
 
 }  // namespace measurementor
