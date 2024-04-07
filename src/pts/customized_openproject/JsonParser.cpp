@@ -53,7 +53,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectSprintData(cons
       parsedData.insert(std::make_pair("projectId", pickupId(j["_embedded"]["elements"][count]["_links"]["definingProject"]["href"])));
     }
     parsedData.insert(std::make_pair("sprintName", j["_embedded"]["elements"][count]["name"]));
-    parsedData.insert(std::make_pair("status", j["_embedded"]["elements"][count]["status"]));
+    parsedData.insert(std::make_pair("status", convertStatusCode(j["_embedded"]["elements"][count]["status"])));
     if ((j["_embedded"]["elements"][count]["startDate"]).is_null())
     {
       startDate = "0000-01-01T00:00:00Z";
@@ -92,9 +92,9 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData(const 
   for (int count = 0; count < j["count"]; ++count)
   {
     parsedData.clear();
-    type = j["_embedded"]["elements"][count]["_links"]["type"]["title"];
+    type = pickupId(j["_embedded"]["elements"][count]["_links"]["type"]["title"]);
 
-    if (type == "Feature")
+    if ((type == "4") || (type == "9"))
     {
       unsigned int itemId(j["_embedded"]["elements"][count]["id"]);
       parsedData.insert(std::make_pair("itemId", std::to_string(itemId)));
@@ -117,8 +117,8 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData(const 
       {
         parsedData.insert(std::make_pair("storyPoint", std::to_string((int)j["_embedded"]["elements"][count]["storyPoints"])));
       }
-      parsedData.insert(std::make_pair("status", j["_embedded"]["elements"][count]["_links"]["status"]["title"]));
-      parsedData.insert(std::make_pair("statusCode", pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"])));
+      parsedData.insert(std::make_pair("status", convertStatusName(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]), j["_embedded"]["elements"][count]["_links"]["status"]["title"])));
+      parsedData.insert(std::make_pair("statusCode", convertStatusCode(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]))));
       if ((j["_embedded"]["elements"][count]["derivedRemainingTime"]).is_null())
       {
         parsedData.insert(std::make_pair("totalEstimatedTime", "0.00"));
@@ -147,11 +147,10 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData(const 
   for (int count = 0; count < j["count"]; ++count)
   {
     parsedData.clear();
-    type = j["_embedded"]["elements"][count]["_links"]["type"]["title"];
+    type = pickupId(j["_embedded"]["elements"][count]["_links"]["type"]["href"]);
 
-    if (type == "Task")
+    if ((type == "1") || (type == "8"))
     {
-
       unsigned int taskId(j["_embedded"]["elements"][count]["id"]);
       parsedData.insert(std::make_pair("taskId", std::to_string(taskId)));
       parsedData.insert(std::make_pair("taskName", j["_embedded"]["elements"][count]["subject"]));
@@ -179,8 +178,9 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData(const 
       parsedData.insert(std::make_pair("assignee", (j["_embedded"]["elements"][count]["_links"]["assignee"]["href"]).is_null()
                                                      ? ""
                                                      : j["_embedded"]["elements"][count]["_links"]["assignee"]["title"]));
-      parsedData.insert(std::make_pair("status", j["_embedded"]["elements"][count]["_links"]["status"]["title"]));
-      parsedData.insert(std::make_pair("statusCode", pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"])));
+
+      parsedData.insert(std::make_pair("status", convertStatusName(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]), j["_embedded"]["elements"][count]["_links"]["status"]["title"])));
+      parsedData.insert(std::make_pair("statusCode", convertStatusCode(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]))));
       parsedData.insert(std::make_pair("updatedAt", j["_embedded"]["elements"][count]["updatedAt"]));
 
       taskList.push_back(parsedData);
