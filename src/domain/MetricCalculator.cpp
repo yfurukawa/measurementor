@@ -2,7 +2,6 @@
  @file  MetricCalculator.cpp
  @copyright Copyright 2024 Yoshihiro Furukawa
 */
-#include <time.h>
 #include <ctime>
 #include "IAnalyzer.h"
 #include "IAnalyzerFactory.h"
@@ -145,8 +144,8 @@ void MetricCalculator::transitFromReviewToClose(nlohmann::json& updateData, std:
     updateData["ReviewDuration"] = duration / 3600;
   }
 
-  repository_->updateMetricsData(currentTask->taskId_, updateData);
   durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+  repository_->deleteMetricsData(currentTask->taskId_);
 }
 
 void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask)
@@ -175,7 +174,10 @@ double MetricCalculator::calculateDuration(::ISO8601String startDate, ::ISO8601S
 {
   long difference = (chronos_->convertToTime_t(endDate) - chronos_->convertToTime_t(startDate));
   std::uint_fast32_t differenceHour(difference / 3600);
-  return differenceHour + roundDecimal((difference - differenceHour * 3600) / 3600.0) - passedDays(startDate, endDate) * 15;
+
+  // 日付を跨いだ場合、17時から翌朝8時までの15時間は時間集計の対象外とする。
+  // 週末の土日は更に8時から17時の9時間分も対象外とする。
+  return differenceHour + roundDecimal((difference - differenceHour * 3600) / 3600.0) - passedDays(startDate, endDate) * 15 - passedWeekends(startDate, endDate) * 9;
 }
 
 double MetricCalculator::roundDecimal(double decimal)
@@ -216,6 +218,37 @@ std::uint_fast32_t MetricCalculator::passedDays(::ISO8601String startDate, ::ISO
   std::uint_fast16_t end_yday   = yday[end.tm_mon] + end.tm_mday;
 
   return end_yday - start_yday;
+}
+
+std::uint_fast16_t MetricCalculator::passedWeekends(::ISO8601String startDate, ::ISO8601String endDate)
+{
+  // 金曜日を起点にして考えた時に、以下の条件に当てはまる場合に週末の経過数が1以上になる
+  // 3以上の場合（週末に休日出勤すれば、経過日数は2以下、休日出勤をしていなければ最低3日経過することになる）
+  // 経過日数が3日以上で、且つ経過日数を7で割った数の整数値+1が週末を経過した数
+  std::time_t start_t = chronos_->convertToTime_t(startDate);
+  std::time_t end_t   = chronos_->convertToTime_t(endDate);
+  tm start = *std::localtime(&start_t);
+  tm end = *std::localtime(&end_t);
+
+  std::uint_fast16_t duration = passedDays(startDate, endDate);
+  
+  // 開始曜日から経過日数後の曜日が最初の金曜日までであれば週末は経過していない
+  if (start.tm_wday + duration <= 5)
+  {
+    return 0;
+  }
+
+  std::uint_fast16_t durationOptimized(duration - 5 - start.tm_wday);
+  uint_fast16_t numberOfPassedWeekend((durationOptimized / 7 + 1) * 2);
+
+  // 終了日が日曜の場合、日曜日分は考慮する必要がないので、週末日数から除外する
+  if (end.tm_wday == 0)
+  {
+    --numberOfPassedWeekend;
+  }
+
+  return numberOfPassedWeekend;
+
 }
 
 }  // namespace measurementor

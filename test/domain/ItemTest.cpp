@@ -28,7 +28,7 @@ TEST_F(ItemTest, createJson_noAssignedTask)
   sut = new Item(itemId, itemName, projectId, sprintId, storyPoint, status, statusCode, totalEstimatedTime);
 
   std::string expected(
-    R"({"itemId":1,"itemName":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,"timestamp":"2024-02-28T12:34:56.123","totalEstimatedTime":5.5})");
+    R"({"indexType":"Item","itemId":1,"itemName":"Test Item","projectId":10,"sprintId":12,"status":"New","statusCode":1,"storyPoint":3,"timestamp":"2024-02-28T12:34:56.123","totalEstimatedTime":5.5})");
 
   EXPECT_EQ(expected, sut->createJson(tstamp));
 }
