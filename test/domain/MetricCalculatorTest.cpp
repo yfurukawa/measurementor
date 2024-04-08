@@ -174,6 +174,20 @@ TEST_F(MetricCalculatorTest, calculateDuration_passed_several_days)
   EXPECT_EQ(28.5, sut->calculateDuration(startDate, endDate));
 }
 
+TEST_F(MetricCalculatorTest, calculateDuration_passed_several_days_and_several_weekend)
+{
+  ::ISO8601String   endDate("2024-04-22T04:00:00Z");
+  ::ISO8601String startDate("2024-04-01T04:00:00Z");
+  EXPECT_EQ(135.0, sut->calculateDuration(startDate, endDate));
+}
+
+TEST_F(MetricCalculatorTest, calculateDuration_passed_several_days_and_several_weekend_sunday_work)
+{
+  ::ISO8601String   endDate("2024-04-21T04:00:00Z");
+  ::ISO8601String startDate("2024-04-01T04:00:00Z");
+  EXPECT_EQ(135.0, sut->calculateDuration(startDate, endDate));
+}
+
 TEST_F(MetricCalculatorTest, passedWeekends_no_weekend)
 {
   ::ISO8601String   endDate("2024-04-05T05:18:03Z");

@@ -174,7 +174,10 @@ double MetricCalculator::calculateDuration(::ISO8601String startDate, ::ISO8601S
 {
   long difference = (chronos_->convertToTime_t(endDate) - chronos_->convertToTime_t(startDate));
   std::uint_fast32_t differenceHour(difference / 3600);
-  return differenceHour + roundDecimal((difference - differenceHour * 3600) / 3600.0) - passedDays(startDate, endDate) * 15;
+
+  // 日付を跨いだ場合、17時から翌朝8時までの15時間は時間集計の対象外とする。
+  // 週末の土日は更に8時から17時の9時間分も対象外とする。
+  return differenceHour + roundDecimal((difference - differenceHour * 3600) / 3600.0) - passedDays(startDate, endDate) * 15 - passedWeekends(startDate, endDate) * 9;
 }
 
 double MetricCalculator::roundDecimal(double decimal)
