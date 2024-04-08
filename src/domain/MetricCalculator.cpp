@@ -145,8 +145,8 @@ void MetricCalculator::transitFromReviewToClose(nlohmann::json& updateData, std:
     updateData["ReviewDuration"] = duration / 3600;
   }
 
-  repository_->updateMetricsData(currentTask->taskId_, updateData);
   durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+  repository_->deleteMetricsData(currentTask->taskId_);
 }
 
 void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask)
