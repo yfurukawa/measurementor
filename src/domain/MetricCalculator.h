@@ -119,6 +119,15 @@ protected:
    @return  経過日数
   */
   std::uint_fast32_t passedDays(::ISO8601String startDate, ::ISO8601String endDate);
+
+  /*!
+   @brief  週末の回数を算出する
+   @param[in] startDate  期間の開始日時
+   @param[in] endData    期間の終了日時
+   @return 経過した週末の回数
+  */
+  std::uint_fast16_t passedWeekends(::ISO8601String startDate, ::ISO8601String endDate);
+
 };
 
 }  // namespace measurementor

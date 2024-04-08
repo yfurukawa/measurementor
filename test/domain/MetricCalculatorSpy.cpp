@@ -18,6 +18,11 @@ double MetricCalculatorSpy::calculateDuration(::ISO8601String startDate, ::ISO86
   return MetricCalculator::calculateDuration(startDate, endDate);
 }
 
+std::uint_fast16_t MetricCalculatorSpy::passedWeekends(::ISO8601String startDate, ::ISO8601String endDate)
+{
+  return MetricCalculator::passedWeekends(startDate, endDate);
+}
+
 std::map<TaskId, nlohmann::json> MetricCalculatorSpy::getDurationDataList()
 {
     return MetricCalculator::durationDataList_;

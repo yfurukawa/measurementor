@@ -174,4 +174,39 @@ TEST_F(MetricCalculatorTest, calculateDuration_passed_several_days)
   EXPECT_EQ(28.5, sut->calculateDuration(startDate, endDate));
 }
 
+TEST_F(MetricCalculatorTest, passedWeekends_no_weekend)
+{
+  ::ISO8601String   endDate("2024-04-05T05:18:03Z");
+  ::ISO8601String startDate("2024-04-01T04:00:00Z");
+  EXPECT_EQ(0, sut->passedWeekends(startDate, endDate));
+}
+
+TEST_F(MetricCalculatorTest, passedWeekends_one_weekend_passed)
+{
+  ::ISO8601String   endDate("2024-04-08T06:18:03Z");
+  ::ISO8601String startDate("2024-04-01T04:00:00Z");
+  EXPECT_EQ(2, sut->passedWeekends(startDate, endDate));
+}
+
+TEST_F(MetricCalculatorTest, passedWeekends_one_weekend_but_SundayWork)
+{
+  ::ISO8601String   endDate("2024-04-07T06:18:03Z");
+  ::ISO8601String startDate("2024-04-01T04:00:00Z");
+  EXPECT_EQ(1, sut->passedWeekends(startDate, endDate));
+}
+
+TEST_F(MetricCalculatorTest, passedWeekends_several_weekend_passed)
+{
+  ::ISO8601String   endDate("2024-04-22T06:18:03Z");
+  ::ISO8601String startDate("2024-04-01T04:00:00Z");
+  EXPECT_EQ(6, sut->passedWeekends(startDate, endDate));
+}
+
+TEST_F(MetricCalculatorTest, passedWeekends_several_weekend_but_SundayWork)
+{
+  ::ISO8601String   endDate("2024-04-21T06:18:03Z");
+  ::ISO8601String startDate("2024-04-01T04:00:00Z");
+  EXPECT_EQ(5, sut->passedWeekends(startDate, endDate));
+}
+
 }  // namespace measurementor
