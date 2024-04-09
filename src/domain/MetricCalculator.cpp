@@ -28,7 +28,10 @@ void MetricCalculator::calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> 
 {
   for (auto currentTask = begin(currentTaskList); currentTask != end(currentTaskList); ++currentTask)
   {
-    checkTransit(currentTask->second, previousTaskList[currentTask->first], chronos_->nowIso8601ExtendedGmt());
+    if (previousTaskList.find(currentTask->first) != previousTaskList.end())
+    {
+      checkTransit(currentTask->second, previousTaskList[currentTask->first], chronos_->nowIso8601ExtendedGmt());
+    }
   }
 
   for (auto json = begin(durationDataList_); json != end(durationDataList_); ++json)
