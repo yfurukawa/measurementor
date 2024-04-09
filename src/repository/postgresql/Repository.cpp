@@ -162,7 +162,7 @@ void Repository::updateMetricsData(measurementor::TaskId taskId, nlohmann::json 
 
 void Repository::deleteMetricsData(measurementor::TaskId taskId)
 {
-  std::string commandString("DELETE " + tableName_ + " WHERE taskId = " + std::to_string(taskId.get()));
+  std::string commandString("DELETE FROM " + tableName_ + " WHERE taskId = " + std::to_string(taskId.get()));
   sendCommand(commandString);
 }
 
