@@ -1,6 +1,7 @@
 /*!
  @file      JsonParser.h
  @brief     Json文字列を解析して必要なデータを抽出する
+ @copyright Copyright 2024 Yoshihiro Furukawa
 */
 #pragma once
 
@@ -10,6 +11,7 @@
 #include <memory>
 #include <string>
 #include "nlohmann/json.hpp"
+#include "Chronos.h"
 
 // --------------< namespace >---------------------------
 namespace pts
@@ -28,7 +30,7 @@ public:
   /*!
    @brief  デフォルトコンストラクタ
   */
-  JsonParser() = default;
+  JsonParser() : timeConverter_(std::make_unique<Chronos>()) {}
 
   /*!
    @brief  デフォルトデストラクタ
@@ -64,6 +66,8 @@ public:
   std::list<std::map<std::string, std::string>> collectTaskData(const std::string& jsonString);
 
 private:
+  std::unique_ptr<Chronos> timeConverter_;  //!< OpenProjectから取得したデータ内に含まれるローカルタイムをGMTに変換するクラス
+
   /*!
    @brief        Json文字列のparent::hrefからidを抽出する
    @param[in]    入力となるJson文字列

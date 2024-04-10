@@ -1,9 +1,15 @@
+/*!
+ @file      JsonParser.cpp
+ @copyright Copyright 2024 Yoshihiro Furukawa
+*/
 #include <iostream>
 #include <map>
 #include <memory>
 #include <regex>
 #include <sstream>
 #include <string>
+#include <utility>
+#include "ISO8601String.h"
 #include "JsonParser.h"
 #include "../../domain/domainPrimitives/MeasurementPrimitives.h"
 
@@ -56,24 +62,24 @@ std::list<std::map<std::string, std::string>> JsonParser::collectSprintData(cons
     parsedData.insert(std::make_pair("status", convertStatusCode(j["_embedded"]["elements"][count]["status"])));
     if ((j["_embedded"]["elements"][count]["startDate"]).is_null())
     {
-      startDate = "0000-01-01T00:00:00Z";
+      startDate = "1970-01-01T09:00:00+09:00";
     }
     else
     {
       startDate = j["_embedded"]["elements"][count]["startDate"];
-      startDate += "T00:00:00.000Z";
+      startDate += "T00:00:00+09:00";
     }
-    parsedData.insert(std::make_pair("startDate", startDate));
+    parsedData.insert(std::make_pair("startDate", timeConverter_->convertLocalToGMT(ISO8601String(startDate)).get()));
     if ((j["_embedded"]["elements"][count]["endDate"]).is_null())
     {
-      endDate = "0000-01-01T00:00:00Z";
+      endDate = "1970-01-01T09:00:00+09:00";
     }
     else
     {
       endDate = j["_embedded"]["elements"][count]["endDate"];
-      endDate += "T00:00:00.000Z";
+      endDate += "T00:00:00+09:00";
     }
-    parsedData.insert(std::make_pair("endDate", endDate));
+    parsedData.insert(std::make_pair("endDate", timeConverter_->convertLocalToGMT(ISO8601String(endDate)).get()));
     sprintList.push_back(parsedData);
     parsedData.clear();
   }
@@ -92,7 +98,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData(const 
   for (int count = 0; count < j["count"]; ++count)
   {
     parsedData.clear();
-    type = pickupId(j["_embedded"]["elements"][count]["_links"]["type"]["title"]);
+    type = pickupId(j["_embedded"]["elements"][count]["_links"]["type"]["href"]);
 
     if ((type == "4") || (type == "9"))
     {
@@ -115,7 +121,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData(const 
       }
       else
       {
-        parsedData.insert(std::make_pair("storyPoint", std::to_string((int)j["_embedded"]["elements"][count]["storyPoints"])));
+        parsedData.insert(std::make_pair("storyPoint", std::to_string(static_cast<int>(j["_embedded"]["elements"][count]["storyPoints"]))));
       }
       parsedData.insert(std::make_pair("status", convertStatusName(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]), j["_embedded"]["elements"][count]["_links"]["status"]["title"])));
       parsedData.insert(std::make_pair("statusCode", convertStatusCode(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]))));
@@ -151,6 +157,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData(const 
 
     if ((type == "1") || (type == "8"))
     {
+
       unsigned int taskId(j["_embedded"]["elements"][count]["id"]);
       parsedData.insert(std::make_pair("taskId", std::to_string(taskId)));
       parsedData.insert(std::make_pair("taskName", j["_embedded"]["elements"][count]["subject"]));
@@ -178,7 +185,6 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData(const 
       parsedData.insert(std::make_pair("assignee", (j["_embedded"]["elements"][count]["_links"]["assignee"]["href"]).is_null()
                                                      ? ""
                                                      : j["_embedded"]["elements"][count]["_links"]["assignee"]["title"]));
-
       parsedData.insert(std::make_pair("status", convertStatusName(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]), j["_embedded"]["elements"][count]["_links"]["status"]["title"])));
       parsedData.insert(std::make_pair("statusCode", convertStatusCode(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]))));
       parsedData.insert(std::make_pair("updatedAt", j["_embedded"]["elements"][count]["updatedAt"]));
@@ -204,11 +210,11 @@ std::string JsonParser::pickupHour(std::string remainingTimeValue)
   std::regex_match(remainingTimeValue.c_str(), match, re);
   if (match.empty())
   {
-    // TODO error log
+    // TODO(yfurukawa) error log
     std::cerr << "RemainingTime pattern is unmatched" << std::endl;
   }
-  double hour = match.length(2) != 0 ? std::stod(match.str(2)) : (double)0;
-  double min = match.length(4) != 0 ? std::stod(match.str(4)) : (double)0;
+  double hour = match.length(2) != 0 ? std::stod(match.str(2)) : static_cast<double>(0);
+  double min = match.length(4) != 0 ? std::stod(match.str(4)) : static_cast<double>(0);
   double remainingTime = hour + min / 60;
 
   std::stringstream ss;
@@ -245,7 +251,7 @@ std::string JsonParser::convertStatusName(std::string customizedStatusCode, std:
   return convertedNane;
 }
 
-std::string convertStatusCode(std::string customizedStatusCode)
+std::string JsonParser::convertStatusCode(std::string customizedStatusCode)
 {
   int customizedCode(std::stoi(customizedStatusCode));
   std::string convertedCode("");
@@ -274,7 +280,7 @@ std::string convertStatusCode(std::string customizedStatusCode)
   return convertedCode;
 }
 
-std::string convertTypeName(std::string customizedTypeCode, std::string customizedTypeName)
+std::string JsonParser::convertTypeName(std::string customizedTypeCode, std::string customizedTypeName)
 {
   int customizedCode(std::stoi(customizedTypeCode));
   std::string convertedName("");
