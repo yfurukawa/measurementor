@@ -1,6 +1,7 @@
 /*!
  @file      OpenProjectFactory.h
  @brief     OpenProjectとインターフェースするクラスのファクトリクラス
+ @copyright Copyright 2024 Yoshihiro Furukawa
 */
 #pragma once
 
@@ -9,6 +10,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include "../../domain/IPtsFactory.h"
 #include "ConfFileParser.h"
 #include "DomainPrimitivesForOpenProject.h"
 #include "Hostname.h"
@@ -16,7 +18,6 @@
 #include "OpenProject.h"
 #include "Port.h"
 #include "TcpClient.h"
-#include "../../domain/IPtsFactory.h"
 
 // --------------< namespace >---------------------------
 namespace pts
@@ -38,7 +39,7 @@ public:
   */
   OpenProjectFactory() : pts_(nullptr)
   {
-    std::filesystem::path confFile("/usr/local/etc/measurementor/openproject.conf");  // TODO pathは別途設定できると良い
+    std::filesystem::path confFile("/usr/local/etc/measurementor/openproject.conf");  // TODO(yfurukawa) pathは別途設定できると良い
     confFileParser_ = std::make_unique<ConfFileParser>(confFile);
     OpenProjectFactory::destroyed_ = false;
   }
@@ -55,8 +56,8 @@ public:
   static const bool isDestroyed() { return OpenProjectFactory::destroyed_; }
 
   /*!
-  @brief      Loggerインスタンスを生成する
-  @return     ToSyslogLoggerインスタンス
+  @brief      OpenProjectインスタンスを生成する
+  @return     OpenProjectインスタンス
   */
   measurementor::IPts* createPts() override
   {
