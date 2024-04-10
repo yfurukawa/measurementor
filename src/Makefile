@@ -15,6 +15,8 @@ pts/openproject/OpenProject.o pts/openproject/OpenProjectFactory.o pts/openproje
 analyzer/elasticsearch/Elasticsearch.o analyzer/elasticsearch/ElasticsearchFactory.o analyzer/elasticsearch/Index.o \
 repository/postgresql/Repository.o repository/postgresql/RepositoryFactory.o
 
+export CC RM MAKE INCLUDE LD_PATH OPT
+
 all: $(SRC:.cpp=.o)
 	$(CC) $(INCLUDE) $(LD_PATH) $(OPT) -o $(TARGET) $(OBJ) $(LIBD) $(DLIB)
 
