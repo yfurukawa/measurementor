@@ -4,8 +4,8 @@ MAKE = make
 INCLUDE = -I/usr/include -I/usr/local/include
 LD_PATH = -L/usr/lib64 -L/usr/local/lib64 -L/usr/lib -L/usr/local/lib
 LIB_DIR = /usr/local/lib64
-LIB = /usr/local/lib64/libnetworkinterface.a /usr/local/lib64/libclock.a /usr/local/lib64/libfileinterface.a
-LIBD = /usr/local/lib64/libnetworkinterfaced.a /usr/local/lib64/libclockd.a /usr/local/lib64/libfileinterfaced.a
+LIB = -lnetworkinterface -lclock -lfileinterface
+LIBD = -lnetworkinterfaced -lclockd -lfileinterfaced
 DLIB= -llogger -lpqxx -lpq
 OPT = -O0 -Wall -std=c++17 -fPIC -g
 TARGET = measurementor
