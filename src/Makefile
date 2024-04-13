@@ -11,7 +11,7 @@ OPT = -O0 -Wall -std=c++17 -fPIC -g
 TARGET = measurementor
 SRC = main.cpp
 OBJ = main.o domain/PtsDataCollector.o domain/Project.o domain/Sprint.o domain/Item.o domain/Task.o domain/JsonCreator.o domain/MetricCalculator.o \
-pts/customized_openproject/OpenProject.o pts/customized_openproject/OpenProjectFactory.o pts/customized_openproject/JsonParser.o pts/customized_openproject/PreviousDataReader.o pts/customized_openproject/PreviousDataReaderFactory.o \
+pts/openproject/OpenProject.o pts/openproject/OpenProjectFactory.o pts/openproject/JsonParser.o pts/openproject/PreviousDataReader.o pts/openproject/PreviousDataReaderFactory.o \
 analyzer/elasticsearch/Elasticsearch.o analyzer/elasticsearch/ElasticsearchFactory.o analyzer/elasticsearch/Index.o \
 repository/postgresql/Repository.o repository/postgresql/RepositoryFactory.o
 
@@ -26,7 +26,7 @@ $(SRC:.cpp=.o): $(SRC)
 
 sub:
 	cd domain ; $(MAKE) all
-	cd pts/customized_openproject ; $(MAKE) all
+	cd pts/openproject ; $(MAKE) all
 	cd analyzer/elasticsearch ; $(MAKE) all
 	cd repository/postgresql; $(MAKE) all
 
@@ -34,6 +34,6 @@ sub:
 clean:
 	$(RM) *.o $(TARGET)
 	cd domain ; $(MAKE) clean
-	cd pts/customized_openproject ; $(MAKE) clean
+	cd pts/openproject ; $(MAKE) clean
 	cd analyzer/elasticsearch ; $(MAKE) clean
 	cd repository/postgresql; $(MAKE) clean
