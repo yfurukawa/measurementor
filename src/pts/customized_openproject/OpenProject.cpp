@@ -2,6 +2,8 @@
  @file  OpenProject.cpp
  @copyright Copyright 2024 Yoshihiro Furukawa
 */
+#include <cstdlib>
+#include <fstream>
 #include <string>
 #include "OpenProject.h"
 #include "../../domain/Project.h"
@@ -9,6 +11,7 @@
 #include "JsonParser.h"
 #include "RestAPIHelper.h"
 #include "TextFileWriter.h"
+#include "nlohmann/json.hpp"
 
 namespace pts
 {
@@ -27,7 +30,8 @@ OpenProject::OpenProject(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey,
 
 std::list<std::map<std::string, std::string>> OpenProject::collectAllActiveProject()
 {
-  std::string message("GET /api/v3/queries/available_projects");
+  //std::string message("GET /api/v3/queries/available_projects");
+  std::string message("/api/v3/queries/available_projects");
 
   std::string receivedJson = sendQueryMessage(message);
   // TODO(yfurukawa) ここでサーバからの応答が正常であることを確認する
@@ -38,7 +42,8 @@ std::list<std::map<std::string, std::string>> OpenProject::collectAllActiveProje
 
 std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformation(const measurementor::ProjectId& projectId)
 {
-  std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/versions");
+  //std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/versions");
+  std::string message("/api/v3/projects/" + std::to_string(projectId.get()) + "/versions");
 
   std::string receivedJson = sendQueryMessage(message);
   // TODO(yfurukawa) ここでサーバからの応答が正常であることを確認する
@@ -50,7 +55,8 @@ std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformat
 
 std::list<std::map<std::string, std::string>> OpenProject::collectItemInformation(const measurementor::ProjectId& projectId)
 {
-  std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) +
+  //std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) +
+  std::string message("/api/v3/projects/" + std::to_string(projectId.get()) +
                       "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d");
 
   std::string receivedJson = sendQueryMessage(message);
@@ -64,7 +70,8 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
 
 std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformation(const measurementor::ProjectId& projectId)
 {
-  std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) +
+  //std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) +
+  std::string message("/api/v3/projects/" + std::to_string(projectId.get()) +
                       "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d");
 
   std::string receivedJson = sendQueryMessage(message);
@@ -107,24 +114,14 @@ bool OpenProject::isJsonString(std::string received)
 
 std::string OpenProject::sendQueryMessage(std::string queryMessage)
 {
-  std::string httpVersion("HTTP/1.1");
-  std::string hostLocation("Host:" + destination_ + ":" + std::to_string(destinationPort_));
-  std::string key(createBasicAuthorizationKey("apikey:" + apiKey_.get()));
-  std::string authorizationKey("Authorization: Basic " + key);
-  std::string userAgent("User-Agent: libnet");
-  std::string acceptInfo("Accept: */*");
-  std::string message(queryMessage + " " + httpVersion + "\r\n" + hostLocation + "\r\n" + authorizationKey + "\r\n" + userAgent + "\r\n" +
-                      acceptInfo + "\r\n\r\n");
+  std::string command("/usr/bin/curl -u apikey:" + apiKey_.get() + " http://" + destination_ + ":" + std::to_string(destinationPort_) + queryMessage + " -o temp.json");
+  system(command.c_str());
 
-  logger_->log("[OpenProject] : " + queryMessage);
+  std::ifstream tempJson("temp.json");
+  nlohmann::json temp;
+  tempJson >> temp;
 
-  // TODO(yfurukawa) エラー処理を追加
-  tcpClient_->openSocket();
-  tcpClient_->sendData(message);
-  std::string receivedJson(extractJsonFrom());
-  tcpClient_->closeSocket();
-
-  return receivedJson;
+  return temp.dump();
 }
 
 void OpenProject::saveJsonObjectAsPreviousData(std::filesystem::path previousFile, const std::string& receivedJson)

@@ -13,13 +13,14 @@
 #include <string>
 #include "DomainPrimitivesForOpenProject.h"
 #include "ITextFileWriter.h"
+#include "ITextFileReader.h"
 #include "Logger.h"
 #include "LoggerFactory.h"
 #include "../../domain/IPts.h"
 
 // ---------< forward declaration (Global) >-------------
 class ITcpClient;
-class TextFileWriter;
+//class TextFileWriter;
 
 // --------------< namespace >---------------------------
 namespace pts
