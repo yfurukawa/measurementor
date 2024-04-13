@@ -13,14 +13,13 @@
 #include <string>
 #include "DomainPrimitivesForOpenProject.h"
 #include "ITextFileWriter.h"
-#include "ITextFileReader.h"
 #include "Logger.h"
 #include "LoggerFactory.h"
 #include "../../domain/IPts.h"
 
 // ---------< forward declaration (Global) >-------------
-class ITcpClient;
-//class TextFileWriter;
+//class ITcpClient;
+class TextFileWriter;
 
 // --------------< namespace >---------------------------
 namespace pts
@@ -50,7 +49,7 @@ public:
    @param[in]  destination 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
    @param[in]  destinationPort 接続先ポート<br>通信ヘッダで使用する
   */
-  explicit OpenProject(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, std::string destination, unsigned int destinationPort);
+  explicit OpenProject(/*std::shared_ptr<::ITcpClient> tcpClient,*/ ApiKey apiKey, std::string destination, unsigned int destinationPort);
 
   /*!
    @brief  デフォルトデストラクタ
@@ -85,7 +84,6 @@ public:
   std::list<std::map<std::string, std::string>> collectTaskInformation(const measurementor::ProjectId& projectId) override;
 
 private:
-  std::shared_ptr<::ITcpClient> tcpClient_;  //!< OpenProjectと通信するためのTCPクライアント
   ApiKey apiKey_;                            //!< OpenProjectに接続する際に使用するBasic認証キー
   std::string destination_;       //!< 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
   unsigned int destinationPort_;  //!< 接続先ポート<br>通信ヘッダで使用する
@@ -94,19 +92,6 @@ private:
   std::unique_ptr<JsonParser> jsonParser_;  //!< Jsonオブジェクトのパーサ
   AbstLogger::LoggerFactory* loggerFactory_;  //!< Logger Factory
   AbstLogger::Logger* logger_;  //!< Logger
-
-  /*!
-   @brief  受信データからJSONストリングを抽出する
-   @return JSONストリング
-  */
-  std::string extractJsonFrom();
-
-  /*!
-   @brief      受信データがJSONストリングが判定する
-   @param[in]  received 判定対象とする受信データ
-   @return     true : JSONストリング
-  */
-  bool isJsonString(std::string received);
 
   /*!
    @brief      OpenProjectサーバにクエリメッセージを送信する

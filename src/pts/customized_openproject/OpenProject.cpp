@@ -7,7 +7,6 @@
 #include <string>
 #include "OpenProject.h"
 #include "../../domain/Project.h"
-#include "ITcpClient.h"
 #include "JsonParser.h"
 #include "RestAPIHelper.h"
 #include "TextFileWriter.h"
@@ -17,7 +16,7 @@ namespace pts
 {
 
 OpenProject::OpenProject(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, std::string destination, unsigned int destinationPort)
-  : tcpClient_(tcpClient)
+  :/* tcpClient_(tcpClient)*/
   , apiKey_(apiKey)
   , destination_(destination)
   , destinationPort_(destinationPort)
@@ -30,11 +29,9 @@ OpenProject::OpenProject(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey,
 
 std::list<std::map<std::string, std::string>> OpenProject::collectAllActiveProject()
 {
-  //std::string message("GET /api/v3/queries/available_projects");
   std::string message("/api/v3/queries/available_projects");
-
   std::string receivedJson = sendQueryMessage(message);
-  // TODO(yfurukawa) ここでサーバからの応答が正常であることを確認する
+
   std::filesystem::path previousFile("previousProject.json");
   saveJsonObjectAsPreviousData(previousFile, receivedJson);
   return jsonParser_->collectProjectData(receivedJson);
@@ -42,11 +39,8 @@ std::list<std::map<std::string, std::string>> OpenProject::collectAllActiveProje
 
 std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformation(const measurementor::ProjectId& projectId)
 {
-  //std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) + "/versions");
   std::string message("/api/v3/projects/" + std::to_string(projectId.get()) + "/versions");
-
   std::string receivedJson = sendQueryMessage(message);
-  // TODO(yfurukawa) ここでサーバからの応答が正常であることを確認する
 
   std::filesystem::path previousFile("previousSprint_" + std::to_string(projectId.get()) + ".json");
   saveJsonObjectAsPreviousData(previousFile, receivedJson);
@@ -55,13 +49,9 @@ std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformat
 
 std::list<std::map<std::string, std::string>> OpenProject::collectItemInformation(const measurementor::ProjectId& projectId)
 {
-  //std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) +
   std::string message("/api/v3/projects/" + std::to_string(projectId.get()) +
                       "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d");
-
   std::string receivedJson = sendQueryMessage(message);
-
-  // TODO(yfurukawa) ここでサーバからの応答が正常であることを確認する
 
   std::filesystem::path previousFile("previousItem_" + std::to_string(projectId.get()) + ".json");
   saveJsonObjectAsPreviousData(previousFile, receivedJson);
@@ -70,46 +60,13 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
 
 std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformation(const measurementor::ProjectId& projectId)
 {
-  //std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) +
   std::string message("/api/v3/projects/" + std::to_string(projectId.get()) +
                       "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d");
-
   std::string receivedJson = sendQueryMessage(message);
-  // TODO(yfurukawa) ここでサーバからの応答が正常であることを確認する
 
   std::filesystem::path previousFile("previousTask_" + std::to_string(projectId.get()) + ".json");
   saveJsonObjectAsPreviousData(previousFile, receivedJson);
   return jsonParser_->collectTaskData(receivedJson);
-}
-
-std::string OpenProject::extractJsonFrom()
-{
-  std::string jsonString("");
-  bool findJoson(false);
-
-  while (!findJoson)
-  {
-    auto result = tcpClient_->receiveData();
-    if (result)
-    {
-      if (isJsonString(result.value()))
-      {
-        jsonString = result.value();
-        findJoson = true;
-      }
-    }
-    else
-    {
-      break;
-    }
-  }
-
-  return jsonString;
-}
-
-bool OpenProject::isJsonString(std::string received)
-{
-  return received.find_first_of("{", 0) == 0;
 }
 
 std::string OpenProject::sendQueryMessage(std::string queryMessage)
