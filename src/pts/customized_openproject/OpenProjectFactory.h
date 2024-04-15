@@ -13,6 +13,8 @@
 #include "../../domain/IPtsFactory.h"
 #include "ConfFileParser.h"
 #include "DomainPrimitivesForOpenProject.h"
+#include "Hostname.h"
+#include "IPv4.h"
 #include "OpenProject.h"
 #include "Port.h"
 
@@ -73,8 +75,21 @@ public:
         {
           setting_ = result.value();
         }
+        // confファイルにIPが設定されていればそれを使う
+        IPv4 ip((setting_.find("IP") != end(setting_)) ? setting_["IP"] : "0.0.0.0");
+        // confファイルにHostが設定されていればそれを使う
+        Hostname host((setting_.find("Host") != end(setting_)) ? setting_["Host"] : "");
+        Port port(std::stoi(setting_["Port"]));
         ApiKey apiKey(setting_["apikey"]);
-        pts_ = dynamic_cast<measurementor::IPts*>(new OpenProject(apiKey, ip.get(), port.get()));
+        if (ip != "0.0.0.0")
+        {
+          pts_ = dynamic_cast<measurementor::IPts*>(new OpenProject(apiKey, ip.get(), port.get()));
+        }
+        else
+        {
+          pts_ =
+            dynamic_cast<measurementor::IPts*>(new OpenProject(apiKey, host.get(), port.get()));
+        }
       }
     }
     return pts_;
