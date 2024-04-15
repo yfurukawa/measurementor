@@ -15,9 +15,8 @@
 namespace pts
 {
 
-OpenProject::OpenProject(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, std::string destination, unsigned int destinationPort)
-  :/* tcpClient_(tcpClient)*/
-  , apiKey_(apiKey)
+OpenProject::OpenProject(ApiKey apiKey, std::string destination, unsigned int destinationPort)
+  : apiKey_(apiKey)
   , destination_(destination)
   , destinationPort_(destinationPort)
   , previousDataWriter_(std::make_unique<::TextFileWriter>())

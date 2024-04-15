@@ -44,12 +44,11 @@ class OpenProject final : public measurementor::IPts
 public:
   /*!
    @brief  コンストラクタ
-   @param[in]  tcpClient OpenProjectと通信するためのTCPクライアント
    @param[in]  apiKey  サーバに接続するための認証キー
    @param[in]  destination 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
    @param[in]  destinationPort 接続先ポート<br>通信ヘッダで使用する
   */
-  explicit OpenProject(/*std::shared_ptr<::ITcpClient> tcpClient,*/ ApiKey apiKey, std::string destination, unsigned int destinationPort);
+  explicit OpenProject(ApiKey apiKey, std::string destination, unsigned int destinationPort);
 
   /*!
    @brief  デフォルトデストラクタ
