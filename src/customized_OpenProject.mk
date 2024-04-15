@@ -17,18 +17,18 @@ repository/postgresql/Repository.o repository/postgresql/RepositoryFactory.o
 
 export CC RM MAKE INCLUDE LD_PATH OPT
 
-all: $(SRC:.cpp=.o)
+$(TARGET): $(OBJ)
 	$(CC) $(INCLUDE) $(LD_PATH) $(OPT) -o $(TARGET) $(OBJ) $(LIBD) $(DLIB)
 
-$(SRC:.cpp=.o): $(SRC)
+main.o: main.cpp
 	$(CC) $(INCLUDE) $(LD_PATH) $(OPT) -c $(SRC)
 	$(MAKE) sub
 
 sub:
-	cd domain ; $(MAKE) all
-	cd pts/customized_openproject ; $(MAKE) all
-	cd analyzer/elasticsearch ; $(MAKE) all
-	cd repository/postgresql; $(MAKE) all
+	cd domain ; $(MAKE)
+	cd pts/customized_openproject ; $(MAKE)
+	cd analyzer/elasticsearch ; $(MAKE)
+	cd repository/postgresql; $(MAKE)
 
 .PHONY: clean
 clean:
