@@ -36,7 +36,7 @@ void MetricCalculator::calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> 
 
   for (auto json = begin(durationDataList_); json != end(durationDataList_); ++json)
   {
-    analyzer_->registerMeasurementedData((json->second).dump());
+    analyzer_->registerMeasurementedData("project_detail_metrics", (json->second).dump());
   }
   // データを登録したことで不要になったデータは削除しておく
   durationDataList_.clear();
