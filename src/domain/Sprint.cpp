@@ -56,7 +56,7 @@ std::string Sprint::createJson(const Timestamp& timestamp)
   JsonKey sprintId("sprintId");
   jsonCreator_.holdData(sprintId, sprintId_.get());
 
-  JsonKey sprintName("name");
+  JsonKey sprintName("sprintName");
   jsonCreator_.holdData(sprintName, sprintName_.get());
 
   JsonKey startDate("startDate");

@@ -24,7 +24,7 @@ std::string Project::createJson()
   JsonKey id("projectId");
   jsonCreator_.holdData(id, projectId_.get());
 
-  JsonKey name("name");
+  JsonKey name("projectName");
   jsonCreator_.holdData(name, name_.get());
 
   JsonKey remainingStoryPoints("remainingStoryPoints");
