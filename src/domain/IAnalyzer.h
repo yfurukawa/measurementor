@@ -39,7 +39,7 @@ public:
    @brief      測定データ登録
    @param[in]  登録するデータ
   */
-  virtual void registerMeasurementedData(const std::string& indexPrefix, const std::string& registerData) = 0;
+  virtual void registerMeasurementedData(const std::string& indexSuffix, const std::string& registerData) = 0;
 };
 
 }  // namespace measurementor

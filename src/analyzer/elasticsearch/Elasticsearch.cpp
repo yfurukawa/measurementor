@@ -24,10 +24,10 @@ Elasticsearch::Elasticsearch(std::shared_ptr<::ITcpClient> tcpClient, ApiKey api
 {
 }
 
-void Elasticsearch::registerMeasurementedData(const std::string& registerData)
+void Elasticsearch::registerMeasurementedData(const std::string& indexSuffix, const std::string& registerData)
 {
   std::string method("POST");
-  std::string location("/" + index_->get() + "/_doc/");
+  std::string location("/" + index_->get() + "_" + indexSuffix + "/_doc/");
   std::string httpVersion("HTTP/1.1");
   std::string hostLocation("Host: " + destination_ + ":" + std::to_string(destinationPort_));
   std::string userAgent("User-Agent: libnet");

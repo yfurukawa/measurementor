@@ -59,7 +59,7 @@ public:
    @brief      測定データ登録
    @param[in]  登録するデータ
   */
-  void registerMeasurementedData(const std::string& registerData) override;
+  void registerMeasurementedData(const std::string& indexSuffix, const std::string& registerData) override;
 
 private:
   std::shared_ptr<::ITcpClient> tcpClient_;  //!< Elasticsearchと通信するためのTCPクライアント
