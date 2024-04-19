@@ -3,10 +3,8 @@ RM = rm -rf
 MAKE = make
 INCLUDE = -I/usr/include -I/usr/local/include
 LD_PATH = -L/usr/lib64 -L/usr/local/lib64 -L/usr/lib -L/usr/local/lib
-LIB_DIR = /usr/local/lib64
-LIB = /usr/local/lib64/libnetworkinterface.a /usr/local/lib64/libclock.a /usr/local/lib64/libfileinterface.a
-LIBD = /usr/local/lib64/libnetworkinterfaced.a /usr/local/lib64/libclockd.a /usr/local/lib64/libfileinterfaced.a
-DLIB= -llogger -lpqxx -lpq
+LIB = -lnetworkinterface -lclock -lfileinterface -llogger -lpqxx -lpq
+LIBD = -lnetworkinterfaced -lclockd -lfileinterfaced -llogger -lpqxx -lpq
 OPT = -O0 -Wall -std=c++17 -fPIC -g
 TARGET = measurementor
 SRC = main.cpp
@@ -17,8 +15,8 @@ repository/postgresql/Repository.o repository/postgresql/RepositoryFactory.o
 
 export CC RM MAKE INCLUDE LD_PATH OPT
 
-all: $(SRC:.cpp=.o)
-	$(CC) $(INCLUDE) $(LD_PATH) $(OPT) -o $(TARGET) $(OBJ) $(LIBD) $(DLIB)
+all: $(OBJ)
+	$(CC) $(INCLUDE) $(LD_PATH) $(OPT) -o $(TARGET) $(OBJ) $(LIBD)
 
 $(SRC:.cpp=.o): $(SRC)
 	$(CC) $(INCLUDE) $(LD_PATH) $(OPT) -c $(SRC)
