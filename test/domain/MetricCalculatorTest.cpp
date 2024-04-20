@@ -18,6 +18,7 @@ void MetricCalculatorTest::TearDown()
   delete sut;
 }
 
+// タスクが新規から進行中に変化した場合
 TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromNewToInProgress)
 {
   std::shared_ptr<Task> currentTask;
@@ -29,7 +30,8 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromNewToInProgress)
        Assignee{"Assignee"}, Status{"New"}, StatusCode{1}, UpdatedAt{"2024-03-28T12:34:56Z"});
 
   nlohmann::json expected;
-  expected["TaskId"] = 10;
+  expected["taskId"] = 10;
+  expected["taskName"] = "TestTask";
   expected["InProgressStartDate"] = "2024-03-28T14:34:56Z";
   expected["ReviewStartDate"] = nullptr;
   expected["CloseDate"] = nullptr;
@@ -42,6 +44,7 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromNewToInProgress)
   EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
 }
 
+// タスクが進行中からレビュー中に変化した場合
 TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromInProgressToReview)
 {
   std::shared_ptr<Task> currentTask;
@@ -53,7 +56,8 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromInProgressToReview)
        Assignee{"Assignee"}, Status{"In progress"}, StatusCode{7}, UpdatedAt{"2024-03-28T12:34:56Z"});
 
   nlohmann::json expected;
-  expected["TaskId"] = 10;
+  expected["taskId"] = 10;
+  expected["taskName"] = "TestTask";
   expected["InProgressStartDate"] = nullptr;
   expected["ReviewStartDate"] = "2024-03-29T14:34:56Z";
   expected["CloseDate"] = nullptr;
@@ -77,7 +81,8 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromReviewToClosed)
        Assignee{"Assignee"}, Status{"Review"}, StatusCode{15}, UpdatedAt{"2024-03-28T12:34:56Z"});
 
   nlohmann::json expected;
-  expected["TaskId"] = 10;
+  expected["taskId"] = 10;
+  expected["taskName"] = "TestTask";
   expected["InProgressStartDate"] = nullptr;
   expected["ReviewStartDate"] = nullptr;
   expected["CloseDate"] = "2024-03-29T14:34:56Z";
