@@ -121,20 +121,6 @@ void MetricCalculator::transitFromReviewToClose(nlohmann::json& updateData, std:
   updateData["taskName"] = currentTask->taskName_.get();
   updateData["CloseDate"] = currentTask->updatedAt_.get();
   updateData["InProgressDuration"] = repository_->getInProgressDuration(currentTask->taskId_);
-  
-  auto resultInProgress = repository_->getStarDateOnInProgress(currentTask->taskId_);
-  if (resultInProgress)
-  {
-    // DB上のデータを更新するjsonに日時を入れ直さないとデータが無くなってしまう
-    updateData["InProgressStartDate"] = resultInProgress.value().get();
-
-    // In Progressになった日時と完了日時の差によってタスクの完了に掛かった時間を算出する
-    ::ISO8601String start{resultInProgress.value().get()};
-    ::ISO8601String end{currentTask->updatedAt_.get()};
-
-    auto duration = chronos_->convertToTime_t(end) - chronos_->convertToTime_t(start);
-    updateData["TotalDuration"] = duration / 3600;
-  }
 
   auto resultReview = repository_->getStarDateOnReview(currentTask->taskId_);
   if (resultReview)
@@ -145,8 +131,20 @@ void MetricCalculator::transitFromReviewToClose(nlohmann::json& updateData, std:
     ::ISO8601String start{reviewStartDate.get()};
     ::ISO8601String end{currentTask->updatedAt_.get()};  // this is close date.
 
-    auto duration = chronos_->convertToTime_t(end) - chronos_->convertToTime_t(start);
-    updateData["ReviewDuration"] = duration / 3600;
+    updateData["ReviewDuration"] = calculateDuration(start, end);
+  }
+
+  auto resultInProgress = repository_->getStarDateOnInProgress(currentTask->taskId_);
+  if (resultInProgress)
+  {
+    // DB上のデータを更新するjsonに日時を入れ直さないとデータが無くなってしまう
+    updateData["InProgressStartDate"] = resultInProgress.value().get();
+
+    // In Progressになった日時と完了日時の差によってタスクの完了に掛かった時間を算出する
+    ::ISO8601String start{resultInProgress.value().get()};
+    ::ISO8601String end{currentTask->updatedAt_.get()};
+    
+    updateData["TotalDuration"] = calculateDuration(start, end);
   }
 
   durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
