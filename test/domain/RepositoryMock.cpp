@@ -10,6 +10,8 @@ namespace repository
 
 RepositoryMock::RepositoryMock()
   : starDateOnInProgress_("")
+  , starDateOnReview_("")
+  , inProgressDuration_(0.0)
 {
 }
 
@@ -32,7 +34,15 @@ std::optional<measurementor::UpdatedAt> RepositoryMock::getStarDateOnInProgress(
 
 std::optional<measurementor::UpdatedAt> RepositoryMock::getStarDateOnReview(measurementor::TaskId taskId)
 {
-  return std::nullopt;
+  if(starDateOnReview_ != "")
+  {
+    measurementor::UpdatedAt date{starDateOnReview_};
+    return date; 
+  }
+  else
+  {
+    return std::nullopt;
+  }
 }
 
 std::optional<measurementor::UpdatedAt> RepositoryMock::getStarDateOnClose(measurementor::TaskId taskId)
@@ -42,7 +52,7 @@ std::optional<measurementor::UpdatedAt> RepositoryMock::getStarDateOnClose(measu
 
 double RepositoryMock::getInProgressDuration(measurementor::TaskId taskId)
 {
-  return 0;
+  return inProgressDuration_;
 }
 
 void RepositoryMock::updateMetricsData(measurementor::TaskId taskId, nlohmann::json metricsData)
@@ -65,6 +75,16 @@ nlohmann::json RepositoryMock::sendQuery(measurementor::TaskId taskId)
 void RepositoryMock::setStarDateOnInProgress(std::string date)
 {
   starDateOnInProgress_ = std::move(date);
+}
+
+void RepositoryMock::setStarDateOnReview(std::string date)
+{
+  starDateOnReview_ = std::move(date);
+}
+
+void RepositoryMock::setInProgressDuration(double duration)
+{
+  inProgressDuration_ = duration;
 }
 
 }  // namespace repository
