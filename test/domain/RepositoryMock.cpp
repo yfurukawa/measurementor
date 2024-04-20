@@ -17,6 +17,7 @@ RepositoryMock::RepositoryMock()
 
 void RepositoryMock::registerMetricsData(measurementor::TaskId taskId, nlohmann::json metricsData)
 {
+  metricsData_ = metricsData;
 }
 
 std::optional<measurementor::UpdatedAt> RepositoryMock::getStarDateOnInProgress(measurementor::TaskId taskId)
@@ -85,6 +86,19 @@ void RepositoryMock::setStarDateOnReview(std::string date)
 void RepositoryMock::setInProgressDuration(double duration)
 {
   inProgressDuration_ = duration;
+}
+
+std::string RepositoryMock::getMetricsData()
+{
+  return metricsData_.dump();
+}
+
+void RepositoryMock::clear()
+{
+  starDateOnInProgress_ = "";
+  starDateOnReview_ = "";
+  inProgressDuration_ = 0;
+  metricsData_ = nullptr;
 }
 
 }  // namespace repository

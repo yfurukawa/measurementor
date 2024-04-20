@@ -108,11 +108,15 @@ public:
   void setStarDateOnInProgress(std::string date);
   void setStarDateOnReview(std::string date);
   void setInProgressDuration(double duration);
-
+  std::string getMetricsData();
+  void clear();
+  
 private:
   std::string starDateOnInProgress_;
   std::string starDateOnReview_;
   double inProgressDuration_;
+  nlohmann::json metricsData_;
+
   /*!
    @brief DBサーバにコマンドを送信する
    @param[in]  command  DBサーバに送信するSQLコマンド
