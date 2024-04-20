@@ -86,23 +86,32 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromReviewToClosed)
   std::shared_ptr<Task> previousTask;
 
   currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
-       Assignee{"Assignee"}, Status{"Closed"}, StatusCode{12}, UpdatedAt{"2024-03-29T14:34:56Z"});
+       Assignee{"Assignee"}, Status{"Closed"}, StatusCode{12}, UpdatedAt{"2024-03-29T14:36:56Z"});
   previousTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
-       Assignee{"Assignee"}, Status{"Review"}, StatusCode{15}, UpdatedAt{"2024-03-28T12:34:56Z"});
+       Assignee{"Assignee"}, Status{"Review"}, StatusCode{15}, UpdatedAt{"2024-03-29T14:34:56Z"});
 
   nlohmann::json expected;
   expected["taskId"] = 10;
   expected["taskName"] = "TestTask";
-  expected["InProgressStartDate"] = nullptr;
-  expected["ReviewStartDate"] = nullptr;
-  expected["CloseDate"] = "2024-03-29T14:34:56Z";
-  expected["InProgressDuration"] = 0;
-  expected["ReviewDuration"] = 0;
-  expected["TotalDuration"] = 0;
+  expected["InProgressStartDate"] = "2024-03-29T14:30:56Z";
+  expected["ReviewStartDate"] = "2024-03-29T14:34:56Z";
+  expected["CloseDate"] = "2024-03-29T14:36:56Z";
+  expected["InProgressDuration"] = 0.25;
+  expected["ReviewDuration"] = 0.25;
+  expected["TotalDuration"] = 0.25;
   std::string expectedTimestamp("2024-04-06T12:34:56Z");
   expected["timestamp"] = expectedTimestamp;
+
+  measurementor::IRepository* repositoryMock = repository::RepositoryMockFactory::getInstance()->createRepository();
+  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->setStarDateOnInProgress("2024-03-29T14:30:56Z");
+  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->setStarDateOnReview("2024-03-29T14:34:56Z");
+  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->setInProgressDuration(0.25);
+
   sut->checkTransit(currentTask, previousTask, expectedTimestamp);
   EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
+
+  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->setStarDateOnReview("");
+
 }
 
 TEST_F(MetricCalculatorTest, calculateDuration_SameDay_LE_15min)
