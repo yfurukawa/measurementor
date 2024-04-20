@@ -109,8 +109,7 @@ void MetricCalculator::transitFromInProgressToReview(nlohmann::json& updateData,
     ::ISO8601String start{startDate.get()};
     ::ISO8601String end{currentTask->updatedAt_.get()};  // this is start date of review.
 
-    auto duration = chronos_->convertToTime_t(end) - chronos_->convertToTime_t(start);
-    updateData["InProgressDuration"] = duration / 3600;
+    updateData["InProgressDuration"] = calculateDuration(start, end);
   }
   repository_->updateMetricsData(currentTask->taskId_, updateData);
   durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
