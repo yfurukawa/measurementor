@@ -18,6 +18,8 @@ void MetricCalculatorTest::SetUp()
 void MetricCalculatorTest::TearDown()
 {
   delete sut;
+  measurementor::IRepository* repositoryMock = repository::RepositoryMockFactory::getInstance()->createRepository();
+  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->clear();
 }
 
 // タスクが新規から進行中に変化した場合
@@ -47,7 +49,7 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromNewToInProgress)
   EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
 }
 
-// タスクが進行中からレビュー中に変化した場合
+// タスクが新規から進行中に移行後、レビュー中に変化した場合
 TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromInProgressToReview)
 {
   std::shared_ptr<Task> currentTask;
@@ -75,11 +77,9 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromInProgressToReview)
 
   sut->checkTransit(currentTask, previousTask, expectedTimestamp);
   EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
-
-  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->setStarDateOnInProgress("");
-
 }
 
+// タスクが新規、進行中、レビューと順に以降後、完了に変化した場合
 TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromReviewToClosed)
 {
   std::shared_ptr<Task> currentTask;
@@ -109,9 +109,31 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromReviewToClosed)
 
   sut->checkTransit(currentTask, previousTask, expectedTimestamp);
   EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
+}
 
-  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->setStarDateOnReview("");
+// タスクの新規が検出できず、いきなり進行中になったタスクの処理のテスト
+TEST_F(MetricCalculatorTest, handlingSkippedState_InProgress)
+{
+  std::shared_ptr<Task> currentTask;
+  currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+       Assignee{"Assignee"}, Status{"In progress"}, StatusCode{7}, UpdatedAt{"2024-04-28T14:34:56Z"});
 
+  nlohmann::json expected;
+  expected["taskId"] = 10;
+  expected["taskName"] = "TestTask";
+  expected["InProgressStartDate"] = "2024-04-28T14:34:56Z";
+  expected["ReviewStartDate"] = nullptr;
+  expected["CloseDate"] = nullptr;
+  expected["InProgressDuration"] = 0;
+  expected["ReviewDuration"] = 0;
+  expected["TotalDuration"] = 0;
+  std::string expectedTimestamp("2024-04-06T12:34:56Z");
+  expected["timestamp"] = expectedTimestamp;
+
+  sut->handlingSkippedState(currentTask, expectedTimestamp);
+  measurementor::IRepository* repositoryMock = repository::RepositoryMockFactory::getInstance()->createRepository();
+  
+  EXPECT_EQ(expected.dump(), dynamic_cast<repository::RepositoryMock*>(repositoryMock)->getMetricsData());
 }
 
 TEST_F(MetricCalculatorTest, calculateDuration_SameDay_LE_15min)

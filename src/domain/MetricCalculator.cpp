@@ -32,6 +32,11 @@ void MetricCalculator::calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> 
     {
       checkTransit(currentTask->second, previousTaskList[currentTask->first], chronos_->nowIso8601ExtendedGmt());
     }
+    else
+    {
+      // 前の状態にあった時間が短くpreviousTaskが見つからなかった場合
+      handlingSkippedState(currentTask->second, chronos_->nowIso8601ExtendedGmt());
+    }
   }
 
   for (auto json = begin(durationDataList_); json != end(durationDataList_); ++json)
@@ -46,6 +51,7 @@ void MetricCalculator::checkTransit(std::shared_ptr<Task>& currentTask, std::sha
 {
   nlohmann::json updateData;
   updateData["taskId"] = 0;
+  updateData["taskName"] = "";
   updateData["InProgressStartDate"] = nullptr;
   updateData["ReviewStartDate"] = nullptr;
   updateData["CloseDate"] = nullptr;
@@ -174,6 +180,27 @@ void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, 
   durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
 }
 
+void MetricCalculator::handlingSkippedState(std::shared_ptr<Task> currentTask, std::string timestamp)
+{
+  nlohmann::json updateData;
+  updateData["taskId"] = currentTask->taskId_.get();
+  updateData["taskName"] = currentTask->taskName_.get();
+  updateData["InProgressStartDate"] = nullptr;
+  updateData["ReviewStartDate"] = nullptr;
+  updateData["CloseDate"] = nullptr;
+  updateData["InProgressDuration"] = 0;
+  updateData["ReviewDuration"] = 0;
+  updateData["TotalDuration"] = 0;
+  updateData["timestamp"] = timestamp;
+
+  // 初めて確認されたTaskがIn Progress状態だった場合は、updatedAtの値は、In Progress状態に更新された
+  // 日時の可能性が高いので、それをIn Progress状態の開始日時とする。
+  // なお、updateAtは、状態遷移だけでなく、担当者のアサインや、タスク内容の修正等、タスクに対する全ての変更で
+  // 更新される。
+  updateData["InProgressStartDate"] = currentTask->updatedAt_.get();
+  repository_->registerMetricsData(currentTask->taskId_, updateData);
+}
+
 double MetricCalculator::calculateDuration(::ISO8601String startDate, ::ISO8601String endDate)
 {
   long difference = (chronos_->convertToTime_t(endDate) - chronos_->convertToTime_t(startDate));
@@ -252,7 +279,6 @@ std::uint_fast16_t MetricCalculator::passedWeekends(::ISO8601String startDate, :
   }
 
   return numberOfPassedWeekend;
-
 }
 
 }  // namespace measurementor
