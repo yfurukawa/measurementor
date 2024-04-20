@@ -5,6 +5,8 @@
 #include "../../src/domain/Task.h"
 #include "../../src/domain/domainPrimitives/MeasurementPrimitives.h"
 #include "nlohmann/json.hpp"
+#include "RepositoryMock.h"
+#include "RepositoryMockFactory.h"
 
 namespace measurementor
 {
@@ -40,6 +42,7 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromNewToInProgress)
   expected["TotalDuration"] = 0;
   std::string expectedTimestamp("2024-04-06T12:34:56Z");
   expected["timestamp"] = expectedTimestamp;
+
   sut->checkTransit(currentTask, previousTask, expectedTimestamp);
   EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
 }
@@ -53,21 +56,28 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromInProgressToReview)
   currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
        Assignee{"Assignee"}, Status{"Review"}, StatusCode{15}, UpdatedAt{"2024-03-29T14:34:56Z"});
   previousTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
-       Assignee{"Assignee"}, Status{"In progress"}, StatusCode{7}, UpdatedAt{"2024-03-28T12:34:56Z"});
+       Assignee{"Assignee"}, Status{"In progress"}, StatusCode{7}, UpdatedAt{"2024-03-29T14:30:56Z"});
 
   nlohmann::json expected;
   expected["taskId"] = 10;
   expected["taskName"] = "TestTask";
-  expected["InProgressStartDate"] = nullptr;
+  expected["InProgressStartDate"] = "2024-03-29T14:30:56Z";
   expected["ReviewStartDate"] = "2024-03-29T14:34:56Z";
   expected["CloseDate"] = nullptr;
-  expected["InProgressDuration"] = 0;
+  expected["InProgressDuration"] = 0.25;
   expected["ReviewDuration"] = 0;
   expected["TotalDuration"] = 0;
   std::string expectedTimestamp("2024-04-06T12:34:56Z");
   expected["timestamp"] = expectedTimestamp;
+
+  measurementor::IRepository* repositoryMock = repository::RepositoryMockFactory::getInstance()->createRepository();
+  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->setStarDateOnInProgress("2024-03-29T14:30:56Z");
+
   sut->checkTransit(currentTask, previousTask, expectedTimestamp);
   EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
+
+  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->setStarDateOnInProgress("");
+
 }
 
 TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromReviewToClosed)
