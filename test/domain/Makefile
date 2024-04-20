@@ -3,7 +3,7 @@ RM = rm -f
 MAKE = make
 INCLUDE = -I/usr/include -I/usr/local/include 
 LD_PATH = -L/usr/lib64 -L/usr/local/lib64 -L/usr/lib -L/usr/local/lib
-LIB = -lgtest lgtest_main -lclock　-llogger -lpqxx -lpq
+LIB = -lgtest -lgtest_main -lclock -llogger -lpqxx -lpq
 OPT = -O0 -Wall -std=c++17
 TARGET = domainTest
 OBJ = ../../src/domain/JsonCreator.o ../../src/domain/Task.o ../../src/domain/Item.o ../../src/domain/Sprint.o ../../src/domain/Project.o ../../src/domain/MetricCalculator.o
