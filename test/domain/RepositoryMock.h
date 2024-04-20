@@ -105,21 +105,10 @@ public:
   */
   void deleteMetricsData(measurementor::TaskId taskId) override;
 
-private:
-  // std::shared_ptr<::ITcpClient> tcpClient_;  //!< Repositoryと通信するためのTCPクライアント
-  // std::string destination_;       //!< 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
-  // unsigned int destinationPort_;  //!< 接続先ポート<br>通信ヘッダで使用する
-  // std::unique_ptr<::ITextFileWriter>
-  //   previousDataWriter_;  //!< Repositoryのサーバから取得したJsonオブジェクトをファイルに保存しておくためのWriter
-  std::string userName_;                      //!< DBサーバに接続するユーザ名
-  std::string password_;                      //!< パスワード
-  std::string hostName_;                      //!< DBサーバのホスト名又はIPアドレス
-  std::string port_;                          //!< DBサーバの待受ポート
-  std::string databaseName_;                  //!< メトリックスを保存するデータベース名
-  std::string tableName_;                     //!< メトリックスを保存するテーブル名
-  AbstLogger::LoggerFactory* loggerFactory_;  //!< Logger Factory
-  AbstLogger::Logger* logger_;                //!< Logger
+  void setStarDateOnInProgress(std::string date);
 
+private:
+  std::string starDateOnInProgress_; 
   /*!
    @brief DBサーバにコマンドを送信する
    @param[in]  command  DBサーバに送信するSQLコマンド
