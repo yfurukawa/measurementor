@@ -28,4 +28,9 @@ std::map<TaskId, nlohmann::json> MetricCalculatorSpy::getDurationDataList()
     return MetricCalculator::durationDataList_;
 }
 
+void MetricCalculatorSpy::handlingSkippedState(std::shared_ptr<Task> currentTask, std::string timestamp)
+{
+  MetricCalculator::handlingSkippedState(currentTask, timestamp);
+}
+
 }
