@@ -46,6 +46,14 @@ public:
    @param[in] previousTask  前回値を保持しているタスク
   */
   void checkTransit(std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask, std::string timestamp);
+  
+  /*!
+   @brief      データ取得の１間隔内で複数の状態遷移があったタスクを処理する
+   @param[in]  currentTask  対象のタスク
+   @param[in]  timestamp  当該処理をした日時。（elasticsearchで使用する）
+   @note       前回値データが無いタスクがこの処理の対象と仮定している
+  */
+  void handlingSkippedState(std::shared_ptr<Task> currentTask, std::string timestamp);
 
   /*!
    @brief  ある状態に留まっていた時間を計算する

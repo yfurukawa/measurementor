@@ -9,214 +9,96 @@ namespace repository
 {
 
 RepositoryMock::RepositoryMock()
+  : starDateOnInProgress_("")
+  , starDateOnReview_("")
+  , inProgressDuration_(0.0)
 {
-  loggerFactory_ = AbstLogger::LoggerFactory::getInstance();
-  logger_ = loggerFactory_->createLogger();
 }
-/*
-RepositoryMock::RepositoryMock(std::string userName, std::string password, std::string hostName, std::string port, std::string databaseName,
-                       std::string tableName)
-  : userName_(userName)
-  , password_(password)
-  , hostName_(hostName)
-  , port_(port)
-  , databaseName_(databaseName)
-  , tableName_(tableName)
-{
-  loggerFactory_ = AbstLogger::LoggerFactory::getInstance();
-  logger_ = loggerFactory_->createLogger();
-}
-*/
+
 void RepositoryMock::registerMetricsData(measurementor::TaskId taskId, nlohmann::json metricsData)
 {
-  //logger_->log(metricsData.dump());
+  metricsData_ = metricsData;
 }
 
 std::optional<measurementor::UpdatedAt> RepositoryMock::getStarDateOnInProgress(measurementor::TaskId taskId)
 {
-  /*
-  try
+  if(starDateOnInProgress_ != "")
   {
-    nlohmann::json result = sendQuery(taskId);
-    if (result["InProgressStartDate"].is_null())
-    {
-      return std::nullopt;
-    }
-    else
-    {
-      return measurementor::UpdatedAt{result["InProgressStartDate"]};
-    }
+    measurementor::UpdatedAt date{starDateOnInProgress_};
+    return date; 
   }
-  catch (pqxx::sql_error const& e)
+  else
   {
-    std::stringstream errorStream;
-    std::stringstream queryStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : SQL error: " << e.what();
-    queryStream << "[Repositoruy][getStarDateOnInProgress] : Query was: " << e.query();
-    logger_->log(errorStream.str());
-    logger_->log(queryStream.str());
     return std::nullopt;
   }
-  catch (std::exception const& e)
-  {
-    std::stringstream errorStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : Error: " << e.what();
-    logger_->log(errorStream.str());
-    return std::nullopt;
-  }
-  */
-  return std::nullopt;
 }
 
 std::optional<measurementor::UpdatedAt> RepositoryMock::getStarDateOnReview(measurementor::TaskId taskId)
 {
-  /*
-  try
+  if(starDateOnReview_ != "")
   {
-    nlohmann::json result = sendQuery(taskId);
-    if (result["ReviewStartDate"].is_null())
-    {
-      return std::nullopt;
-    }
-    else
-    {
-      return measurementor::UpdatedAt{result["ReviewStartDate"]};
-    }
+    measurementor::UpdatedAt date{starDateOnReview_};
+    return date; 
   }
-  catch (pqxx::sql_error const& e)
+  else
   {
-    std::stringstream errorStream;
-    std::stringstream queryStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : SQL error: " << e.what();
-    queryStream << "[Repositoruy][getStarDateOnInProgress] : Query was: " << e.query();
-    logger_->log(errorStream.str());
-    logger_->log(queryStream.str());
     return std::nullopt;
   }
-  catch (std::exception const& e)
-  {
-    std::stringstream errorStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : Error: " << e.what();
-    logger_->log(errorStream.str());
-    return std::nullopt;
-  }
-  */
-  return std::nullopt;
 }
 
 std::optional<measurementor::UpdatedAt> RepositoryMock::getStarDateOnClose(measurementor::TaskId taskId)
 {
-  /*
-  try
-  {
-    nlohmann::json result = sendQuery(taskId);
-    if (result["CloseDate"].is_null())
-    {
-      return std::nullopt;
-    }
-    else
-    {
-      return measurementor::UpdatedAt{result["CloseDate"]};
-    }
-  }
-  catch (pqxx::sql_error const& e)
-  {
-    std::stringstream errorStream;
-    std::stringstream queryStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : SQL error: " << e.what();
-    queryStream << "[Repositoruy][getStarDateOnInProgress] : Query was: " << e.query();
-    logger_->log(errorStream.str());
-    logger_->log(queryStream.str());
-    return std::nullopt;
-  }
-  catch (std::exception const& e)
-  {
-    std::stringstream errorStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : Error: " << e.what();
-    logger_->log(errorStream.str());
-    return std::nullopt;
-  }
-  */
   return std::nullopt;
 }
 
 double RepositoryMock::getInProgressDuration(measurementor::TaskId taskId)
 {
-  /*
-  try
-  {
-    nlohmann::json result = sendQuery(taskId);
-    return result["InProgressDuration"];
-  }
-  catch (pqxx::sql_error const& e)
-  {
-    std::stringstream errorStream;
-    std::stringstream queryStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : SQL error: " << e.what();
-    queryStream << "[Repositoruy][getStarDateOnInProgress] : Query was: " << e.query();
-    logger_->log(errorStream.str());
-    logger_->log(queryStream.str());
-    return 0;
-  }
-  catch (std::exception const& e)
-  {
-    std::stringstream errorStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : Error: " << e.what();
-    logger_->log(errorStream.str());
-    return 0;
-  }
-  */
-  return 0;
+  return inProgressDuration_;
 }
 
 void RepositoryMock::updateMetricsData(measurementor::TaskId taskId, nlohmann::json metricsData)
 {
-  /*
-  std::string commandString("UPDATE " + tableName_ + " SET metrics_data = '" + metricsData.dump() +
-                            "' WHERE taskId = " + std::to_string(taskId.get()));
-  sendCommand(commandString);
-  */
 }
 
 void RepositoryMock::deleteMetricsData(measurementor::TaskId taskId)
 {
-  /*
-  std::string commandString("DELETE " + tableName_ + "WHERE taskId = " + std::to_string(taskId.get()));
-  sendCommand(commandString);
-  */
 }
 
 void RepositoryMock::sendCommand(std::string command)
 {
-  /*
-  std::string connectionString("postgresql://" + userName_ + ":" + password_ + "@" + hostName_ + ":" + port_ + "/" + databaseName_);
-  logger_->log("[RepositoryMock] : connectionString : " + connectionString);
-  logger_->log("[RepositoryMock] : command : " + command);
-  pqxx::connection c{connectionString};
-  pqxx::work txn{c};
-
-  txn.exec(command);
-  txn.commit();
-  */
 }
 
 nlohmann::json RepositoryMock::sendQuery(measurementor::TaskId taskId)
 {
-  /*
-  std::string connectionString("postgresql://" + userName_ + ":" + password_ + "@" + hostName_ + ":" + port_ + "/" + databaseName_);
-
-  std::string queryString("SELECT metrics_data FROM " + tableName_ + " WHERE taskId = " + std::to_string(taskId.get()));
-
-  logger_->log("[RepositoryMock] : connectionString : " + connectionString);
-  logger_->log("[RepositoryMock] : command : " + queryString);
-  pqxx::connection c{connectionString};
-  pqxx::work txn{c};
-
-  auto [metrics_data] = txn.query1<std::string>(queryString);
-  txn.commit();
-  return nlohmann::json::parse(metrics_data);
-  */
   return nlohmann::json{};
+}
+
+void RepositoryMock::setStarDateOnInProgress(std::string date)
+{
+  starDateOnInProgress_ = std::move(date);
+}
+
+void RepositoryMock::setStarDateOnReview(std::string date)
+{
+  starDateOnReview_ = std::move(date);
+}
+
+void RepositoryMock::setInProgressDuration(double duration)
+{
+  inProgressDuration_ = duration;
+}
+
+std::string RepositoryMock::getMetricsData()
+{
+  return metricsData_.dump();
+}
+
+void RepositoryMock::clear()
+{
+  starDateOnInProgress_ = "";
+  starDateOnReview_ = "";
+  inProgressDuration_ = 0;
+  metricsData_ = nullptr;
 }
 
 }  // namespace repository

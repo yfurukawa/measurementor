@@ -5,6 +5,8 @@
 #include "../../src/domain/Task.h"
 #include "../../src/domain/domainPrimitives/MeasurementPrimitives.h"
 #include "nlohmann/json.hpp"
+#include "RepositoryMock.h"
+#include "RepositoryMockFactory.h"
 
 namespace measurementor
 {
@@ -16,8 +18,11 @@ void MetricCalculatorTest::SetUp()
 void MetricCalculatorTest::TearDown()
 {
   delete sut;
+  measurementor::IRepository* repositoryMock = repository::RepositoryMockFactory::getInstance()->createRepository();
+  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->clear();
 }
 
+// タスクが新規から進行中に変化した場合
 TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromNewToInProgress)
 {
   std::shared_ptr<Task> currentTask;
@@ -29,7 +34,8 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromNewToInProgress)
        Assignee{"Assignee"}, Status{"New"}, StatusCode{1}, UpdatedAt{"2024-03-28T12:34:56Z"});
 
   nlohmann::json expected;
-  expected["TaskId"] = 10;
+  expected["taskId"] = 10;
+  expected["taskName"] = "TestTask";
   expected["InProgressStartDate"] = "2024-03-28T14:34:56Z";
   expected["ReviewStartDate"] = nullptr;
   expected["CloseDate"] = nullptr;
@@ -38,10 +44,12 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromNewToInProgress)
   expected["TotalDuration"] = 0;
   std::string expectedTimestamp("2024-04-06T12:34:56Z");
   expected["timestamp"] = expectedTimestamp;
+
   sut->checkTransit(currentTask, previousTask, expectedTimestamp);
   EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
 }
 
+// タスクが新規から進行中に移行後、レビュー中に変化した場合
 TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromInProgressToReview)
 {
   std::shared_ptr<Task> currentTask;
@@ -50,44 +58,137 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromInProgressToReview)
   currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
        Assignee{"Assignee"}, Status{"Review"}, StatusCode{15}, UpdatedAt{"2024-03-29T14:34:56Z"});
   previousTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
-       Assignee{"Assignee"}, Status{"In progress"}, StatusCode{7}, UpdatedAt{"2024-03-28T12:34:56Z"});
+       Assignee{"Assignee"}, Status{"In progress"}, StatusCode{7}, UpdatedAt{"2024-03-29T14:30:56Z"});
 
   nlohmann::json expected;
-  expected["TaskId"] = 10;
-  expected["InProgressStartDate"] = nullptr;
+  expected["taskId"] = 10;
+  expected["taskName"] = "TestTask";
+  expected["InProgressStartDate"] = "2024-03-29T14:30:56Z";
   expected["ReviewStartDate"] = "2024-03-29T14:34:56Z";
   expected["CloseDate"] = nullptr;
-  expected["InProgressDuration"] = 0;
+  expected["InProgressDuration"] = 0.25;
   expected["ReviewDuration"] = 0;
   expected["TotalDuration"] = 0;
   std::string expectedTimestamp("2024-04-06T12:34:56Z");
   expected["timestamp"] = expectedTimestamp;
+
+  measurementor::IRepository* repositoryMock = repository::RepositoryMockFactory::getInstance()->createRepository();
+  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->setStarDateOnInProgress("2024-03-29T14:30:56Z");
+
   sut->checkTransit(currentTask, previousTask, expectedTimestamp);
   EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
 }
 
+// タスクが新規、進行中、レビューと順に以降後、完了に変化した場合
 TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromReviewToClosed)
 {
   std::shared_ptr<Task> currentTask;
   std::shared_ptr<Task> previousTask;
 
   currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
-       Assignee{"Assignee"}, Status{"Closed"}, StatusCode{12}, UpdatedAt{"2024-03-29T14:34:56Z"});
+       Assignee{"Assignee"}, Status{"Closed"}, StatusCode{12}, UpdatedAt{"2024-03-29T14:36:56Z"});
   previousTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
-       Assignee{"Assignee"}, Status{"Review"}, StatusCode{15}, UpdatedAt{"2024-03-28T12:34:56Z"});
+       Assignee{"Assignee"}, Status{"Review"}, StatusCode{15}, UpdatedAt{"2024-03-29T14:34:56Z"});
 
   nlohmann::json expected;
-  expected["TaskId"] = 10;
-  expected["InProgressStartDate"] = nullptr;
+  expected["taskId"] = 10;
+  expected["taskName"] = "TestTask";
+  expected["InProgressStartDate"] = "2024-03-29T14:30:56Z";
+  expected["ReviewStartDate"] = "2024-03-29T14:34:56Z";
+  expected["CloseDate"] = "2024-03-29T14:36:56Z";
+  expected["InProgressDuration"] = 0.25;
+  expected["ReviewDuration"] = 0.25;
+  expected["TotalDuration"] = 0.25;
+  std::string expectedTimestamp("2024-04-06T12:34:56Z");
+  expected["timestamp"] = expectedTimestamp;
+
+  measurementor::IRepository* repositoryMock = repository::RepositoryMockFactory::getInstance()->createRepository();
+  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->setStarDateOnInProgress("2024-03-29T14:30:56Z");
+  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->setStarDateOnReview("2024-03-29T14:34:56Z");
+  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->setInProgressDuration(0.25);
+
+  sut->checkTransit(currentTask, previousTask, expectedTimestamp);
+  EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
+}
+
+// 周期の関係でレビュー状態が検知できずに進行中から完了に変化した場合
+TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromInProgressToClosed)
+{
+  std::shared_ptr<Task> currentTask;
+  std::shared_ptr<Task> previousTask;
+
+  currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+       Assignee{"Assignee"}, Status{"Closed"}, StatusCode{12}, UpdatedAt{"2024-03-29T15:36:56Z"});
+  previousTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+       Assignee{"Assignee"}, Status{"In progress"}, StatusCode{7}, UpdatedAt{"2024-03-29T13:30:56Z"});
+
+  nlohmann::json expected;
+  expected["taskId"] = 10;
+  expected["taskName"] = "TestTask";
+  expected["InProgressStartDate"] = "2024-03-29T13:30:56Z";
+  expected["ReviewStartDate"] = "2024-03-29T15:29:26Z";
+  expected["CloseDate"] = "2024-03-29T15:36:56Z";
+  expected["InProgressDuration"] = 2.0;
+  expected["ReviewDuration"] = 0.25;
+  expected["TotalDuration"] = 2.25;
+  std::string expectedTimestamp("2024-04-06T12:34:56Z");
+  expected["timestamp"] = expectedTimestamp;
+
+  measurementor::IRepository* repositoryMock = repository::RepositoryMockFactory::getInstance()->createRepository();
+  dynamic_cast<repository::RepositoryMock*>(repositoryMock)->setStarDateOnInProgress("2024-03-29T13:30:56Z");
+
+  sut->checkTransit(currentTask, previousTask, expectedTimestamp);
+  EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
+}
+
+// タスクの新規が検出できず、いきなり進行中になったタスクの処理のテスト
+TEST_F(MetricCalculatorTest, handlingSkippedState_InProgress)
+{
+  std::shared_ptr<Task> currentTask;
+  currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+       Assignee{"Assignee"}, Status{"In progress"}, StatusCode{7}, UpdatedAt{"2024-04-28T14:34:56Z"});
+
+  nlohmann::json expected;
+  expected["taskId"] = 10;
+  expected["taskName"] = "TestTask";
+  expected["InProgressStartDate"] = "2024-04-28T14:34:56Z";
   expected["ReviewStartDate"] = nullptr;
-  expected["CloseDate"] = "2024-03-29T14:34:56Z";
+  expected["CloseDate"] = nullptr;
   expected["InProgressDuration"] = 0;
   expected["ReviewDuration"] = 0;
   expected["TotalDuration"] = 0;
   std::string expectedTimestamp("2024-04-06T12:34:56Z");
   expected["timestamp"] = expectedTimestamp;
-  sut->checkTransit(currentTask, previousTask, expectedTimestamp);
-  EXPECT_EQ(expected, sut->getDurationDataList()[TaskId{10}]);
+
+  sut->handlingSkippedState(currentTask, expectedTimestamp);
+  measurementor::IRepository* repositoryMock = repository::RepositoryMockFactory::getInstance()->createRepository();
+  
+  EXPECT_EQ(expected.dump(), dynamic_cast<repository::RepositoryMock*>(repositoryMock)->getMetricsData());
+}
+
+// タスクの新規が検出できず、いきなりレビュー中になったタスクの処理のテスト
+TEST_F(MetricCalculatorTest, handlingSkippedState_Review)
+{
+  std::shared_ptr<Task> currentTask;
+  currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+      Assignee{"Assignee"}, Status{"Review"}, StatusCode{15}, UpdatedAt{"2024-04-20T14:34:56Z"});
+
+  nlohmann::json expected;
+  expected["taskId"] = 10;
+  expected["taskName"] = "TestTask";
+  expected["InProgressStartDate"] = "2024-04-20T14:27:26Z";
+  expected["ReviewStartDate"] = "2024-04-20T14:34:56Z";
+  expected["CloseDate"] = nullptr;
+  expected["InProgressDuration"] = 0.25;
+  expected["ReviewDuration"] = 0;
+  expected["TotalDuration"] = 0;
+  std::string expectedTimestamp("2024-04-06T12:34:56Z");
+  expected["timestamp"] = expectedTimestamp;
+
+  sut->handlingSkippedState(currentTask, expectedTimestamp);
+  measurementor::IRepository* repositoryMock = repository::RepositoryMockFactory::getInstance()->createRepository();
+  
+  EXPECT_EQ(expected.dump(), dynamic_cast<repository::RepositoryMock*>(repositoryMock)->getMetricsData());
 }
 
 TEST_F(MetricCalculatorTest, calculateDuration_SameDay_LE_15min)

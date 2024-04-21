@@ -12,8 +12,8 @@ LIB_DIR = /usr/local/lib64
 INCLUDE_DIR = /usr/local/include
 LIB = 
 OPT = -O0 -Wall -std=c++17 -fPIC
-TARGET = libclock.a.0.4.0
-TARGETD = libclockd.a.0.4.0
+TARGET = libclock.a.0.5.0
+TARGETD = libclockd.a.0.5.0
 SRC = Chronos.cpp ChronosMock.cpp ISO8601String.cpp TimeProvider.cpp
 
 $(TARGET):

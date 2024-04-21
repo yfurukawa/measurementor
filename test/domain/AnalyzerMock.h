@@ -39,18 +39,6 @@ public:
   AnalyzerMock() = default;
 
   /*!
-   @brief  コンストラクタ
-   @param[in]  tcpClient AnalyzerMockと通信するためのTCPクライアント
-   @param[in]  apiKey AnalyzerMockに送信する際に使用するAPIキー（6系のAnalyzerMockには不要）
-   @param[in]  version 送信先AnalyzerMockのバージョン
-   @param[in]  index AnalyzerMockへの登録に必要なインデックス
-   @param[in]  destination_ 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
-   @param[in]  destinationPort_ 接続先ポート<br>通信ヘッダで使用する
-  */
-//  AnalyzerMock(std::shared_ptr<ITcpClient> tcpClient, ApiKey apiKey, Version version, std::unique_ptr<Index> index,
-//                std::string destination, unsigned int destinationPort);
-
-  /*!
    @brief  デフォルトデストラクタ
   */
   virtual ~AnalyzerMock() = default;
@@ -59,19 +47,9 @@ public:
    @brief      測定データ登録
    @param[in]  登録するデータ
   */
-  void registerMeasurementedData(const std::string& registerData) override;
+  void registerMeasurementedData(const std::string& indexSuffix, const std::string& registerData) override;
 
 private:
-/*
-  std::shared_ptr<::ITcpClient> tcpClient_;  //!< AnalyzerMockと通信するためのTCPクライアント
-  ApiKey apiKey_;                            //!< AnalyzerMockに接続する際に使用するBasic認証キー
-  const Version version_;                    //!< AnalyzerMockのバージョン
-  std::unique_ptr<Index> index_;             //!< indexのドメインプリミティブ
-  std::string destination_;       //!< 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
-  unsigned int destinationPort_;  //!< 接続先ポート<br>通信ヘッダで使用する
-  AbstLogger::LoggerFactory* loggerFactory_;  //!< Logger Factory
-  AbstLogger::Logger* logger_;  //!< Logger
-*/
   /*!
    @brief       計測データ登録
    @param[in]   登録データ

@@ -21,7 +21,7 @@ TEST_F(ProjectTest, createJson_EmptyProject)
   sut = new Project(projectId, projectName, parentId, timestamp);
 
   std::string expected(
-    R"({"indexType":"Project","name":"Test Project","projectId":1,"remainingStoryPoints":0,"timestamp":"2024-02-26T12:34:56.000"})");
+    R"({"indexType":"Project","projectId":1,"projectName":"Test Project","remainingStoryPoints":0,"timestamp":"2024-02-26T12:34:56.000"})");
 
   EXPECT_EQ(expected, sut->createJson());
 }
