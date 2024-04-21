@@ -171,12 +171,23 @@ void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, 
     // DB上のデータを更新するjsonに日時を入れ直さないとデータが無くなってしまう
     updateData["InProgressStartDate"] = resultInProgress.value().get();
 
+    // In ProgressとCompleteの開始時間しかわからないので全体の時間を求めた後、
+    // In Progressの時間を求める。
+    // なお、Reviewに掛かった時間は、処理間隔内でReviewが終わっていることから15分以下である。
+
+    updateData["ReviewDuration"] = 0.25;
+
     UpdatedAt startDate(resultInProgress.value());
     ::ISO8601String start{startDate.get()};
     ::ISO8601String end{currentTask->updatedAt_.get()};  // this is close date.
+    double totalDuration = calculateDuration(start, end);
+    updateData["TotalDuration"] = totalDuration;
+    updateData["InProgressDuration"] = totalDuration - 0.25;
 
-    auto duration = chronos_->convertToTime_t(end) - chronos_->convertToTime_t(start);
-    updateData["InProgressDuration"] = duration / 3600;
+    // 正確なReview開始日時は不明なので、周期処理の15分が誤差範囲なので平均を取ってCompleteした日時の7分30秒前とする。
+    ::Chronos timeManipulator;
+    ISO8601String updatedTime(currentTask->updatedAt_.get());
+    updateData["ReviewStartDate"] = timeManipulator.convertToGMT(timeManipulator.convertToTime_t(updatedTime) - 7.5 * 60).get();
   }
   repository_->updateMetricsData(currentTask->taskId_, updateData);
   durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
