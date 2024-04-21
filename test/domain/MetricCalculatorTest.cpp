@@ -136,6 +136,31 @@ TEST_F(MetricCalculatorTest, handlingSkippedState_InProgress)
   EXPECT_EQ(expected.dump(), dynamic_cast<repository::RepositoryMock*>(repositoryMock)->getMetricsData());
 }
 
+// タスクの新規が検出できず、いきなりレビュー中になったタスクの処理のテスト
+TEST_F(MetricCalculatorTest, handlingSkippedState_Review)
+{
+  std::shared_ptr<Task> currentTask;
+  currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+      Assignee{"Assignee"}, Status{"Review"}, StatusCode{15}, UpdatedAt{"2024-04-20T14:34:56Z"});
+
+  nlohmann::json expected;
+  expected["taskId"] = 10;
+  expected["taskName"] = "TestTask";
+  expected["InProgressStartDate"] = "2024-04-20T14:27:26Z";
+  expected["ReviewStartDate"] = "2024-04-20T14:34:56Z";
+  expected["CloseDate"] = nullptr;
+  expected["InProgressDuration"] = 0.25;
+  expected["ReviewDuration"] = 0;
+  expected["TotalDuration"] = 0;
+  std::string expectedTimestamp("2024-04-06T12:34:56Z");
+  expected["timestamp"] = expectedTimestamp;
+
+  sut->handlingSkippedState(currentTask, expectedTimestamp);
+  measurementor::IRepository* repositoryMock = repository::RepositoryMockFactory::getInstance()->createRepository();
+  
+  EXPECT_EQ(expected.dump(), dynamic_cast<repository::RepositoryMock*>(repositoryMock)->getMetricsData());
+}
+
 TEST_F(MetricCalculatorTest, calculateDuration_SameDay_LE_15min)
 {
   ::ISO8601String   endDate("2014-04-06T12:34:59Z");
