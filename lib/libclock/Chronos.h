@@ -62,7 +62,7 @@ public:
   std::string nowIso8601Basic() const override;
 
   /*!
-   @brief     T現在時刻をISO8601拡張形式で得る
+   @brief     現在時刻をISO8601拡張形式で得る
    @return    ISO8601 拡張形式で表されたローカル現在時刻文字列
   */
   std::string nowIso8601Extended() const override;
@@ -82,6 +82,13 @@ public:
   */
   ISO8601String convertLocalToGMT(ISO8601String iso8601local) override;
 
+  /*!
+   @brief     time_tをISO8601拡張形式のGMT時刻に変換する
+   @param[in] time time_t形式で表されたGMT現在時刻
+   @return    ISO8601拡張形式のGMT
+  */
+  ISO8601String convertToGMT(std::time_t time);
+  
 private:
   std::unique_ptr<TimeProvider> timeProvider_;  //!< 日時情報を提供するクラス
 
