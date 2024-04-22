@@ -37,7 +37,9 @@ public:
   /*!
    @brief  コンストラクタ
    @param[in]  projectId       このTaskが定義されているProjectのID
+   @param[in]  projectName     このTaskが定義されているProjectの名称
    @param[in]  sprintId        このTaskが割り当てられているSprintのID<br>Sprintに未割り当ての場合の値は0
+   @param[in]  sprintName      このTaskが割り当てられているSprintの名称
    @param[in]  taskId          このTaskのID
    @param[in]  taskName        このTaskの名称
    @param[in]  author          このタスクの作成者
@@ -47,7 +49,7 @@ public:
    @param[in]  status          このタスクの状態
    @param[in]  updatedAt       このTaskを更新した日時（ISO8601形式）
   */
-  Task(ProjectId projectId, SprintId sprintId, ItemId itemId, TaskId taskId, Name taskName, Author author, EstimatedTime estimatedTime,
+  Task(ProjectId projectId, Name projectName, SprintId sprintId, Name sprintName, ItemId itemId, TaskId taskId, Name taskName, Author author, EstimatedTime estimatedTime,
        Assignee assignee, Status status, StatusCode statusCode, UpdatedAt updatedAt);
 
   /*!
@@ -63,7 +65,9 @@ public:
 
 private:
   const ProjectId projectId_;    //!< 所属するプロジェクトのID
+  const Name projectName_;       //!< 所属するプロジェクトの名称
   const SprintId sprintId_;      //!< 割り当てられたスプリントのID
+  const Name sprintName_;        //!< 割り当てられたスプリントの名称
   const ItemId itemId_;          //!< Taskを持つItemのID
   const TaskId taskId_;          //!< Task ID
   const Name taskName_;          //!< Task名称

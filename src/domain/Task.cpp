@@ -8,10 +8,12 @@
 namespace measurementor
 {
 
-Task::Task(ProjectId projectId, SprintId sprintId, ItemId itemId, TaskId taskId, Name taskName, Author author, EstimatedTime estimatedTime,
+Task::Task(ProjectId projectId, Name projectName, SprintId sprintId, Name sprintName, ItemId itemId, TaskId taskId, Name taskName, Author author, EstimatedTime estimatedTime,
            Assignee assignee, Status status, StatusCode statusCode, UpdatedAt updatedAt)
   : projectId_(projectId)
+  , projectName_(projectName)
   , sprintId_(sprintId)
+  , sprintName_(sprintName)
   , itemId_(itemId)
   , taskId_(taskId)
   , taskName_(taskName)
@@ -36,8 +38,14 @@ std::string Task::createJson(Timestamp timestamp)
   JsonKey pid("projectId");
   jsonCreator_.holdData(pid, projectId_.get());
 
+  JsonKey projectName("projectName");
+  jsonCreator_.holdData(projectName, projectName_.get());
+
   JsonKey sid("sprintId");
   jsonCreator_.holdData(sid, sprintId_.get());
+
+  JsonKey sprintName("sprintName");
+  jsonCreator_.holdData(sprintName, sprintName_.get());
 
   JsonKey id("taskId");
   jsonCreator_.holdData(id, taskId_.get());

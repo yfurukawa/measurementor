@@ -209,7 +209,9 @@ void PtsDataCollector::collectTaskData()
   for (auto json = begin(jsonObjectList); json != end(jsonObjectList); ++json)
   {
     ProjectId projectId(std::stoi((*json)["projectId"]));
+    Name projectName((*json)["projectName"]);
     SprintId sprintId(std::stoi((*json)["sprintId"]));
+    Name sprintName((*json)["sprintName"]);
     ItemId itemId(std::stoi((*json)["itemId"]));
     TaskId taskId(std::stoi((*json)["taskId"]));
     Name taskName((*json)["taskName"]);
@@ -220,7 +222,7 @@ void PtsDataCollector::collectTaskData()
     Assignee assignee((*json)["assignee"]);
     UpdatedAt updatedAt((*json)["updatedAt"]);
 
-    taskList_.insert(std::make_pair(taskId, std::make_shared<Task>(projectId, sprintId, itemId, taskId, taskName, author, estimatedTime,
+    taskList_.insert(std::make_pair(taskId, std::make_shared<Task>(projectId, projectName, sprintId, sprintName, itemId, taskId, taskName, author, estimatedTime,
                                                                    assignee, status, statusCode, updatedAt)));
   }
 
@@ -241,7 +243,9 @@ void PtsDataCollector::readPreviousTaskData()
   for (auto json = begin(jsonObjectList); json != end(jsonObjectList); ++json)
   {
     ProjectId projectId(std::stoi((*json)["projectId"]));
+    Name projectName((*json)["projectName"]);
     SprintId sprintId(std::stoi((*json)["sprintId"]));
+    Name sprintName((*json)["sprintName"]);
     ItemId itemId(std::stoi((*json)["itemId"]));
     TaskId taskId(std::stoi((*json)["taskId"]));
     Name taskName((*json)["taskName"]);
@@ -251,7 +255,7 @@ void PtsDataCollector::readPreviousTaskData()
     EstimatedTime estimatedTime(std::stoi((*json)["estimatedTime"]));
     Assignee assignee((*json)["assignee"]);
     UpdatedAt updatedAt((*json)["updatedAt"]);
-    previousTaskList_.insert(std::make_pair(taskId, std::make_shared<Task>(projectId, sprintId, itemId, taskId, taskName, author,
+    previousTaskList_.insert(std::make_pair(taskId, std::make_shared<Task>(projectId, projectName, sprintId, sprintName, itemId, taskId, taskName, author,
                                                                            estimatedTime, assignee, status, statusCode, updatedAt)));
   }
 }
