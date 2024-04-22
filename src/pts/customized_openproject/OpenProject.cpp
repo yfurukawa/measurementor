@@ -8,6 +8,8 @@
 #include "OpenProject.h"
 #include "../../domain/Project.h"
 #include "JsonParser.h"
+#include "Logger.h"
+#include "LoggerFactory.h"
 #include "RestAPIHelper.h"
 #include "TextFileWriter.h"
 #include "nlohmann/json.hpp"
@@ -28,7 +30,7 @@ OpenProject::OpenProject(ApiKey apiKey, std::string destination, unsigned int de
 
 std::list<std::map<std::string, std::string>> OpenProject::collectAllActiveProject()
 {
-  std::string message("/api/v3/queries/available_projects");
+  std::string message("GET /api/v3/projects?pageSize=1000");
   std::string receivedJson = sendQueryMessage(message);
 
   std::filesystem::path previousFile("previousProject.json");
@@ -70,7 +72,8 @@ std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformatio
 
 std::string OpenProject::sendQueryMessage(std::string queryMessage)
 {
-  std::string command("/usr/bin/curl -u apikey:" + apiKey_.get() + " http://" + destination_ + ":" + std::to_string(destinationPort_) + queryMessage + " -o temp.json");
+  std::string command("/usr/bin/curl -s -u apikey:" + apiKey_.get() + " http://" + destination_ + ":" + std::to_string(destinationPort_) + queryMessage + " -o temp.json");
+  AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject] : " + command);
   system(command.c_str());
 
   std::ifstream tempJson("temp.json");
