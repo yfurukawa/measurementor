@@ -7,6 +7,8 @@
 #include "../../domain/Project.h"
 #include "ITcpClient.h"
 #include "JsonParser.h"
+#include "Logger.h"
+#include "LoggerFactory.h"
 #include "RestAPIHelper.h"
 #include "TextFileWriter.h"
 
@@ -27,7 +29,7 @@ OpenProject::OpenProject(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey,
 
 std::list<std::map<std::string, std::string>> OpenProject::collectAllActiveProject()
 {
-  std::string message("GET /api/v3/queries/available_projects");
+  std::string message("GET /api/v3/projects?pageSize=1000");
 
   std::string receivedJson = sendQueryMessage(message);
   // TODO(yfurukawa) ここでサーバからの応答が正常であることを確認する

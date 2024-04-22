@@ -11,6 +11,9 @@
 #include <utility>
 #include "ISO8601String.h"
 #include "JsonParser.h"
+#include "Logger.h"
+#include "LoggerFactory.h"
+#include "Severity.h"
 #include "../../domain/domainPrimitives/MeasurementPrimitives.h"
 
 namespace pts
@@ -25,12 +28,15 @@ std::list<std::map<std::string, std::string>> JsonParser::collectProjectData(con
 
   for (int count = 0; count < j["count"]; ++count)
   {
-    parsedData.insert(std::make_pair("projectId", std::to_string((unsigned int)j["_embedded"]["elements"][count]["id"])));
-    parsedData.insert(std::make_pair("projectName", j["_embedded"]["elements"][count]["name"]));
-    parsedData.insert(std::make_pair("parentId", ((j["_embedded"]["elements"][count]["_links"]["parent"]["href"]).is_null()
-                                                    ? "0"
-                                                    : pickupId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]))));
-    projectList.push_back(parsedData);
+    if(j["_embedded"]["elements"][count]["active"])
+    {
+      parsedData.insert(std::make_pair("projectId", std::to_string((unsigned int)j["_embedded"]["elements"][count]["id"])));
+      parsedData.insert(std::make_pair("projectName", j["_embedded"]["elements"][count]["name"]));
+      parsedData.insert(std::make_pair("parentId", ((j["_embedded"]["elements"][count]["_links"]["parent"]["href"]).is_null()
+                                                      ? "0"
+                                                      : pickupId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"]))));
+      projectList.push_back(parsedData);
+    }
     parsedData.clear();
   }
 
@@ -166,12 +172,15 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData(const 
       if ((j["_embedded"]["elements"][count]["_links"]["version"]["href"]).is_null())
       {
         parsedData.insert(std::make_pair("sprintId", "0"));
+        parsedData.insert(std::make_pair("sprintName", ""));
       }
       else
       {
         parsedData.insert(std::make_pair("sprintId", pickupId(j["_embedded"]["elements"][count]["_links"]["version"]["href"])));
+        parsedData.insert(std::make_pair("sprintName", j["_embedded"]["elements"][count]["_links"]["version"]["title"]));
       }
       parsedData.insert(std::make_pair("projectId", pickupId(j["_embedded"]["elements"][count]["_links"]["project"]["href"])));
+      parsedData.insert(std::make_pair("projectName", j["_embedded"]["elements"][count]["_links"]["project"]["title"]));
       parsedData.insert(std::make_pair("author", j["_embedded"]["elements"][count]["_links"]["author"]["title"]));
       // 見積もり時間はOpenProjectの設定により取得先を変更する必要がありそう
       if ((j["_embedded"]["elements"][count]["remainingTime"]).is_null())
@@ -210,8 +219,7 @@ std::string JsonParser::pickupHour(std::string remainingTimeValue)
   std::regex_match(remainingTimeValue.c_str(), match, re);
   if (match.empty())
   {
-    // TODO(yfurukawa) error log
-    std::cerr << "RemainingTime pattern is unmatched" << std::endl;
+    AbstLogger::LoggerFactory::getInstance()->cretateLogger()->log("[JsonParser] : RemainingTime pattern is unmatched " + remainingTimeValue, AbstLogger::Severity::error);
   }
   double hour = match.length(2) != 0 ? std::stod(match.str(2)) : static_cast<double>(0);
   double min = match.length(4) != 0 ? std::stod(match.str(4)) : static_cast<double>(0);
