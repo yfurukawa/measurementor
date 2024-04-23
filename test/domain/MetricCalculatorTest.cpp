@@ -28,9 +28,9 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromNewToInProgress)
   std::shared_ptr<Task> currentTask;
   std::shared_ptr<Task> previousTask;
 
-  currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+  currentTask = std::make_shared<Task>(ProjectId{1}, Name{"Test Project"}, SprintId{2}, Name{"Test Sprint"}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
        Assignee{"Assignee"}, Status{"In progress"}, StatusCode{7}, UpdatedAt{"2024-03-28T14:34:56Z"});
-  previousTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+  previousTask = std::make_shared<Task>(ProjectId{1}, Name{"Test Project"}, SprintId{2}, Name{"Test Sprint"}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
        Assignee{"Assignee"}, Status{"New"}, StatusCode{1}, UpdatedAt{"2024-03-28T12:34:56Z"});
 
   nlohmann::json expected;
@@ -55,9 +55,9 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromInProgressToReview)
   std::shared_ptr<Task> currentTask;
   std::shared_ptr<Task> previousTask;
 
-  currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+  currentTask = std::make_shared<Task>(ProjectId{1}, Name{"Test Project"}, SprintId{2}, Name{"Test Sprint"}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
        Assignee{"Assignee"}, Status{"Review"}, StatusCode{15}, UpdatedAt{"2024-03-29T14:34:56Z"});
-  previousTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+  previousTask = std::make_shared<Task>(ProjectId{1}, Name{"Test Project"}, SprintId{2}, Name{"Test Sprint"}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
        Assignee{"Assignee"}, Status{"In progress"}, StatusCode{7}, UpdatedAt{"2024-03-29T14:30:56Z"});
 
   nlohmann::json expected;
@@ -85,9 +85,9 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromReviewToClosed)
   std::shared_ptr<Task> currentTask;
   std::shared_ptr<Task> previousTask;
 
-  currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+  currentTask = std::make_shared<Task>(ProjectId{1}, Name{"Test Project"}, SprintId{2}, Name{"Test Sprint"}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
        Assignee{"Assignee"}, Status{"Closed"}, StatusCode{12}, UpdatedAt{"2024-03-29T14:36:56Z"});
-  previousTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+  previousTask = std::make_shared<Task>(ProjectId{1}, Name{"Test Project"}, SprintId{2}, Name{"Test Sprint"}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
        Assignee{"Assignee"}, Status{"Review"}, StatusCode{15}, UpdatedAt{"2024-03-29T14:34:56Z"});
 
   nlohmann::json expected;
@@ -117,9 +117,9 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromInProgressToClosed)
   std::shared_ptr<Task> currentTask;
   std::shared_ptr<Task> previousTask;
 
-  currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+  currentTask = std::make_shared<Task>(ProjectId{1}, Name{"Test Project"}, SprintId{2}, Name{"Test Sprint"}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
        Assignee{"Assignee"}, Status{"Closed"}, StatusCode{12}, UpdatedAt{"2024-03-29T15:36:56Z"});
-  previousTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+  previousTask = std::make_shared<Task>(ProjectId{1}, Name{"Test Project"}, SprintId{2}, Name{"Test Sprint"}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
        Assignee{"Assignee"}, Status{"In progress"}, StatusCode{7}, UpdatedAt{"2024-03-29T13:30:56Z"});
 
   nlohmann::json expected;
@@ -145,7 +145,7 @@ TEST_F(MetricCalculatorTest, checkTransit_ChangeStateFromInProgressToClosed)
 TEST_F(MetricCalculatorTest, handlingSkippedState_InProgress)
 {
   std::shared_ptr<Task> currentTask;
-  currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+  currentTask = std::make_shared<Task>(ProjectId{1}, Name{"Test Project"}, SprintId{2}, Name{"Test Sprint"}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
        Assignee{"Assignee"}, Status{"In progress"}, StatusCode{7}, UpdatedAt{"2024-04-28T14:34:56Z"});
 
   nlohmann::json expected;
@@ -170,7 +170,7 @@ TEST_F(MetricCalculatorTest, handlingSkippedState_InProgress)
 TEST_F(MetricCalculatorTest, handlingSkippedState_Review)
 {
   std::shared_ptr<Task> currentTask;
-  currentTask = std::make_shared<Task>(ProjectId{1}, SprintId{2}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
+  currentTask = std::make_shared<Task>(ProjectId{1}, Name{"Test Project"}, SprintId{2}, Name{"Test Sprint"}, ItemId{3}, TaskId{10}, Name{"TestTask"}, Author{""}, EstimatedTime{0},
       Assignee{"Assignee"}, Status{"Review"}, StatusCode{15}, UpdatedAt{"2024-04-20T14:34:56Z"});
 
   nlohmann::json expected;
