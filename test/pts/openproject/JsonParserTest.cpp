@@ -179,4 +179,18 @@ TEST_F(JsonParserTest, collectItemData_manyItem)
         EXPECT_EQ( expect, result );
         
     }
+
+    TEST_F(JsonParserTest, pickupHour_PxH)
+    {
+        std::string hourString("PT1H");
+
+        EXPECT_EQ("1.00", sut->pickupHour(hourString));
+    }
+
+    TEST_F(JsonParserTest, pickupHour_PxxH)
+    {
+        std::string hourString("PT21H");
+
+        EXPECT_EQ("21.00", sut->pickupHour(hourString));
+    }
 }
