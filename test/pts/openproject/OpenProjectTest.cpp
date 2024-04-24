@@ -25,9 +25,9 @@ namespace pts
         std::string received( R"({"dummy":"dummy"})" );
         tcpClient->setDummyReceiveData( received );
 
-        std::string expected("GET /api/v3/queries/available_projects HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic YXBpa2V5OmR1bXk=\r\nUser-Agent: libnet\r\nAccept: */*\r\n\r\n");
+        std::string expected("GET /api/v3/projects?pageSize=1000 HTTP/1.1\r\nHost:localhost:8080\r\nAuthorization: Basic YXBpa2V5OmR1bXk=\r\nUser-Agent: libnet\r\nAccept: */*\r\n\r\n");
 
-        sut = new OpenProject( tcpClient, apiKey );
+        sut = new OpenProject(tcpClient, apiKey, "localhost", 8080);
         sut->collectAllActiveProject();
 
         EXPECT_EQ( expected, tcpClient->getSentData().at(0) );
