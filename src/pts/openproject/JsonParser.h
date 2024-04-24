@@ -24,7 +24,7 @@ namespace pts
  @brief     Json文字列を解析して必要なデータを抽出する
  @note      本クラスは、OpenProjectから受信したJson文字列から必要な情報を抽出し、それを返すものである。
 */
-class JsonParser final
+class JsonParser
 {
 public:
   /*!
