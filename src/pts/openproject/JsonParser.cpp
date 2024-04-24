@@ -219,7 +219,7 @@ std::string JsonParser::pickupHour(std::string remainingTimeValue)
   std::regex_match(remainingTimeValue.c_str(), match, re);
   if (match.empty())
   {
-    AbstLogger::LoggerFactory::getInstance()->cretateLogger()->log("[JsonParser] : RemainingTime pattern is unmatched " + remainingTimeValue, AbstLogger::Severity::error);
+    AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[JsonParser] : RemainingTime pattern is unmatched " + remainingTimeValue, AbstLogger::Severity::error);
   }
   double hour = match.length(2) != 0 ? std::stod(match.str(2)) : static_cast<double>(0);
   double min = match.length(4) != 0 ? std::stod(match.str(4)) : static_cast<double>(0);
