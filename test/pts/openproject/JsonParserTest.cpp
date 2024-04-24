@@ -29,7 +29,9 @@ namespace pts
             {"itemId","37"},
             {"taskName","test Tsk"},
             {"projectId","3"},
+            {"projectName","TestProject1"},
             {"sprintId","5"},
+            {"sprintName","Sprint1 of Test Project"},
             {"status","New"},
             {"statusCode","1"},
             {"taskId","38"},
@@ -115,10 +117,10 @@ TEST_F(JsonParserTest, collectItemData_manyItem)
         std::string testJson("");
         std::getline(ifs, testJson);
         std::map<std::string, std::string> expect{
-            {"endDate","2024-03-06"},
+            {"endDate","2024-03-05T15:00:00Z"},
             {"sprintName","Sprint1 of Test Project"},
             {"projectId","3"},
-            {"startDate","2024-02-27"},
+            {"startDate","2024-02-26T15:00:00Z"},
             {"sprintId","5"},
             {"status","open"}
         };
