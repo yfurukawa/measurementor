@@ -214,7 +214,6 @@ std::string JsonParser::pickupId(std::string href)
 
 std::string JsonParser::pickupHour(std::string remainingTimeValue)
 {
-  //std::regex re(R"(PT(([0-9]+)H)*(([0-9]{1,2})M)*(([0-9]{1,2})S)*)");
   std::regex re(R"(P((\d{1,2})D)*T?((\d{1,2})H)*((\d{1,2})M)*((\d{1,2})S)*)");
   std::cmatch match;
   std::regex_match(remainingTimeValue.c_str(), match, re);
