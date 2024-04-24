@@ -69,6 +69,7 @@ public:
 protected:
   std::unique_ptr<Chronos> timeConverter_;  //!< OpenProjectから取得したデータ内に含まれるローカルタイムをGMTに変換するクラス
 
+public:
   /*!
    @brief        Json文字列のparent::hrefからidを抽出する
    @param[in]    入力となるJson文字列
