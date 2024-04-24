@@ -65,7 +65,7 @@ public:
   */
   std::list<std::map<std::string, std::string>> collectTaskData(const std::string& jsonString);
 
-private:
+protected:
   std::unique_ptr<Chronos> timeConverter_;  //!< OpenProjectから取得したデータ内に含まれるローカルタイムをGMTに変換するクラス
 
   /*!
