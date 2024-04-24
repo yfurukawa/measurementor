@@ -9,8 +9,8 @@ LIB = -lgtest -lgtest_main -lnetworkinterface -lclock -lfileinterface -llogger
 OPT = -O0 -Wall -std=c++17 -fPIC
 TARGET = openprojectTest
 OBJ = ../../../src/pts/openproject/JsonParser.o ../../../src/pts/openproject/OpenProject.o
-TESTSRC = JsonParserTest.cpp OpenProjectTest.cpp
-TESTOBJ = JsonParserTest.o OpenProjectTest.o
+TESTSRC = JsonParserTest.cpp OpenProjectTest.cpp JsonParserSpy.cpp
+TESTOBJ = JsonParserTest.o OpenProjectTest.o JsonParserSpy.o
 
 export CC RM MAKE INCLUDE OPT
 

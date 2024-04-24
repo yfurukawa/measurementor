@@ -12,7 +12,7 @@ namespace pts
 {
 
 // ---------< forward declaration >----------------------
-class JsonParser;
+class JsonParserSpy;
 
 /*!
  @file      JsonParserTest.h
@@ -32,7 +32,7 @@ public:
     virtual ~JsonParserTest() = default;
 
 protected:
-    JsonParser* sut;
+    JsonParserSpy* sut;
 
     void SetUp();
     void TearDown();

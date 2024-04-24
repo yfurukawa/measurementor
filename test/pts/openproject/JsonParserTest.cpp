@@ -2,14 +2,14 @@
 #include <map>
 #include <string>
 #include "JsonParserTest.h"
-#include "../../../src/pts/openproject/JsonParser.h"
+#include "JsonParserSpy.h"
 //#include "../../../lib/libClock.h"
 
 namespace pts
 {
     void JsonParserTest::SetUp()
     {
-        sut = new JsonParser();
+        sut = new JsonParserSpy();
     }
 
     void JsonParserTest::TearDown()
