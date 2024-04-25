@@ -163,12 +163,26 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData(const 
 
     if (type == "Task")
     {
-
       unsigned int taskId(j["_embedded"]["elements"][count]["id"]);
       parsedData.insert(std::make_pair("taskId", std::to_string(taskId)));
-      parsedData.insert(std::make_pair("taskName", j["_embedded"]["elements"][count]["subject"]));
 
-      parsedData.insert(std::make_pair("itemId", pickupId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"])));
+      if((j["_embedded"]["elements"][count]["subject"]).is_null())
+      {
+        parsedData.insert(std::make_pair("taskName", "N/A"));
+      }
+      else{
+        parsedData.insert(std::make_pair("taskName", j["_embedded"]["elements"][count]["subject"]));
+      }
+
+      if((j["_embedded"]["elements"][count]["_links"]["parent"]["href"]).is_null())
+      {
+        parsedData.insert(std::make_pair("itemId", "0"));
+      }
+      else
+      {
+        parsedData.insert(std::make_pair("itemId", pickupId(j["_embedded"]["elements"][count]["_links"]["parent"]["href"])));
+      }
+
       if ((j["_embedded"]["elements"][count]["_links"]["version"]["href"]).is_null())
       {
         parsedData.insert(std::make_pair("sprintId", "0"));
