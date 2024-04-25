@@ -52,8 +52,9 @@ std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformat
 
 std::list<std::map<std::string, std::string>> OpenProject::collectItemInformation(const measurementor::ProjectId& projectId)
 {
+  // ページサイズは、OpenProjectの設定に依存する
   std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) +
-                      "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d");
+                      "/work_packages?pageSize=4000");
 
   std::string receivedJson = sendQueryMessage(message);
 
@@ -66,8 +67,11 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
 
 std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformation(const measurementor::ProjectId& projectId)
 {
+  // filter : [{"status":{"operator":"*","values":["*"]}}]
+  // 本フィルタは、フィルタの設定方法を定義しておくことが目的で、データのフィルタリングはしていない。
+  // ページサイズは、OpenProjectの設定に依存する
   std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) +
-                      "/work_packages?filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22alues%22:%5b%22*%22%5d%7d%7d%5d");
+                      "/work_packages?pageSize=4000,filters=%5b%7b%22status%22:%7b%22operator%22:%22*%22,%22values%22:%5b%22*%22%5d%7d%7d%5d");
 
   std::string receivedJson = sendQueryMessage(message);
   // TODO(yfurukawa) ここでサーバからの応答が正常であることを確認する
