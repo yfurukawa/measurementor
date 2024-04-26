@@ -68,10 +68,10 @@ std::string Item::createJson(const Timestamp& timestamp)
   JsonKey storyPoint("storyPoint");
   jsonCreator_.holdData(storyPoint, storyPoint_.get());
 
-  JsonKey status("status");
+  JsonKey status("itemStatus");
   jsonCreator_.holdData(status, status_.get());
 
-  JsonKey statusCode("statusCode");
+  JsonKey statusCode("itemStatusCode");
   jsonCreator_.holdData(statusCode, statusCode_.get());
 
   return jsonCreator_.createJson();

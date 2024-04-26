@@ -32,7 +32,7 @@ TEST_F(TaskTest, createJson)
     new measurementor::Task(projectId, projectName, sprintId, sprintName, itemId, taskId, taskName, author, estimatedTime, assignee, status, statusCode, updatedAt);
 
   std::string expected(
-    R"({"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"indexType":"Task","itemId":1,"projectId":1,"projectName":"Test Project","sprintId":11,"sprintName":"Test Sprint","status":"In Progress","statusCode":2,"taskId":11,"taskName":"Test Task","timestamp":"2024-02-27T12:34:56.123","updatedAt":"2024-02-23T19:18:25+09:00"})");
+    R"({"assignee":"Test Assignee","author":"Test Author","estimatedTime":5.5,"indexType":"Task","itemId":1,"projectId":1,"projectName":"Test Project","sprintId":11,"sprintName":"Test Sprint","taskId":11,"taskName":"Test Task","taskStatus":"In Progress","taskStatusCode":2,"timestamp":"2024-02-27T12:34:56.123","updatedAt":"2024-02-23T19:18:25+09:00"})");
 
   EXPECT_EQ(expected, sut->createJson(timestamp));
 }

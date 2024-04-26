@@ -71,7 +71,7 @@ std::string Sprint::createJson(const Timestamp& timestamp)
   JsonKey totalStoryPoint("totalStoryPoint");
   jsonCreator_.holdData(totalStoryPoint, totalPoint_.get());
 
-  JsonKey status("status");
+  JsonKey status("sprintStatus");
   jsonCreator_.holdData(status, status_.get());
 
   JsonKey remainingWorkTime("remainingWorkTime");

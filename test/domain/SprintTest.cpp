@@ -25,7 +25,7 @@ TEST_F(SprintTest, createJson_noAssignedItem)
   sut = new Sprint(projectId, sprintId, sprintName, status, startDate, endDate);
 
   std::string expected(
-    R"({"endDate":"2024-02-25T12:34:56+09:00","indexType":"Sprint","projectId":10,"remainingWorkTime":0.0,"sprintId":1,"sprintName":"Test Sprint","startDate":"2024-02-23T12:34:56+09:00","status":"open","timestamp":"2024-02-25T12:34:56+09:00","totalStoryPoint":0})");
+    R"({"endDate":"2024-02-25T12:34:56+09:00","indexType":"Sprint","projectId":10,"remainingWorkTime":0.0,"sprintId":1,"sprintName":"Test Sprint","sprintStatus":"open","startDate":"2024-02-23T12:34:56+09:00","timestamp":"2024-02-25T12:34:56+09:00","totalStoryPoint":0})");
 
   EXPECT_EQ(expected, sut->createJson(tstamp));
 }

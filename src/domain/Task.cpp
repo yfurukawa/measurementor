@@ -65,10 +65,10 @@ std::string Task::createJson(Timestamp timestamp)
   JsonKey assignee("assignee");
   jsonCreator_.holdData(assignee, assignee_.get());
 
-  JsonKey status("status");
+  JsonKey status("taskStatus");
   jsonCreator_.holdData(status, status_.get());
 
-  JsonKey statusCode("statusCode");
+  JsonKey statusCode("taskStatusCode");
   jsonCreator_.holdData(statusCode, statusCode_.get());
 
   JsonKey updatedAt("updatedAt");
