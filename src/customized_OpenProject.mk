@@ -11,7 +11,8 @@ OPT = -O0 -Wall -std=c++17 -fPIC -g
 TARGET = measurementor
 SRC = main.cpp
 OBJ = main.o domain/PtsDataCollector.o domain/Project.o domain/Sprint.o domain/Item.o domain/Task.o domain/JsonCreator.o domain/MetricCalculator.o \
-pts/customized_openproject/OpenProject.o pts/customized_openproject/OpenProjectFactory.o pts/customized_openproject/JsonParser.o pts/customized_openproject/PreviousDataReader.o pts/customized_openproject/PreviousDataReaderFactory.o \
+pts/customized_openproject/OpenProject.o pts/customized_openproject/OpenProjectFactory.o pts/customized_openproject/JsonParser.o pts/customized_openproject/PreviousDataReader.o \
+pts/customized_openproject/PreviousDataReaderFactory.o pts/customized_openproject/DifferAbsorber.o \
 analyzer/elasticsearch/Elasticsearch.o analyzer/elasticsearch/ElasticsearchFactory.o analyzer/elasticsearch/Index.o \
 repository/postgresql/Repository.o repository/postgresql/RepositoryFactory.o
 
@@ -20,11 +21,8 @@ export CC RM MAKE INCLUDE LD_PATH OPT
 $(TARGET): $(OBJ)
 	$(CC) $(INCLUDE) $(LD_PATH) $(OPT) -o $(TARGET) $(OBJ) $(LIBD) $(DLIB)
 
-main.o: main.cpp
+$(OBJ):
 	$(CC) $(INCLUDE) $(LD_PATH) $(OPT) -c $(SRC)
-	$(MAKE) sub
-
-sub:
 	cd domain ; $(MAKE)
 	cd pts/customized_openproject ; $(MAKE)
 	cd analyzer/elasticsearch ; $(MAKE)
