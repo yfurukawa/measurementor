@@ -33,7 +33,6 @@ PtsDataCollector::PtsDataCollector()
 {
   projectList_.clear();
   sprintList_.clear();
-  closedSprintList_.clear();
   itemList_.clear();
   taskList_.clear();
   previousTaskList_.clear();
