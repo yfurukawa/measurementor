@@ -33,6 +33,7 @@ PtsDataCollector::PtsDataCollector()
 {
   projectList_.clear();
   sprintList_.clear();
+  closedSprintList_.clear();
   itemList_.clear();
   taskList_.clear();
   previousTaskList_.clear();
@@ -157,13 +158,17 @@ void PtsDataCollector::collectSprintData()
 
   for (auto json = begin(jsonObjectList); json != end(jsonObjectList); ++json)
   {
-    ProjectId projectId(std::stoi((*json)["projectId"]));
-    SprintId sprintId(std::stoi((*json)["sprintId"]));
-    Name sprintName((*json)["sprintName"]);
-    Status status((*json)["status"]);
-    StartDate startDate((*json)["startDate"]);
-    EndDate endDate((*json)["endDate"]);
-    sprintList_.insert(std::make_pair(sprintId, std::make_shared<Sprint>(projectId, sprintId, sprintName, status, startDate, endDate)));
+    // 完了したスプリントは集計対象にしないのでオープンなもののみに限定する
+    if ((*json)["status"] == "open")
+    {
+      ProjectId projectId(std::stoi((*json)["projectId"]));
+      SprintId sprintId(std::stoi((*json)["sprintId"]));
+      Name sprintName((*json)["sprintName"]);
+      Status status((*json)["status"]);
+      StartDate startDate((*json)["startDate"]);
+      EndDate endDate((*json)["endDate"]);
+      sprintList_.insert(std::make_pair(sprintId, std::make_shared<Sprint>(projectId, sprintId, sprintName, status, startDate, endDate)));
+    }
   }
 }
 
@@ -181,16 +186,20 @@ void PtsDataCollector::collectItemData()
 
   for (auto json = begin(jsonObjectList); json != end(jsonObjectList); ++json)
   {
-    ProjectId projectId(std::stoi((*json)["projectId"]));
+    // アイテムが含まれているスプリントがオープンでない場合は集計の対象外とするのでそれを確認する
     SprintId sprintId(std::stoi((*json)["sprintId"]));
-    ItemId itemId(std::stoi((*json)["itemId"]));
-    Name itemName((*json)["itemName"]);
-    Status status((*json)["status"]);
-    StatusCode statusCode(std::stoi((*json)["statusCode"]));
-    EstimatedTime totalEstimatedTime(std::stoi((*json)["totalEstimatedTime"]));
-    Point storyPoint(std::stoi((*json)["storyPoint"]));
-    itemList_.insert(std::make_pair(
-      itemId, std::make_shared<Item>(itemId, itemName, projectId, sprintId, storyPoint, status, statusCode, totalEstimatedTime)));
+    if (sprintList_.find(sprintId) != sprintList_.end())
+    {
+      ProjectId projectId(std::stoi((*json)["projectId"]));
+      ItemId itemId(std::stoi((*json)["itemId"]));
+      Name itemName((*json)["itemName"]);
+      Status status((*json)["status"]);
+      StatusCode statusCode(std::stoi((*json)["statusCode"]));
+      EstimatedTime totalEstimatedTime(std::stoi((*json)["totalEstimatedTime"]));
+      Point storyPoint(std::stoi((*json)["storyPoint"]));
+      itemList_.insert(std::make_pair(
+        itemId, std::make_shared<Item>(itemId, itemName, projectId, sprintId, storyPoint, status, statusCode, totalEstimatedTime)));
+    }
   }
 }
 
@@ -208,22 +217,28 @@ void PtsDataCollector::collectTaskData()
 
   for (auto json = begin(jsonObjectList); json != end(jsonObjectList); ++json)
   {
-    ProjectId projectId(std::stoi((*json)["projectId"]));
-    Name projectName((*json)["projectName"]);
+    // タスクが含まれているスプリントがオープンでない場合は集計の対象外とするのでそれを確認する
+    // ただし、タスクが含まれているアイテムが完了していても、タスクの状態割合や担当割合等は
+    // スプリントが完了するまでは集計対象としたいので、アイテムのステータスでのフィルタリングは行わない
     SprintId sprintId(std::stoi((*json)["sprintId"]));
-    Name sprintName((*json)["sprintName"]);
-    ItemId itemId(std::stoi((*json)["itemId"]));
-    TaskId taskId(std::stoi((*json)["taskId"]));
-    Name taskName((*json)["taskName"]);
-    Status status((*json)["status"]);
-    StatusCode statusCode(std::stoi((*json)["statusCode"]));
-    Author author((*json)["author"]);
-    EstimatedTime estimatedTime(std::stoi((*json)["estimatedTime"]));
-    Assignee assignee((*json)["assignee"]);
-    UpdatedAt updatedAt((*json)["updatedAt"]);
+    if (sprintList_.find(sprintId) != sprintList_.end())
+    {
+      ProjectId projectId(std::stoi((*json)["projectId"]));
+      Name projectName((*json)["projectName"]);
+      Name sprintName((*json)["sprintName"]);
+      ItemId itemId(std::stoi((*json)["itemId"]));
+      TaskId taskId(std::stoi((*json)["taskId"]));
+      Name taskName((*json)["taskName"]);
+      Status status((*json)["status"]);
+      StatusCode statusCode(std::stoi((*json)["statusCode"]));
+      Author author((*json)["author"]);
+      EstimatedTime estimatedTime(std::stoi((*json)["estimatedTime"]));
+      Assignee assignee((*json)["assignee"]);
+      UpdatedAt updatedAt((*json)["updatedAt"]);
 
-    taskList_.insert(std::make_pair(taskId, std::make_shared<Task>(projectId, projectName, sprintId, sprintName, itemId, taskId, taskName, author, estimatedTime,
-                                                                   assignee, status, statusCode, updatedAt)));
+      taskList_.insert(std::make_pair(taskId, std::make_shared<Task>(projectId, projectName, sprintId, sprintName, itemId, taskId, taskName, author, estimatedTime,
+                                                                    assignee, status, statusCode, updatedAt)));
+    }
   }
 
   metricCalculator_->calculateMetrics(taskList_, previousTaskList_);

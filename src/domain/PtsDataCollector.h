@@ -82,7 +82,7 @@ protected:
   IPreviousDataReader* previousDataReader_;                    //!< 前回値を読み込むクラス
   std::unique_ptr<MetricCalculator> metricCalculator_;   //!< タスクの所要時間等を計算するクラス
   std::map<ProjectId, std::shared_ptr<Project>> projectList_;  //!< PTSで管理されているプロジェクトのリスト
-  std::map<SprintId, std::shared_ptr<Sprint>> sprintList_;     //!< PTSで管理されているスプリンTのリスト
+  std::map<SprintId, std::shared_ptr<Sprint>> sprintList_;     //!< PTSで管理されているスプリントの内、アクティブなスプリントのリスト
   std::map<ItemId, std::shared_ptr<Item>> itemList_;  //!< PTSで管理されているプロダクトバックログアイテムのリスト
   std::map<TaskId, std::shared_ptr<Task>> taskList_;  //!< PTSで管理されているタスクのリスト
   std::map<TaskId, std::shared_ptr<Task>> previousTaskList_;  //!< 前回値を保持しているタスクのリスト
