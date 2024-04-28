@@ -1,5 +1,5 @@
 /*!
- @file      IPreviousDataFactory.h
+ @file      IPreviousDataReaderFactory.h
  @brief     PreviousDataを読み込むクラスのファクトリの抽象クラス
  @copyright Copyright 2024 Yoshihiro Furukawa
 */
