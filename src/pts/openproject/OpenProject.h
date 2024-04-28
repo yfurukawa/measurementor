@@ -64,21 +64,21 @@ public:
 
   /*!
    @brief          指定されたプロジェクトに定義されているSprint情報を収集する
-   @param[in]      project 収集したいプロジェクト
+   @param[in]      projectId  収集したいプロジェクトのID
    @return         スプリントのリスト（Sprintの情報マップ（情報名、値）をリスト化したもの）
   */
   std::list<std::map<std::string, std::string>> collectSprintInformation(const measurementor::ProjectId& projectId) override;
 
   /*!
    @brief          指定されたプロジェクトに定義されているItemの情報を収集する
-   @param[in]      project 収集したいプロジェクト
+   @param[in]      projectId  収集したいプロジェクトのID
    @return         プロダクトバックログアイテムのリスト（PBIの情報マップ（情報名、値）をリスト化したもの）
   */
   std::list<std::map<std::string, std::string>> collectItemInformation(const measurementor::ProjectId& projectId) override;
 
   /*!
    @brief          指定されたプロジェクトに定義されているTaskの情報を収集する
-   @param[in]      project 収集したいプロジェクト
+   @param[in]      projectId  収集したいプロジェクトのID
    @return         タスクのリスト（タスクの情報マップ（情報名、値）をリスト化したもの）
   */
   std::list<std::map<std::string, std::string>> collectTaskInformation(const measurementor::ProjectId& projectId) override;
@@ -117,8 +117,8 @@ private:
 
   /*!
    @brief      サーバから受信したJsonオブジェクトをファイルに保存する
-   @param[in]  previousFaile  保存先のファイル名
-   @param[in]  受信したJsonオブジェクト
+   @param[in]  previousFile  保存先のファイル名
+   @param[in]  receivedJson  受信したJsonオブジェクト
   */
   void saveJsonObjectAsPreviousData(std::filesystem::path previousFile, const std::string& receivedJson);
 };
