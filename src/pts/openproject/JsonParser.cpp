@@ -249,7 +249,6 @@ std::string JsonParser::pickupHour(std::string remainingTimeValue)
   std::stringstream ss;
   ss << std::fixed << std::setprecision(2) << remainingTime;
   return ss.str();
-  ;
 }
 
 }  // namespace pts
