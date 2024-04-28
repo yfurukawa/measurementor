@@ -48,7 +48,7 @@ public:
   /*!
   @brief  デフォルトデストラクタ
   */
-  virtual ~PtsDataCollector();
+  ~PtsDataCollector();
 
   /*!
   @brief      Ptsからデータを収集する
