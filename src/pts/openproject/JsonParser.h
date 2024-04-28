@@ -12,6 +12,7 @@
 #include <string>
 #include "nlohmann/json.hpp"
 #include "Chronos.h"
+#include "DifferAbsorber.h"
 
 // --------------< namespace >---------------------------
 namespace pts
@@ -30,7 +31,7 @@ public:
   /*!
    @brief  デフォルトコンストラクタ
   */
-  JsonParser() : timeConverter_(std::make_unique<Chronos>()) {}
+  JsonParser();
 
   /*!
    @brief  デフォルトデストラクタ
@@ -66,7 +67,8 @@ public:
   std::list<std::map<std::string, std::string>> collectTaskData(const std::string& jsonString);
 
 protected:
-  std::unique_ptr<Chronos> timeConverter_;  //!< OpenProjectから取得したデータ内に含まれるローカルタイムをGMTに変換するクラス
+  std::unique_ptr<Chronos> timeConverter_;           //!< OpenProjectから取得したデータ内に含まれるローカルタイムをGMTに変換するクラス
+  std::unique_ptr<DifferAbsorber> differAbsober_;    //!< カスタマイズしたステータスを持つOpenProjectのステータスをデフォルト設定に変換するクラス
 
   /*!
    @brief        Json文字列のparent::hrefからidを抽出する

@@ -12,6 +12,7 @@
 #include <string>
 #include "nlohmann/json.hpp"
 #include "Chronos.h"
+#include "DifferAbsorber.h"
 
 // --------------< namespace >---------------------------
 namespace pts
@@ -24,13 +25,13 @@ namespace pts
  @brief     Json文字列を解析して必要なデータを抽出する
  @note      本クラスは、OpenProjectから受信したJson文字列から必要な情報を抽出し、それを返すものである。
 */
-class JsonParser final
+class JsonParser
 {
 public:
   /*!
    @brief  デフォルトコンストラクタ
   */
-  JsonParser() : timeConverter_(std::make_unique<Chronos>()) {}
+  JsonParser();
 
   /*!
    @brief  デフォルトデストラクタ
@@ -65,8 +66,9 @@ public:
   */
   std::list<std::map<std::string, std::string>> collectTaskData(const std::string& jsonString);
 
-private:
-  std::unique_ptr<Chronos> timeConverter_;  //!< OpenProjectから取得したデータ内に含まれるローカルタイムをGMTに変換するクラス
+protected:
+  std::unique_ptr<Chronos> timeConverter_;           //!< OpenProjectから取得したデータ内に含まれるローカルタイムをGMTに変換するクラス
+  std::unique_ptr<DifferAbsorber> differAbsober_;    //!< カスタマイズしたステータスを持つOpenProjectのステータスをデフォルト設定に変換するクラス
 
   /*!
    @brief        Json文字列のparent::hrefからidを抽出する
@@ -87,28 +89,28 @@ private:
    @param[in]    customizedStatusCode  カスタマイズされたステータスコード
    @return       対応するデフォルトのステータス名称
   */
-  std::string convertStatusName(std::string customizedStatusCode, std::string customizedStatusName);
+  //std::string convertStatusName(std::string customizedStatusCode, std::string customizedStatusName);
 
   /*!
    @brief        タスクのステータスコードをデフォルトのコードに変更する
    @param[in]    customizedStatusCode  カスタマイズされたステータスコード
    @return       対応するデフォルトのステータスコード
   */
-  std::string convertStatusCode(std::string customizedStatusCode);
+  //std::string convertStatusCode(std::string customizedStatusCode);
 
   /*!
    @brief        タイプコードを元にデフォルトのタイプ名称に変更する
    @param[in]    customizedTypeCode  カスタマイズされたタイプコード
    @return       対応するデフォルトのタイプ名称
   */
-  std::string convertTypeName(std::string customizedTypeCode, std::string customizedTypeName);
+  //std::string convertTypeName(std::string customizedTypeCode, std::string customizedTypeName);
 
   /*!
    @brief        タイプのコードをデフォルトのタイプコードに変更する
    @param[in]    customizedTypeCode  カスタマイズされたタイプコード
    @return       対応するデフォルトのタイプコード
   */
-  std::string convertTypeCode(std::string customizedTypeCode);
+  //std::string convertTypeCode(std::string customizedTypeCode);
 
 };
 

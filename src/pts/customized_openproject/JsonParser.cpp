@@ -19,6 +19,12 @@
 namespace pts
 {
 
+JsonParser::JsonParser()
+  : timeConverter_(std::make_unique<Chronos>())
+  , differAbsober_(std::make_unique<DifferAbsorber>())
+{
+}
+
 std::list<std::map<std::string, std::string>> JsonParser::collectProjectData(const std::string& jsonString)
 {
   std::list<std::map<std::string, std::string>> projectList;
@@ -129,8 +135,8 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData(const 
       {
         parsedData.insert(std::make_pair("storyPoint", std::to_string(static_cast<int>(j["_embedded"]["elements"][count]["storyPoints"]))));
       }
-      parsedData.insert(std::make_pair("status", convertStatusName(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]), j["_embedded"]["elements"][count]["_links"]["status"]["title"])));
-      parsedData.insert(std::make_pair("statusCode", convertStatusCode(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]))));
+      parsedData.insert(std::make_pair("status", differAbsober_->convertStatusName(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]), j["_embedded"]["elements"][count]["_links"]["status"]["title"])));
+      parsedData.insert(std::make_pair("statusCode", differAbsober_->convertStatusCode(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]))));
       if ((j["_embedded"]["elements"][count]["derivedEstimatedTime"]).is_null())
       {
         parsedData.insert(std::make_pair("totalEstimatedTime", "0.00"));
@@ -208,8 +214,8 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData(const 
       parsedData.insert(std::make_pair("assignee", (j["_embedded"]["elements"][count]["_links"]["assignee"]["href"]).is_null()
                                                      ? ""
                                                      : j["_embedded"]["elements"][count]["_links"]["assignee"]["title"]));
-      parsedData.insert(std::make_pair("status", convertStatusName(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]), j["_embedded"]["elements"][count]["_links"]["status"]["title"])));
-      parsedData.insert(std::make_pair("statusCode", convertStatusCode(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]))));
+      parsedData.insert(std::make_pair("status", differAbsober_->convertStatusName(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]), j["_embedded"]["elements"][count]["_links"]["status"]["title"])));
+      parsedData.insert(std::make_pair("statusCode", differAbsober_->convertStatusCode(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]))));
       parsedData.insert(std::make_pair("updatedAt", j["_embedded"]["elements"][count]["updatedAt"]));
 
       taskList.push_back(parsedData);
@@ -233,7 +239,7 @@ std::string JsonParser::pickupHour(std::string remainingTimeValue)
   std::regex_match(remainingTimeValue.c_str(), match, re);
   if (match.empty())
   {
-    AbstLogger::LoggerFactory::getInstance()->cretateLogger()->log("[JsonParser] : RemainingTime pattern is unmatched " + remainingTimeValue, AbstLogger::Severity::error);
+    AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[JsonParser] : RemainingTime pattern is unmatched " + remainingTimeValue, AbstLogger::Severity::error);
   }
   double hour = match.length(2) != 0 ? std::stod(match.str(2)) : static_cast<double>(0);
   double min = match.length(4) != 0 ? std::stod(match.str(4)) : static_cast<double>(0);
@@ -244,6 +250,7 @@ std::string JsonParser::pickupHour(std::string remainingTimeValue)
   return ss.str();
 }
 
+/*
 std::string JsonParser::convertStatusName(std::string customizedStatusCode, std::string customizedStatusName)
 {
   int customizedCode(std::stoi(customizedStatusCode));
@@ -341,5 +348,6 @@ std::string convertTypeCode(std::string customizedTypeCode)
   }
   return convertedCode;
 }
+*/
 
 }  // namespace pts
