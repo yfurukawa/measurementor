@@ -128,7 +128,7 @@ private:
 
   /*!
    @brief DBサーバにクエリを送信する
-   @param[in]  query  DBサーバに送信するSQLクエリ
+   @param[in]  taskId クエリ対象のTaskID
    @return     クエリ結果
   */
   nlohmann::json sendQuery(measurementor::TaskId taskId);
