@@ -85,7 +85,20 @@ public:
    @return       対応するデフォルトのタイプコード
   */
   std::string convertTypeCode(std::string customizedTypeCode);  
+  
+  /*!
+   @brief        パース対象JsonがItemのものか判断する
+   @param[in]    type  データの種類を表すID
+   @return       Itemである場合、trueを返す
+  */
+  bool isItemData(std::string type);
 
+  /*!
+   @brief        パース対象JsonがTaskのものか判断する
+   @param[in]    type  データの種類を表すID
+   @return       Taskである場合、trueを返す
+  */
+  bool isTaskData(std::string type);
 };
 
 } // namespace pts

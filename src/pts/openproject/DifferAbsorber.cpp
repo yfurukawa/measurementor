@@ -23,4 +23,16 @@ std::string DifferAbsorber::convertTypeCode(std::string customizedTypeCode)
   return customizedTypeCode;
 }
 
+bool DifferAbsorber::isItemData(std::string type)
+{
+  // 4 represent Feature.
+  return type == "4";
+}
+
+bool DifferAbsorber::isTaskData(std::string type)
+{
+  // 1 represent Tassk.
+  return type == "1";
+}
+
 }  // namespace pts

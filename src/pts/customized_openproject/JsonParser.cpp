@@ -112,7 +112,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData(const 
     parsedData.clear();
     type = pickupId(j["_embedded"]["elements"][count]["_links"]["type"]["href"]);
 
-    if ((type == "4") || (type == "9"))
+    if (differAbsober_->isItemData(pickupId(j["_embedded"]["elements"][count]["_links"]["type"]["href"])))
     {
       unsigned int itemId(j["_embedded"]["elements"][count]["id"]);
       parsedData.insert(std::make_pair("itemId", std::to_string(itemId)));
@@ -167,7 +167,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData(const 
     parsedData.clear();
     type = pickupId(j["_embedded"]["elements"][count]["_links"]["type"]["href"]);
 
-    if ((type == "1") || (type == "8"))
+    if (differAbsober_->isItemData(pickupId(j["_embedded"]["elements"][count]["_links"]["type"]["href"])))
     {
       unsigned int taskId(j["_embedded"]["elements"][count]["id"]);
       parsedData.insert(std::make_pair("taskId", std::to_string(taskId)));

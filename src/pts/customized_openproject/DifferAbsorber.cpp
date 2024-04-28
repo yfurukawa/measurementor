@@ -101,4 +101,18 @@ std::string DifferAbsorber::convertTypeCode(std::string customizedTypeCode)
   return convertedCode;
 }
 
+bool DifferAbsorber::isItemData(std::string type)
+{
+  // 4 represent Feature that is default value.
+  // 9 represent Feature that is customized value.
+  return (type == "9") || (type == "4");
+}
+
+bool DifferAbsorber::isTaskData(std::string type)
+{
+  // 1 represent Task that is default value.
+  // 8 represent Task that is customized value.
+  return (type == "8") || (type == "1");
+}
+
 }  // namespace pts
