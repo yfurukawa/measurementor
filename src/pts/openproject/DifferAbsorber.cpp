@@ -1,3 +1,7 @@
+/*!
+ @file      DifferAbsorber.cpp
+ @copyright Copyright 2024 Yoshihiro Furukawa
+*/
 #include "DifferAbsorber.h"
 
 namespace pts
