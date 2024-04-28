@@ -19,6 +19,7 @@ MetricCalculator::MetricCalculator()
   : repository_(IRepositoryFactory::getInstance()->createRepository())
   , chronos_(std::make_unique<::Chronos>())
   , analyzer_(IAnalyzerFactory::getInstance()->createIAnalyzer())
+  , reworkCounter_(std::make_unique<ReworkCounter>())
 {
   currentTaskList_.clear();
   previousTaskList_.clear();
@@ -79,17 +80,23 @@ void MetricCalculator::checkTransit(std::shared_ptr<Task>& currentTask, std::sha
     transitFromInProgressToReview(updateData, currentTask, previousTask);
   }
 
-  // Changed state from Review to Close
+  // Changed state from Review to Closed
   if (previousTask->statusCode_ == 15 && currentTask->statusCode_ == 12)
   {
     transitFromReviewToClose(updateData, currentTask, previousTask);
   }
   
+  // Change state from In Progress to Closed
   if (previousTask->statusCode_ == 7 && currentTask->statusCode_ == 12)
   {
     transitFromInProgressToClose(updateData, currentTask, previousTask);
   }
 
+  // Change state from Review to In Progress, Rework occured
+  if (previousTask->statusCode_ == 15 && currentTask->statusCode_ == 7)
+  {
+    reworkCounter_->occurRework(currentTask->taskId_);
+  }
 }
 
 void MetricCalculator::transitFromNewToInProgress(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask)

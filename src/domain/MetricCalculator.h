@@ -11,6 +11,7 @@
 #include <map>
 #include <memory>
 #include "Chronos.h"
+#include "ReworkCounter.h"
 #include "domainPrimitives/MeasurementPrimitives.h"
 #include "nlohmann/json.hpp"
 
@@ -48,12 +49,13 @@ public:
   void calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> currentTaskList, std::map<TaskId, std::shared_ptr<Task>> previousTaskList);
 
 protected:
-  IRepository* repository_;  //!< メトリックスデータの中間データを永続化するリポジトリ
-  std::unique_ptr<::Chronos> chronos_;  //!< 時刻操作を提供するクラス
-  IAnalyzer* analyzer_;                 //!< 計測データを分析するシステムとインターフェースするクラス
+  IRepository* repository_;                                   //!< メトリックスデータの中間データを永続化するリポジトリ
+  std::unique_ptr<::Chronos> chronos_;                        //!< 時刻操作を提供するクラス
+  IAnalyzer* analyzer_;                                       //!< 計測データを分析するシステムとインターフェースするクラス
+  std::unique_ptr<ReworkCounter> reworkCounter_;              //!< 手戻り回数を集計するクラス
   std::map<TaskId, std::shared_ptr<Task>> currentTaskList_;   //!< 現在値を保持しているタスクのリスト
   std::map<TaskId, std::shared_ptr<Task>> previousTaskList_;  //!< 前回値を保持しているタスクのリスト
-  std::map<TaskId, nlohmann::json> durationDataList_;          //!< 各タスクの作業期間データ
+  std::map<TaskId, nlohmann::json> durationDataList_;         //!< 各タスクの作業期間データ
 
   /*!
    @brief  In-Progress, ReviewおよびTaskを完了するまでに掛かった時間を計算する
