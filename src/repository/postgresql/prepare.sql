@@ -9,3 +9,10 @@ CREATE TABLE task_metrics (
     taskid integer PRIMARY KEY,
     metrics_data jsonb
 );
+
+DROP TABLE rework_times;
+
+CREATE TABLE rework_times (
+    taskid integer PRIMARY KEY,
+    reworkTimes integer
+);
