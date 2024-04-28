@@ -83,35 +83,6 @@ protected:
    @return       時間を表す数値（文字列）
   */
   std::string pickupHour(std::string remainingTimeValue);
-
-  /*!
-   @brief        ステータスコードを元にタスクのステータス名称をデフォルトの名称に変更する
-   @param[in]    customizedStatusCode  カスタマイズされたステータスコード
-   @return       対応するデフォルトのステータス名称
-  */
-  //std::string convertStatusName(std::string customizedStatusCode, std::string customizedStatusName);
-
-  /*!
-   @brief        タスクのステータスコードをデフォルトのコードに変更する
-   @param[in]    customizedStatusCode  カスタマイズされたステータスコード
-   @return       対応するデフォルトのステータスコード
-  */
-  //std::string convertStatusCode(std::string customizedStatusCode);
-
-  /*!
-   @brief        タイプコードを元にデフォルトのタイプ名称に変更する
-   @param[in]    customizedTypeCode  カスタマイズされたタイプコード
-   @return       対応するデフォルトのタイプ名称
-  */
-  //std::string convertTypeName(std::string customizedTypeCode, std::string customizedTypeName);
-
-  /*!
-   @brief        タイプのコードをデフォルトのタイプコードに変更する
-   @param[in]    customizedTypeCode  カスタマイズされたタイプコード
-   @return       対応するデフォルトのタイプコード
-  */
-  //std::string convertTypeCode(std::string customizedTypeCode);
-
 };
 
 }  // namespace pts
