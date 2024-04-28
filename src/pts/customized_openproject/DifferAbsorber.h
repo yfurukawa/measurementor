@@ -40,6 +40,12 @@ public:
 
   /*!
    @brief        ステータスコードを元にタスクのステータス名称をデフォルトの名称に変更する
+   @details      ステータスコードに対するステータを名称を以下のとおりに統一する<br>
+   ステータスコード　ステータス名称<br>
+   1 New<br>
+   7 In Progress<br>
+   15 Review<br>
+   12 Closed
    @param[in]    customizedStatusCode  カスタマイズされたステータスコード
    @return       対応するデフォルトのステータス名称
   */
@@ -47,6 +53,12 @@ public:
 
   /*!
    @brief        タスクのステータスコードをデフォルトのコードに変更する
+   @details      ステータスコードを以下のとおりに統一する<br>
+   状態 ステータスコード<br>
+   新規（New） 1<br>
+   処理中（In Progress） 7<br>
+   レビュー中（Review） 15<br>
+   完了（Closed） 12
    @param[in]    customizedStatusCode  カスタマイズされたステータスコード
    @return       対応するデフォルトのステータスコード
   */
@@ -54,6 +66,10 @@ public:
 
   /*!
    @brief        タイプコードを元にデフォルトのタイプ名称に変更する
+   @details      タイプコードに対するタイプを名称を以下のとおりに統一する<br>
+   タイプコード　タイプ名称<br>
+   1 Task<br>
+   4 Feature
    @param[in]    customizedTypeCode  カスタマイズされたタイプコード
    @return       対応するデフォルトのタイプ名称
   */
@@ -61,6 +77,10 @@ public:
 
   /*!
    @brief        タイプのコードをデフォルトのタイプコードに変更する
+   @details      タイプコードを以下のとおりに統一する<br>
+   タイプ 説明 タイプコード<br>
+   Task タスク 1<br>
+   Feature　プロダクトバックログアイテム 4
    @param[in]    customizedTypeCode  カスタマイズされたタイプコード
    @return       対応するデフォルトのタイプコード
   */
