@@ -234,16 +234,17 @@ std::string JsonParser::pickupId(std::string href)
 
 std::string JsonParser::pickupHour(std::string remainingTimeValue)
 {
-  std::regex re(R"(PT(([0-9]+)H)*(([0-9]{1,2})M)*(([0-9]{1,2})S)*)");
+  std::regex re(R"(P((\d{1,2})D)*T?((\d{1,2})H)*((\d{1,2})M)*((\d{1,2})S)*)");
   std::cmatch match;
   std::regex_match(remainingTimeValue.c_str(), match, re);
   if (match.empty())
   {
     AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[JsonParser] : RemainingTime pattern is unmatched " + remainingTimeValue, AbstLogger::Severity::error);
   }
-  double hour = match.length(2) != 0 ? std::stod(match.str(2)) : static_cast<double>(0);
-  double min = match.length(4) != 0 ? std::stod(match.str(4)) : static_cast<double>(0);
-  double remainingTime = hour + min / 60;
+  double day = match.length(2) != 0 ? std::stod(match.str(2)) : static_cast<double>(0);
+  double hour = match.length(4) != 0 ? std::stod(match.str(4)) : static_cast<double>(0);
+  double min = match.length(6) != 0 ? std::stod(match.str(6)) : static_cast<double>(0);
+  double remainingTime = day * 24 + hour + min / 60;
 
   std::stringstream ss;
   ss << std::fixed << std::setprecision(2) << remainingTime;
