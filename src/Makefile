@@ -9,6 +9,7 @@ OPT = -O0 -Wall -std=c++17 -fPIC -g
 TARGET = measurementor
 SRC = main.cpp
 OBJ = main.o domain/PtsDataCollector.o domain/Project.o domain/Sprint.o domain/Item.o domain/Task.o domain/JsonCreator.o domain/MetricCalculator.o \
+domain/ReworkCounter.o \
 pts/openproject/OpenProject.o pts/openproject/OpenProjectFactory.o pts/openproject/JsonParser.o pts/openproject/PreviousDataReader.o \
 pts/openproject/PreviousDataReaderFactory.o pts/openproject/DifferAbsorber.o\
 analyzer/elasticsearch/Elasticsearch.o analyzer/elasticsearch/ElasticsearchFactory.o analyzer/elasticsearch/Index.o \
