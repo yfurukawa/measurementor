@@ -15,7 +15,7 @@ namespace measurementor
 {
 
 // ---------< forward declaration >----------------------
-class MetricCalculator;
+class MetricCalculator;   //!< 
 
 /*!
  @class     Task
@@ -26,6 +26,11 @@ class MetricCalculator;
 class Task final
 {
 private:
+   //! タスクのメトリックスを測定するクラス。以下の理由によりフレンドクラスとしている。<br>
+   //! ・新旧２つのタスククラスの属性を使用してメトリックスを計算する<br>
+   //! ・Taskのメトリックスの計算をするクラスであり、Taskのメンバ関数と同等の位置づけである<br>
+   //! ・Taskにgetterを実装するよりTaskのカプセル化を維持できる
+
   friend MetricCalculator;
 
   /*!
@@ -47,6 +52,7 @@ public:
    @param[in]  estimatedTime   このTaskの見積もり作業時間[H]
    @param[in]  assignee        このタスクの担当者
    @param[in]  status          このタスクの状態
+   @param[in]  statusCode      このタスクの状態を表すコード
    @param[in]  updatedAt       このTaskを更新した日時（ISO8601形式）
   */
   Task(ProjectId projectId, Name projectName, SprintId sprintId, Name sprintName, ItemId itemId, TaskId taskId, Name taskName, Author author, EstimatedTime estimatedTime,

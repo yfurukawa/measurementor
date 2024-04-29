@@ -44,10 +44,10 @@ public:
    @param[in]  apiKey Elasticsearchに送信する際に使用するAPIキー（6系のElasticsearchには不要）
    @param[in]  version 送信先Elasticsearchのバージョン
    @param[in]  index Elasticsearchへの登録に必要なインデックス
-   @param[in]  destination_ 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
-   @param[in]  destinationPort_ 接続先ポート<br>通信ヘッダで使用する
+   @param[in]  destination 接続先サーバ（IPアドレスまたはホスト名）<br>通信ヘッダで使用する
+   @param[in]  destinationPort 接続先ポート<br>通信ヘッダで使用する
   */
-  Elasticsearch(std::shared_ptr<ITcpClient> tcpClient, ApiKey apiKey, Version version, std::unique_ptr<Index> index,
+  Elasticsearch(std::shared_ptr<::ITcpClient> tcpClient, ApiKey apiKey, Version version, std::unique_ptr<Index> index,
                 std::string destination, unsigned int destinationPort);
 
   /*!
@@ -57,7 +57,8 @@ public:
 
   /*!
    @brief      測定データ登録
-   @param[in]  登録するデータ
+   @param[in]  indexSuffix   elasticsearchのindexの一部となるサフィックス
+   @param[in]  registerData  登録するデータ
   */
   void registerMeasurementedData(const std::string& indexSuffix, const std::string& registerData) override;
 
@@ -73,10 +74,15 @@ private:
 
   /*!
    @brief       計測データ登録
-   @param[in]   登録データ
+   @param[in]   registoryString  登録データ
   */
   void sendRegisterMessage(const std::string& registoryString);
 
+  /*!
+   @brief       サーバのレスポンスコードを確認し、サーバでの処理が正常に完了したかを判断する
+   @return      正常終了時は、”Registed"文字列が帰る
+   @attention   本メソッドは未完成である
+  */
   std::optional<std::string> confirmServerResponse();
 };
 

@@ -40,9 +40,8 @@ public:
    @param[in]  sprintId   このSprintのID
    @param[in]  sprintName このSprintの名称
    @param[in]  status     このSprintの完了状態を表すステータス
-   @param[in]  statusCode このSprintの完了状態を表すステータスの番号
    @param[in]  startDate  このSprintの開始日
-   @param[in]  endData    このSprintの終了日
+   @param[in]  endDate    このSprintの終了日
   */
   Sprint(ProjectId projectId, SprintId sprintId, Name sprintName, Status status, StartDate startDate, EndDate endDate);
 

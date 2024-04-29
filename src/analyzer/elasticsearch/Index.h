@@ -31,7 +31,7 @@ class Index final
 public:
   /*!
    @brief      コンストラクタ
-   @param[in]  confファイルに設定されたindex文字列
+   @param[in]  index confファイルに設定されたindex文字列
   */
   explicit Index(std::string index);
 

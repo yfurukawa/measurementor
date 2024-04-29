@@ -6,6 +6,11 @@
 #include <string>
 #include "domain/PtsDataCollector.h"
 
+/*!
+ @brief  main
+ @param[in]  argc  コマンド及び引数の数（2以下である必要がある）
+ @param[in]  argv  コマンド引数は、project又はsprintである必要がある
+*/
 int main(int argc, char* argv[])
 {
   if (argc > 2)

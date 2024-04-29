@@ -38,7 +38,8 @@ public:
 
   /*!
    @brief      測定データ登録
-   @param[in]  登録するデータ
+   @param[in]  indexSuffix   elasticsearchのindexの一部となるサフィックス
+   @param[in]  registerData  登録するデータ
   */
   virtual void registerMeasurementedData(const std::string& indexSuffix, const std::string& registerData) = 0;
 };

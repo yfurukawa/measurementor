@@ -59,15 +59,16 @@ protected:
 
   /*!
    @brief  In-Progress, ReviewおよびTaskを完了するまでに掛かった時間を計算する
-   @param[in] currentTask  現在値を保持しているタスク
+   @param[in] currentTask   現在値を保持しているタスク
    @param[in] previousTask  前回値を保持しているタスク
+   @param[in] timestamp     当該処理をした日時。（elasticsearchで使用する）
   */
   void checkTransit(std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask, std::string timestamp);
 
   /*!
    @brief  NewからIn-Progressに移行した際の中間データ更新処理をする
    @param[in] updateData  メトリックスの中間データ
-   @param[in] previousTask  前回値を保持しているタスク
+   @param[in] currentTask  現在値を保持しているタスク
   */
   void transitFromNewToInProgress(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask);
 
@@ -106,7 +107,7 @@ protected:
   /*!
    @brief  ある状態に留まっていた時間を計算する
    @param[in] startDate  期間の開始日時
-   @param[in] endData    期間の終了日時
+   @param[in] endDate    期間の終了日時
    @return    滞留時間[H]
    @note  滞留時間は0.25[H]間隔。日にちを跨いだら、１７時から翌朝８時まではカウントしない。また、週末の土日は考慮するが、祝日は考慮しない。
   */
@@ -125,7 +126,7 @@ protected:
   /*!
    @brief  start/endの経過日数を算出する
    @param[in] startDate  期間の開始日時
-   @param[in] endData    期間の終了日時
+   @param[in] endDate    期間の終了日時
    @return  経過日数
   */
   std::uint_fast32_t passedDays(::ISO8601String startDate, ::ISO8601String endDate);
@@ -133,7 +134,7 @@ protected:
   /*!
    @brief  週末の回数を算出する
    @param[in] startDate  期間の開始日時
-   @param[in] endData    期間の終了日時
+   @param[in] endDate    期間の終了日時
    @return 経過した週末の回数
   */
   std::uint_fast16_t passedWeekends(::ISO8601String startDate, ::ISO8601String endDate);

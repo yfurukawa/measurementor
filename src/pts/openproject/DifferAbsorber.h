@@ -21,9 +21,9 @@ namespace pts
 // ---------< forward declaration >----------------------
 
 /*!
- @class     JsonParser
- @brief     Json文字列を解析して必要なデータを抽出する
- @note      本クラスは、OpenProjectから受信したJson文字列から必要な情報を抽出し、それを返すものである。
+ @class     DifferAbsorber
+ @brief     Json文字列を解析して必要なデータを抽出する際にデフォルト設定のOpenProjectとカスタマイズした設定の
+ 違いを吸収し、オリジナル設定に寄せる
 */
 class DifferAbsorber final
 {
@@ -47,6 +47,7 @@ public:
    15 Review<br>
    12 Closed
    @param[in]    customizedStatusCode  カスタマイズされたステータスコード
+   @param[in]    customizedStatusName  カスタマイズされたステータス名
    @return       対応するデフォルトのステータス名称
   */
   std::string convertStatusName(std::string customizedStatusCode, std::string customizedStatusName);
@@ -71,6 +72,7 @@ public:
    1 Task<br>
    4 Feature
    @param[in]    customizedTypeCode  カスタマイズされたタイプコード
+   @param[in]    customizedTypeName  カスタマイズされたタイプ名
    @return       対応するデフォルトのタイプ名称
   */
   std::string convertTypeName(std::string customizedTypeCode, std::string customizedTypeName);

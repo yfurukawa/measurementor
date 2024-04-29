@@ -52,7 +52,7 @@ public:
 
   /*!
    @brief       指定されたプロジェクトに定義されているSprint情報を収集する
-   @param[in]   project 収集したいSprintを有するプロジェクトの識別番号
+   @param[in]   projectId 収集したいSprintを有するプロジェクトの識別番号
    @return      スプリントのリスト（Sprintの情報マップ（情報名、値）をリスト化したもの）<br>
                 マップの詳細は、<br>
                 キー ｜ 値<br>
@@ -67,7 +67,7 @@ public:
 
   /*!
    @brief       指定されたプロジェクトに定義されているItemの情報を収集する
-   @param[in]   project 収集したいItemを有するプロジェクトの識別番号
+   @param[in]   projectId 収集したいItemを有するプロジェクトの識別番号
    @return      プロダクトバックログアイテムのリスト（PBIの情報マップ（情報名、値）をリスト化したもの）<br>
                 マップの詳細は、<br>
                 キー ｜ 値<br>
@@ -84,7 +84,7 @@ public:
 
   /*!
    @brief       指定されたプロジェクトに定義されているTaskの情報を収集する
-   @param[in]   project 収集したいプロジェクト
+   @param[in]   projectId 収集したいプロジェクト
    @return      タスクのリスト（タスクの情報マップ（情報名、値）をリスト化したもの）<br>
                 マップの詳細は、<br>
                 キー ｜ 値<br>

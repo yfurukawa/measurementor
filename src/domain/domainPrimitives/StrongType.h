@@ -25,6 +25,9 @@ template< typename T, typename Tag, template<typename> class... Skills >
 struct StrongType : private Skills< StrongType<T, Tag, Skills...> >...
 {
 public:
+    /*!
+     @brief  テンプレートパラメータを名称value_typeとして表す
+    */
     using value_type = T;
 
     /*!

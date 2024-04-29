@@ -43,7 +43,7 @@ public:
 
   /*!
    @brief          指定されたプロジェクトに定義されているSprint情報を収集する
-   @param[in]      project 収集したいプロジェクト
+   @param[in]      projectId 収集したいプロジェクト
    @return         スプリントのリスト（Sprintの情報マップ（情報名、値）をリスト化したもの）
   */
   virtual std::list<std::map<std::string, std::string>> preparePreviousTaskData(const measurementor::ProjectId& projectId) = 0;
