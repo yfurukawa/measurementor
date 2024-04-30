@@ -43,24 +43,26 @@ public:
   virtual void registerMetricsData(TaskId taskId, nlohmann::json metricsData) = 0;
 
   /*!
-   @brief     タスクがIn Progress状態に移行した日付を取得する
+   @brief     タスクがIn Progress状態に移行した日時を取得する
    @param[in] taskId 取得対象タスクのID 
-   @return    nlohmann::json メトリックスデータ
+   @return    In Progress状態に移行した日時
+   @note      対象タスクの日時が登録されていない場合、std::nulloptが返される
   */
   virtual std::optional<UpdatedAt> getStarDateOnInProgress(TaskId taskId) = 0;
 
   /*!
-   @brief     タスクがReview状態に移行した日付を取得する
+   @brief     タスクがReview状態に移行した日時を取得する
    @param[in] taskId 取得対象タスクのID 
-   @return    nlohmann::json メトリックスデータ
+   @return    Review状態に移行した日時
+   @note      対象タスクの日時が登録されていない場合、std::nulloptが返される
   */
   virtual std::optional<UpdatedAt> getStarDateOnReview(TaskId taskId) = 0;
 
   /*!
-   @brief     タスクがClose状態に移行した日付を取得する
+   @brief     タスクがClose状態に移行した日時を取得する
    @param[in] taskId 取得対象タスクのID 
-   @return    nlohmann::json メトリックスデータ
-   TODO 不要なメソッドかも
+   @return    Close状態に移行した日時
+   @note      対象タスクの日時が登録されていない場合、std::nulloptが返される<br>TODO 不要なメソッドかも
   */
   virtual std::optional<UpdatedAt> getStarDateOnClose(TaskId taskId) = 0;
 
