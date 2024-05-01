@@ -22,7 +22,7 @@ void JsonCreator::holdData(JsonKey key, int intValue)
   jsonRaw_[key.get()] = intValue;
 }
 
-void JsonCreator::holdData(JsonKey key, unsigned int intValue)
+void JsonCreator::holdData(JsonKey key, std::uint_fast16_t intValue)
 {
   jsonRaw_[key.get()] = intValue;
 }

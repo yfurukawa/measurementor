@@ -6,6 +6,7 @@
 #pragma once
 
 // ---------------< include >----------------------------
+#include <cstdint>
 #include <string>
 #include "domainPrimitives/MeasurementPrimitives.h"
 #include "nlohmann/json.hpp"
@@ -53,7 +54,7 @@ public:
    @param[in]  key キー
    @param[in]  intValue 値
   */
-  void holdData(JsonKey key, unsigned int intValue);
+  void holdData(JsonKey key, std::uint_fast16_t intValue);
 
   /*!
    @brief      キーと値（文字列）を受け取る
