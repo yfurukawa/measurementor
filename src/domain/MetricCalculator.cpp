@@ -37,16 +37,17 @@ void MetricCalculator::calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> 
     }
     else
     {
-      // 前の状態にあった時間が短くpreviousTaskが見つからなかった場合
+      // previousTaskが見つからなかった場合
       handlingSkippedState(currentTask->second, chronos_->nowIso8601ExtendedGmt());
     }
   }
 
+  // ある状態に留まっている時間データを分析のために登録する
   for (auto json = begin(durationDataList_); json != end(durationDataList_); ++json)
   {
     analyzer_->registerMeasurementedData("project_detail_metrics", (json->second).dump());
   }
-  // データを登録したことで不要になったデータは削除しておく
+  // リストをクリアしないと重複してデータが登録されるので登録されたデータは削除する
   durationDataList_.clear();
 }
 
@@ -101,6 +102,7 @@ void MetricCalculator::checkTransit(std::shared_ptr<Task>& currentTask, std::sha
 
 void MetricCalculator::transitFromNewToInProgress(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask)
 {
+  // In Progressでの滞留時間計測のためにIn Progressに移行した日時を永続化しておく
   updateData["taskId"] = currentTask->taskId_.get();
   updateData["taskName"] = currentTask->taskName_.get();
   updateData["InProgressStartDate"] = currentTask->updatedAt_.get();
@@ -236,7 +238,6 @@ void MetricCalculator::handlingSkippedState(std::shared_ptr<Task> currentTask, s
     updateData["ReviewStartDate"] = currentTask->updatedAt_.get();
     repository_->registerMetricsData(currentTask->taskId_, updateData);
   }
-
 }
 
 double MetricCalculator::calculateDuration(::ISO8601String startDate, ::ISO8601String endDate)
