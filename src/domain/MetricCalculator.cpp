@@ -96,7 +96,7 @@ void MetricCalculator::checkTransit(std::shared_ptr<Task>& currentTask, std::sha
   // Change state from Review to In Progress, Rework occured
   if (previousTask->statusCode_ == 15 && currentTask->statusCode_ == 7)
   {
-    reworkCounter_->occurRework(currentTask->taskId_);
+    reworkCounter_->occurRework(currentTask->taskId_, currentTask->updatedAt_);
   }
 }
 
