@@ -34,6 +34,14 @@ public:
   virtual ~IReworkRepository() = default;
 
   /*!
+   @brief       手戻り回数を返す
+   @param[in]   taskId  対象TaskのId
+   @return      手戻り回数
+   @note        対象のTaskのデータが無い（初めての手戻り）場合は、nulloptを返す
+  */
+  virtual std::optional<ReworkTimes> getReworkTimes(TaskId taskId) = 0;
+
+  /*!
    @brief     手戻りがあったタスクを新規登録する
    @param[in] taskId 登録対象タスクのID
    @param[in] reworkStartDate  手戻りにより再びIn Progressに戻った日時
@@ -54,10 +62,10 @@ public:
    @return    Review状態に移行した日時
    @note      対象タスクの日時が登録されていない場合、std::nulloptが返される
   */
-  virtual std::optional<UpdatedAt> getStarDateOnReview(TaskId taskId) = 0;
+  virtual std::optional<UpdatedAt> getStartDateOnReview(TaskId taskId) = 0;
 
   /*!
-   @brief     タスクのメトリックスを削除する
+   @brief     タスクの手戻り情報を削除する
    @param[in] taskId 削除対象タスクのID
   */
   virtual void deleteReworkedTask(TaskId taskId) = 0;
