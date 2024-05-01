@@ -248,4 +248,17 @@ using JsonObjectRaw =
 */
 using JsonObject = JsonObjectRaw<std::string>;
 
+/*!
+ @brief    手戻り回数
+ @tparam   std::uint8_t
+*/
+template< typename T >
+using ReworkTimesRaw =
+    StrongType<T, struct ReworkTimesTag, Addable, Printable>;
+
+/*!
+ @brief    実際に手戻り回数として使用する型
+*/
+using ReworkTimes = ReworkTimesRaw<std::uint_fast16_t>;
+
 }
