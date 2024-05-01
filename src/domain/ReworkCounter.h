@@ -14,6 +14,7 @@ namespace measurementor
 {
 
 // ---------< forward declaration >----------------------
+class IReworkRepository;
 
 /*!
  @class     ReworkCounter
@@ -27,7 +28,7 @@ public:
   /*!
   @brief  デフォルトコンストラクタ
   */
-  ReworkCounter() = default;
+  ReworkCounter();
 
   /*!
   @brief  デフォルトデストラクタ
@@ -36,9 +37,12 @@ public:
 
   /*!
    @brief      手戻りが発生したTaskの手戻り回数をインクリメントする
-   @param[in]  taskId 手戻りが発生したTaskのID
+   @param[in]  task 手戻りが発生したTask
   */
-  void occurRework(TaskId taskId);
+  void occurRework(TaskId taskId, UpdatedAt reworkStartDate);
+
+protected:
+  IReworkRepository* reworkRepository_;    //!<  手戻り回数情報を扱うリポジトリ
 };
 
 }
