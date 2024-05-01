@@ -58,6 +58,14 @@ public:
   virtual ~ReworkRepository() = default;
 
   /*!
+   @brief       手戻り回数を返す
+   @param[in]   taskId  対象TaskのId
+   @return      手戻り回数
+   @note        対象のTaskのデータが無い（初めての手戻り）場合は、nulloptを返す
+  */
+  std::optional<measurementor::ReworkTimes> getReworkTimes(measurementor::TaskId taskId) override;
+
+  /*!
    @brief     手戻りがあったタスクを新規登録する
    @param[in] taskId 登録対象タスクのID
    @param[in] reworkStartDate  手戻りにより再びIn Progressに戻った日時
@@ -78,10 +86,10 @@ public:
    @return    Review状態に移行した日時
    @note      対象タスクの日時が登録されていない場合、std::nulloptが返される
   */
-  std::optional<measurementor::UpdatedAt> getStarDateOnReview(measurementor::TaskId taskId) override;
+  std::optional<measurementor::UpdatedAt> getStartDateOnReview(measurementor::TaskId taskId) override;
 
   /*!
-   @brief     タスクのメトリックスを削除する
+   @brief     タスクの手戻り情報を削除する
    @param[in] taskId 削除対象タスクのID
   */
   void deleteReworkedTask(measurementor::TaskId taskId) override;
@@ -105,9 +113,13 @@ private:
   /*!
    @brief DBサーバにクエリを送信する
    @param[in]  taskId クエリ対象のTaskID
-   @return     クエリ結果
+   @return     手戻り回数
+   @exception  pqxx::sql_error SQLエラーや接続断等、データベース操作に係る例外
+   @exception  std::exception  その他例外<br>
+   query操作でデータが見つからなかった場合もこの例外がスローされる。<br>
+   その場合、内容に"Expected 1 row(s) of data from query , got 0."がセットされる。
   */
-  void sendQuery(measurementor::TaskId taskId);
+  measurementor::ReworkTimes sendQuery(measurementor::TaskId taskId);
 };
 
 }  // namespace repository
