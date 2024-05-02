@@ -56,6 +56,7 @@ protected:
   std::map<TaskId, std::shared_ptr<Task>> currentTaskList_;   //!< 現在値を保持しているタスクのリスト
   std::map<TaskId, std::shared_ptr<Task>> previousTaskList_;  //!< 前回値を保持しているタスクのリスト
   std::map<TaskId, nlohmann::json> durationDataList_;         //!< 各タスクの作業期間データ
+  std::map<TaskId, nlohmann::json> reworkDataList_;           //!< 各タスクの手戻り回数データ
 
   /*!
    @brief  In-Progress, ReviewおよびTaskを完了するまでに掛かった時間を計算する
@@ -139,6 +140,10 @@ protected:
   */
   std::uint_fast16_t passedWeekends(::ISO8601String startDate, ::ISO8601String endDate);
 
+  /*!
+   @brief   分析用システム登録用データを初期化する
+  */
+  void initializeRegisterDatas(nlohmann::json& updateData);
 };
 
 }  // namespace measurementor

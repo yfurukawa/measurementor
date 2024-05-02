@@ -24,6 +24,7 @@ MetricCalculator::MetricCalculator()
   currentTaskList_.clear();
   previousTaskList_.clear();
   durationDataList_.clear();
+  reworkDataList_.clear();
 }
 
 void MetricCalculator::calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> currentTaskList,
@@ -54,15 +55,8 @@ void MetricCalculator::calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> 
 void MetricCalculator::checkTransit(std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask, std::string timestamp)
 {
   nlohmann::json updateData;
-  updateData["taskId"] = 0;
-  updateData["taskName"] = "";
-  updateData["InProgressStartDate"] = nullptr;
-  updateData["ReviewStartDate"] = nullptr;
-  updateData["CloseDate"] = nullptr;
-  updateData["InProgressDuration"] = 0;
-  updateData["ReviewDuration"] = 0;
-  updateData["TotalDuration"] = 0;
-  updateData["timestamp"] = timestamp;
+  initializeRegisterDatas(updateData);
+
   // Status is still New
   if (currentTask->statusCode_ == 1)
   {
@@ -205,15 +199,9 @@ void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, 
 void MetricCalculator::handlingSkippedState(std::shared_ptr<Task> currentTask, std::string timestamp)
 {
   nlohmann::json updateData;
+  initializeRegisterDatas(updateData);
   updateData["taskId"] = currentTask->taskId_.get();
   updateData["taskName"] = currentTask->taskName_.get();
-  updateData["InProgressStartDate"] = nullptr;
-  updateData["ReviewStartDate"] = nullptr;
-  updateData["CloseDate"] = nullptr;
-  updateData["InProgressDuration"] = 0;
-  updateData["ReviewDuration"] = 0;
-  updateData["TotalDuration"] = 0;
-  updateData["timestamp"] = timestamp;
 
   if(currentTask->statusCode_ == 7)
   {
@@ -318,6 +306,19 @@ std::uint_fast16_t MetricCalculator::passedWeekends(::ISO8601String startDate, :
   }
 
   return numberOfPassedWeekend;
+}
+
+void MetricCalculator::initializeRegisterDatas(nlohmann::json& updateData)
+{
+  updateData["taskId"] = 0;
+  updateData["taskName"] = "";
+  updateData["InProgressStartDate"] = nullptr;
+  updateData["ReviewStartDate"] = nullptr;
+  updateData["CloseDate"] = nullptr;
+  updateData["InProgressDuration"] = 0;
+  updateData["ReviewDuration"] = 0;
+  updateData["TotalDuration"] = 0;
+  updateData["timestamp"] = chronos_->nowIso8601ExtendedGmt();
 }
 
 }  // namespace measurementor
