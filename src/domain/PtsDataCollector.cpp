@@ -194,7 +194,7 @@ void PtsDataCollector::collectItemData()
       Name itemName((*json)["itemName"]);
       Status status((*json)["status"]);
       StatusCode statusCode(std::stoi((*json)["statusCode"]));
-      EstimatedTime totalEstimatedTime(std::stoi((*json)["totalEstimatedTime"]));
+      EstimatedTime totalEstimatedTime(std::stod((*json)["totalEstimatedTime"]));
       Point storyPoint(std::stoi((*json)["storyPoint"]));
       itemList_.insert(std::make_pair(
         itemId, std::make_shared<Item>(itemId, itemName, projectId, sprintId, storyPoint, status, statusCode, totalEstimatedTime)));
@@ -231,7 +231,7 @@ void PtsDataCollector::collectTaskData()
       Status status((*json)["status"]);
       StatusCode statusCode(std::stoi((*json)["statusCode"]));
       Author author((*json)["author"]);
-      EstimatedTime estimatedTime(std::stoi((*json)["estimatedTime"]));
+      EstimatedTime estimatedTime(std::stod((*json)["estimatedTime"]));
       Assignee assignee((*json)["assignee"]);
       UpdatedAt updatedAt((*json)["updatedAt"]);
 
