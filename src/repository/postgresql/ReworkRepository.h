@@ -77,7 +77,7 @@ public:
    @param[in] taskId 更新対象タスクのID
    @param[in] newReworkTimes  更新された手戻り回数
   */
-  void storeNewReworkTimes(TaskId taskId, ReworkTimes newReworkTimes) override;
+  void storeNewReworkTimes(measurementor::TaskId taskId, measurementor::ReworkTimes newReworkTimes) override;
 
   /*!
    @brief     タスクがIn Progress状態に戻った日時を取得する
