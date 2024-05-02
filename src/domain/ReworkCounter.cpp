@@ -17,11 +17,13 @@ ReworkCounter::ReworkCounter()
 void ReworkCounter::occurRework(TaskId taskId, UpdatedAt reworkStartDate)
 {
   // 指定されたTaskが初めての手戻りであれば新規に手戻り情報を登録する。
-  auto reworkTimes = reworkRepository_->getReworkTimes(taskId);
-  if (reworkTimes)
+  auto result = reworkRepository_->getReworkTimes(taskId);
+  if (result)
   {
-    auto const one = ReworkTimes{1};
-    reworkTimes.value() = reworkTimes.value() + one;
+    ReworkTimes reworkTimes(result.value());
+    ReworkTimes const one = ReworkTimes{1};
+    reworkTimes = reworkTimes + one;
+    reworkRepository_->storeNewReworkTimes(taskId, reworkTimes);
   }
   else
   {
