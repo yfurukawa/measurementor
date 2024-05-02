@@ -13,7 +13,8 @@ domain/ReworkCounter.o \
 pts/openproject/OpenProject.o pts/openproject/OpenProjectFactory.o pts/openproject/JsonParser.o pts/openproject/PreviousDataReader.o \
 pts/openproject/PreviousDataReaderFactory.o pts/openproject/DifferAbsorber.o\
 analyzer/elasticsearch/Elasticsearch.o analyzer/elasticsearch/ElasticsearchFactory.o analyzer/elasticsearch/Index.o \
-repository/postgresql/Repository.o repository/postgresql/RepositoryFactory.o
+repository/postgresql/Repository.o repository/postgresql/RepositoryFactory.o repository/postgresql/ReworkRepository.o \
+repository/postgresql/ReworkRepositoryFactory.o
 
 export CC RM MAKE INCLUDE LD_PATH OPT
 
