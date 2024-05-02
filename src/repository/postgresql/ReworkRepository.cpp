@@ -63,9 +63,9 @@ void ReworkRepository::registerReworkedTask(measurementor::TaskId taskId, measur
   sendCommand(commandString);
 }
 
-void ReworkRepository::storeNewReworkTimes(TaskId taskId, ReworkTimes newReworkTimes)
+void ReworkRepository::storeNewReworkTimes(measurementor::TaskId taskId, measurementor::ReworkTimes newReworkTimes)
 {
-  std::string commandString("UPDATE " + tableName_ + " SET reworkTimes = '" + newReworkTimes.value() +
+  std::string commandString("UPDATE " + tableName_ + " SET reworkTimes = '" + std::to_string(newReworkTimes.get()) +
                             "' WHERE taskId = " + std::to_string(taskId.get()));
   sendCommand(commandString);
 }
