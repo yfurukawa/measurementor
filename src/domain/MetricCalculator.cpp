@@ -218,6 +218,18 @@ void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, 
 
   repository_->updateMetricsData(currentTask->taskId_, updateData);
   durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+
+  nlohmann::json reworkData;
+  reworkData["taskId"] = currentTask->taskId_.get();
+  reworkData["taskName"] = currentTask->taskName_.get();
+  reworkData["projectId"] = currentTask->projectId_.get();
+  reworkData["projectName"] = currentTask->projectName_.get();
+  reworkData["sprintId"] = currentTask->sprintId_.get();
+  reworkData["itemId"] = currentTask->itemId_.get();
+  reworkData["reworkTimes"] = (reworkCounter_->completeTask(currentTask->taskId_)).get();
+  reworkData["timestamp"] = chronos_->nowIso8601ExtendedGmt();
+  
+  reworkDataList_.insert(std::make_pair(currentTask->taskId_, reworkData));
 }
 
 void MetricCalculator::handlingSkippedState(std::shared_ptr<Task> currentTask, std::string timestamp)
