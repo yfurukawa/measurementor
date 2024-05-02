@@ -63,6 +63,13 @@ void ReworkRepository::registerReworkedTask(measurementor::TaskId taskId, measur
   sendCommand(commandString);
 }
 
+void ReworkRepository::storeNewReworkTimes(TaskId taskId, ReworkTimes newReworkTimes)
+{
+  std::string commandString("UPDATE " + tableName_ + " SET reworkTimes = '" + newReworkTimes.value() +
+                            "' WHERE taskId = " + std::to_string(taskId.get()));
+  sendCommand(commandString);
+}
+
 std::optional<measurementor::UpdatedAt> ReworkRepository::getStartDateOnInProgress(measurementor::TaskId taskId)
 {
   /*

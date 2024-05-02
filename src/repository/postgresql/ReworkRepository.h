@@ -73,6 +73,13 @@ public:
   void registerReworkedTask(measurementor::TaskId taskId, measurementor::UpdatedAt reworkStartDate) override;
 
   /*!
+   @brief     更新された手戻り回数を保存する
+   @param[in] taskId 更新対象タスクのID
+   @param[in] newReworkTimes  更新された手戻り回数
+  */
+  void storeNewReworkTimes(TaskId taskId, ReworkTimes newReworkTimes) override;
+
+  /*!
    @brief     タスクがIn Progress状態に戻った日時を取得する
    @param[in] taskId 取得対象タスクのID 
    @return    In Progress状態に移行した日時
