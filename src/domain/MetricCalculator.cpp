@@ -110,7 +110,11 @@ void MetricCalculator::transitFromNewToInProgress(nlohmann::json& updateData, st
   updateData["taskName"] = currentTask->taskName_.get();
   updateData["InProgressStartDate"] = currentTask->updatedAt_.get();
   
+  // 見積もり時間は、タスクがクローズされると0Hになってしまうので、ここで永続化しておく
+  updateData["estimatedTime"] = currentTask->estimatedTime_.get();
+
   repository_->registerMetricsData(currentTask->taskId_, updateData);
+  // 途中の状態でのDurationデータを分析する必要がある場合は、以下の処理を有効にする
   // durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
 }
 
@@ -119,7 +123,8 @@ void MetricCalculator::transitFromInProgressToReview(nlohmann::json& updateData,
   updateData["taskId"] = currentTask->taskId_.get();
   updateData["taskName"] = currentTask->taskName_.get();
   updateData["ReviewStartDate"] = currentTask->updatedAt_.get();
-      
+  updateData["estimatedTime"] = repository_->getEstimatedTime(currentTask->taskId_).get();
+
   auto resultInProgress = repository_->getStarDateOnInProgress(currentTask->taskId_);
   if (resultInProgress)
   {
@@ -134,6 +139,7 @@ void MetricCalculator::transitFromInProgressToReview(nlohmann::json& updateData,
   }
 
   repository_->updateMetricsData(currentTask->taskId_, updateData);
+  // 途中の状態でのDurationデータを分析する必要がある場合は、以下の処理を有効にする
   // durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
 }
 
@@ -142,8 +148,8 @@ void MetricCalculator::transitFromReviewToClose(nlohmann::json& updateData, std:
   updateData["taskId"] = currentTask->taskId_.get();
   updateData["taskName"] = currentTask->taskName_.get();
   updateData["CloseDate"] = currentTask->updatedAt_.get();
-  updateData["estimatedTime"] = currentTask->estimatedTime_.get();
   updateData["InProgressDuration"] = repository_->getInProgressDuration(currentTask->taskId_);
+  updateData["estimatedTime"] = repository_->getEstimatedTime(currentTask->taskId_).get();
 
   auto resultReview = repository_->getStarDateOnReview(currentTask->taskId_);
   if (resultReview)
@@ -190,8 +196,8 @@ void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, 
 {
   updateData["taskId"] = currentTask->taskId_.get();
   updateData["taskName"] = currentTask->taskName_.get();
-  updateData["estimatedTime"] = currentTask->estimatedTime_.get();
   updateData["CloseDate"] = currentTask->updatedAt_.get();
+  updateData["estimatedTime"] = repository_->getEstimatedTime(currentTask->taskId_).get();
   
   auto resultInProgress = repository_->getStarDateOnInProgress(currentTask->taskId_);
   if (resultInProgress)
@@ -248,6 +254,8 @@ void MetricCalculator::handlingSkippedState(std::shared_ptr<Task> currentTask, s
     // なお、updateAtは、状態遷移だけでなく、担当者のアサインや、タスク内容の修正等、タスクに対する全ての変更で
     // 更新される。
     updateData["InProgressStartDate"] = currentTask->updatedAt_.get();
+    // 見積もり時間は、タスクがクローズされると0Hになってしまうので、ここで永続化しておく
+    updateData["estimatedTime"] = currentTask->estimatedTime_.get();
     repository_->registerMetricsData(currentTask->taskId_, updateData);
   }
   else if(currentTask->statusCode_ == 15)
@@ -262,6 +270,8 @@ void MetricCalculator::handlingSkippedState(std::shared_ptr<Task> currentTask, s
     ISO8601String updatedTime(currentTask->updatedAt_.get());
     updateData["InProgressStartDate"] = timeManipulator.convertToGMT(timeManipulator.convertToTime_t(updatedTime) - 7.5 * 60).get();
     updateData["ReviewStartDate"] = currentTask->updatedAt_.get();
+    // 通常であれば、見積もり時間はIn Progressになった時点でデータに含まれるがIn Progressがスキップされているので、ここでデータに含める
+    updateData["estimatedTime"] = currentTask->estimatedTime_.get();
     repository_->registerMetricsData(currentTask->taskId_, updateData);
   }
 }
