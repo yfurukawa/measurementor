@@ -50,6 +50,15 @@ void MetricCalculator::calculateMetrics(std::map<TaskId, std::shared_ptr<Task>> 
   }
   // リストをクリアしないと重複してデータが登録されるので登録されたデータは削除する
   durationDataList_.clear();
+
+  // 手戻り回数データを分析のために登録する
+  for (auto json = begin(reworkDataList_); json != end(reworkDataList_); ++json)
+  {
+    analyzer_->registerMeasurementedData("project_rework", (json->second).dump());
+  }
+  // リストをクリアしないと重複してデータが登録されるので登録されたデータは削除する
+  reworkDataList_.clear();
+
 }
 
 void MetricCalculator::checkTransit(std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask, std::string timestamp)
@@ -100,8 +109,9 @@ void MetricCalculator::transitFromNewToInProgress(nlohmann::json& updateData, st
   updateData["taskId"] = currentTask->taskId_.get();
   updateData["taskName"] = currentTask->taskName_.get();
   updateData["InProgressStartDate"] = currentTask->updatedAt_.get();
-  durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+  
   repository_->registerMetricsData(currentTask->taskId_, updateData);
+  durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
 }
 
 void MetricCalculator::transitFromInProgressToReview(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask)
@@ -122,6 +132,7 @@ void MetricCalculator::transitFromInProgressToReview(nlohmann::json& updateData,
 
     updateData["InProgressDuration"] = calculateDuration(start, end);
   }
+
   repository_->updateMetricsData(currentTask->taskId_, updateData);
   durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
 }
@@ -158,8 +169,20 @@ void MetricCalculator::transitFromReviewToClose(nlohmann::json& updateData, std:
     updateData["TotalDuration"] = calculateDuration(start, end);
   }
 
-  durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
   repository_->deleteMetricsData(currentTask->taskId_);
+  durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+  
+  nlohmann::json reworkData;
+  reworkData["taskId"] = currentTask->taskId_.get();
+  reworkData["taskName"] = currentTask->taskName_.get();
+  reworkData["projectId"] = currentTask->projectId_.get();
+  reworkData["projectName"] = currentTask->projectName_.get();
+  reworkData["sprintId"] = currentTask->sprintId_.get();
+  reworkData["itemId"] = currentTask->itemId_.get();
+  reworkData["reworkTimes"] = (reworkCounter_->completeTask(currentTask->taskId_)).get();
+  reworkData["timestamp"] = chronos_->nowIso8601ExtendedGmt();
+  
+  reworkDataList_.insert(std::make_pair(currentTask->taskId_, reworkData));
 }
 
 void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask)
@@ -192,6 +215,7 @@ void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, 
     ISO8601String updatedTime(currentTask->updatedAt_.get());
     updateData["ReviewStartDate"] = timeManipulator.convertToGMT(timeManipulator.convertToTime_t(updatedTime) - 7.5 * 60).get();
   }
+
   repository_->updateMetricsData(currentTask->taskId_, updateData);
   durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
 }
