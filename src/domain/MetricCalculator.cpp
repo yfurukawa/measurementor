@@ -111,7 +111,7 @@ void MetricCalculator::transitFromNewToInProgress(nlohmann::json& updateData, st
   updateData["InProgressStartDate"] = currentTask->updatedAt_.get();
   
   repository_->registerMetricsData(currentTask->taskId_, updateData);
-  durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+  // durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
 }
 
 void MetricCalculator::transitFromInProgressToReview(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask)
@@ -134,7 +134,7 @@ void MetricCalculator::transitFromInProgressToReview(nlohmann::json& updateData,
   }
 
   repository_->updateMetricsData(currentTask->taskId_, updateData);
-  durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+  // durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
 }
 
 void MetricCalculator::transitFromReviewToClose(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask)
@@ -142,6 +142,7 @@ void MetricCalculator::transitFromReviewToClose(nlohmann::json& updateData, std:
   updateData["taskId"] = currentTask->taskId_.get();
   updateData["taskName"] = currentTask->taskName_.get();
   updateData["CloseDate"] = currentTask->updatedAt_.get();
+  updateData["estimatedTime"] = currentTask->estimatedTime_.get();
   updateData["InProgressDuration"] = repository_->getInProgressDuration(currentTask->taskId_);
 
   auto resultReview = repository_->getStarDateOnReview(currentTask->taskId_);
@@ -189,6 +190,7 @@ void MetricCalculator::transitFromInProgressToClose(nlohmann::json& updateData, 
 {
   updateData["taskId"] = currentTask->taskId_.get();
   updateData["taskName"] = currentTask->taskName_.get();
+  updateData["estimatedTime"] = currentTask->estimatedTime_.get();
   updateData["CloseDate"] = currentTask->updatedAt_.get();
   
   auto resultInProgress = repository_->getStarDateOnInProgress(currentTask->taskId_);
