@@ -79,8 +79,8 @@ std::optional<measurementor::UpdatedAt> Repository::getStarDateOnReview(measurem
   {
     std::stringstream errorStream;
     std::stringstream queryStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : SQL error: " << e.what();
-    queryStream << "[Repositoruy][getStarDateOnInProgress] : Query was: " << e.query();
+    errorStream << "[Repositoruy][getStarDateOnReview] : SQL error: " << e.what();
+    queryStream << "[Repositoruy][getStarDateOnReview] : Query was: " << e.query();
     logger_->log(errorStream.str());
     logger_->log(queryStream.str());
     return std::nullopt;
@@ -88,7 +88,7 @@ std::optional<measurementor::UpdatedAt> Repository::getStarDateOnReview(measurem
   catch (std::exception const& e)
   {
     std::stringstream errorStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : Error: " << e.what();
+    errorStream << "[Repositoruy][getStarDateOnReview] : Error: " << e.what();
     logger_->log(errorStream.str());
     return std::nullopt;
   }
@@ -112,8 +112,8 @@ std::optional<measurementor::UpdatedAt> Repository::getStarDateOnClose(measureme
   {
     std::stringstream errorStream;
     std::stringstream queryStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : SQL error: " << e.what();
-    queryStream << "[Repositoruy][getStarDateOnInProgress] : Query was: " << e.query();
+    errorStream << "[Repositoruy][getStarDateOnClose] : SQL error: " << e.what();
+    queryStream << "[Repositoruy][getStarDateOnClose] : Query was: " << e.query();
     logger_->log(errorStream.str());
     logger_->log(queryStream.str());
     return std::nullopt;
@@ -121,7 +121,7 @@ std::optional<measurementor::UpdatedAt> Repository::getStarDateOnClose(measureme
   catch (std::exception const& e)
   {
     std::stringstream errorStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : Error: " << e.what();
+    errorStream << "[Repositoruy][getStarDateOnClose] : Error: " << e.what();
     logger_->log(errorStream.str());
     return std::nullopt;
   }
@@ -138,8 +138,8 @@ double Repository::getInProgressDuration(measurementor::TaskId taskId)
   {
     std::stringstream errorStream;
     std::stringstream queryStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : SQL error: " << e.what();
-    queryStream << "[Repositoruy][getStarDateOnInProgress] : Query was: " << e.query();
+    errorStream << "[Repositoruy][getInProgressDuration] : SQL error: " << e.what();
+    queryStream << "[Repositoruy][getInProgressDuration] : Query was: " << e.query();
     logger_->log(errorStream.str());
     logger_->log(queryStream.str());
     return 0;
@@ -147,9 +147,38 @@ double Repository::getInProgressDuration(measurementor::TaskId taskId)
   catch (std::exception const& e)
   {
     std::stringstream errorStream;
-    errorStream << "[Repositoruy][getStarDateOnInProgress] : Error: " << e.what();
+    errorStream << "[Repositoruy][getInProgressDuration] : Error: " << e.what();
     logger_->log(errorStream.str());
     return 0;
+  }
+}
+
+measurementor::EstimatedTime Repository::getEstimatedTime(measurementor::TaskId taskId)
+{
+  try
+  {
+    nlohmann::json result = sendQuery(taskId);
+    measurementor::EstimatedTime estimatedTime(result["estimatedTime"]);
+    return estimatedTime;
+  }
+  catch (pqxx::sql_error const& e)
+  {
+    std::stringstream errorStream;
+    std::stringstream queryStream;
+    errorStream << "[Repositoruy][getEstimatedTime] : SQL error: " << e.what();
+    queryStream << "[Repositoruy][getEstimatedTime] : Query was: " << e.query();
+    logger_->log(errorStream.str());
+    logger_->log(queryStream.str());
+    measurementor::EstimatedTime estimatedTime(0);
+    return estimatedTime;
+  }
+  catch (std::exception const& e)
+  {
+    std::stringstream errorStream;
+    errorStream << "[Repositoruy][getEstimatedTime] : Error: " << e.what();
+    logger_->log(errorStream.str());
+    measurementor::EstimatedTime estimatedTime(0);
+    return estimatedTime;
   }
 }
 

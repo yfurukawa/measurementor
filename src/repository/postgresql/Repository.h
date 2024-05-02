@@ -93,6 +93,14 @@ public:
   double getInProgressDuration(measurementor::TaskId taskId) override;
 
   /*!
+   @brief     見積もり時間を取得する
+   @param[in] taskId 取得対象タスクのID 
+   @return    見積もり時間[H]
+   @note      In Progress状態になった時点でデータに追加されるので、確実にデータが存在するため、戻り値をoptionalとする必要はない
+  */
+  measurementor::EstimatedTime getEstimatedTime(measurementor::TaskId taskId) override;
+
+  /*!
    @brief     タスクのメトリックスを更新する
    @param[in] taskId 更新対象タスクのID
    @param[in] metricsData json形式にしたメトリックスデータ
