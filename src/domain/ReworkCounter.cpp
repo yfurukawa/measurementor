@@ -31,4 +31,21 @@ void ReworkCounter::occurRework(TaskId taskId, UpdatedAt reworkStartDate)
   }
 }
 
+ReworkTimes ReworkCounter::completeTask(TaskId taskId)
+{
+  // 指定されたTaskの手戻り回数情報が無かった場合は、手戻り回数を0と回答する
+  auto result = reworkRepository_->getReworkTimes(taskId);
+  if (result)
+  {
+    ReworkTimes reworkTimes(result.value());
+    return reworkTimes;
+  }
+  else
+  {
+    ReworkTimes reworkTimes(0);
+    return reworkTimes;
+  }
+  
+}
+
 }  // namespace measurementor

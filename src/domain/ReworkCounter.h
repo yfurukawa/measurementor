@@ -36,10 +36,18 @@ public:
   virtual ~ReworkCounter() = default;
 
   /*!
-   @brief      手戻りが発生したTaskの手戻り回数をインクリメントする
-   @param[in]  task 手戻りが発生したTask
+   @brief       手戻りが発生したTaskの手戻り回数をインクリメントする
+   @param[in]   taskId 手戻りが発生したTaskのID
+   @param[in]   reworkStartDate  手戻りが発生した日時
   */
   void occurRework(TaskId taskId, UpdatedAt reworkStartDate);
+
+  /*!
+   @brief       手戻りが発生したタスクが完了した場合の後処理を行う
+   @param[in]   taskId 手戻りが発生したTaskのID
+   @return      手戻り回数
+  */
+  ReworkTimes completeTask(TaskId taskId);
 
 protected:
   IReworkRepository* reworkRepository_;    //!<  手戻り回数情報を扱うリポジトリ
