@@ -21,7 +21,7 @@ namespace pts
 
 JsonParser::JsonParser()
   : timeConverter_(std::make_unique<Chronos>())
-  , differAbsober_(std::make_unique<DifferAbsorber>())
+  , differAbsorber_(std::make_unique<DifferAbsorber>())
 {
 }
 
@@ -111,7 +111,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData(const 
   {
     parsedData.clear();
 
-    if (differAbsober_->isItemData(pickupId(j["_embedded"]["elements"][count]["_links"]["type"]["href"])))
+    if (differAbsorber_->isItemData(pickupId(j["_embedded"]["elements"][count]["_links"]["type"]["href"])))
     {
       unsigned int itemId(j["_embedded"]["elements"][count]["id"]);
       parsedData.insert(std::make_pair("itemId", std::to_string(itemId)));
@@ -134,8 +134,8 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData(const 
       {
         parsedData.insert(std::make_pair("storyPoint", std::to_string(static_cast<int>(j["_embedded"]["elements"][count]["storyPoints"]))));
       }
-      parsedData.insert(std::make_pair("status", differAbsober_->convertStatusName(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]), j["_embedded"]["elements"][count]["_links"]["status"]["title"])));
-      parsedData.insert(std::make_pair("statusCode", differAbsober_->convertStatusCode(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]))));
+      parsedData.insert(std::make_pair("status", differAbsorber_->convertStatusName(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]), j["_embedded"]["elements"][count]["_links"]["status"]["title"])));
+      parsedData.insert(std::make_pair("statusCode", differAbsorber_->convertStatusCode(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]))));
       if ((j["_embedded"]["elements"][count]["derivedRemainingTime"]).is_null())
       {
         parsedData.insert(std::make_pair("totalEstimatedTime", "0.00"));
@@ -165,7 +165,7 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData(const 
   {
     parsedData.clear();
 
-    if (differAbsober_->isTaskData(pickupId(j["_embedded"]["elements"][count]["_links"]["type"]["href"])))
+    if (differAbsorber_->isTaskData(pickupId(j["_embedded"]["elements"][count]["_links"]["type"]["href"])))
     {
       unsigned int taskId(j["_embedded"]["elements"][count]["id"]);
       parsedData.insert(std::make_pair("taskId", std::to_string(taskId)));
@@ -212,8 +212,8 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData(const 
       parsedData.insert(std::make_pair("assignee", (j["_embedded"]["elements"][count]["_links"]["assignee"]["href"]).is_null()
                                                      ? ""
                                                      : j["_embedded"]["elements"][count]["_links"]["assignee"]["title"]));
-      parsedData.insert(std::make_pair("status", differAbsober_->convertStatusName(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]), j["_embedded"]["elements"][count]["_links"]["status"]["title"])));
-      parsedData.insert(std::make_pair("statusCode", differAbsober_->convertStatusCode(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]))));
+      parsedData.insert(std::make_pair("status", differAbsorber_->convertStatusName(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]), j["_embedded"]["elements"][count]["_links"]["status"]["title"])));
+      parsedData.insert(std::make_pair("statusCode", differAbsorber_->convertStatusCode(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]))));
       parsedData.insert(std::make_pair("updatedAt", j["_embedded"]["elements"][count]["updatedAt"]));
 
       taskList.push_back(parsedData);

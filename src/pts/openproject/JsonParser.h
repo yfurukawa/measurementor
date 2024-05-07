@@ -68,7 +68,7 @@ public:
 
 protected:
   std::unique_ptr<Chronos> timeConverter_;           //!< OpenProjectから取得したデータ内に含まれるローカルタイムをGMTに変換するクラス
-  std::unique_ptr<DifferAbsorber> differAbsober_;    //!< カスタマイズしたステータスを持つOpenProjectのステータスをデフォルト設定に変換するクラス
+  std::unique_ptr<DifferAbsorber> differAbsorber_;    //!< カスタマイズしたステータスを持つOpenProjectのステータスをデフォルト設定に変換するクラス
 
   /*!
    @brief        Json文字列のparent::hrefからidを抽出する
