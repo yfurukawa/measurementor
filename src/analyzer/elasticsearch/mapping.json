@@ -1,0 +1,112 @@
+{
+    "properties": {
+        "assignee": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "author": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "endDate": {
+            "type": "date"
+        },
+        "estimatedTime": {
+            "type": "float"
+        },
+        "indexType": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "itemId": {
+            "type": "long"
+        },
+        "itemName": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "name": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "projectId": {
+            "type": "long"
+        },
+        "remainingStoryPoints": {
+            "type": "long"
+        },
+        "remainingWorkTime": {
+            "type": "float"
+        },
+        "sprintId": {
+            "type": "long"
+        },
+        "startDate": {
+            "type": "date"
+        },
+        "status": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "statusCode": {
+            "type": "long"
+        },
+        "storyPoint": {
+            "type": "long"
+        },
+        "taskId": {
+            "type": "long"
+        },
+        "taskName": {
+            "type": "text",
+            "fields": {
+            "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+            }
+            }
+        },
+        "timestamp": {
+            "type": "date"
+        },
+        "totalEstimatedTime": {
+            "type": "float"
+        },
+        "totalStoryPoint": {
+            "type": "long"
+        },
+        "updatedAt": {
+            "type": "date"
+        }
+    }
+}

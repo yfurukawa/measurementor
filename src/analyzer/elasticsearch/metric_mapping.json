@@ -1,0 +1,40 @@
+{
+  "properties": {
+    "CloseDate": {
+      "type": "date"
+    },
+    "InProgressDuration": {
+      "type": "float"
+    },
+    "InProgressStartDate": {
+      "type": "date"
+    },
+    "ReviewDuration": {
+      "type": "float"
+    },
+    "ReviewStartDate": {
+      "type": "date"
+    },
+    "TotalDuration": {
+      "type": "float"
+    },
+    "estimatedTime": {
+      "type": "float"
+    },
+    "taskId": {
+      "type": "long"
+    },
+    "taskName": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+        "type": "keyword",
+        "ignore_above": 256
+        }
+      }
+    },
+    "timestamp": {
+      "type": "date"
+    }
+  }
+}
