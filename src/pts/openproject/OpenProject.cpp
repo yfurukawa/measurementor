@@ -10,6 +10,7 @@
 #include "Logger.h"
 #include "LoggerFactory.h"
 #include "RestAPIHelper.h"
+#include "Severity.h"
 #include "TextFileWriter.h"
 
 namespace pts
@@ -148,14 +149,14 @@ void OpenProject::saveJsonObjectAsPreviousData(std::filesystem::path previousFil
   auto writeError = previousDataWriter_->write(receivedJson);
   if (writeError)
   {
-    std::cout << writeError.value() << std::endl;
+    AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject][previous data write] : " + writeError.value(), AbstLogger::Severity::error);
   }
 
   // 末尾に改行がないと次に読み込めないので改行を追加する
   writeError = previousDataWriter_->write("\n");
   if (writeError)
   {
-    std::cout << writeError.value() << std::endl;
+    AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject][CR write] : " + writeError.value(), AbstLogger::Severity::error);
   }
   previousDataWriter_->closeFile();
 }
