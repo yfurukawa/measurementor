@@ -30,7 +30,7 @@ OpenProject::OpenProject(ApiKey apiKey, std::string destination, unsigned int de
 
 std::list<std::map<std::string, std::string>> OpenProject::collectAllActiveProject()
 {
-  std::string message("GET /api/v3/projects?pageSize=1000");
+  std::string message("/api/v3/projects?pageSize=1000");
   std::string receivedJson = sendQueryMessage(message);
 
   std::filesystem::path previousFile("previousProject.json");
@@ -51,13 +51,15 @@ std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformat
 std::list<std::map<std::string, std::string>> OpenProject::collectItemInformation(const measurementor::ProjectId& projectId)
 {
   // filter : [
-  //            {"type":{"operator":"=","values":["4"]}},
-  //            {"status":{"operator":"=","values":["1","7","15"]}}
+  //            {"type":{"operator":"=","values":["9"]}},
+  //            {"status":{"operator":"=","values":["15","16","17"]}}
   //          ]
   // Featureのみを取得するようにしている。
+  // また、Itemの状態は、新規(15)、進行中(16)およびレビュー中(17)に限定している
   // ページサイズは、OpenProjectの設定に依存する
   std::string message("/api/v3/projects/" + std::to_string(projectId.get()) +
-                      "/work_packages?pageSize=4000&filters=%5b%7b%22type%22:%7b%22operator%22:%22=%22,%22values%22:%5b%224%22%5d%7d%7d,%7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%221%22,%227%22,%2215%22%5d%7d%7d%5d");
+                      "/work_packages?pageSize=4000&filters=%5b%7b%22type%22:%7b%22operator%22:%22=%22,%22values%22:%5b%229%22%5d%7d%7d,
+                      %7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%2215%22,%2216%22,%2217%22%5d%7d%7d%5d");
   std::string receivedJson = sendQueryMessage(message);
 
   std::filesystem::path previousFile("previousItem_" + std::to_string(projectId.get()) + ".json");
@@ -68,14 +70,15 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
 std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformation(const measurementor::ProjectId& projectId)
 {
   // filter : [
-  //            {"type":{"operator":"=","values":["1"]}},
-  //            {"status":{"operator":"=","values":["1","7","12","15"]}}
+  //            {"type":{"operator":"=","values":["8"]}},
+  //            {"status":{"operator":"=","values":["15","16","17","18","19"]}}
   //          ]
-  // タスクの状態が、New、In Progress、Closed及びReviewのものを取得するようにしている。
+  // タスクの状態が、新規(15)、進行中(16)、レビュー中(17)、解決(18)及び終了(19)のものを取得するようにしている。
   // このフィルタがないと、statusがClosedのタスクは取得できない。
   // ページサイズは、OpenProjectの設定に依存する
   std::string message("/api/v3/projects/" + std::to_string(projectId.get()) +
-                      "/work_packages?pageSize=4000&filters=%5b%7b%22type%22:%7b%22operator%22:%22=%22,%22values%22:%5b%221%22%5d%7d%7d,%7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%221%22,%227%22,%2212%22,%2215%22%5d%7d%7d%5d");
+                      "/work_packages?pageSize=4000&filters=%5b%7b%22type%22:%7b%22operator%22:%22=%22,%22values%22:%5b%228%22%5d%7d%7d,
+                      %7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%2215%22,%2216%22,%2217%22,%2218%22,%2219%22%5d%7d%7d%5d");
 
   std::string receivedJson = sendQueryMessage(message);
 
@@ -86,10 +89,12 @@ std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformatio
 
 std::string OpenProject::sendQueryMessage(std::string queryMessage)
 {
-  std::string command("/usr/bin/curl -s -u apikey:" + apiKey_.get() + " http://" + destination_ + ":" + std::to_string(destinationPort_) + queryMessage + " -o temp.json");
+  std::string command("/usr/bin/curl -s -o temp.json -u apikey:" + apiKey_.get() + " http://" + destination_ + ":" + std::to_string(destinationPort_) + queryMessage);
   AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject] : " + command);
   system(command.c_str());
 
+  // systemコマンドの戻り値ではサーバから取得したデータを戻せないため、
+  // curlで取得したデータを一時ファイル（temp.json）に保存してある。このため、改めてそこからデータを読み込む
   std::ifstream tempJson("temp.json");
   nlohmann::json temp;
   tempJson >> temp;
