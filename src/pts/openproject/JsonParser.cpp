@@ -105,7 +105,6 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData(const 
   std::map<std::string, std::string> parsedData;
   itemList.clear();
   auto j = nlohmann::json::parse(jsonString);
-  std::string type("");
 
   for (int count = 0; count < j["count"]; ++count)
   {
@@ -159,7 +158,6 @@ std::list<std::map<std::string, std::string>> JsonParser::collectTaskData(const 
   std::map<std::string, std::string> parsedData;
   taskList.clear();
   auto j = nlohmann::json::parse(jsonString);
-  std::string type("");
 
   for (int count = 0; count < j["count"]; ++count)
   {
