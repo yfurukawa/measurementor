@@ -60,8 +60,12 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
   // Featureのみを取得するようにしている。
   // ページサイズは、OpenProjectの設定に依存する
   std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) +
-                      "/work_packages?pageSize=4000&filters=%5b%7b%22type%22:%7b%22operator%22:%22=%22,%22values%22:%5b%224%22%5d%7d%7d,%7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%221%22,%227%22,%2215%22%5d%7d%7d%5d");
-
+                      "/work_packages?pageSize=200&filters=" +
+                      "%5b" +
+                        "%7b%22type%22:%7b%22operator%22:%22=%22,%22values%22:%5b%224%22%5d%7d%7d," +
+                        "%7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%221%22,%227%22,%2215%22%5d%7d%7d" +
+                      "%5d"
+                      );
   std::string receivedJson = sendQueryMessage(message);
 
   // TODO(yfurukawa) ここでサーバからの応答が正常であることを確認する
@@ -81,8 +85,12 @@ std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformatio
   // このフィルタがないと、statusがClosedのタスクは取得できない。
   // ページサイズは、OpenProjectの設定に依存する
   std::string message("GET /api/v3/projects/" + std::to_string(projectId.get()) +
-                      "/work_packages?pageSize=4000&filters=%5b%7b%22type%22:%7b%22operator%22:%22=%22,%22values%22:%5b%221%22%5d%7d%7d,%7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%221%22,%227%22,%2212%22,%2215%22%5d%7d%7d%5d");
-
+                      "/work_packages?pageSize=4000&filters=" +
+                      "%5b" +
+                        "%7b%22type%22:%7b%22operator%22:%22=%22,%22values%22:%5b%221%22%5d%7d%7d," +
+                        "%7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%221%22,%227%22,%2212%22,%2215%22%5d%7d%7d" +
+                      "%5d"
+                      );
   std::string receivedJson = sendQueryMessage(message);
   // TODO(yfurukawa) ここでサーバからの応答が正常であることを確認する
 

@@ -59,8 +59,12 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
   // また、Itemの状態は、新規(15)、進行中(16)およびレビュー中(17)に限定している
   // ページサイズは、OpenProjectの設定に依存する
   std::string message("/api/v3/projects/" + std::to_string(projectId.get()) +
-                      "/work_packages?pageSize=4000&filters=%5b%7b%22type%22:%7b%22operator%22:%22=%22,%22values%22:%5b%229%22%5d%7d%7d,
-                      %7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%2215%22,%2216%22,%2217%22%5d%7d%7d%5d");
+                      "/work_packages?pageSize=200&filters=" +
+                      "%5b" +
+                        "%7b%22type%22:%7b%22operator%22:%22=%22,%22values%22:%5b%229%22%5d%7d%7d," +
+                        "%7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%2215%22,%2216%22,%2217%22%5d%7d%7d" +
+                      "%5d"
+                      );
   std::string receivedJson = sendQueryMessage(message);
 
   std::filesystem::path previousFile("previousItem_" + std::to_string(projectId.get()) + ".json");
@@ -78,9 +82,12 @@ std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformatio
   // このフィルタがないと、statusがClosedのタスクは取得できない。
   // ページサイズは、OpenProjectの設定に依存する
   std::string message("/api/v3/projects/" + std::to_string(projectId.get()) +
-                      "/work_packages?pageSize=4000&filters=%5b%7b%22type%22:%7b%22operator%22:%22=%22,%22values%22:%5b%228%22%5d%7d%7d,
-                      %7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%2215%22,%2216%22,%2217%22,%2218%22,%2219%22%5d%7d%7d%5d");
-
+                      "/work_packages?pageSize=4000&filters=" +
+                      "%5b" +
+                        "%7b%22type%22:%7b%22operator%22:%22=%22,%22values%22:%5b%228%22%5d%7d%7d," +
+                        "%7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%2215%22,%2216%22,%2217%22,%2218%22,%2219%22%5d%7d%7d" +
+                      "%5d"
+                      );
   std::string receivedJson = sendQueryMessage(message);
 
   std::filesystem::path previousFile("previousTask_" + std::to_string(projectId.get()) + ".json");
