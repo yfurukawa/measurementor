@@ -106,6 +106,11 @@ private:
    @param[in]  receivedJson  受信したJsonオブジェクト
   */
   void saveJsonObjectAsPreviousData(std::filesystem::path previousFile, const std::string& receivedJson);
+
+  /*!
+   @brief     OpenProjectから取得したJsonデータの一時ファイルが有効になるまで待機する
+  */
+  void waitToAvailableTempolalyFile();
 };
 
 }  // namespace pts

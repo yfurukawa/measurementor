@@ -2,9 +2,12 @@
  @file  OpenProject.cpp
  @copyright Copyright 2024 Yoshihiro Furukawa
 */
+#include <chrono>
 #include <cstdlib>
+#include <filesystem>
 #include <fstream>
 #include <string>
+#include <thread>
 #include "OpenProject.h"
 #include "../../domain/Project.h"
 #include "JsonParser.h"
@@ -102,10 +105,18 @@ std::string OpenProject::sendQueryMessage(std::string queryMessage)
   system(command.c_str());
 
   // systemコマンドの戻り値ではサーバから取得したデータを戻せないため、
-  // curlで取得したデータを一時ファイル（temp.json）に保存してある。このため、改めてそこからデータを読み込む
+  // curlで取得したデータを一時ファイル（temp.json）に保存してある。
+  // systemコマンドは、別スレッド且つ非同期で動作するため、受信データのサイズが大きくなると一時ファイルが利用可能になる前に読み込み処理を始めてしまうので
+  // 利用可能になるまで待機する必要がある。
+
+  waitToAvailableTempolalyFile();
+
+  // 利用可能となった後、改めてそこからデータを読み込む
+  // 読み込んだら、次のデータ受信に備え、ファイルは削除しておく
   std::ifstream tempJson("temp.json");
   nlohmann::json temp;
   tempJson >> temp;
+  std::filesystem::remove("temp.json");
 
   return temp.dump();
 }
@@ -126,6 +137,15 @@ void OpenProject::saveJsonObjectAsPreviousData(std::filesystem::path previousFil
     AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject][CR write] : " + writeError.value(), AbstLogger::Severity::error);
   }
   previousDataWriter_->closeFile();
+}
+
+void OpenProject::waitToAvailableTempolalyFile()
+{
+  while(!std::filesystem::exists("temp.json"))
+  {
+    // 本当はここにタイムアウト処理を入れたほうが良い
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  }
 }
 
 }  // namespace pts
