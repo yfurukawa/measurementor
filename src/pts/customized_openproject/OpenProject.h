@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include "DomainPrimitivesForOpenProject.h"
 #include "ITextFileWriter.h"
@@ -95,10 +96,10 @@ private:
   /*!
    @brief      OpenProjectサーバにクエリメッセージを送信する
    @param[in]  queryString  クエリストリング
-   @return     サーバから受信したJsonオブジェクト
+   @return     サーバから受信したJsonオブジェクト。失敗時は、std::nulloptを返す。
    @note       REST APIの通信に必要なヘッダ情報は本メソッド内で付加する
   */
-  std::string sendQueryMessage(std::string queryString);
+  std::optional<std::string> sendQueryMessage(std::string queryString);
 
   /*!
    @brief      サーバから受信したJsonオブジェクトをファイルに保存する
@@ -109,8 +110,9 @@ private:
 
   /*!
    @brief     OpenProjectから取得したJsonデータの一時ファイルが有効になるまで待機する
+   @return    タイムアウトした場合はfalseを返す
   */
-  void waitToAvailableTempolalyFile();
+  bool waitToAvailableTempolalyFile();
 };
 
 }  // namespace pts

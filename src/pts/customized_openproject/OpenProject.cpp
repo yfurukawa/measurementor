@@ -4,6 +4,7 @@
 */
 #include <chrono>
 #include <cstdlib>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <string>
@@ -35,21 +36,35 @@ OpenProject::OpenProject(ApiKey apiKey, std::string destination, unsigned int de
 std::list<std::map<std::string, std::string>> OpenProject::collectAllActiveProject()
 {
   std::string message("/api/v3/projects?pageSize=1000");
-  std::string receivedJson = sendQueryMessage(message);
+  auto receivedJson = sendQueryMessage(message);  // FIXME
 
-  std::filesystem::path previousFile("previousProject.json");
-  saveJsonObjectAsPreviousData(previousFile, receivedJson);
-  return jsonParser_->collectProjectData(receivedJson);
+  if (receivedJson)
+  {
+    std::filesystem::path previousFile("previousProject.json");
+    saveJsonObjectAsPreviousData(previousFile, receivedJson.value());
+    return jsonParser_->collectProjectData(receivedJson.value());
+  }
+  else{
+    std::list<std::map<std::string, std::string>> empty;
+    return empty;
+  }
 }
 
 std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformation(const measurementor::ProjectId& projectId)
 {
   std::string message("/api/v3/projects/" + std::to_string(projectId.get()) + "/versions");
-  std::string receivedJson = sendQueryMessage(message);
+  auto receivedJson = sendQueryMessage(message);
 
-  std::filesystem::path previousFile("previousSprint_" + std::to_string(projectId.get()) + ".json");
-  saveJsonObjectAsPreviousData(previousFile, receivedJson);
-  return jsonParser_->collectSprintData(receivedJson);
+  if (receivedJson)
+  {
+    std::filesystem::path previousFile("previousSprint_" + std::to_string(projectId.get()) + ".json");
+    saveJsonObjectAsPreviousData(previousFile, receivedJson.value());
+    return jsonParser_->collectSprintData(receivedJson.value());
+  }
+  else{
+    std::list<std::map<std::string, std::string>> empty;
+    return empty;
+  }
 }
 
 std::list<std::map<std::string, std::string>> OpenProject::collectItemInformation(const measurementor::ProjectId& projectId)
@@ -68,11 +83,18 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
                         "%7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%2215%22,%2216%22,%2217%22%5d%7d%7d" +
                       "%5d"
                       );
-  std::string receivedJson = sendQueryMessage(message);
+  auto receivedJson = sendQueryMessage(message);
 
-  std::filesystem::path previousFile("previousItem_" + std::to_string(projectId.get()) + ".json");
-  saveJsonObjectAsPreviousData(previousFile, receivedJson);
-  return jsonParser_->collectItemData(receivedJson);
+  if (receivedJson)
+  {
+    std::filesystem::path previousFile("previousItem_" + std::to_string(projectId.get()) + ".json");
+    saveJsonObjectAsPreviousData(previousFile, receivedJson.value());
+    return jsonParser_->collectItemData(receivedJson.value());
+  }
+  else{
+    std::list<std::map<std::string, std::string>> empty;
+    return empty;
+  }
 }
 
 std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformation(const measurementor::ProjectId& projectId)
@@ -91,14 +113,21 @@ std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformatio
                         "%7b%22status%22:%7b%22operator%22:%22=%22,%22values%22:%5b%2215%22,%2216%22,%2217%22,%2218%22,%2219%22%5d%7d%7d" +
                       "%5d"
                       );
-  std::string receivedJson = sendQueryMessage(message);
+  auto receivedJson = sendQueryMessage(message);
 
-  std::filesystem::path previousFile("previousTask_" + std::to_string(projectId.get()) + ".json");
-  saveJsonObjectAsPreviousData(previousFile, receivedJson);
-  return jsonParser_->collectTaskData(receivedJson);
+  if (receivedJson)
+  {
+    std::filesystem::path previousFile("previousTask_" + std::to_string(projectId.get()) + ".json");
+    saveJsonObjectAsPreviousData(previousFile, receivedJson.value());
+    return jsonParser_->collectTaskData(receivedJson.value());
+  }
+  else{
+    std::list<std::map<std::string, std::string>> empty;
+    return empty;
+  }
 }
 
-std::string OpenProject::sendQueryMessage(std::string queryMessage)
+std::optional<std::string> OpenProject::sendQueryMessage(std::string queryMessage)
 {
   std::string command("/usr/bin/curl -s -o temp.json -u apikey:" + apiKey_.get() + " http://" + destination_ + ":" + std::to_string(destinationPort_) + queryMessage);
   AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject] : " + command);
@@ -109,16 +138,21 @@ std::string OpenProject::sendQueryMessage(std::string queryMessage)
   // systemコマンドは、別スレッド且つ非同期で動作するため、受信データのサイズが大きくなると一時ファイルが利用可能になる前に読み込み処理を始めてしまうので
   // 利用可能になるまで待機する必要がある。
 
-  waitToAvailableTempolalyFile();
-
-  // 利用可能となった後、改めてそこからデータを読み込む
-  // 読み込んだら、次のデータ受信に備え、ファイルは削除しておく
-  std::ifstream tempJson("temp.json");
-  nlohmann::json temp;
-  tempJson >> temp;
-  std::filesystem::remove("temp.json");
-
-  return temp.dump();
+  if (waitToAvailableTempolalyFile())
+  {
+    // 利用可能となった後、改めてそこからデータを読み込む
+    // 読み込んだら、次のデータ受信に備え、ファイルは削除しておく
+    std::ifstream tempJson("temp.json");
+    nlohmann::json temp;
+    tempJson >> temp;
+    std::filesystem::remove("temp.json");
+    return temp.dump();
+  }
+  else
+  {
+    AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject][read temp.json] : temp.json is not exsist. " + queryMessage, AbstLogger::Severity::error);
+    return std::nullopt;
+  }
 }
 
 void OpenProject::saveJsonObjectAsPreviousData(std::filesystem::path previousFile, const std::string& receivedJson)
@@ -139,13 +173,16 @@ void OpenProject::saveJsonObjectAsPreviousData(std::filesystem::path previousFil
   previousDataWriter_->closeFile();
 }
 
-void OpenProject::waitToAvailableTempolalyFile()
+bool OpenProject::waitToAvailableTempolalyFile()
 {
-  while(!std::filesystem::exists("temp.json"))
+  bool isExsist(true);
+  std::uint_fast16_t count(50);  // 最大５秒待つためのカウンタ
+  while(!std::filesystem::exists("temp.json") && count != 0)
   {
-    // 本当はここにタイムアウト処理を入れたほうが良い
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    --count;
   }
+  return isExsist && (count != 0);
 }
 
 }  // namespace pts
