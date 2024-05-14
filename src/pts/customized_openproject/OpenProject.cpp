@@ -37,7 +37,7 @@ OpenProject::OpenProject(ApiKey apiKey, std::string destination, unsigned int de
 std::list<std::map<std::string, std::string>> OpenProject::collectAllActiveProject()
 {
   std::string message("/api/v3/projects?pageSize=1000");
-  auto receivedJson = sendQueryMessage(message);  // FIXME
+  auto receivedJson = sendQueryMessage(message);
 
   if (receivedJson)
   {
