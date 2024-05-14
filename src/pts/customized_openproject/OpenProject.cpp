@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <thread>
 #include "OpenProject.h"
@@ -45,6 +46,8 @@ std::list<std::map<std::string, std::string>> OpenProject::collectAllActiveProje
     return jsonParser_->collectProjectData(receivedJson.value());
   }
   else{
+    AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject] : Downloading Project Data was timed out. " + message, AbstLogger::Severity::error);
+    std::cerr << "[OpenProject] : Downloading Project Data was timed out. " << std::endl;
     std::list<std::map<std::string, std::string>> empty;
     return empty;
   }
@@ -62,6 +65,10 @@ std::list<std::map<std::string, std::string>> OpenProject::collectSprintInformat
     return jsonParser_->collectSprintData(receivedJson.value());
   }
   else{
+    AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject] : Downloading Sprint Data of Project " + std::to_string(projectId.get()) +
+                                                                   " was timed out. " + message, AbstLogger::Severity::error);
+    std::cerr << "[OpenProject] : Downloading Sprint Data of Project " << std::to_string(projectId.get()) <<
+              " was timed out. " << std::endl;
     std::list<std::map<std::string, std::string>> empty;
     return empty;
   }
@@ -92,6 +99,10 @@ std::list<std::map<std::string, std::string>> OpenProject::collectItemInformatio
     return jsonParser_->collectItemData(receivedJson.value());
   }
   else{
+    AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject] : Downloading Item Data of Project " + std::to_string(projectId.get()) +
+                                                                   " was timed out. " + message, AbstLogger::Severity::error);
+    std::cerr << "[OpenProject] : Downloading Item Data of Project " << std::to_string(projectId.get()) <<
+              " was timed out. " << std::endl;
     std::list<std::map<std::string, std::string>> empty;
     return empty;
   }
@@ -122,6 +133,10 @@ std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformatio
     return jsonParser_->collectTaskData(receivedJson.value());
   }
   else{
+    AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject] : Downloading Task Data of Project " + std::to_string(projectId.get()) +
+                                                                   " was timed out. " + message, AbstLogger::Severity::error);
+    std::cerr << "[OpenProject] : Downloading Task Data of Project " << std::to_string(projectId.get()) <<
+              " was timed out. " << std::endl;
     std::list<std::map<std::string, std::string>> empty;
     return empty;
   }
@@ -129,6 +144,12 @@ std::list<std::map<std::string, std::string>> OpenProject::collectTaskInformatio
 
 std::optional<std::string> OpenProject::sendQueryMessage(std::string queryMessage)
 {
+  // 前回の処理が途中終了するとテンポラリファイルが残ってしまうのでここで削除しておく
+  if (std::filesystem::exists("temp.json"))
+  {
+    std::filesystem::remove("temp.json");
+  }
+
   std::string command("/usr/bin/curl -s -o temp.json -u apikey:" + apiKey_.get() + " http://" + destination_ + ":" + std::to_string(destinationPort_) + queryMessage);
   AbstLogger::LoggerFactory::getInstance()->createLogger()->log("[OpenProject] : " + command);
   system(command.c_str());
@@ -175,14 +196,13 @@ void OpenProject::saveJsonObjectAsPreviousData(std::filesystem::path previousFil
 
 bool OpenProject::waitToAvailableTempolalyFile()
 {
-  bool isExsist(true);
-  std::uint_fast16_t count(50);  // 最大５秒待つためのカウンタ
-  while(!std::filesystem::exists("temp.json") && count != 0)
+  std::uint_fast16_t timeRemainingCount(50);  // 最大５秒待つためのカウンタ
+  while(!std::filesystem::exists("temp.json") && timeRemainingCount != 0)
   {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    --count;
+    --timeRemainingCount;
   }
-  return isExsist && (count != 0);
+  return timeRemainingCount != 0;
 }
 
 }  // namespace pts
