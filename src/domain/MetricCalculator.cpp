@@ -114,8 +114,7 @@ void MetricCalculator::transitFromNewToInProgress(nlohmann::json& updateData, st
   updateData["estimatedTime"] = currentTask->estimatedTime_.get();
 
   repository_->registerMetricsData(currentTask->taskId_, updateData);
-  // 途中の状態でのDurationデータを分析する必要がある場合は、以下の処理を有効にする
-  // durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+  durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
 }
 
 void MetricCalculator::transitFromInProgressToReview(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask)
@@ -139,8 +138,7 @@ void MetricCalculator::transitFromInProgressToReview(nlohmann::json& updateData,
   }
 
   repository_->updateMetricsData(currentTask->taskId_, updateData);
-  // 途中の状態でのDurationデータを分析する必要がある場合は、以下の処理を有効にする
-  // durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
+  durationDataList_.insert(std::make_pair(currentTask->taskId_, updateData));
 }
 
 void MetricCalculator::transitFromReviewToClose(nlohmann::json& updateData, std::shared_ptr<Task>& currentTask, std::shared_ptr<Task>& previousTask)
