@@ -135,14 +135,14 @@ std::list<std::map<std::string, std::string>> JsonParser::collectItemData(const 
       }
       parsedData.insert(std::make_pair("status", differAbsorber_->convertStatusName(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]), j["_embedded"]["elements"][count]["_links"]["status"]["title"])));
       parsedData.insert(std::make_pair("statusCode", differAbsorber_->convertStatusCode(pickupId(j["_embedded"]["elements"][count]["_links"]["status"]["href"]))));
-      if ((j["_embedded"]["elements"][count]["derivedRemainingTime"]).is_null())
+      if ((j["_embedded"]["elements"][count]["remainingTime"]).is_null())
       {
         parsedData.insert(std::make_pair("totalEstimatedTime", "0.00"));
       }
       else
       {
         parsedData.insert(std::make_pair("totalEstimatedTime",
-                                         pickupHour(j["_embedded"]["elements"][count]["derivedRemainingTime"])));  // 総見積もり時間が取れる
+                                         pickupHour(j["_embedded"]["elements"][count]["remainingTime"])));  // 総見積もり時間が取れる
       }
       itemList.push_back(parsedData);
       parsedData.clear();
